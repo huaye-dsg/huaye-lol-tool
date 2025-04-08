@@ -100,7 +100,6 @@ public class GameUpdateServiceImpl implements GameUpdateService {
             }
         } catch (IOException e) {
             log.error("自动接受对局失败!", e);
-            System.err.println("自动接受对局失败！" + e.getMessage());
         }
     }
 
@@ -139,59 +138,6 @@ public class GameUpdateServiceImpl implements GameUpdateService {
 
 
             extracted(summonerList);
-//            for (CurrSummoner summoner : summonerList) {
-//                try {
-//                    UserScore score = getUserScore(summoner);
-//                    log.info("用户得分：{}", score.toString());
-//                    summonerScores.add(score);
-//
-//                } catch (Exception e) {
-//                    log.info("计算用户得分失败: {}", summoner.getSummonerId());
-//                }
-//            }
-//
-//            CalcScoreConf scoreCfg = new CalcScoreConf();
-//            DefaultClientConf clientCfg = new DefaultClientConf(true);
-//
-//            if (!summonerScores.isEmpty()) {
-//                summonerScores.sort((a, b) -> Double.compare(b.getScore(), a.getScore()));
-//
-//                for (UserScore score : summonerScores) {
-//                    String horse = determineHorse(score, scoreCfg, clientCfg);
-//
-//                    StringBuilder currKDASb = new StringBuilder();
-//                    for (int i = 0; i < Math.min(5, score.getCurrKDA().size()); i++) {
-//                        currKDASb.append(String.format("%d/%d/%d ", score.getCurrKDA().get(i).getKills(),
-//                                score.getCurrKDA().get(i).getDeaths(),
-//                                score.getCurrKDA().get(i).getAssists()
-//                        ));
-//                    }
-//                    String currKDAMsg = currKDASb.toString().trim();
-//
-//                    log.info("地方信息：%s(%d): %s %s\n", horse, score.getScore().intValue(), score.getSummonerName(), currKDAMsg);
-//                }
-//
-//                StringBuilder allMsg = new StringBuilder();
-//                for (UserScore scoreInfo : summonerScores) {
-//                    Thread.sleep(500);
-//
-//                    String horse = determineHorse(scoreInfo, scoreCfg, clientCfg);
-//                    StringBuilder currKDASb = new StringBuilder();
-//                    for (int i = 0; i < Math.min(5, scoreInfo.getCurrKDA().size()); i++) {
-//                        currKDASb.append(String.format("%d/%d/%d ", scoreInfo.getCurrKDA().get(i).getKills(),
-//                                scoreInfo.getCurrKDA().get(i).getDeaths(),
-//                                scoreInfo.getCurrKDA().get(i).getAssists()
-//                        ));
-//                    }
-//                    String currKDAMsg = currKDASb.toString().trim();
-//
-//                    String msg = String.format("%s【%d分】: %s %s -- %s", horse, scoreInfo.getScore().intValue(), scoreInfo.getSummonerName(), currKDAMsg, "huaye-lol-tool");
-//                    allMsg.append(msg).append("\n");
-//                }
-//
-//                // 把信息打印出来
-//                log.info(allMsg.toString());
-//            }
 
         } catch (Exception e) {
             log.error("计算敌方队伍得分时发生错误", e);
@@ -430,7 +376,7 @@ public class GameUpdateServiceImpl implements GameUpdateService {
             }
             return true;
         } catch (IOException e) {
-            System.err.println("请求失败: " + e.getMessage());
+            log.info("champSelectPatchActionError", e);
             return false;
         }
     }
@@ -504,8 +450,8 @@ public class GameUpdateServiceImpl implements GameUpdateService {
 
         // 查询所有用户的信息并计算得分
         List<CurrSummoner> summonerList = listSummoner(summonerIDList);
-        if (CollectionUtils.isEmpty(summonerList)) {
-            System.out.println("查询召唤师信息失败");
+        if (CollectionUtils.isEmpty(summconerList)) {
+            log.info("查询召唤师信息失败, summconerList为空！ ")
             return;
         }
 
@@ -1047,7 +993,7 @@ public class GameUpdateServiceImpl implements GameUpdateService {
 
         try (Response response = client.newCall(request).execute()) {
             if (!response.isSuccessful()) {
-                System.out.println("获取当前对局聊天组失败");
+                log.info("获取当前对局聊天组失败");
                 throw new IOException("获取当前对局聊天组失败");
             }
 
@@ -1110,7 +1056,7 @@ public class GameUpdateServiceImpl implements GameUpdateService {
 
         try (Response response = client.newCall(request).execute()) {
             if (!response.isSuccessful()) {
-                System.out.println("查询对局详情失败: gameID=" + gameID);
+                log.info("查询对局详情失败: gameID= {}", gameID)
                 throw new IOException("查询对局详情失败");
             }
 
