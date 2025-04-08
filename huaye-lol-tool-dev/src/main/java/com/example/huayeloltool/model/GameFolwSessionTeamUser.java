@@ -25,8 +25,10 @@ public class GameFolwSessionTeamUser {
     private String puuid;
     private double queueRating;
     private boolean rankedTeamGuest;
-    private Object selectedPosition;
-    private Object selectedRole;
+
+    // 分路位置。 中路：MIDDLE 上路：TOP 打野：JUNGLE  下路：BOTTOM 辅助：UTILITY
+    private String selectedPosition;
+    private String selectedRole;
     private Long summonerId;
     private String summonerInternalName;
     private String summonerName;

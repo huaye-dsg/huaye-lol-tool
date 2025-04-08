@@ -200,7 +200,7 @@ public class GameUpdateServiceImpl implements GameUpdateService {
         for (GameFolwSessionTeamUser teamUser : session.getGameData().getTeamOne()) {
             long summonerID = teamUser.getSummonerId();
             if (selfID == summonerID) {
-                log.info("检测到当前属于蓝色方！selfID： {}", summonerID);
+                log.info("检测到当前属于蓝色方！您的位置为：{},selfID： {}", Position.getDescByValue(teamUser.getSelectedPosition()),summonerID);
                 selfTeamID = GameEnums.TeamID.BLUE;
                 break;
             }
@@ -211,7 +211,7 @@ public class GameUpdateServiceImpl implements GameUpdateService {
             for (GameFolwSessionTeamUser teamUser : session.getGameData().getTeamTwo()) {
                 long summonerID = teamUser.getSummonerId();
                 if (selfID == summonerID) {
-                    log.info("检测到当前属于红色方！selfID： {}", summonerID);
+                log.info("检测到当前属于蓝色方！您的位置为：{},selfID： {}", Position.getDescByValue(teamUser.getSelectedPosition()),summonerID);
                     selfTeamID = GameEnums.TeamID.RED;
                     break;
                 }

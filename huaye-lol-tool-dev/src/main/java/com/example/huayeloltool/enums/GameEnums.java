@@ -262,6 +262,33 @@ public class GameEnums {
         private final String value;
     }
 
+
+    @Getter
+    @AllArgsConstructor
+    public enum Position {
+
+    TOP("TOP","上路"),
+    JUNGLE("JUNGLE","打野"),
+    MIDDLE("MIDDLE","中路"),
+    BOTTOM("BOTTOM","下路"),
+    UTILITY("UTILITY","辅助");
+
+    private final String value;
+    private final String desc;
+    
+    public static Map<String, String> map = Arrays.stream(Position.values()).collect(Collectors.toMap(Position::getValue, Position::getDesc));
+
+    public static String getDescByValue(String value) {
+        return map.get(value);
+        }
+    }
+
+
+    
+
+
+
+
     /**
      * 大区ID
      */
