@@ -12,7 +12,6 @@ public class ScoreWithReason {
     private double score;
     private List<IncScoreReason> reasons;
 
-    // 静态工厂方法替代Go的NewScoreWithReason
     public static ScoreWithReason create(double initialScore) {
         return new ScoreWithReason(initialScore);
     }

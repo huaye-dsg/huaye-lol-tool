@@ -95,7 +95,7 @@ public class GameFlowMonitor implements CommandLineRunner, DisposableBean {
             @SneakyThrows
             @Override
             public void onOpen(WebSocket webSocket, Response response) {
-                System.out.println("Connected to LCU");
+                log.info("Connected to LCU");
                 webSocket.send("[5, \"OnJsonApiEvent\"]");
                 lcuActive = true;
             }
@@ -107,7 +107,7 @@ public class GameFlowMonitor implements CommandLineRunner, DisposableBean {
 
             @Override
             public void onFailure(WebSocket webSocket, Throwable t, Response response) {
-                System.err.println("WebSocket error: " + t.getMessage());
+                log.error("WebSocket error: " , t);
                 lcuActive = false;
             }
         });
@@ -147,8 +147,6 @@ public class GameFlowMonitor implements CommandLineRunner, DisposableBean {
         }
     }
 
-
-    // 创建忽略SSL验证的OkHttpClient
 
     @Override
     public void destroy() {

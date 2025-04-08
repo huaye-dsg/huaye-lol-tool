@@ -92,7 +92,6 @@ public class GameUpdateServiceImpl implements GameUpdateService {
                     .addHeader("Authorization", "Basic " + auth)
                     .post(RequestBody.create(MediaType.parse("application/json"), "{}"))
                     .build();
-            log.info("url:{}", URL);
             try (Response response = client.newCall(request).execute()) {
                 if (!response.isSuccessful()) {
                     log.info("自动接受对局失败: {}", com.alibaba.fastjson2.JSON.toJSONString(response));
@@ -1154,9 +1153,8 @@ public class GameUpdateServiceImpl implements GameUpdateService {
         // 获取所有进程
         List<OSProcess> processes = os.getProcesses();
 
-        // 假设要查找的进程名为 "notepad.exe"，可按需修改
         String targetProcessName = "LeagueClientUx";
-        // 在进程列表中查找目标进程
+        // 在进程列表中查找LOL进程
         ProcessInfo processInfo = null;
         for (OSProcess process : processes) {
             if (process.getName().equalsIgnoreCase(targetProcessName)) {
