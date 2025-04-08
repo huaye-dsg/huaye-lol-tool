@@ -38,7 +38,6 @@ public class CurrSummoner {
         return instance;
     }
 
-    // 嵌套的 RerollPoints 类
     @Data
     public static class RerollPoints {
         private int currentPoints;
@@ -46,7 +45,5 @@ public class CurrSummoner {
         private int numberOfRolls;
         private int pointsCostToRoll;
         private int pointsToReroll;
-
-        // Getter, Setter 和 构造方法
     }
 }

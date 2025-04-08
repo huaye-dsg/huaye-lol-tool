@@ -43,6 +43,10 @@ public class GameUpdateServiceImpl implements GameUpdateService {
 
     private Double defaultScore = 100.0;
 
+
+    private DefaultClientConf clientCfg = DefaultClientConf.getInstance();
+
+
     @Autowired
     @Qualifier(value = "unsafeOkHttpClient")
     private OkHttpClient client;
@@ -327,17 +331,24 @@ public class GameUpdateServiceImpl implements GameUpdateService {
 
         // 自动选择英雄
         if (clientCfg.getAutoPickChampID() > 0 && isSelfPick) {
+            log.info("进入本人操作阶段");
             if (pickIsInProgress) {
+                log.info("本人正在选择英雄...");
                 pickChampion(clientCfg.getAutoPickChampID(), userPickActionId);
             } else if (pickChampionId == 0) {
+                log.info("本人正在预选英雄...");
                 prePickChampion(clientCfg.getAutoPickChampID(), userPickActionId);
             }
         }
 
         // 自动禁用英雄
         if (clientCfg.getAutoBanChampID() > 0 && isSelfBan && banIsInProgress) {
+            log.info("本人正在禁用英雄，预选名单为: {}", alloyPrePickSet);
             if (!alloyPrePickSet.contains(clientCfg.getAutoBanChampID())) {
+                log.info("预选名单不包含将要禁用的英雄：{}, 可以禁用", clientCfg.getAutoBanChampID())
                 banChampion(clientCfg.getAutoBanChampID(), userBanActionId);
+            }else{
+                log.info("预选名单包含将要禁用的英雄：{}, 取消禁用", clientCfg.getAutoBanChampID())
             }
         }
     }
@@ -419,9 +430,6 @@ public class GameUpdateServiceImpl implements GameUpdateService {
         );
     }
 
-
-    // 获取全局配置
-    private DefaultClientConf clientCfg = new DefaultClientConf(new Boolean(true));
 
     @SneakyThrows
     public void championSelectStart() {
