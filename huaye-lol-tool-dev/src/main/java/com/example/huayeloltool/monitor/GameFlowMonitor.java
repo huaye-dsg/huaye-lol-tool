@@ -80,8 +80,6 @@ public class GameFlowMonitor implements CommandLineRunner, DisposableBean {
     }
 
 
-
-
     public void initGameFlowMonitor(int port, String authPwd) throws Exception {
         log.info("initGameFlowMonitor begin");
         String auth = Base64.getEncoder().encodeToString(("riot:" + authPwd).getBytes());
@@ -107,7 +105,7 @@ public class GameFlowMonitor implements CommandLineRunner, DisposableBean {
 
             @Override
             public void onFailure(WebSocket webSocket, Throwable t, Response response) {
-                log.error("WebSocket error: " , t);
+                log.error("WebSocket error: ", t);
                 lcuActive = false;
             }
         });
@@ -119,7 +117,7 @@ public class GameFlowMonitor implements CommandLineRunner, DisposableBean {
     private void handleWebSocketMessage(String message) {
         try {
             if (StringUtils.isEmpty(message)) {
-                log.info("消息是空的！");
+//                log.info("消息是空的！");
                 return;
             }
             JSONArray arr = JSON.parseArray(message);
@@ -134,12 +132,13 @@ public class GameFlowMonitor implements CommandLineRunner, DisposableBean {
                     gameUpdateService.onGameFlowUpdate(data.toString());
                     break;
                 case "/lol-champ-select/v1/session":
-                    new Thread(() -> {
-                        ChampSelectSessionInfo ss = JSON.parseObject(data.toString(), ChampSelectSessionInfo.class);
-                        gameUpdateService.onChampSelectSessionUpdate(ss);
-                    }
-
-                    ).start();
+//                    new Thread(() -> {
+                    log.info("游戏会话变更！data : {}", JSON.toJSONString(data));
+                    ChampSelectSessionInfo ss = JSON.parseObject(data.toString(), ChampSelectSessionInfo.class);
+                    gameUpdateService.onChampSelectSessionUpdate(ss);
+//                    }
+//
+//                    ).start();
                     break;
             }
         } catch (Exception e) {

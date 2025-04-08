@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>LOL设置</title>
+    <link rel="stylesheet" href="./bootstrap.min.css">
+    <link rel="stylesheet" href="./element-ui.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .settings, .tables {
+            margin-bottom: 20px;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        .form-inline .form-group {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+
+        .form-group label {
+            margin-right: 10px;
+        }
+
+        .form-control {
+            width: auto;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app" class="container">
+    <!-- 设置区 -->
+    <p class="my-4">赛前设置</p>
+    <el-form inline>
+        <el-form-item label="自动接受对局">
+            <el-switch v-model="autoAccept"></el-switch>
+        </el-form-item>
+        <el-form-item label="自动禁用英雄">
+            <el-switch v-model="autoBan"></el-switch>
+            <el-select v-model="selectedBanHero" placeholder="选择英雄" :disabled="!autoBan">
+                <el-option v-for="hero in banHeroes" :key="hero" :label="hero" :value="hero"></el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="自动选择英雄">
+            <el-switch v-model="autoSelect"></el-switch>
+            <el-select v-model="selectedSelectHero" placeholder="选择英雄" :disabled="!autoSelect">
+                <el-option v-for="hero in selectHeroes" :key="hero" :label="hero" :value="hero"></el-option>
+            </el-select>
+        </el-form-item>
+    </el-form>
+
+    <!--    查询按钮-->
+    <el-button type="primary" @click="handleButtonClick">查询敌方队友信息</el-button>
+
+    <!-- 表格区 -->
+    <p class="my-4">友方队伍</p>
+    <el-table :data="allyData" border>
+        <el-table-column prop="horseInfo" label="马匹信息"></el-table-column>
+        <el-table-column prop="summonerName" label="召唤师名称"></el-table-column>
+        <el-table-column v-for="(score, index) in allyData[0].scores" :key="index" :prop="'scores[' + index + ']'"
+                         :label="'战绩' + (index + 1)"></el-table-column>
+    </el-table>
+    <!--    换行-->
+    <el-button type="primary">查询敌方队友信息</el-button>
+
+    <p class="my-4">敌方队伍</p>
+    <el-table :data="enemyData" border>
+        <el-table-column prop="horseInfo" label="马匹信息"></el-table-column>
+        <el-table-column prop="summonerName" label="召唤师名称"></el-table-column>
+        <el-table-column v-for="(score, index) in enemyData[0].scores" :key="index" :prop="'scores[' + index + ']'"
+                         :label="'战绩' + (index + 1)"></el-table-column>
+    </el-table>
+</div>
+
+<!-- 引入Vue.js -->
+<script src="./vue@2.js"></script>
+<script src="./axios.min.js"></script>
+<script src="./element-ui.js"></script>
+
+<script>
+
+    new Vue({
+        el: '#app',
+        data: {
+            autoAccept: false,
+            autoBan: false,
+            autoSelect: false,
+            selectedBanHero: "",
+            selectedSelectHero: "",
+            banHeroes: ["英雄1", "英雄2"],
+            selectHeroes: ["英雄3", "英雄4"],
+            allyData: [
+                {horseInfo: '上等马', summonerName: '召唤师A', scores: ['胜', '负', '胜', '负', '胜']},
+                {horseInfo: '下等马', summonerName: '召唤师B', scores: ['负', '胜', '胜', '胜', '负']},
+                {horseInfo: '上等马', summonerName: '召唤师C', scores: ['胜', '胜', '负', '胜', '负']},
+                {horseInfo: '下等马', summonerName: '召唤师D', scores: ['负', '负', '胜', '负', '胜']},
+                {horseInfo: '上等马', summonerName: '召唤师E', scores: ['胜', '负', '负', '胜', '负']}
+            ],
+            enemyData: [
+                {horseInfo: '上等马', summonerName: '召唤师X', scores: ['胜', '负', '胜', '胜', '负']},
+                {horseInfo: '上等马', summonerName: '召唤师Y', scores: ['负', '胜', '胜', '胜', '负']},
+                {horseInfo: '下等马', summonerName: '召唤师Z', scores: ['胜', '负', '胜', '胜', '负']},
+                {horseInfo: '下等马', summonerName: '召唤师W', scores: ['胜', '负', '负', '胜', '负']},
+                {horseInfo: '上等马', summonerName: '召唤师V', scores: ['负', '胜', '胜', '负', '胜']}
+            ]
+        },
+        methods: {
+            handleButtonClick() {
+                this.$message({
+                    message: '点击了查询按钮!',
+                    type: 'success'
+                });
+                // 在这里执行你想要的操作，比如发送请求或处理数据
+                // axios.post('/api/ban', val)
+                //     .then(response => {
+                //         console.log("服务器响应:", response.data)
+                //     })
+                //     .catch(error => {
+                //         console.error("请求错误:", error)
+                //     });
+            }
+        },
+        watch: {
+            selectedBanHero(val) {
+                if (val) {
+                    this.$message({
+                        message: '点击了禁用英雄!',
+                        type: 'success'
+                    });
+                    // axios.post('/api/ban', val)
+                    //     .then(response => {
+                    //         console.log("服务器响应:", response.data)
+                    //     })
+                    //     .catch(error => {
+                    //         console.error("请求错误:", error)
+                    //     });
+                }
+            },
+            selectedSelectHero(val) {
+                if (val) {
+                    this.$message({
+                        message: '点击了自动选择英雄!',
+                        type: 'success'
+                    });
+                    // 在这里发送请求到服务器，例如：
+                    // axios.post('/api/ban', val)
+                    //     .then(response => {
+                    //         console.log("服务器响应:", response.data)
+                    //     })
+                    //     .catch(error => {
+                    //         console.error("请求错误:", error)
+                    //     });
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>

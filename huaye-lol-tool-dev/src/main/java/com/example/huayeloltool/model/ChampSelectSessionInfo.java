@@ -21,7 +21,7 @@ public class ChampSelectSessionInfo extends CommonResp {
         private Boolean isAllyAction;
         private Boolean isInProgress;
         private Integer pickTurn;
-        private String champSelectPatchType;
+        private String type;
 
     }
 }

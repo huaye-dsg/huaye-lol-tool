@@ -200,7 +200,7 @@ public class GameUpdateServiceImpl implements GameUpdateService {
         for (GameFolwSessionTeamUser teamUser : session.getGameData().getTeamOne()) {
             long summonerID = teamUser.getSummonerId();
             if (selfID == summonerID) {
-                log.info("检测到当前属于蓝色方！您的位置为：{},selfID： {}", GameEnums.Position.getDescByValue(teamUser.getSelectedPosition()),summonerID);
+                log.info("检测到当前属于蓝色方！您的位置为：{}。selfID： {}", GameEnums.Position.getDescByValue(teamUser.getSelectedPosition()), summonerID);
                 selfTeamID = GameEnums.TeamID.BLUE;
                 break;
             }
@@ -211,7 +211,7 @@ public class GameUpdateServiceImpl implements GameUpdateService {
             for (GameFolwSessionTeamUser teamUser : session.getGameData().getTeamTwo()) {
                 long summonerID = teamUser.getSummonerId();
                 if (selfID == summonerID) {
-                log.info("检测到当前属于蓝色方！您的位置为：{},selfID： {}", GameEnums.Position.getDescByValue(teamUser.getSelectedPosition()),summonerID);
+                    log.info("检测到当前属于蓝色方！您的位置为：{}。selfID： {}", GameEnums.Position.getDescByValue(teamUser.getSelectedPosition()), summonerID);
                     selfTeamID = GameEnums.TeamID.RED;
                     break;
                 }
@@ -288,7 +288,8 @@ public class GameUpdateServiceImpl implements GameUpdateService {
 
     @Override
     public void onChampSelectSessionUpdate(ChampSelectSessionInfo sessionInfo) {
-        log.info("游戏选择会话变更： {}", JSON.toJSONString(sessionInfo));
+//        log.info("游戏选择会话变更： {}", JSON.toJSONString(sessionInfo));
+        log.info("游戏选择会话变更");
         int userPickActionId = 0;
         int userBanActionId = 0;
         int pickChampionId = 0;
@@ -304,7 +305,7 @@ public class GameUpdateServiceImpl implements GameUpdateService {
                 for (ChampSelectSessionInfo.Action action : actionList) {
                     // 收集预选英雄
                     if (action.getIsAllyAction()
-                            && "pick".equalsIgnoreCase(action.getChampSelectPatchType())
+                            && "pick".equalsIgnoreCase(action.getType())
                             && action.getChampionId() > 0) {
                         alloyPrePickSet.add(action.getChampionId());
                     }
@@ -314,12 +315,12 @@ public class GameUpdateServiceImpl implements GameUpdateService {
                         continue;
                     }
 
-                    if ("pick".equalsIgnoreCase(action.getChampSelectPatchType())) {
+                    if ("pick".equalsIgnoreCase(action.getType())) {
                         isSelfPick = true;
                         userPickActionId = action.getId();
                         pickChampionId = action.getChampionId();
                         pickIsInProgress = action.getIsInProgress();
-                    } else if ("ban".equalsIgnoreCase(action.getChampSelectPatchType())) {
+                    } else if ("ban".equalsIgnoreCase(action.getType())) {
                         isSelfBan = true;
                         userBanActionId = action.getId();
                         banIsInProgress = action.getIsInProgress();
@@ -328,6 +329,7 @@ public class GameUpdateServiceImpl implements GameUpdateService {
                 }
             }
         }
+        log.info("预选名单为: {}", alloyPrePickSet);
 
         // 自动选择英雄
         if (clientCfg.getAutoPickChampID() > 0 && isSelfPick) {
@@ -347,7 +349,7 @@ public class GameUpdateServiceImpl implements GameUpdateService {
             if (!alloyPrePickSet.contains(clientCfg.getAutoBanChampID())) {
                 log.info("预选名单不包含将要禁用的英雄：{}, 可以禁用", clientCfg.getAutoBanChampID());
                 banChampion(clientCfg.getAutoBanChampID(), userBanActionId);
-            }else{
+            } else {
                 log.info("预选名单包含将要禁用的英雄：{}, 取消禁用", clientCfg.getAutoBanChampID());
             }
         }
@@ -368,11 +370,13 @@ public class GameUpdateServiceImpl implements GameUpdateService {
                                           Boolean completed) {
         Map<String, Object> body = new HashMap<>();
         body.put("championId", championId);
+        String auth = Base64.getEncoder().encodeToString(("riot:" + BaseUrlClient.getInstance().getAuthPwd()).getBytes());
 
         Optional.ofNullable(patchType).ifPresent(t -> body.put("type", t));
         Optional.ofNullable(completed).ifPresent(c -> body.put("completed", c));
         Request request = new Request.Builder()
                 .url(BaseUrlClient.assembleUrl("/lol-champ-select/v1/session/actions/") + actionId)
+                .addHeader("Authorization", "Basic " + auth)
                 .patch(RequestBody.create(
                         JSON.toJSONString(body),
                         MediaType.get("application/json")
@@ -470,33 +474,30 @@ public class GameUpdateServiceImpl implements GameUpdateService {
         List<CompletableFuture<Void>> futures = new ArrayList<>();
         List<UserScore> userScores = Collections.synchronizedList(new ArrayList<>());
         for (CurrSummoner summoner : summonerList) {
-            futures.add(CompletableFuture.runAsync(() -> {
-                try {
-                    userScores.add(getUserScore(summoner));
-                } catch (Exception e) {
-                    log.error("计算用户得分失败", e);
-                }
-            }));
+//            futures.add(CompletableFuture.runAsync(() -> {
+            try {
+                Thread.sleep(200);
+                userScores.add(getUserScore(summoner));
+            } catch (Exception e) {
+                log.error("计算用户得分失败", e);
+            }
+//            }));
         }
 
-        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
+//        CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
 
         // 分数从高到低排序
         userScores.sort((a, b) -> Double.compare(b.getScore(), a.getScore()));
 
         CalcScoreConf scoreCfg = new CalcScoreConf();
-        StringBuilder allMsg = new StringBuilder();
-        StringBuilder mergedMsg = new StringBuilder();
 
         for (UserScore scoreInfo : userScores) {
             String horse = "";
-            int horseIdx = 0;
             for (int i = 0; i < scoreCfg.getHorse().length; i++) {
                 HorseScoreConf[] horse1 = scoreCfg.getHorse();
                 HorseScoreConf horseScoreConf = horse1[i];
                 if (scoreInfo.getScore() >= horseScoreConf.getScore()) {
                     horse = clientCfg.getHorseNameConf()[i];
-                    horseIdx = i;
                     break;
                 }
             }
@@ -533,17 +534,17 @@ public class GameUpdateServiceImpl implements GameUpdateService {
             return userScoreInfo;
         }
 
-        ReentrantLock lock = new ReentrantLock();
-        List<GameSummary> gameSummaryList = new ArrayList<>();
+        if (CollectionUtils.isEmpty(gameList)) {
+            log.info("用户战绩查询为空！直接返回。summoner： {}", JSON.toJSONString(summoner));
+            return userScoreInfo;
+        }
+
+
+        List<GameSummary> gameSummaryList = Collections.synchronizedList(new ArrayList<>());
         CompletableFuture[] futures = gameList.stream().map(info -> CompletableFuture.runAsync(() -> {
             try {
                 GameSummary gameSummary = queryGameSummaryWithRetry(info.getGameId());
-                lock.lock();
-                try {
-                    gameSummaryList.add(gameSummary);
-                } finally {
-                    lock.unlock();
-                }
+                gameSummaryList.add(gameSummary);
             } catch (Exception e) {
                 log.error("获取游戏对局详细信息失败", e);
             }
@@ -892,11 +893,12 @@ public class GameUpdateServiceImpl implements GameUpdateService {
 
         if (Objects.isNull(gameAllData)) {
             log.error("查询用户战绩失败: puuid={}", puuid);
-            throw new IOException("查询用户战绩失败");
+            return new ArrayList<>();
         }
         List<GameInfo> games = gameAllData.getGames().getGames();
         if (CollectionUtils.isEmpty(games)) {
             log.error("查询用户战绩为空！: puuid={}", puuid);
+            return new ArrayList<>();
         }
 
         // 过滤符合条件的游戏信息
@@ -913,10 +915,6 @@ public class GameUpdateServiceImpl implements GameUpdateService {
             }
             fmtList.add(gameItem);
         }
-//
-//        // 反转列表顺序
-//        Collections.reverse(fmtList);
-
         return fmtList;
     }
 
@@ -939,9 +937,9 @@ public class GameUpdateServiceImpl implements GameUpdateService {
             }
             assert response.body() != null;
             String string = response.body().string();
-            log.info("战绩解析结果：: {}", string);
             gameInfos = JSON.parseObject(string, new TypeReference<GameAllData>() {
             });
+            log.info("战绩解析结果（最后一条）：: {}", gameInfos.getGames().getGames().get(0));
         }
         return gameInfos;
     }

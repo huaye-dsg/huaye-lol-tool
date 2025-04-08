@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Getter
 @AllArgsConstructor
 public enum Heros {
@@ -116,7 +119,7 @@ public enum Heros {
     DEMACIA_WINGS("德玛西亚之翼", 133, "奎因", "奎因"),
     DARK_HEIR("暗黑元首", 134, "辛德拉", "球女"),
     STARMELT_DRAGON_KING("铸星龙王", 136, "奥瑞利安·索尔", "龙王"),
-    SHADOW_STREAM_SICKLE("影流之镰", 141, "凯隐&拉亚斯特", "凯隐&拉亚斯特"),
+    SHADOW_STREAM_SICKLE("影流之镰", 141, "凯隐&拉亚斯特", "凯隐"),
     TWILIGHT_STAR_SPIRIT("暮光星灵", 142, "佐伊", "佐伊"),
     THICKET_OF_THORNS("荆棘之兴", 143, "婕拉", "婕拉"),
     VOID_WOMAN("虚空之女", 145, "卡莎", "卡莎"),
@@ -128,7 +131,7 @@ public enum Heros {
     STONE_SLIDER("岩雀", 163, "塔莉垭", "塔莉垭"),
     STEEL_BEAM("青钢影", 164, "卡米尔", "卡米尔"),
     SHADOW_SCOUT("影哨", 166, "阿克尚", "阿克尚"),
-    VOID_QUEEN("虚空女皇", 200, "卑尔维斯", "阿尔卑斯|棒棒糖"),
+    VOID_QUEEN("虚空女皇", 200, "卑尔维斯", "虚空女皇"),
     FRELJORD_HEART("弗雷尔卓德之心", 201, "布隆", "布隆"),
     KILLMAKER("戏命师", 202, "烬", "烬"),
     DOUBLE_HUNTRESSION("永猎双子", 203, "千珏", "千珏"),
@@ -139,12 +142,12 @@ public enum Heros {
     WAISE_OF_DEFEAT("破败之王", 234, "佛耶戈", "佛耶戈"),
     SOUL_CATHARSIS("涤魂圣枪", 235, "塞纳", "塞纳"),
     GUN_OF_THE_SAINT("圣枪游侠", 236, "卢锡安", "卢锡安"),
-    SHADOW_FLOW_MASTER("影流之主", 238, "劫", "幽默飞镖人"),
+    SHADOW_FLOW_MASTER("影流之主", 238, "劫", "劫"),
     ANGRY_RIDER("暴怒骑士", 240, "克烈", "克烈"),
     TIME_ASSASSIN("时间刺客", 245, "艾克", "艾克"),
     QUEEN_OF_ELEMENTS("元素女皇", 246, "奇亚娜", "超模"),
     PILTOVER_VMIS("皮城执法官", 254, "蔚", "蔚"),
-    DARKEDGE_SWORD_DEMON("暗裔剑魔", 266, "亚托克斯", "亚托克斯"),
+    DARKEDGE_SWORD_DEMON("暗裔剑魔", 266, "亚托克斯", "剑魔"),
     CALLER_OF_THE_TIDE("唤潮鲛姬", 267, "娜美", "娜美"),
     DESERT_EMPEROR("沙漠皇帝", 268, "阿兹尔", "黄鸡"),
     MAGIC_CAT("魔法猫咪", 350, "悠米", "悠米"),
@@ -170,9 +173,9 @@ public enum Heros {
     ARM_FLAME("腕豪", 875, "瑟提", "瑟提"),
     SHAMEFUL_BLOOM("含羞蓓蕾", 876, "莉莉娅", "莉莉娅"),
     SPIRIT_DOLL("灵罗娃娃", 887, "格温", "格温"),
-    ALCHEMIST_BARON("炼金男爵", 888, "烈娜塔・戈拉斯克", "烈娜塔・戈拉斯克"),
+    ALCHEMIST_BARON("炼金男爵", 888, "烈娜塔・戈拉斯克", "烈娜塔"),
     DOUBLE_RABBITS("双界灵兔", 893, "阿萝拉", "兔子"),
-    RECKLESSLY_JOYFUL("不羁之悦", 895, "尼菈", "水米拉|水弥拉"),
+    RECKLESSLY_JOYFUL("不羁之悦", 895, "尼菈", "尼菈"),
     LASER_GLORY("纳祖芒荣耀", 897, "奎桑提", "黑哥"),
     FIERY_CHICK("炽炎雏龙", 901, "斯莫德", "小火龙"),
     CANDLE_OF_LIFE("明烛", 902, "米利欧", "米利欧"),
@@ -187,12 +190,12 @@ public enum Heros {
 
     private static final Map<Integer, String> valueToNicknameMap = new HashMap<>();
     static {
-        for (ChampionOption option : ChampionOption.values()) {
-            valueToNicknameMap.put(option.getValue(), option.getNickname());
+        for (Heros option : Heros.values()) {
+            valueToNicknameMap.put(option.getId(), option.getNickname());
         }
     }
 
     public static String getNameById(int id) {
-        return valueToNicknameMap.get(value);
+        return valueToNicknameMap.get(id);
     }
 }
