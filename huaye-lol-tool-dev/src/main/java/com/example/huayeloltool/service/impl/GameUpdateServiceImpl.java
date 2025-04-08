@@ -200,7 +200,7 @@ public class GameUpdateServiceImpl implements GameUpdateService {
         for (GameFolwSessionTeamUser teamUser : session.getGameData().getTeamOne()) {
             long summonerID = teamUser.getSummonerId();
             if (selfID == summonerID) {
-                log.info("检测到当前属于蓝色方！您的位置为：{},selfID： {}", Position.getDescByValue(teamUser.getSelectedPosition()),summonerID);
+                log.info("检测到当前属于蓝色方！您的位置为：{},selfID： {}", GameEnums.Position.getDescByValue(teamUser.getSelectedPosition()),summonerID);
                 selfTeamID = GameEnums.TeamID.BLUE;
                 break;
             }
@@ -211,7 +211,7 @@ public class GameUpdateServiceImpl implements GameUpdateService {
             for (GameFolwSessionTeamUser teamUser : session.getGameData().getTeamTwo()) {
                 long summonerID = teamUser.getSummonerId();
                 if (selfID == summonerID) {
-                log.info("检测到当前属于蓝色方！您的位置为：{},selfID： {}", Position.getDescByValue(teamUser.getSelectedPosition()),summonerID);
+                log.info("检测到当前属于蓝色方！您的位置为：{},selfID： {}", GameEnums.Position.getDescByValue(teamUser.getSelectedPosition()),summonerID);
                     selfTeamID = GameEnums.TeamID.RED;
                     break;
                 }
@@ -345,10 +345,10 @@ public class GameUpdateServiceImpl implements GameUpdateService {
         if (clientCfg.getAutoBanChampID() > 0 && isSelfBan && banIsInProgress) {
             log.info("本人正在禁用英雄，预选名单为: {}", alloyPrePickSet);
             if (!alloyPrePickSet.contains(clientCfg.getAutoBanChampID())) {
-                log.info("预选名单不包含将要禁用的英雄：{}, 可以禁用", clientCfg.getAutoBanChampID())
+                log.info("预选名单不包含将要禁用的英雄：{}, 可以禁用", clientCfg.getAutoBanChampID());
                 banChampion(clientCfg.getAutoBanChampID(), userBanActionId);
             }else{
-                log.info("预选名单包含将要禁用的英雄：{}, 取消禁用", clientCfg.getAutoBanChampID())
+                log.info("预选名单包含将要禁用的英雄：{}, 取消禁用", clientCfg.getAutoBanChampID());
             }
         }
     }
@@ -457,8 +457,8 @@ public class GameUpdateServiceImpl implements GameUpdateService {
 
         // 查询所有用户的信息并计算得分
         List<CurrSummoner> summonerList = listSummoner(summonerIDList);
-        if (CollectionUtils.isEmpty(summconerList)) {
-            log.info("查询召唤师信息失败, summconerList为空！ ")
+        if (CollectionUtils.isEmpty(summonerList)) {
+            log.info("查询召唤师信息失败, summconerList为空！ ");
             return;
         }
 
@@ -1063,7 +1063,7 @@ public class GameUpdateServiceImpl implements GameUpdateService {
 
         try (Response response = client.newCall(request).execute()) {
             if (!response.isSuccessful()) {
-                log.info("查询对局详情失败: gameID= {}", gameID)
+                log.info("查询对局详情失败: gameID= {}", gameID);
                 throw new IOException("查询对局详情失败");
             }
 
