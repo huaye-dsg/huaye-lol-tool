@@ -180,8 +180,9 @@ public enum Heros {
     FIERY_CHICK("炽炎雏龙", 901, "斯莫德", "小火龙"),
     CANDLE_OF_LIFE("明烛", 902, "米利欧", "米利欧"),
     PAINTER_OF_THE_SWEET_BROWS("异画师", 910, "慧", "毛笔人"),
-    HUNDREDKILLS_GHOSTHOUND("百裂冥犬", 950, "纳亚菲利", "狼狗");
-
+    HUNDREDKILLS_GHOSTHOUND("百裂冥犬", 950, "纳亚菲利", "狼狗"),
+    BULUMU("布鲁姆", 957, "布鲁姆", "布鲁姆"),
+    KASHA("虚空之女",999,"卡莎","卡莎");
 
     private final String label;
     private final Integer id;
