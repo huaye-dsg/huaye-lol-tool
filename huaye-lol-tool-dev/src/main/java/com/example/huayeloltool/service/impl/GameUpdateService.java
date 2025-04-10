@@ -1,10 +1,9 @@
 package com.example.huayeloltool.service.impl;
 
-import com.example.huayeloltool.model.ChampSelectSessionInfo;
-import com.example.huayeloltool.model.CurrSummoner;
-import com.example.huayeloltool.model.ProcessInfo;
+import com.example.huayeloltool.model.*;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface GameUpdateService {
 
@@ -27,4 +26,15 @@ public interface GameUpdateService {
      * 获取LOL进程并解析端口和token
      */
     ProcessInfo getLolClientApiInfo(String processName);
+
+    /**
+     * 查询战绩
+     */
+    List<GameInfo> listGameHistory(String puuid, int begin, int limit) throws IOException;
+
+    /**
+     * 查询英雄熟练度
+     */
+    RankedInfo getRankData(String puuid);
+
 }

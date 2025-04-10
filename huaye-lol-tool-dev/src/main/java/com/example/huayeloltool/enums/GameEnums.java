@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -94,11 +95,11 @@ public class GameEnums {
             this.value = value;
         }
 
-        public static GameFlow getByValue(String status){
+        public static GameFlow getByValue(String status) {
 
             GameFlow[] values = GameFlow.values();
-            for (GameFlow gameFlow : values){
-                if (Objects.equals(gameFlow.getValue(), status)){
+            for (GameFlow gameFlow : values) {
+                if (Objects.equals(gameFlow.getValue(), status)) {
                     return gameFlow;
                 }
             }
@@ -107,30 +108,38 @@ public class GameEnums {
         }
 
 
-
-
     }
 
     /**
      * 排位等级枚举
      */
     @Getter
+    @AllArgsConstructor
     public enum RankTier {
-        IRON("IRON"),        // 黑铁
-        BRONZE("BRONZE"),    // 青铜
-        SILVER("SILVER"),    // 白银
-        GOLD("GOLD"),        // 黄金
-        PLATINUM("PLATINUM"),// 白金
-        DIAMOND("DIAMOND"),  // 钻石
-        MASTER("MASTER"),    // 大师
-        GRANDMASTER("GRANDMASTER"),// 宗师
-        CHALLENGER("CHALLENGER");  // 王者
+        IRON("IRON", "黑铁"),        // 黑铁
+        BRONZE("BRONZE", "青铜"),    // 青铜
+        SILVER("SILVER", "白银"),    // 白银
+        GOLD("GOLD", "黄金"),        // 黄金
+        PLATINUM("PLATINUM", "白金"),// 白金
+        DIAMOND("DIAMOND", "钻石"),  // 钻石
+        MASTER("MASTER", "大师"),    // 大师
+        GRANDMASTER("GRANDMASTER", "宗师"),// 宗师
+        CHALLENGER("CHALLENGER", "王者");  // 王者
+
+        public static Map<String, String> rankMap = new HashMap<>();
+
+        public static String getRankNameMap(String value) {
+            return rankMap.get(value);
+        }
+
+        static {
+            for (RankTier option : RankTier.values()) {
+                rankMap.put(option.getValue(), option.getDesc());
+            }
+        }
 
         private final String value;
-
-        RankTier(String value) {
-            this.value = value;
-        }
+        private final String desc;
     }
 
     /**
@@ -270,26 +279,21 @@ public class GameEnums {
     @AllArgsConstructor
     public enum Position {
 
-    TOP("TOP","上路"),
-    JUNGLE("JUNGLE","打野"),
-    MIDDLE("MIDDLE","中路"),
-    BOTTOM("BOTTOM","下路"),
-    UTILITY("UTILITY","辅助");
+        TOP("TOP", "上路"),
+        JUNGLE("JUNGLE", "打野"),
+        MIDDLE("MIDDLE", "中路"),
+        BOTTOM("BOTTOM", "下路"),
+        UTILITY("UTILITY", "辅助");
 
-    private final String value;
-    private final String desc;
-    
-    public static Map<String, String> map = Arrays.stream(Position.values()).collect(Collectors.toMap(Position::getValue, Position::getDesc));
+        private final String value;
+        private final String desc;
 
-    public static String getDescByValue(String value) {
-        return map.get(value);
+        public static Map<String, String> map = Arrays.stream(Position.values()).collect(Collectors.toMap(Position::getValue, Position::getDesc));
+
+        public static String getDescByValue(String value) {
+            return map.get(value);
         }
     }
-
-
-    
-
-
 
 
     /**

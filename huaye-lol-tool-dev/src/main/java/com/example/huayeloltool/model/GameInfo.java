@@ -61,7 +61,7 @@ public class GameInfo {
     @Data
     public static class Stats {
         private Integer assists;
-        private boolean causedEarlySurrender;
+        private Boolean causedEarlySurrender;
         private Integer champLevel;
         private Integer combatPlayerScore;
         private Integer damageDealtToObjectives;
@@ -69,15 +69,15 @@ public class GameInfo {
         private Integer damageSelfMitigated;
         private Integer deaths;
         private Integer doubleKills;
-        private boolean earlySurrenderAccomplice;
-        private boolean firstBloodAssist;
-        private boolean firstBloodKill;
-        private boolean firstInhibitorAssist;
-        private boolean firstInhibitorKill;
-        private boolean firstTowerAssist;
-        private boolean firstTowerKill;
-        private boolean gameEndedInEarlySurrender;
-        private boolean gameEndedInSurrender;
+        private Boolean earlySurrenderAccomplice;
+        private Boolean firstBloodAssist;
+        private Boolean firstBloodKill;
+        private Boolean firstInhibitorAssist;
+        private Boolean firstInhibitorKill;
+        private Boolean firstTowerAssist;
+        private Boolean firstTowerKill;
+        private Boolean gameEndedInEarlySurrender;
+        private Boolean gameEndedInSurrender;
         private Integer goldEarned;
         private Integer goldSpent;
         private Integer inhibitorKills;
@@ -152,7 +152,7 @@ public class GameInfo {
         private Integer quadraKills;
         private Integer sightWardsBoughtInGame;
         private Integer subteamPlacement;
-        private boolean teamEarlySurrendered;
+        private Boolean teamEarlySurrendered;
         private Integer timeCCingOthers;
         private Integer totalDamageDealt;
         private Integer totalDamageDealtToChampions;
@@ -196,11 +196,11 @@ public class GameInfo {
         private Integer baronKills;
         private Integer dominionVictoryScore;
         private Integer dragonKills;
-        private boolean firstBaron;
-        private boolean firstBlood;
-        private boolean firstDargon;
-        private boolean firstInhibitor;
-        private boolean firstTower;
+        private Boolean firstBaron;
+        private Boolean firstBlood;
+        private Boolean firstDargon;
+        private Boolean firstInhibitor;
+        private Boolean firstTower;
         private Integer hordeKills;
         private Integer inhibitorKills;
         private Integer riftHeraldKills;
@@ -215,15 +215,15 @@ public class GameInfo {
      */
     @Data
     public static class Champion {
-//        /**
-//         * 禁用的英雄ID
+        /**
+         *  禁用的英雄ID
 //         */
-//        private Integer championId;
+        private Integer championId;
 
         /**
          * 轮次信息（没啥用）
          */
-//        private Integer pickTurn;
+        private Integer pickTurn;
     }
 
 }

@@ -528,7 +528,7 @@ public class GameUpdateServiceImpl implements GameUpdateService {
         // 获取战绩列表
         List<GameInfo> gameList;
         try {
-            gameList = listGameHistory(summoner.getPuuid());
+            gameList = listGameHistory(summoner.getPuuid(), 0, 10);
         } catch (Exception e) {
             log.error("获取游戏战绩列表失败", e);
             return userScoreInfo;
@@ -887,9 +887,9 @@ public class GameUpdateServiceImpl implements GameUpdateService {
      * @return 游戏信息列表
      * @throws IOException 查询用户战绩过程中遇到的异常
      */
-    public List<GameInfo> listGameHistory(String puuid) throws IOException {
+    public List<GameInfo> listGameHistory(String puuid, int begin, int limit) throws IOException {
         List<GameInfo> fmtList = new ArrayList<>();
-        GameAllData gameAllData = listGamesByPUUID(puuid, 0, 10);
+        GameAllData gameAllData = listGamesByPUUID(puuid, begin, limit);
 
         if (Objects.isNull(gameAllData)) {
             log.error("查询用户战绩失败: puuid={}", puuid);
@@ -916,6 +916,30 @@ public class GameUpdateServiceImpl implements GameUpdateService {
             fmtList.add(gameItem);
         }
         return fmtList;
+    }
+
+    @Override
+    public RankedInfo getRankData(String puuid) {
+        Request request = createOkHttpRequest("/lol-ranked/v1/ranked-stats/" + puuid);
+        try {
+            new RankedInfo();
+            RankedInfo rankedInfo;
+            try (Response response = client.newCall(request).execute()) {
+                if (!response.isSuccessful()) {
+                    log.error("获取段位信息失败: response={}", response);
+                    throw new IOException("获取比赛记录失败");
+                }
+                assert response.body() != null;
+                String string = response.body().string();
+                rankedInfo = JSON.parseObject(string, RankedInfo.class);
+                RankedInfo.QueueMapDto.RANKEDSOLO5x5Dto rankedSolo5x5 = rankedInfo.getQueueMap().getRankedSolo5x5();
+                log.info("段位信息。当前段位：{}-{}，胜点：{}", GameEnums.RankTier.getRankNameMap(rankedSolo5x5.getTier()), rankedSolo5x5.getDivision(),rankedSolo5x5.getLeaguePoints());
+                return rankedInfo;
+            }
+        } catch (Exception e) {
+            log.error("查询段位信息失败！", e);
+        }
+        return null;
     }
 
     /**
