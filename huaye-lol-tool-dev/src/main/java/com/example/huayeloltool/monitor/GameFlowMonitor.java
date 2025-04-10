@@ -133,7 +133,7 @@ public class GameFlowMonitor implements CommandLineRunner, DisposableBean {
                     break;
                 case "/lol-champ-select/v1/session":
 //                    new Thread(() -> {
-                    log.info("游戏会话变更！data : {}", JSON.toJSONString(data));
+                    // log.info("游戏会话变更！data : {}", JSON.toJSONString(data));
                     ChampSelectSessionInfo ss = JSON.parseObject(data.toString(), ChampSelectSessionInfo.class);
                     gameUpdateService.onChampSelectSessionUpdate(ss);
 //                    }
