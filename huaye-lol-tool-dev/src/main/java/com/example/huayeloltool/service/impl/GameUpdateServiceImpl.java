@@ -87,15 +87,7 @@ public class GameUpdateServiceImpl implements GameUpdateService {
      */
     public void acceptGame() {
         try {
-
-            String auth = Base64.getEncoder().encodeToString(("riot:" + BaseUrlClient.getInstance().getAuthPwd()).getBytes());
-            String URL = BaseUrlClient.assembleUrl("/lol-matchmaking/v1/ready-check/accept");
-            Request request = new Request.Builder()
-                    .url(URL)
-                    .addHeader("User-Agent", "Mozilla/5.0")
-                    .addHeader("Authorization", "Basic " + auth)
-                    .post(RequestBody.create(MediaType.parse("application/json"), "{}"))
-                    .build();
+            Request request = createOkHttpPostRequest("/lol-matchmaking/v1/ready-check/accept");
             try (Response response = client.newCall(request).execute()) {
                 if (!response.isSuccessful()) {
                     log.info("自动接受对局失败: {}", com.alibaba.fastjson2.JSON.toJSONString(response));
@@ -151,11 +143,21 @@ public class GameUpdateServiceImpl implements GameUpdateService {
     public Request createOkHttpRequest(String uri) {
         String auth = Base64.getEncoder().encodeToString(("riot:" + BaseUrlClient.getInstance().getAuthPwd()).getBytes());
         String URL = BaseUrlClient.assembleUrl(uri);
-        log.info("url:{}", URL);
         return new Request.Builder()
                 .addHeader("User-Agent", "Mozilla/5.0")
                 .addHeader("Authorization", "Basic " + auth)
                 .url(URL)
+                .build();
+    }
+
+    public Request createOkHttpPostRequest(String uri) {
+        String auth = Base64.getEncoder().encodeToString(("riot:" + BaseUrlClient.getInstance().getAuthPwd()).getBytes());
+        String URL = BaseUrlClient.assembleUrl(uri);
+        return new Request.Builder()
+                .url(URL)
+                .addHeader("User-Agent", "Mozilla/5.0")
+                .addHeader("Authorization", "Basic " + auth)
+                .post(RequestBody.create(MediaType.parse("application/json"), "{}"))
                 .build();
     }
 
@@ -303,27 +305,27 @@ public class GameUpdateServiceImpl implements GameUpdateService {
         if (sessionInfo.getActions() != null && !sessionInfo.getActions().isEmpty()) {
             for (List<ChampSelectSessionInfo.Action> actionList : sessionInfo.getActions()) {
                 for (ChampSelectSessionInfo.Action action : actionList) {
-                          boolean allyAction = action.getIsAllyAction();
-                    if(allyAction){
-                        if(action.getChampionId() > 0){
-                            log.info("友方操作环节：操作英雄：{}, action = {}",Heros.getNameById(action.getChampionId()), JSON.toJSONString(action));
-                        }else{
-                            log.info("友方操作环节：不涉及英雄, action = {}",JSON.toJSONString(action));
+                    boolean allyAction = action.getIsAllyAction();
+                    if (allyAction) {
+                        if (action.getChampionId() > 0) {
+                            log.info("友方操作环节：操作英雄：{}, action = {}", Heros.getNameById(action.getChampionId()), JSON.toJSONString(action));
+                        } else {
+                            log.info("友方操作环节：不涉及英雄, action = {}", JSON.toJSONString(action));
                         }
-                    }else{
-                       if(action.getChampionId() > 0){
-                            log.info("友方操作环节：操作英雄：{}, action = {}",Heros.getNameById(action.getChampionId()), JSON.toJSONString(action));
-                        }else{
-                            log.info("友方操作环节：不涉及英雄, action = {}",JSON.toJSONString(action));
-                        }                    
+                    } else {
+                        if (action.getChampionId() > 0) {
+                            log.info("友方操作环节：操作英雄：{}, action = {}", Heros.getNameById(action.getChampionId()), JSON.toJSONString(action));
+                        } else {
+                            log.info("友方操作环节：不涉及英雄, action = {}", JSON.toJSONString(action));
+                        }
                     }
 
                     // 收集预选英雄
                     if (
-                        allyAction
-                            && "pick".equalsIgnoreCase(action.getType())
-                            && action.getChampionId() > 0) {
-                        log.info("添加预选英雄：{}",action.getChampionId());
+                            allyAction
+                                    && "pick".equalsIgnoreCase(action.getType())
+                                    && action.getChampionId() > 0) {
+                        log.info("添加预选英雄：{}", action.getChampionId());
                         alloyPrePickSet.add(action.getChampionId());
                     }
 
@@ -332,7 +334,7 @@ public class GameUpdateServiceImpl implements GameUpdateService {
                         continue;
                     }
 
-                    log.info("本人操作环节：{},LocalPlayerCellId: {},ActorCellId: {}",JSON.toJSONString(action),sessionInfo.getLocalPlayerCellId() ,action.getActorCellId());
+                    log.info("本人操作环节：{},LocalPlayerCellId: {},ActorCellId: {}", JSON.toJSONString(action), sessionInfo.getLocalPlayerCellId(), action.getActorCellId());
                     if ("pick".equalsIgnoreCase(action.getType())) {
                         isSelfPick = true;
                         userPickActionId = action.getId();
@@ -348,12 +350,12 @@ public class GameUpdateServiceImpl implements GameUpdateService {
             }
         }
         List<String> preNames = new ArrayList<>();
-        for(Integer id: alloyPrePickSet){
-            if(null != id){
+        for (Integer id : alloyPrePickSet) {
+            if (null != id) {
                 preNames.add(Heros.getNameById(id));
             }
         }
-        
+
         log.info("预选名单为: {}", preNames.toString());
 
         // 自动选择英雄
@@ -952,19 +954,45 @@ public class GameUpdateServiceImpl implements GameUpdateService {
             try (Response response = client.newCall(request).execute()) {
                 if (!response.isSuccessful()) {
                     log.error("获取段位信息失败: response={}", response);
-                    throw new IOException("获取比赛记录失败");
+                    throw new IOException("获取段位信息失败");
                 }
                 assert response.body() != null;
                 String string = response.body().string();
                 rankedInfo = JSON.parseObject(string, RankedInfo.class);
                 RankedInfo.QueueMapDto.RANKEDSOLO5x5Dto rankedSolo5x5 = rankedInfo.getQueueMap().getRankedSolo5x5();
-                log.info("段位信息。当前段位：{}-{}，胜点：{}", GameEnums.RankTier.getRankNameMap(rankedSolo5x5.getTier()), rankedSolo5x5.getDivision(),rankedSolo5x5.getLeaguePoints());
+                log.info("段位信息。当前段位：{}-{}，胜点：{}", GameEnums.RankTier.getRankNameMap(rankedSolo5x5.getTier()), rankedSolo5x5.getDivision(), rankedSolo5x5.getLeaguePoints());
                 return rankedInfo;
             }
         } catch (Exception e) {
             log.error("查询段位信息失败！", e);
         }
         return null;
+    }
+
+    @Override
+    public List<ChampionMastery> searchDFDAta(String puuid) {
+        Request request = createOkHttpRequest(String.format("/lol-champion-mastery/v1/" + puuid + "/champion-mastery"));
+        List<ChampionMastery> championMasteryList = null;
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) {
+                log.error("查询英雄熟练度失败: response={}", response);
+                throw new IOException("查询英雄熟练度失败");
+            }
+            assert response.body() != null;
+            String string = response.body().string();
+            championMasteryList = JSON.parseObject(string, new TypeReference<List<ChampionMastery>>() {
+            });
+
+            championMasteryList.sort(Comparator.comparingInt(ChampionMastery::getChampionLevel).reversed());
+            List<ChampionMastery> championInfos = championMasteryList.subList(0, 10);
+            for (ChampionMastery championInfo : championInfos) {
+                log.info("英雄：{}， 等级：{}，积分：{}", Heros.getNameById(championInfo.getChampionId()), championInfo.getChampionLevel(), championInfo.getChampionPoints());
+            }
+//            log.info("查询英雄熟练度：: {}", string);
+        } catch (Exception e) {
+            log.error("查询英雄熟练度异常", e);
+        }
+        return championMasteryList;
     }
 
     /**

@@ -12,7 +12,7 @@ public class DefaultClientConf {
     /**
      * 自动选择的英雄ID
      */
-    private Integer autoPickChampID = 893;
+    private Integer autoPickChampID = 0;
 
     /**
      * 自动禁用的英雄ID

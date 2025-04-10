@@ -33,8 +33,14 @@ public interface GameUpdateService {
     List<GameInfo> listGameHistory(String puuid, int begin, int limit) throws IOException;
 
     /**
-     * 查询英雄熟练度
+     * 查询段位信息
      */
     RankedInfo getRankData(String puuid);
+
+    /**
+     * 查询英雄熟练度信息
+     */
+    List<ChampionMastery> searchDFDAta(String puuid) throws IOException;
+
 
 }

@@ -43,5 +43,14 @@ public class GameController {
         }
     }
 
+    @GetMapping("/lcu/search/ewrwerwerwe")
+    public Object searchGamedsds2222s() {
+        try {
+            return gameUpdateService.searchDFDAta(CurrSummoner.getInstance().getPuuid());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
 }
