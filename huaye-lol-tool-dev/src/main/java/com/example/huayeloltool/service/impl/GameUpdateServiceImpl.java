@@ -303,10 +303,27 @@ public class GameUpdateServiceImpl implements GameUpdateService {
         if (sessionInfo.getActions() != null && !sessionInfo.getActions().isEmpty()) {
             for (List<ChampSelectSessionInfo.Action> actionList : sessionInfo.getActions()) {
                 for (ChampSelectSessionInfo.Action action : actionList) {
+                          boolean allyAction = action.getIsAllyAction();
+                    if(allyAction){
+                        if(action.getChampionId() > 0){
+                            log.info("友方操作环节：操作英雄：{}, action = {}"，Heros.getNameById(action.getChampionId()), JSON.toJSONString(action));
+                        }else{
+                            log.info("友方操作环节：不涉及英雄, action = {}"，JSON.toJSONString(action));
+                        }
+                    }else{
+                       if(action.getChampionId() > 0){
+                            log.info("友方操作环节：操作英雄：{}, action = {}"，Heros.getNameById(action.getChampionId()), JSON.toJSONString(action));
+                        }else{
+                            log.info("友方操作环节：不涉及英雄, action = {}"，JSON.toJSONString(action));
+                        }                    
+                    }
+
                     // 收集预选英雄
-                    if (action.getIsAllyAction()
+                    if (
+                        allyAction
                             && "pick".equalsIgnoreCase(action.getType())
                             && action.getChampionId() > 0) {
+                        log.info("添加预选英雄：{}",action.getChampionId());
                         alloyPrePickSet.add(action.getChampionId());
                     }
 
@@ -315,6 +332,7 @@ public class GameUpdateServiceImpl implements GameUpdateService {
                         continue;
                     }
 
+                    log.info("本人操作环节：{},LocalPlayerCellId: {},ActorCellId: {}",JSON.toJSONString(action),sessionInfo.getLocalPlayerCellId() ,action.getActorCellId());
                     if ("pick".equalsIgnoreCase(action.getType())) {
                         isSelfPick = true;
                         userPickActionId = action.getId();
@@ -329,7 +347,14 @@ public class GameUpdateServiceImpl implements GameUpdateService {
                 }
             }
         }
-        log.info("预选名单为: {}", alloyPrePickSet);
+        List<String> preNames = new ArrayList<>();
+        for(Integer id: alloyPrePickSet){
+            if(null != id){
+                preNames.add(Heros.getNameById(id));
+            }
+        }
+        
+        log.info("预选名单为: {}", preNames.toString());
 
         // 自动选择英雄
         if (clientCfg.getAutoPickChampID() > 0 && isSelfPick) {
