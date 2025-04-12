@@ -105,7 +105,7 @@ public class GameUpdateServiceImpl implements GameUpdateService {
         try {
             CurrSummoner currSummoner = CurrSummoner.getInstance();
             GameFlowSession session = queryGameFlowSession();
-            log.info("GameFlowSession ：{}", JSON.toJSONString(session));
+//            log.info("GameFlowSession ：{}", JSON.toJSONString(session));
             if (session == null || !session.getPhase().equals(IN_PROGRESS)) {
                 return;
             }
@@ -116,13 +116,11 @@ public class GameUpdateServiceImpl implements GameUpdateService {
             long selfID = currSummoner.getSummonerId();
             Pair<List<Long>, List<Long>> allUsersFromSession = getAllUsersFromSession(selfID, session);
             List<Long> enemySummonerIDList = new ArrayList<>(allUsersFromSession.getRight());
-            log.info("最终解析的敌方SummonerId为：{}", enemySummonerIDList);
+//            log.info("最终解析的敌方SummonerId为：{}", enemySummonerIDList);
             if (CollectionUtils.isEmpty(enemySummonerIDList)) {
                 log.error("敌方用户ID为空");
                 return;
             }
-
-            List<UserScore> summonerScores = Collections.synchronizedList(new ArrayList<>());
 
             // 查询所有用户的信息并计算得分
             List<CurrSummoner> summonerList = listSummoner(enemySummonerIDList);
@@ -132,7 +130,7 @@ public class GameUpdateServiceImpl implements GameUpdateService {
             }
 
 
-            extracted(summonerList);
+            calcScore(summonerList);
 
         } catch (Exception e) {
             log.error("计算敌方队伍得分时发生错误", e);
@@ -237,7 +235,7 @@ public class GameUpdateServiceImpl implements GameUpdateService {
         for (GameFolwSessionTeamUser user : session.getGameData().getTeamOne()) {
             long userID = user.getSummonerId();
             if (userID > 0) {
-                log.info("添加SummonerId： {}", userID);
+//                log.info("添加SummonerId： {}", userID);
                 teamUsers1.add(userID);
             } else {
                 log.error("发现SummonerId异常：{}", userID);
@@ -291,7 +289,7 @@ public class GameUpdateServiceImpl implements GameUpdateService {
     @Override
     public void onChampSelectSessionUpdate(ChampSelectSessionInfo sessionInfo) {
 //        log.info("游戏选择会话变更： {}", JSON.toJSONString(sessionInfo));
-        log.info("游戏选择会话变更");
+//        log.info("游戏选择会话变更");
         int userPickActionId = 0;
         int userBanActionId = 0;
         int pickChampionId = 0;
@@ -299,42 +297,58 @@ public class GameUpdateServiceImpl implements GameUpdateService {
         boolean isSelfBan = false;
         boolean pickIsInProgress = false;
         boolean banIsInProgress = false;
-        Set<Integer> alloyPrePickSet = new HashSet<>(5);
+        LinkedHashSet<Integer> alloyPrePickSet = new LinkedHashSet<>(5);
+
+        LinkedHashSet<String> selfTeamHeros = new LinkedHashSet<>(5);
+
+        LinkedHashSet<String> enemyTeamHeros = new LinkedHashSet<>(5);
+
 
         // 处理Actions数据
         if (sessionInfo.getActions() != null && !sessionInfo.getActions().isEmpty()) {
             for (List<ChampSelectSessionInfo.Action> actionList : sessionInfo.getActions()) {
                 for (ChampSelectSessionInfo.Action action : actionList) {
                     boolean allyAction = action.getIsAllyAction();
+                    Integer championId = action.getChampionId();
+
                     if (allyAction) {
-                        if (action.getChampionId() > 0) {
-                            log.info("友方操作环节：操作英雄：{}, action = {}", Heros.getNameById(action.getChampionId()), JSON.toJSONString(action));
+                        if (championId > 0) {
+                            if (Objects.equals(action.getType(), "ban") && action.getCompleted()) {
+                                log.info("友方禁用英雄：{}", Heros.getNameById(championId));
+                            }
+                            if (Objects.equals(action.getType(), "pick") && action.getCompleted()) {
+                                log.info("友方选择英雄：{}", Heros.getNameById(championId));
+                                selfTeamHeros.add(Heros.getNameById(championId));
+                            } else if (Objects.equals(action.getType(), "pick") && !action.getCompleted()) {
+                                log.info("友方预选英雄：{}", Heros.getNameById(championId));
+                                alloyPrePickSet.add(championId);
+                            }
                         } else {
-                            log.info("友方操作环节：不涉及英雄, action = {}", JSON.toJSONString(action));
+//                            log.info("友方操作环节：不涉及英雄, action = {}", JSON.toJSONString(action));
                         }
                     } else {
-                        if (action.getChampionId() > 0) {
-                            log.info("友方操作环节：操作英雄：{}, action = {}", Heros.getNameById(action.getChampionId()), JSON.toJSONString(action));
+                        if (championId > 0) {
+                            if (Objects.equals(action.getType(), "ban") && action.getCompleted()) {
+                                log.info("敌方禁用英雄：{}", Heros.getNameById(championId));
+                            }
+                            if (Objects.equals(action.getType(), "pick") && action.getCompleted()) {
+                                log.info("敌方选择英雄：{}", Heros.getNameById(championId));
+                                enemyTeamHeros.add(Heros.getNameById(championId));
+                            } else if (Objects.equals(action.getType(), "pick") && !action.getCompleted()) {
+                                log.info("敌方预选英雄：{}", Heros.getNameById(championId));
+                            }
                         } else {
-                            log.info("友方操作环节：不涉及英雄, action = {}", JSON.toJSONString(action));
+//                            log.info("敌方操作环节：不涉及英雄, action = {}", JSON.toJSONString(action));
                         }
                     }
 
-                    // 收集预选英雄
-                    if (
-                            allyAction
-                                    && "pick".equalsIgnoreCase(action.getType())
-                                    && action.getChampionId() > 0) {
-                        log.info("添加预选英雄：{}", action.getChampionId());
-                        alloyPrePickSet.add(action.getChampionId());
-                    }
 
                     // 检查当前玩家动作
                     if (action.getActorCellId() != sessionInfo.getLocalPlayerCellId()) {
                         continue;
                     }
 
-                    log.info("本人操作环节：{},LocalPlayerCellId: {},ActorCellId: {}", JSON.toJSONString(action), sessionInfo.getLocalPlayerCellId(), action.getActorCellId());
+//                    log.info("本人操作环节：{},LocalPlayerCellId: {},ActorCellId: {}", JSON.toJSONString(action), sessionInfo.getLocalPlayerCellId(), action.getActorCellId());
                     if ("pick".equalsIgnoreCase(action.getType())) {
                         isSelfPick = true;
                         userPickActionId = action.getId();
@@ -356,7 +370,7 @@ public class GameUpdateServiceImpl implements GameUpdateService {
             }
         }
 
-        log.info("预选名单为: {}", preNames.toString());
+        log.info("预选名单为: {}", preNames);
 
         // 自动选择英雄
         if (clientCfg.getAutoPickChampID() > 0 && isSelfPick) {
@@ -372,14 +386,18 @@ public class GameUpdateServiceImpl implements GameUpdateService {
 
         // 自动禁用英雄
         if (clientCfg.getAutoBanChampID() > 0 && isSelfBan && banIsInProgress) {
-            log.info("本人正在禁用英雄，预选名单为: {}", alloyPrePickSet);
+            log.info("本人正在禁用英雄，预选名单为: {}", preNames);
             if (!alloyPrePickSet.contains(clientCfg.getAutoBanChampID())) {
-                log.info("预选名单不包含将要禁用的英雄：{}, 可以禁用", clientCfg.getAutoBanChampID());
+                log.info("预选名单不包含将要禁用的英雄：{}, 可以禁用", Heros.getNameById(clientCfg.getAutoBanChampID()));
                 banChampion(clientCfg.getAutoBanChampID(), userBanActionId);
             } else {
-                log.info("预选名单包含将要禁用的英雄：{}, 取消禁用", clientCfg.getAutoBanChampID());
+                log.info("预选名单包含将要禁用的英雄：{}, 取消禁用", Heros.getNameById(clientCfg.getAutoBanChampID()));
             }
         }
+
+        log.info("我方阵容为：{}", selfTeamHeros);
+        log.info("敌方阵容为：{}", enemyTeamHeros);
+
     }
 
 
@@ -431,6 +449,7 @@ public class GameUpdateServiceImpl implements GameUpdateService {
         );
 
         if (resp.getErrorCode() != null) {
+            log.error("handleWebSocketMessage error: {}", JSON.toJSONString(resp));
             throw new RuntimeException("操作失败: " + resp.getMessage());
         }
     }
@@ -493,11 +512,11 @@ public class GameUpdateServiceImpl implements GameUpdateService {
             return;
         }
 
-        extracted(summonerList);
+        calcScore(summonerList);
 
     }
 
-    private void extracted(List<CurrSummoner> summonerList) {
+    private void calcScore(List<CurrSummoner> summonerList) {
         List<CompletableFuture<Void>> futures = new ArrayList<>();
         List<UserScore> userScores = Collections.synchronizedList(new ArrayList<>());
         for (CurrSummoner summoner : summonerList) {
@@ -1016,7 +1035,7 @@ public class GameUpdateServiceImpl implements GameUpdateService {
             String string = response.body().string();
             gameInfos = JSON.parseObject(string, new TypeReference<GameAllData>() {
             });
-            log.info("战绩解析结果（最后一条）：: {}", gameInfos.getGames().getGames().get(0));
+//            log.info("战绩解析结果（最后一条）：: {}", gameInfos.getGames().getGames().get(0));
         }
         return gameInfos;
     }

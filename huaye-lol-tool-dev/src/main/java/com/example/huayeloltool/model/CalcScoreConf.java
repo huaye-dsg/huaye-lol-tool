@@ -68,7 +68,7 @@ public class CalcScoreConf {
             new HorseScoreConf(125.0, "上等马"),
             new HorseScoreConf(105.0, "中等马"),
             new HorseScoreConf(95.0, "下等马"),
-            new HorseScoreConf(0.0001, "牛马")
+            new HorseScoreConf(0.0001, "牛 马")
     };
     private boolean mergeMsg = false;
 

@@ -23,7 +23,7 @@ public class DefaultClientConf {
     /**
      * 马匹名称配置
      */
-    private String[] horseNameConf = {"通天代", "小代", "上等马", "中等马", "下等马", "牛马"};
+    private String[] horseNameConf = {"通天代", "小代", "上等马", "中等马", "下等马", "牛 马"};
 
 
     private  static DefaultClientConf instance;
