@@ -6,10 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -20,6 +17,7 @@ public class GameEnums {
      * 游戏模式枚举
      */
     @Getter
+    @AllArgsConstructor
     public enum GameMode {
         NONE(""),          // 游戏模式：无
         CLASSIC("CLASSIC"),// 经典模式
@@ -29,16 +27,13 @@ public class GameEnums {
         CUSTOM("PRACTICETOOL"); // 自定义
 
         private final String value;
-
-        GameMode(String value) {
-            this.value = value;
-        }
     }
 
     /**
      * 游戏队列类型枚举
      */
     @Getter
+    @AllArgsConstructor
     public enum GameQueueType {
         NORMAL("NORMAL"),            // 匹配
         RANK_SOLO("RANKED_SOLO_5x5"),// 单双排
@@ -49,16 +44,13 @@ public class GameEnums {
         CUSTOM("PRACTICETOOL");      // 自定义
 
         private final String value;
-
-        GameQueueType(String value) {
-            this.value = value;
-        }
     }
 
     /**
      * 游戏状态枚举
      */
     @Getter
+    @AllArgsConstructor
     public enum GameStatus {
         IN_QUEUE("inQueue"),             // 队列中
         IN_GAME("inGame"),               // 游戏中
@@ -72,16 +64,13 @@ public class GameEnums {
         HOST_BOT("hosting_BOT");         // 人机组队中-队长
 
         private final String value;
-
-        GameStatus(String value) {
-            this.value = value;
-        }
     }
 
     /**
      * 游戏流程枚举
      */
     @Getter
+    @AllArgsConstructor
     public enum GameFlow {
         CHAMPION_SELECT("ChampSelect"), // 英雄选择中
         READY_CHECK("ReadyCheck"),      // 等待接受对局
@@ -90,10 +79,6 @@ public class GameEnums {
         NONE("None");                   // 无
 
         private final String value;
-
-        GameFlow(String value) {
-            this.value = value;
-        }
 
         public static GameFlow getByValue(String status) {
 
@@ -146,82 +131,66 @@ public class GameEnums {
      * 游戏类型枚举
      */
     @Getter
+    @AllArgsConstructor
     public enum GameType {
         MATCHED("MATCHED_GAME"); // 匹配
-
         private final String value;
-
-        GameType(String value) {
-            this.value = value;
-        }
     }
 
     /**
      * 地图ID枚举
      */
     @Getter
+    @AllArgsConstructor
     public enum MapID {
         CLASSIC(11), // 经典模式召唤师峡谷
         ARAM(12);    // 极地大乱斗
-
         private final int id;
-
-        MapID(int id) {
-            this.id = id;
-        }
     }
 
     /**
      * 队伍ID枚举
      */
     @Getter
+    @AllArgsConstructor
     public enum TeamID {
         NONE(0),  // 未知
         BLUE(100),// 蓝色方
         RED(200); // 红色方
 
         private final int id;
-
-        TeamID(int id) {
-            this.id = id;
-        }
     }
 
     /**
      * 队伍ID字符串枚举
      */
     @Getter
+    @AllArgsConstructor
     public enum TeamIDStr {
         NONE(""),   // 未知
         BLUE("100"),// 蓝色方
         RED("200"); // 红色方
 
         private final String id;
-
-        TeamIDStr(String id) {
-            this.id = id;
-        }
     }
 
     /**
      * 召唤师技能枚举
      */
     @Getter
+    @AllArgsConstructor
     public enum Spell {
         PINGZHANG(21),// 屏障
         SHANXIAN(4);  // 闪现
 
         private final int value;
-
-        Spell(int value) {
-            this.value = value;
-        }
     }
 
     /**
      * 位置枚举
      */
     @Getter
+    @AllArgsConstructor
     public enum Lane {
         TOP("TOP"),    // 上路
         JUNGLE("JUNGLE"),// 打野
@@ -229,16 +198,13 @@ public class GameEnums {
         BOTTOM("BOTTOM");// 下路
 
         private final String value;
-
-        Lane(String value) {
-            this.value = value;
-        }
     }
 
     /**
      * 英雄角色枚举
      */
     @Getter
+    @AllArgsConstructor
     public enum ChampionRole {
         SOLO("SOLE"),        // 单人路
         SUPPORT("DUO_SUPPORT"),// 辅助
@@ -246,32 +212,53 @@ public class GameEnums {
         NONE("NONE");        // 无 一般是打野
 
         private final String value;
-
-        ChampionRole(String value) {
-            this.value = value;
-        }
     }
 
     /**
      * 游戏队列ID枚举
      */
     @Getter
+    @AllArgsConstructor
     public enum GameQueueID {
-        NormalQueueID("430"),    // 匹配
-        FastNormalQueueID("480"),    // 快速匹配
-        RankSoleQueueID("420"),  // 单排
-        RankFlexQueueID("440"),  // 组排
-        ARAMQueueID("450"),      // 大乱斗
-        URFQueueID("900"),       // 无限火力
-        BOTSimpleQueueID("830"), // 人机入门
-        BOTNoviceQueueID("840"), // 人机新手
-        BOTNormalQueueID("850"); // 人机一般
+        RANK_SOLO(420, "单排排位"),
+        RANK_FLEX(440, "灵活排位"),
+        NORMAL_BLIND(430, "匹配盲选"),
+        NORMAL_DRAFT(400, "匹配选人"),
+        FAST_NORMAL(480, "快速匹配"),
+        ARAM(450, "大乱斗"),
+        URF(900, "无限火力"),
+        ARURF(901, "随机无限火力"),
+        NEXUS_BLITZ(1200, "极限闪击"),
+        ULTIMATE_SPELLBOOK(1900, "至尊魔典"),
+        ARENA(1700, "斗魂竞技场"),
+        CLASH(700, "战队赛 Clash"),
+        TUTORIAL(2000, "新手教程"),
+        BOT_INTRO(830, "人机入门"),
+        BOT_BEGINNER(840, "人机新手"),
+        BOT_INTERMEDIATE(850, "人机一般"),
+        CUSTOM(11, "自定义"),
+        UNKNOWN(-1, "未知模式");
 
-        GameQueueID(String value) {
-            this.value = value;
+        private final int id;
+        private final String description;
+
+        private final static Map<Integer, String> map = new HashMap<>();
+
+        private final static List<Integer> list = Arrays.asList(RANK_SOLO.id, RANK_FLEX.id, NORMAL_BLIND.id, NORMAL_DRAFT.id, FAST_NORMAL.id, ARAM.id);
+
+        public static Boolean isValidData(Integer value) {
+            return list.contains(value);
         }
 
-        private final String value;
+        public static String getGameNameMap(Integer value) {
+            return map.get(value);
+        }
+
+        static {
+            for (GameQueueID option : GameQueueID.values()) {
+                map.put(option.getId(), option.getDescription());
+            }
+        }
     }
 
 

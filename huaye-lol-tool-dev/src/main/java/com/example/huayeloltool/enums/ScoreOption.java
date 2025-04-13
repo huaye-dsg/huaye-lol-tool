@@ -27,7 +27,4 @@ public enum ScoreOption {
         this.displayName = displayName;
     }
 
-    public String getDisplayName() {
-        return displayName;
-    }
 }

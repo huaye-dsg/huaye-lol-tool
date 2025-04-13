@@ -20,7 +20,7 @@ public class GameInfo {
     private List<ParticipantIdentity> participantIdentities;
     private List<Participant> participants;
     private String platformId;
-    private String queueId;
+    private Integer queueId;
     private Integer seasonId;
     private List<Team> teams;
 

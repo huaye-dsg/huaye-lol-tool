@@ -8,11 +8,14 @@ import com.example.huayeloltool.model.BaseUrlClient;
 import com.example.huayeloltool.model.ChampSelectSessionInfo;
 import com.example.huayeloltool.model.CurrSummoner;
 import com.example.huayeloltool.model.ProcessInfo;
-import com.example.huayeloltool.service.impl.GameUpdateService;
+import com.example.huayeloltool.service.GameSessionUpdateService;
+import com.example.huayeloltool.service.GameStateUpdateService;
+import com.example.huayeloltool.service.LcuService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,10 +23,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketSession;
 
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 import java.util.Base64;
 import java.util.concurrent.TimeUnit;
 
@@ -32,27 +31,23 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class GameFlowMonitor implements CommandLineRunner, DisposableBean {
 
-    private static final int RETRY_ATTEMPTS = 5;
-    private static final long RETRY_DELAY = 1000; // 毫秒
-    private static final int PREFIX_LENGTH = 11; // 假设消息前缀长度
-
-    private WebSocketSession session;
-    private boolean lcuActive = false;
     private WebSocket webSocket;
 
     @Autowired
-    GameUpdateService gameUpdateService;
+    GameStateUpdateService gameStateUpdateService;
+    @Autowired
+    LcuService lcuService;
+    @Autowired
+    GameSessionUpdateService gameSessionUpdateService;
 
     @Autowired
     @Qualifier(value = "unsafeOkHttpClient")
     private OkHttpClient client;
 
-    CurrSummoner currSummoner;
-
     @Override
     public void run(String... args) {
         log.info("监控任务开始运行！");
-        ProcessInfo lolClientApiInfo = gameUpdateService.getLolClientApiInfo(Constant.LOL_UX_PROCESS_NAME);
+        ProcessInfo lolClientApiInfo = lcuService.getLolClientApiInfo(Constant.LOL_UX_PROCESS_NAME);
         if (lolClientApiInfo == null) {
             log.error("LOL接口进程不存在！");
             return;
@@ -64,8 +59,7 @@ public class GameFlowMonitor implements CommandLineRunner, DisposableBean {
             instance.setAuthPwd(lolClientApiInfo.getToken());
 
             // 初始化当前召唤师信息
-            CurrSummoner currSummoner1 = gameUpdateService.getCurrSummoner();
-            CurrSummoner currSummoner2 = CurrSummoner.setInstance(currSummoner1);
+            CurrSummoner currSummoner2 = CurrSummoner.setInstance(lcuService.getCurrSummoner());
             if (currSummoner2 == null) {
                 log.error("获取当前召唤师信息失败！");
                 return;
@@ -92,10 +86,9 @@ public class GameFlowMonitor implements CommandLineRunner, DisposableBean {
         webSocket = client.newWebSocket(request, new WebSocketListener() {
             @SneakyThrows
             @Override
-            public void onOpen(WebSocket webSocket, Response response) {
+            public void onOpen(@NotNull WebSocket webSocket, @NotNull Response response) {
                 log.info("Connected to LCU");
                 webSocket.send("[5, \"OnJsonApiEvent\"]");
-                lcuActive = true;
             }
 
             @Override
@@ -106,12 +99,11 @@ public class GameFlowMonitor implements CommandLineRunner, DisposableBean {
             @Override
             public void onFailure(WebSocket webSocket, Throwable t, Response response) {
                 log.error("WebSocket error: ", t);
-                lcuActive = false;
             }
         });
 
         // 保持连接
-        client.dispatcher().executorService().awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+        boolean result = client.dispatcher().executorService().awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
     }
 
     private void handleWebSocketMessage(String message) {
@@ -126,19 +118,14 @@ public class GameFlowMonitor implements CommandLineRunner, DisposableBean {
             JSONObject event = arr.getJSONObject(2);
             String uri = event.getString("uri");
             Object data = event.get("data");
-
+//            log.info("WebSocket message uri: {}", uri);
             switch (uri) {
                 case "/lol-gameflow/v1/gameflow-phase":
-                    gameUpdateService.onGameFlowUpdate(data.toString());
+                    gameStateUpdateService.onGameFlowUpdate(data.toString());
                     break;
                 case "/lol-champ-select/v1/session":
-//                    new Thread(() -> {
-                    // log.info("游戏会话变更！data : {}", JSON.toJSONString(data));
                     ChampSelectSessionInfo ss = JSON.parseObject(data.toString(), ChampSelectSessionInfo.class);
-                    gameUpdateService.onChampSelectSessionUpdate(ss);
-//                    }
-//
-//                    ).start();
+                    gameSessionUpdateService.onChampSelectSessionUpdate(ss);
                     break;
             }
         } catch (Exception e) {

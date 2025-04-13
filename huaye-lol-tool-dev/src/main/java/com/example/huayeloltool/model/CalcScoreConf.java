@@ -72,4 +72,15 @@ public class CalcScoreConf {
     };
     private boolean mergeMsg = false;
 
+
+    private static CalcScoreConf instance;
+
+    public static CalcScoreConf getInstance() {
+        if (instance == null) {
+            instance = new CalcScoreConf();
+        }
+        return instance;
+    }
+
+
 }

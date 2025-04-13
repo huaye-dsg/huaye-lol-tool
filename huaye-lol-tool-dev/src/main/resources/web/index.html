@@ -5,38 +5,31 @@
     <title>LOL设置</title>
     <link rel="stylesheet" href="static/bootstrap.min.css">
     <link rel="stylesheet" href="static/element-ui.css">
-
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
         }
-
         .settings, .tables {
             margin-bottom: 20px;
         }
-
         th {
             background-color: #f4f4f4;
         }
-
         .form-inline .form-group {
             display: flex;
             align-items: center;
             margin-right: 20px;
         }
-
         .form-group label {
             margin-right: 10px;
         }
-
         .form-control {
             width: auto;
         }
     </style>
 </head>
 <body>
-
 <div id="app" class="container">
     <!-- 设置区 -->
     <p class="my-4">赛前设置</p>
@@ -58,36 +51,34 @@
         </el-form-item>
     </el-form>
 
-    <!--    查询按钮-->
-    <el-button type="primary" @click="handleButtonClick">查询友方队友信息</el-button>
+    <!-- 查询按钮 -->
+    <el-button type="primary" @click="handleQueryScores">查询队友信息</el-button>
 
-    <!-- 表格区 -->
+    <!-- 友方队伍展示 -->
     <p class="my-4">友方队伍</p>
     <el-table :data="allyData" border>
-        <el-table-column prop="horseInfo" label="马匹信息"></el-table-column>
+        <el-table-column prop="houseName" label="马匹信息"></el-table-column>
         <el-table-column prop="summonerName" label="召唤师名称"></el-table-column>
-        <el-table-column v-for="(score, index) in allyData[0].scores" :key="index" :prop="'scores[' + index + ']'"
-                         :label="'战绩' + (index + 1)"></el-table-column>
+        <el-table-column prop="score" label="评分"></el-table-column>
+        <el-table-column prop="gameDetail" label="战绩"></el-table-column>
     </el-table>
-    <!--    换行-->
-    <el-button type="primary">查询敌方队友信息</el-button>
 
+    <!-- 敌方队伍展示 -->
+    <el-button type="primary" @click="handleQueryScores">查询敌方队友信息</el-button>
     <p class="my-4">敌方队伍</p>
     <el-table :data="enemyData" border>
-        <el-table-column prop="horseInfo" label="马匹信息"></el-table-column>
+        <el-table-column prop="houseName" label="马匹信息"></el-table-column>
         <el-table-column prop="summonerName" label="召唤师名称"></el-table-column>
-        <el-table-column v-for="(score, index) in enemyData[0].scores" :key="index" :prop="'scores[' + index + ']'"
-                         :label="'战绩' + (index + 1)"></el-table-column>
+        <el-table-column prop="score" label="评分"></el-table-column>
+        <el-table-column prop="gameDetail" label="战绩"></el-table-column>
     </el-table>
 </div>
 
-<!-- 引入Vue.js -->
+<!-- 引入Vue.js、axios以及Element UI-->
 <script src="static/vue@2.js"></script>
 <script src="static/axios.min.js"></script>
 <script src="static/element-ui.js"></script>
-
 <script>
-
     new Vue({
         el: '#app',
         data: {
@@ -98,67 +89,52 @@
             selectedSelectHero: "",
             banHeroes: ["英雄1", "英雄2"],
             selectHeroes: ["英雄3", "英雄4"],
-            allyData: [
-                {horseInfo: '上等马', summonerName: '召唤师A', scores: ['胜', '负', '胜', '负', '胜']},
-                {horseInfo: '下等马', summonerName: '召唤师B', scores: ['负', '胜', '胜', '胜', '负']},
-                {horseInfo: '上等马', summonerName: '召唤师C', scores: ['胜', '胜', '负', '胜', '负']},
-                {horseInfo: '下等马', summonerName: '召唤师D', scores: ['负', '负', '胜', '负', '胜']},
-                {horseInfo: '上等马', summonerName: '召唤师E', scores: ['胜', '负', '负', '胜', '负']}
-            ],
-            enemyData: [
-                {horseInfo: '上等马', summonerName: '召唤师X', scores: ['胜', '负', '胜', '胜', '负']},
-                {horseInfo: '上等马', summonerName: '召唤师Y', scores: ['负', '胜', '胜', '胜', '负']},
-                {horseInfo: '下等马', summonerName: '召唤师Z', scores: ['胜', '负', '胜', '胜', '负']},
-                {horseInfo: '下等马', summonerName: '召唤师W', scores: ['胜', '负', '负', '胜', '负']},
-                {horseInfo: '上等马', summonerName: '召唤师V', scores: ['负', '胜', '胜', '负', '胜']}
-            ]
+            // 初始化数据为空，由接口返回时更新
+            allyData: [],
+            enemyData: []
         },
         methods: {
-            handleButtonClick() {
-                this.$message({
-                    message: '点击了查询按钮!',
-                    type: 'success'
-                });
-                // 在这里执行你想要的操作，比如发送请求或处理数据
-                // axios.post('/api/ban', val)
-                //     .then(response => {
-                //         console.log("服务器响应:", response.data)
-                //     })
-                //     .catch(error => {
-                //         console.error("请求错误:", error)
-                //     });
-            }
+            // 查询友方队伍评分数据
+            handleQueryScores() {
+                axios.get('http://localhost:9361/api/scores')
+                    .then(response => {
+                        // 假定返回的数据格式：{ selfTeamScore: [...], enemyTeamScore: [...] }
+                        this.allyData = response.data.selfTeamScore;
+                        this.enemyData = response.data.enemyTeamScore;
+                        this.$message({
+                            message: '成功获取队伍信息！',
+                            type: 'success'
+                        });
+                    })
+                    .catch(error => {
+                        console.error("请求错误:", error);
+                        this.$message.error('获取队伍信息失败！');
+                    });
+            },
         },
         watch: {
             selectedBanHero(val) {
                 if (val) {
                     this.$message({
-                        message: '点击了禁用英雄!',
+                        message: '选择禁用英雄：' + val,
                         type: 'success'
                     });
-                    // axios.post('/api/ban', val)
-                    //     .then(response => {
-                    //         console.log("服务器响应:", response.data)
-                    //     })
-                    //     .catch(error => {
-                    //         console.error("请求错误:", error)
-                    //     });
+                    // 此处发送禁用英雄的请求
+                    // axios.post('/api/ban', { hero: val })
+                    //   .then(response => { console.log("禁用响应", response.data) })
+                    //   .catch(error => { console.error("请求错误:", error) });
                 }
             },
             selectedSelectHero(val) {
                 if (val) {
                     this.$message({
-                        message: '点击了自动选择英雄!',
+                        message: '选择自动选英雄：' + val,
                         type: 'success'
                     });
-                    // 在这里发送请求到服务器，例如：
-                    // axios.post('/api/ban', val)
-                    //     .then(response => {
-                    //         console.log("服务器响应:", response.data)
-                    //     })
-                    //     .catch(error => {
-                    //         console.error("请求错误:", error)
-                    //     });
+                    // 此处发送自动选择英雄的请求
+                    // axios.post('/api/select', { hero: val })
+                    //   .then(response => { console.log("选择响应", response.data) })
+                    //   .catch(error => { console.error("请求错误:", error) });
                 }
             }
         }

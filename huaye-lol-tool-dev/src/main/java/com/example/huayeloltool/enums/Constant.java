@@ -10,12 +10,7 @@ public class Constant {
     public static final Pattern COMMANDLINE_PATTERN =
             Pattern.compile(".*--app-port=([0-9]+).*--remoting-auth-token=([\\w-]+).*");
 
-
-    public static final Pattern COMMANDLINE_PATTERN2=           Pattern.compile(".*(--app-port=([0-9]+)|.*--remoting-auth-token=([\\w-]+)).*");
-
-
     public static final int minGameDurationSec = 15 * 60;
-
 
 
     /**
