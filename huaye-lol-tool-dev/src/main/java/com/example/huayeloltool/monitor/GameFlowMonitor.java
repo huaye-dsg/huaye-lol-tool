@@ -118,20 +118,42 @@ public class GameFlowMonitor implements CommandLineRunner, DisposableBean {
             JSONObject event = arr.getJSONObject(2);
             String uri = event.getString("uri");
             Object data = event.get("data");
-//            log.info("WebSocket message uri: {}", uri);
+//            log.info("WebSocket message uri: {}. data: {}",uri, data);
             switch (uri) {
                 case "/lol-gameflow/v1/gameflow-phase":
-                    gameStateUpdateService.onGameFlowUpdate(data.toString());
+                    new Thread(() -> gameStateUpdateService.onGameFlowUpdate(data.toString()));
                     break;
                 case "/lol-champ-select/v1/session":
                     ChampSelectSessionInfo ss = JSON.parseObject(data.toString(), ChampSelectSessionInfo.class);
-                    gameSessionUpdateService.onChampSelectSessionUpdate(ss);
+                    new Thread(() -> gameSessionUpdateService.onChampSelectSessionUpdate(ss));
+
                     break;
+//                case "/lol-gameflow/v1/session":
+                    // 更新数据
+//                    log.info("WebSocket message uri: {}. data: {}", uri, data);
+//                    break;
+
+
             }
         } catch (Exception e) {
             log.error("handleWebSocketMessage error", e);
         }
     }
+
+//
+//    /lol-gameflow/v1/gameflow-metadata/player-status.data:
+//
+//    {
+//        "canInviteOthersAtEog":true, "currentLobbyStatus":{
+//        "allowedPlayAgain":true, "customSpectatorPolicy":"NotAllowed", "invitedSummonerIds":[],"isCustom":
+//        false, "isLeader":true, "isPracticeTool":false, "isSpectator":false, "lobbyId":
+//        "639e3515-29ba-4a09-9279-f6c178cdac6f", "memberSummonerIds":[17540876394],"queueId":420
+//    },"lastQueuedLobbyStatus":{
+//        "allowedPlayAgain":true, "customSpectatorPolicy":"NotAllowed", "invitedSummonerIds":[],"isCustom":
+//        false, "isLeader":true, "isPracticeTool":false, "isSpectator":false, "lobbyId":
+//        "639e3515-29ba-4a09-9279-f6c178cdac6f", "memberSummonerIds":[17540876394],"queueId":420
+//    }
+//    }
 
 
     @Override

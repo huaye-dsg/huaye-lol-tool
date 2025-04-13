@@ -60,7 +60,11 @@ public class GameStateUpdateService extends CommonRequest {
     public void onGameFlowUpdate(String gameState) {
         log.info("切换状态：{}", gameState);
 
-//        updateGameState(gameState);
+////        updateGameState(gameState);
+//        Request request = OkHttpUtil.createOkHttpGetRequest("/lol-matchmaking/v1/search");
+//        Object o = sendRequest(request, Object.class);
+//
+
 
         GameEnums.GameFlow gameFlow = GameEnums.GameFlow.getByValue(gameState);
 
@@ -192,36 +196,7 @@ public class GameStateUpdateService extends CommonRequest {
     public GameFlowSession queryGameFlowSession() throws IOException {
         Request request = OkHttpUtil.createOkHttpGetRequest("/lol-gameflow/v1/session");
         return sendRequest(request, GameFlowSession.class);
-//        try (Response response = client.newCall(request).execute()) {
-//            if (!response.isSuccessful()) {
-//                throw new IOException("Unexpected code " + response);
-//            }
-//
-//            byte[] responseBody = response.body().bytes();
-//            GameFlowSession data = JSON.parseObject(responseBody, GameFlowSession.class);
-//
-//            if (data.getErrorCode() != null && !data.getErrorCode().isEmpty()) {
-//                throw new IOException("查询游戏会话失败: " + data.getMessage());
-//            }
-//
-//            return data;
-//        }
     }
-
-    private String determineHorse(UserScore score, CalcScoreConf scoreCfg, DefaultClientConf clientCfg) {
-        for (int i = 0; i < scoreCfg.getHorse().length; i++) {
-            if (score.getScore() >= scoreCfg.getHorse()[i].getScore()) {
-                return clientCfg.getHorseNameConf()[i];
-            }
-        }
-        return "未知";
-    }
-
-    public void updateGameState(String gameState) {
-//        log.info("更新游戏状态：{}", gameState);
-        state = gameState;
-    }
-
 
     @SneakyThrows
     public void championSelectStart() {
@@ -437,9 +412,6 @@ public class GameStateUpdateService extends CommonRequest {
 
     /**
      * 从会话消息列表中获取召唤师ID列表
-     *
-     * @param msgList 会话消息列表
-     * @return 召唤师ID列表
      */
     public List<Long> getSummonerIDListFromConversationMsgList(List<ConversationMsg> msgList) {
         List<Long> summonerIDList = new ArrayList<>(5); // 初始化容量为 5 的列表
@@ -499,25 +471,6 @@ public class GameStateUpdateService extends CommonRequest {
     public GameSummary queryGameSummary(long gameID) throws IOException {
         Request request = OkHttpUtil.createOkHttpGetRequest(String.format("/lol-match-history/v1/games/%d", gameID));
         return sendRequest(request, GameSummary.class);
-//        try (Response response = client.newCall(request).execute()) {
-//            if (!response.isSuccessful()) {
-//                log.info("查询对局详情失败: gameID= {}", gameID);
-//                throw new IOException("查询对局详情失败");
-//            }
-//
-//            ResponseBody body = response.body();
-//            if (body == null) {
-//                log.error("queryGameSummary empty body. URL: {}", request.url());
-//                throw new IOException("Response body is empty");
-//            }
-//            GameSummary data = JSON.parseObject(body.toString(), GameSummary.class);
-//
-//            if (data.getErrorCode() != null && !data.getErrorCode().isEmpty()) {
-//                throw new IOException(String.format("查询对局详情失败 :%s ,gameID: %d", data.getMessage(), gameID));
-//            }
-//
-//            return data;
-//        }
     }
 
 
@@ -545,28 +498,13 @@ public class GameStateUpdateService extends CommonRequest {
 
     public List<CurrSummoner> listSummoner(List<Long> summonerIDList) throws Exception {
         // 格式化 ID 列表为字符串
-        List<String> idStrList = summonerIDList.stream()
-                .map(String::valueOf)
-                .collect(Collectors.toList());
+        List<String> idStrList = summonerIDList.stream().map(String::valueOf).collect(Collectors.toList());
 
         // 创建请求 URL
         Request request = OkHttpUtil.createOkHttpGetRequest(String.format("/lol-summoner/v2/summoners?ids=[%s]", String.join(",", idStrList)));
 
         return sendTypeRequest(request, new TypeReference<List<CurrSummoner>>() {
         });
-
-//        try (Response response = client.newCall(request).execute()) {
-//            if (!response.isSuccessful()) {
-//                log.error("listSummoner error，response: {}", response);
-//            }
-//            ResponseBody body = response.body();
-//            if (body == null) {
-//                log.error("listSummoner empty body. URL: {}", request.url());
-//                throw new IOException("Response body is empty");
-//            }
-//            return JSON.parseObject(body.toString(), new TypeReference<List<CurrSummoner>>() {
-//            });
-//        }
     }
 
 
