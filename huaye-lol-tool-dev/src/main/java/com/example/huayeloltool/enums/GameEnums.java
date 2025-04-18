@@ -186,33 +186,6 @@ public class GameEnums {
         private final int value;
     }
 
-    /**
-     * 位置枚举
-     */
-    @Getter
-    @AllArgsConstructor
-    public enum Lane {
-        TOP("TOP"),    // 上路
-        JUNGLE("JUNGLE"),// 打野
-        MIDDLE("MIDDLE"),// 中路
-        BOTTOM("BOTTOM");// 下路
-
-        private final String value;
-    }
-
-    /**
-     * 英雄角色枚举
-     */
-    @Getter
-    @AllArgsConstructor
-    public enum ChampionRole {
-        SOLO("SOLE"),        // 单人路
-        SUPPORT("DUO_SUPPORT"),// 辅助
-        ADC("DUO_CARRY"),    // adc
-        NONE("NONE");        // 无 一般是打野
-
-        private final String value;
-    }
 
     /**
      * 游戏队列ID枚举
@@ -251,7 +224,7 @@ public class GameEnums {
         }
 
         public static String getGameNameMap(Integer value) {
-            return map.get(value);
+            return map.getOrDefault(value,UNKNOWN.getDescription());
         }
 
         static {
@@ -278,7 +251,7 @@ public class GameEnums {
         public static Map<String, String> map = Arrays.stream(Position.values()).collect(Collectors.toMap(Position::getValue, Position::getDesc));
 
         public static String getDescByValue(String value) {
-            return map.get(value);
+            return map.getOrDefault(value,"未知");
         }
     }
 

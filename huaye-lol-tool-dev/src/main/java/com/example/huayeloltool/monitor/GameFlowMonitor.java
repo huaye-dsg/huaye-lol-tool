@@ -4,16 +4,15 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.example.huayeloltool.enums.Constant;
-import com.example.huayeloltool.model.BaseUrlClient;
-import com.example.huayeloltool.model.ChampSelectSessionInfo;
-import com.example.huayeloltool.model.CurrSummoner;
-import com.example.huayeloltool.model.ProcessInfo;
+import com.example.huayeloltool.enums.GameEnums;
+import com.example.huayeloltool.model.*;
 import com.example.huayeloltool.service.GameSessionUpdateService;
 import com.example.huayeloltool.service.GameStateUpdateService;
 import com.example.huayeloltool.service.LcuService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.DisposableBean;
@@ -77,7 +76,6 @@ public class GameFlowMonitor implements CommandLineRunner, DisposableBean {
     public void initGameFlowMonitor(int port, String authPwd) throws Exception {
         log.info("initGameFlowMonitor begin");
         String auth = Base64.getEncoder().encodeToString(("riot:" + authPwd).getBytes());
-
         Request request = new Request.Builder()
                 .url("wss://127.0.0.1:" + port + "/")
                 .addHeader("Authorization", "Basic " + auth)
@@ -118,20 +116,42 @@ public class GameFlowMonitor implements CommandLineRunner, DisposableBean {
             JSONObject event = arr.getJSONObject(2);
             String uri = event.getString("uri");
             Object data = event.get("data");
+
+
+//            String string = data.toString();
+//            if (string.contains("420")){
+//                log.info("WebSocket message uri: {}. data: {}",uri, data);
+//            }
+
 //            log.info("WebSocket message uri: {}. data: {}",uri, data);
             switch (uri) {
                 case "/lol-gameflow/v1/gameflow-phase":
-                    new Thread(() -> gameStateUpdateService.onGameFlowUpdate(data.toString()));
+                    new Thread(() -> gameStateUpdateService.onGameFlowUpdate(data.toString())).start();
+//                    gameStateUpdateService.onGameFlowUpdate(data.toString());
                     break;
                 case "/lol-champ-select/v1/session":
+//                    log.info(JSON.toJSONString(data.toString()));
                     ChampSelectSessionInfo ss = JSON.parseObject(data.toString(), ChampSelectSessionInfo.class);
-                    new Thread(() -> gameSessionUpdateService.onChampSelectSessionUpdate(ss));
-
+//                    log.info(JSON.toJSONString(ss));
+//                    new Thread(() -> gameSessionUpdateService.onChampSelectSessionUpdate(ss)).start();
+                    gameSessionUpdateService.onChampSelectSessionUpdate(ss);
                     break;
-//                case "/lol-gameflow/v1/session":
+                case "/lol-lobby-team-builder/v1/matchmaking":
                     // 更新数据
 //                    log.info("WebSocket message uri: {}. data: {}", uri, data);
-//                    break;
+                    if (data == null) {
+                        return;
+                    }
+                    Matchmaking matchmaking = JSON.parseObject(data.toString(), Matchmaking.class);
+                    if (matchmaking != null && BooleanUtils.isTrue(matchmaking.getIsCurrentlyInQueue())) {
+                        Integer queueId = matchmaking.getQueueId();
+                        if (queueId != null && queueId > 0) {
+                            String modeName = GameEnums.GameQueueID.getGameNameMap(queueId);
+                            SelfGameSession.setQueue(queueId);
+                            log.info("当前游戏模式为：{}", modeName);
+                        }
+                    }
+                    break;
 
 
             }
@@ -139,21 +159,6 @@ public class GameFlowMonitor implements CommandLineRunner, DisposableBean {
             log.error("handleWebSocketMessage error", e);
         }
     }
-
-//
-//    /lol-gameflow/v1/gameflow-metadata/player-status.data:
-//
-//    {
-//        "canInviteOthersAtEog":true, "currentLobbyStatus":{
-//        "allowedPlayAgain":true, "customSpectatorPolicy":"NotAllowed", "invitedSummonerIds":[],"isCustom":
-//        false, "isLeader":true, "isPracticeTool":false, "isSpectator":false, "lobbyId":
-//        "639e3515-29ba-4a09-9279-f6c178cdac6f", "memberSummonerIds":[17540876394],"queueId":420
-//    },"lastQueuedLobbyStatus":{
-//        "allowedPlayAgain":true, "customSpectatorPolicy":"NotAllowed", "invitedSummonerIds":[],"isCustom":
-//        false, "isLeader":true, "isPracticeTool":false, "isSpectator":false, "lobbyId":
-//        "639e3515-29ba-4a09-9279-f6c178cdac6f", "memberSummonerIds":[17540876394],"queueId":420
-//    }
-//    }
 
 
     @Override

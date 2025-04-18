@@ -2,9 +2,11 @@ package com.example.huayeloltool.service;
 
 import com.example.huayeloltool.config.OkHttpUtil;
 import com.example.huayeloltool.enums.Constant;
+import com.example.huayeloltool.enums.GameEnums;
 import com.example.huayeloltool.enums.Heros;
 import com.example.huayeloltool.model.ChampSelectSessionInfo;
 import com.example.huayeloltool.model.DefaultClientConf;
+import com.example.huayeloltool.model.SelfGameSession;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -29,127 +32,164 @@ public class GameSessionUpdateService {
     public void onChampSelectSessionUpdate(ChampSelectSessionInfo sessionInfo) {
 //        log.info("游戏选择会话变更： {}", JSON.toJSONString(sessionInfo));
 //        log.info("游戏选择会话变更");
-        int userPickActionId = 0;
-        int userBanActionId = 0;
-        int pickChampionId = 0;
-        boolean isSelfPick = false;
-        boolean isSelfBan = false;
-        boolean pickIsInProgress = false;
-        boolean banIsInProgress = false;
-        LinkedHashSet<Integer> alloyPrePickSet = new LinkedHashSet<>(5);
 
-        LinkedHashSet<String> selfTeamHeros = new LinkedHashSet<>(5);
-        LinkedHashSet<String> enemyTeamHeros = new LinkedHashSet<>(5);
-        LinkedHashSet<String> selfBanNames = new LinkedHashSet<>(5);
-        LinkedHashSet<String> enemyBanNames = new LinkedHashSet<>(5);
+        Integer localPlayerCellId = sessionInfo.getLocalPlayerCellId();
+        SelfGameSession.setFloor(localPlayerCellId);
 
-
-        // 处理Actions数据
-        if (sessionInfo.getActions() != null && !sessionInfo.getActions().isEmpty()) {
-            for (List<ChampSelectSessionInfo.Action> actionList : sessionInfo.getActions()) {
-                for (ChampSelectSessionInfo.Action action : actionList) {
-                    boolean allyAction = action.getIsAllyAction();
-                    Integer championId = action.getChampionId();
-
-                    if (allyAction) {
-                        if (championId > 0) {
-                            if (Objects.equals(action.getType(), "ban") && action.getCompleted()) {
-//                                log.info("友方禁用英雄：{}", Heros.getNameById(championId));
-                                selfBanNames.add(Heros.getNameById(championId));
-                            }
-                            if (Objects.equals(action.getType(), "pick") && action.getCompleted()) {
-//                                log.info("友方选择英雄：{}", Heros.getNameById(championId));
-                                selfTeamHeros.add(Heros.getNameById(championId));
-                            } else if (Objects.equals(action.getType(), "pick") && !action.getCompleted()) {
-//                                log.info("友方预选英雄：{}", Heros.getNameById(championId));
-                                alloyPrePickSet.add(championId);
-                            }
-                        } else {
-//                            log.info("友方操作环节：不涉及英雄, action = {}", JSON.toJSONString(action));
-                        }
-                    } else {
-                        if (championId > 0) {
-                            if (Objects.equals(action.getType(), "ban") && action.getCompleted()) {
-//                                log.info("敌方禁用英雄：{}", Heros.getNameById(championId));
-                                enemyBanNames.add(Heros.getNameById(championId));
-                            }
-                            if (Objects.equals(action.getType(), "pick") && action.getCompleted()) {
-//                                log.info("敌方选择英雄：{}", Heros.getNameById(championId));
-                                enemyTeamHeros.add(Heros.getNameById(championId));
-                            } else if (Objects.equals(action.getType(), "pick") && !action.getCompleted()) {
-//                                log.info("敌方预选英雄：{}", Heros.getNameById(championId));
-                            }
-                        } else {
-//                            log.info("敌方操作环节：不涉及英雄, action = {}", JSON.toJSONString(action));
-                        }
-                    }
-
-
-                    // 检查当前玩家动作
-                    if (action.getActorCellId() != sessionInfo.getLocalPlayerCellId()) {
-                        continue;
-                    }
-
-//                    log.info("本人操作环节：{},LocalPlayerCellId: {},ActorCellId: {}", JSON.toJSONString(action), sessionInfo.getLocalPlayerCellId(), action.getActorCellId());
-                    if ("pick".equalsIgnoreCase(action.getType())) {
-                        isSelfPick = true;
-                        userPickActionId = action.getId();
-                        pickChampionId = action.getChampionId();
-                        pickIsInProgress = action.getIsInProgress();
-                    } else if ("ban".equalsIgnoreCase(action.getType())) {
-                        isSelfBan = true;
-                        userBanActionId = action.getId();
-                        banIsInProgress = action.getIsInProgress();
-                    }
+        List<ChampSelectSessionInfo.Player> myTeams = sessionInfo.getMyTeam();
+        if (CollectionUtils.isNotEmpty(myTeams)) {
+            for (ChampSelectSessionInfo.Player player : myTeams) {
+                if (Objects.equals(player.getCellId(), localPlayerCellId)) {
+                    SelfGameSession.setPosition(GameEnums.Position.getDescByValue(player.getAssignedPosition()));
                     break;
                 }
             }
         }
-        List<String> preNames = new ArrayList<>();
-        for (Integer id : alloyPrePickSet) {
-            if (null != id) {
-                preNames.add(Heros.getNameById(id));
+
+
+        List<ChampSelectSessionInfo.Player> myTeam = sessionInfo.getMyTeam();
+        List<Integer> collect = myTeam.stream().filter(item -> item.getChampionId() != null && item.getChampionId() > 0).map(item -> item.getChampionId()).collect(Collectors.toList());
+        List<String> selfHeroNames = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(collect)) {
+            selfHeroNames = collect.stream().map(Heros::getNameById).collect(Collectors.toList());
+        }
+
+
+        List<String> selfPreHeroNames = myTeam.stream().filter(item -> item.getChampionPickIntent() != null && item.getChampionPickIntent() > 0).map(item -> Heros.getNameById(item.getChampionId())).collect(Collectors.toList());
+
+
+        List<ChampSelectSessionInfo.Player> theirTeam = sessionInfo.getTheirTeam();
+        List<Integer> collec2t = theirTeam.stream().filter(item -> item.getChampionId() != null && item.getChampionId() > 0).map(item -> item.getChampionId()).collect(Collectors.toList());
+        List<String> enmtyHeroNames = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(collec2t)) {
+            enmtyHeroNames = collec2t.stream().map(Heros::getNameById).collect(Collectors.toList());
+        }
+
+        List<String> theirPreHeroNames = theirTeam.stream().filter(item -> item.getChampionPickIntent() != null && item.getChampionPickIntent() > 0).map(item -> Heros.getNameById(item.getChampionId())).collect(Collectors.toList());
+
+//        log.info("敌方puuid：{}", theirTeam.stream().map(ChampSelectSessionInfo.Player::getPuuid).collect(Collectors.toList()));
+
+
+        List<String> selfBansNames = sessionInfo.getBans().getMyTeamBans().stream().map(Heros::getNameById).collect(Collectors.toList());
+        List<String> theirBansNames = sessionInfo.getBans().getTheirTeamBans().stream().map(Heros::getNameById).collect(Collectors.toList());
+//        log.info("【游戏信息】游戏模式：{}，位置：{}，楼层：{}楼。\n " +
+//                        "我方阵容英雄为：{} \n " +
+//                        "我方禁用英雄为：{} \n " +
+//                        "我方预选英雄为：{} \n " +
+//                        "敌方阵容英雄为：{} \n " +
+//                        "敌方禁用英雄为：{} \n " +
+//                        "敌方预选英雄为：{} \n ",
+//                GameEnums.GameQueueID.getGameNameMap(SelfGameSession.getQueueId()),
+//                GameEnums.Position.getDescByValue(SelfGameSession.getPosition()),
+//                SelfGameSession.getFloor() + 1,
+//                selfHeroNames,
+//                selfBansNames,
+//                selfPreHeroNames,
+//                enmtyHeroNames,
+//                theirBansNames,
+//                theirPreHeroNames
+//        );
+
+
+        if (SelfGameSession.isBaned() && SelfGameSession.isSelected()) {
+            log.info("已经选择完并且仅用了。跳过");
+            return;
+        }
+
+
+        // 先查找当前进行中的动作组
+        List<ChampSelectSessionInfo.Action> currentActionGroup = null;
+        if (sessionInfo.getActions() != null && !sessionInfo.getActions().isEmpty()) {
+            for (List<ChampSelectSessionInfo.Action> actionList : sessionInfo.getActions()) {
+                for (ChampSelectSessionInfo.Action action : actionList) {
+                    if (action.getIsInProgress()) {
+                        currentActionGroup = actionList;
+                        break;
+                    }
+                }
+                if (currentActionGroup != null) {
+                    break;
+                }
             }
         }
 
-        if (CollectionUtils.isNotEmpty(preNames)) {
-//            log.info("预选名单为: {}", preNames);
-        }
 
-        // 自动选择英雄
-        if (clientCfg.getAutoPickChampID() > 0 && isSelfPick) {
-//            log.info("进入本人操作阶段");
-            if (pickIsInProgress) {
-//                log.info("本人正在选择英雄...");
-                pickChampion(clientCfg.getAutoPickChampID(), userPickActionId);
-            } else if (pickChampionId == 0) {
-//                log.info("本人正在预选英雄...");
-//                prePickChampion(clientCfg.getAutoPickChampID(), userPickActionId);
+        // 如果找到了正在进行中的动作组，只处理这一组的动作
+        if (currentActionGroup != null) {
+            for (ChampSelectSessionInfo.Action action : currentActionGroup) {
+                // 检查是否为当前玩家的操作
+                if (!Objects.equals(action.getActorCellId(), sessionInfo.getLocalPlayerCellId())) {
+                    continue;
+                }
+
+                // 如果该动作已处理，则跳过
+                if (SelfGameSession.getProcessedActionIds().contains(action.getId())) {
+                    continue;
+                }
+
+                if (action.getIsInProgress() && !action.getCompleted()) {
+                    if ("pick".equalsIgnoreCase(action.getType()) && !SelfGameSession.isSelected()) {
+                        log.info("本人选择英雄, actionId: {}", action.getId());
+                        SelfGameSession.addProcessedActionIds(action.getId());
+                        if (clientCfg.getAutoPickChampID() != null && clientCfg.getAutoPickChampID() > 0) {
+                            pickChampion(clientCfg.getAutoPickChampID(), action.getId());
+                            SelfGameSession.setIsSelected(true);
+                            // 找到操作后，跳出循环，防止重复处理
+                            break;
+                        }
+                    } else if ("ban".equalsIgnoreCase(action.getType()) && !SelfGameSession.isBaned()) {
+                        log.info("本人禁用英雄, actionId: {}", action.getId());
+                        if (clientCfg.getAutoBanChampID() != null && clientCfg.getAutoBanChampID() > 0) {
+                            banChampion(clientCfg.getAutoBanChampID(), action.getId());
+                            SelfGameSession.setIsBanned(true);
+                            SelfGameSession.addProcessedActionIds(action.getId());
+                            // 找到操作后，跳出循环，防止重复处理
+                            break;
+                        }
+                    }
+                    if (SelfGameSession.isBaned() && SelfGameSession.isSelected()) {
+                        log.info("已经选择完并且仅用了。跳过");
+                        return;
+                    }
+                }
             }
         }
 
-        // 自动禁用英雄
-        if (clientCfg.getAutoBanChampID() > 0 && isSelfBan && banIsInProgress) {
-//            log.info("本人正在禁用英雄，预选名单为: {}", preNames);
-            if (!alloyPrePickSet.contains(clientCfg.getAutoBanChampID())) {
-//                log.info("预选名单不包含将要禁用的英雄：{}, 可以禁用", Heros.getNameById(clientCfg.getAutoBanChampID()));
-                banChampion(clientCfg.getAutoBanChampID(), userBanActionId);
-            } else {
-//                log.info("预选名单包含将要禁用的英雄：{}, 取消禁用", Heros.getNameById(clientCfg.getAutoBanChampID()));
-            }
-        }
-        if (CollectionUtils.isNotEmpty(selfTeamHeros)) {
-            log.info("我方阵容为: {}", selfTeamHeros);
-        }
-        if (CollectionUtils.isNotEmpty(enemyTeamHeros)) {
-            log.info("敌方阵容为: {}", enemyTeamHeros);
-        }
-        if (CollectionUtils.isNotEmpty(selfBanNames)) {
-            log.info("我方ban英雄为: {}", selfBanNames);
-        }
-        if (CollectionUtils.isNotEmpty(enemyBanNames)) {
-            log.info("敌方ban英雄为: {}", enemyBanNames);
-        }
+
+        // 处理Actions数据
+//        if (sessionInfo.getActions() != null && !sessionInfo.getActions().isEmpty()) {
+//            for (List<ChampSelectSessionInfo.Action> actionList : sessionInfo.getActions()) {
+//                for (ChampSelectSessionInfo.Action action : actionList) {
+//                    // 检查当前玩家动作
+//                    if (!Objects.equals(action.getActorCellId(), sessionInfo.getLocalPlayerCellId())) {
+//                        continue;
+//                    }
+//
+//                    if (SelfGameSession.isBaned() && SelfGameSession.isSelected()) {
+//                        log.info("已经选择完并且仅用了。跳过");
+//                        return;
+//                    }
+//
+//                    if (action.getIsInProgress() && !action.getCompleted()) {
+////                    log.info("本人操作环节：{},LocalPlayerCellId: {},ActorCellId: {}", JSON.toJSONString(action), sessionInfo.getLocalPlayerCellId(), action.getActorCellId());
+//                        if ("pick".equalsIgnoreCase(action.getType()) && !SelfGameSession.isSelected()) {
+//                            log.info("本人选择英雄");
+//                            if (clientCfg.getAutoPickChampID() != null && clientCfg.getAutoPickChampID() > 0) {
+//                                pickChampion(clientCfg.getAutoPickChampID(), action.getId());
+//                                SelfGameSession.setIsSelected(true);
+//                            }
+//                        } else if ("ban".equalsIgnoreCase(action.getType()) && !SelfGameSession.isBaned()) {
+//                            log.info("本人禁用英雄");
+//                            if (clientCfg.getAutoBanChampID() != null && clientCfg.getAutoBanChampID() > 0) {
+//                                banChampion(clientCfg.getAutoBanChampID(), action.getId());
+//                                SelfGameSession.setIsBanned(true);
+//                            }
+//                        }
+//
+//                    }
+//                }
+//            }
+//        }
     }
 
 

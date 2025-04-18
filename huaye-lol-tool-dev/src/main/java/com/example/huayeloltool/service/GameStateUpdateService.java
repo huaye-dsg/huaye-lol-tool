@@ -60,12 +60,6 @@ public class GameStateUpdateService extends CommonRequest {
     public void onGameFlowUpdate(String gameState) {
         log.info("切换状态：{}", gameState);
 
-////        updateGameState(gameState);
-//        Request request = OkHttpUtil.createOkHttpGetRequest("/lol-matchmaking/v1/search");
-//        Object o = sendRequest(request, Object.class);
-//
-
-
         GameEnums.GameFlow gameFlow = GameEnums.GameFlow.getByValue(gameState);
 
         switch (gameFlow) {
@@ -77,13 +71,21 @@ public class GameStateUpdateService extends CommonRequest {
                 lcuService.acceptGame();
                 break;
             case CHAMPION_SELECT:
-                log.info("进入英雄选择阶段, 正在计算我方分数");
-                new Thread(this::championSelectStart).start();
+//                if (SelfGameSession.getQueueId() == GameEnums.GameQueueID.RANK_SOLO.getId()) {
+                    log.info("进入英雄选择阶段, 正在计算我方分数");
+                    new Thread(this::championSelectStart).start();
+//                }
                 break;
             case IN_PROGRESS:
-                log.info("游戏进行中, 正在计算敌方队伍分数");
-                new Thread(this::calcEnemyTeamScore).start();
+//                if (SelfGameSession.getQueueId() == GameEnums.GameQueueID.RANK_SOLO.getId()) {
+                    log.info("游戏进行中, 正在计算敌方队伍分数");
+                    new Thread(this::calcEnemyTeamScore).start();
+//                }
                 break;
+            case NONE:
+                // 初始化数据
+                SelfGameSession.init();
+//                log.info("初始化数据：{}", JSON.toJSONString(SelfGameSession.getInstance()));
             default:
 //                log.info("忽略状态：{}", gameState);
                 break;
@@ -208,14 +210,6 @@ public class GameStateUpdateService extends CommonRequest {
         }
 
         int id = session.getMap().getId();
-//        log.info("当前游戏模式为：{}。data：{}", GameEnums.GameQueueID.getGameNameMap(id), JSON.toJSONString(session));
-        Boolean isValidGameMode = GameEnums.GameQueueID.isValidData(id);
-//        if (!isValidGameMode) {
-//            log.info("非有效游戏模式，不进行统计！");
-//            return;
-//        }
-
-
         List<Long> summonerIDList = new ArrayList<>();
         Thread.sleep(1500);
         for (int i = 0; i < 3; i++) {
@@ -227,9 +221,9 @@ public class GameStateUpdateService extends CommonRequest {
                 break;
             }
         }
-        if (summonerIDList.size() != 5) {
-            log.error("队伍人数不为5，size：{}:", summonerIDList.size());
-        }
+//        if (summonerIDList.size() != 5) {
+////            log.error("队伍人数不为5，size：{}:", summonerIDList.size());
+//        }
 
         if (summonerIDList.isEmpty()) {
             log.info("summonerIDList is empty");

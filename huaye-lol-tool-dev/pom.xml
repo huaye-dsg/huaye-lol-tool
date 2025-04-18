@@ -120,13 +120,15 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
         </dependency>
+
+
     </dependencies>
     <repositories>
         <repository>
             <id>central</id>
             <url>https://repo.maven.apache.org/maven2</url>
         </repository>
-        <!-- 添加其他仓库配置，如果需要 -->
+
     </repositories>
     <build>
         <plugins>

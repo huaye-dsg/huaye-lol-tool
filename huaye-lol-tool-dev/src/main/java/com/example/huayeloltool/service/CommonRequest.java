@@ -55,7 +55,6 @@ public class CommonRequest {
                 log.error("Request timeout. URL: {}。i: {}", request.url(),i);
             } catch (Exception e) {
                 log.error("Request IO error. result: {}。i: {}", result,i);
-                throw new RuntimeException(e);
             }
         }
         return null;
