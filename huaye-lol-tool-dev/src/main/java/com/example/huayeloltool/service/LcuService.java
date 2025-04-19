@@ -1,5 +1,6 @@
 package com.example.huayeloltool.service;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.example.huayeloltool.config.OkHttpUtil;
 import com.example.huayeloltool.enums.GameEnums;
@@ -178,6 +179,7 @@ public class LcuService extends CommonRequest {
                 return conversation.getId();
             }
         }
+        log.info("当前未查询到会话信息：{}", JSON.toJSONString(conversations));
         return null;
     }
 

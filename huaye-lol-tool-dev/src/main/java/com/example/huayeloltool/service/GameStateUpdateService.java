@@ -58,28 +58,28 @@ public class GameStateUpdateService extends CommonRequest {
 
     @SneakyThrows
     public void onGameFlowUpdate(String gameState) {
-        log.info("切换状态：{}", gameState);
+//        log.info("切换状态：{}", gameState);
 
         GameEnums.GameFlow gameFlow = GameEnums.GameFlow.getByValue(gameState);
 
         switch (gameFlow) {
             case MATCHMAKING:
-                log.info("匹配中........");
+//                log.info("匹配中........");
                 break;
             case READY_CHECK:
-                log.info("等待接受对局");
+//                log.info("等待接受对局");
                 lcuService.acceptGame();
                 break;
             case CHAMPION_SELECT:
 //                if (SelfGameSession.getQueueId() == GameEnums.GameQueueID.RANK_SOLO.getId()) {
-                    log.info("进入英雄选择阶段, 正在计算我方分数");
-                    new Thread(this::championSelectStart).start();
+                log.info("进入英雄选择阶段, 正在计算我方分数");
+                new Thread(this::championSelectStart).start();
 //                }
                 break;
             case IN_PROGRESS:
 //                if (SelfGameSession.getQueueId() == GameEnums.GameQueueID.RANK_SOLO.getId()) {
-                    log.info("游戏进行中, 正在计算敌方队伍分数");
-                    new Thread(this::calcEnemyTeamScore).start();
+                log.info("游戏进行中, 正在计算敌方队伍分数");
+                new Thread(this::calcEnemyTeamScore).start();
 //                }
                 break;
             case NONE:
@@ -98,12 +98,12 @@ public class GameStateUpdateService extends CommonRequest {
      */
     public void calcEnemyTeamScore() {
         try {
-            CurrSummoner currSummoner = CurrSummoner.getInstance();
             GameFlowSession session = queryGameFlowSession();
-//            log.info("GameFlowSession ：{}", JSON.toJSONString(session));
             if (session == null || !session.getPhase().equals(IN_PROGRESS)) {
                 return;
             }
+
+            CurrSummoner currSummoner = CurrSummoner.getInstance();
             if (currSummoner == null) {
                 return;
             }
@@ -200,30 +200,36 @@ public class GameStateUpdateService extends CommonRequest {
         return sendRequest(request, GameFlowSession.class);
     }
 
+    /**
+     * 查询队友战绩
+     */
     @SneakyThrows
     public void championSelectStart() {
-
-        // 判断当前游戏模式
-        GameFlowSession session = queryGameFlowSession();
-        if (null == session) {
-            return;
+        if (!SelfGameSession.isSoloRank()) {
+            log.info("当前不是排位，不计算队友战绩信息");
         }
 
-        int id = session.getMap().getId();
-        List<Long> summonerIDList = new ArrayList<>();
         Thread.sleep(1500);
+
+        List<Long> summonerIDList = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             TimeUnit.SECONDS.sleep(1);
             // 获取队伍所有用户信息
             TeamUsersInfo teamUsersInfo = getTeamUsers();
+            if (Objects.isNull(teamUsersInfo)){
+                log.error("teamUsersInfo 为null，继续下一次循环");
+                continue;
+            }
+            // 拿到SummonerId
             summonerIDList = teamUsersInfo.getSummonerIdList();
             if (summonerIDList.size() == 5) {
                 break;
             }
+
         }
-//        if (summonerIDList.size() != 5) {
-////            log.error("队伍人数不为5，size：{}:", summonerIDList.size());
-//        }
+        if (summonerIDList.size() != 5) {
+            log.error("队伍人数不为5，size：{}:", summonerIDList.size());
+        }
 
         if (summonerIDList.isEmpty()) {
             log.info("summonerIDList is empty");
@@ -235,7 +241,7 @@ public class GameStateUpdateService extends CommonRequest {
         // 查询所有用户的信息并计算得分
         List<CurrSummoner> summonerList = listSummoner(summonerIDList);
         if (CollectionUtils.isEmpty(summonerList)) {
-            log.info("查询召唤师信息失败, summconerList为空！ ");
+            log.info("查询召唤师信息失败, summonerList为空！ ");
             return;
         }
 
@@ -477,12 +483,14 @@ public class GameStateUpdateService extends CommonRequest {
     public TeamUsersInfo getTeamUsers() throws Exception {
         String conversationID = lcuService.getCurrConversationID();
         if (conversationID == null || conversationID.isEmpty()) {
-            throw new IOException("当前不在英雄选择阶段");
+            log.error("当前不在英雄选择阶段");
+            return null;
         }
 
         List<ConversationMsg> msgList = lcuService.listConversationMsg(conversationID);
         if (msgList == null || msgList.isEmpty()) {
-            throw new IOException("获取会话组消息记录失败");
+            log.error("获取会话组消息记录失败");
+            return null;
         }
 
         List<Long> summonerIDList = getSummonerIDListFromConversationMsgList(msgList);

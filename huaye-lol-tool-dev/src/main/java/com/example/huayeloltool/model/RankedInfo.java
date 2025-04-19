@@ -1,13 +1,10 @@
 package com.example.huayeloltool.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.Map;
 
 @NoArgsConstructor
 @Data

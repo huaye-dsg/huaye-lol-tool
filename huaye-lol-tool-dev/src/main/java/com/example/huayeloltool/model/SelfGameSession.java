@@ -1,5 +1,6 @@
 package com.example.huayeloltool.model;
 
+import com.example.huayeloltool.enums.GameEnums;
 import lombok.Data;
 
 import java.util.HashSet;
@@ -127,5 +128,9 @@ public class SelfGameSession {
         instance.floor = 0;
         instance.position = "";
         instance.processedActionIds.clear();
+    }
+
+    public static boolean isSoloRank() {
+        return GameEnums.GameQueueID.RANK_SOLO.getId() == instance.queueId;
     }
 }

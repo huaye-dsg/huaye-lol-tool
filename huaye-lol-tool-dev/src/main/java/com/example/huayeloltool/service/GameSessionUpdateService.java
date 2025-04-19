@@ -72,23 +72,23 @@ public class GameSessionUpdateService {
 
         List<String> selfBansNames = sessionInfo.getBans().getMyTeamBans().stream().map(Heros::getNameById).collect(Collectors.toList());
         List<String> theirBansNames = sessionInfo.getBans().getTheirTeamBans().stream().map(Heros::getNameById).collect(Collectors.toList());
-//        log.info("【游戏信息】游戏模式：{}，位置：{}，楼层：{}楼。\n " +
-//                        "我方阵容英雄为：{} \n " +
-//                        "我方禁用英雄为：{} \n " +
-//                        "我方预选英雄为：{} \n " +
-//                        "敌方阵容英雄为：{} \n " +
-//                        "敌方禁用英雄为：{} \n " +
-//                        "敌方预选英雄为：{} \n ",
-//                GameEnums.GameQueueID.getGameNameMap(SelfGameSession.getQueueId()),
-//                GameEnums.Position.getDescByValue(SelfGameSession.getPosition()),
-//                SelfGameSession.getFloor() + 1,
-//                selfHeroNames,
-//                selfBansNames,
-//                selfPreHeroNames,
-//                enmtyHeroNames,
-//                theirBansNames,
-//                theirPreHeroNames
-//        );
+        log.info("【游戏信息】游戏模式：{}，位置：{}，楼层：{}楼。\n " +
+                        "我方阵容英雄为：{} \n " +
+                        "我方禁用英雄为：{} \n " +
+                        "我方预选英雄为：{} \n " +
+                        "敌方阵容英雄为：{} \n " +
+                        "敌方禁用英雄为：{} \n " +
+                        "敌方预选英雄为：{} \n ",
+                GameEnums.GameQueueID.getGameNameMap(SelfGameSession.getQueueId()),
+                GameEnums.Position.getDescByValue(SelfGameSession.getPosition()),
+                SelfGameSession.getFloor() + 1,
+                selfHeroNames,
+                selfBansNames,
+                selfPreHeroNames,
+                enmtyHeroNames,
+                theirBansNames,
+                theirPreHeroNames
+        );
 
 
         if (SelfGameSession.isBaned() && SelfGameSession.isSelected()) {
@@ -154,42 +154,6 @@ public class GameSessionUpdateService {
                 }
             }
         }
-
-
-        // 处理Actions数据
-//        if (sessionInfo.getActions() != null && !sessionInfo.getActions().isEmpty()) {
-//            for (List<ChampSelectSessionInfo.Action> actionList : sessionInfo.getActions()) {
-//                for (ChampSelectSessionInfo.Action action : actionList) {
-//                    // 检查当前玩家动作
-//                    if (!Objects.equals(action.getActorCellId(), sessionInfo.getLocalPlayerCellId())) {
-//                        continue;
-//                    }
-//
-//                    if (SelfGameSession.isBaned() && SelfGameSession.isSelected()) {
-//                        log.info("已经选择完并且仅用了。跳过");
-//                        return;
-//                    }
-//
-//                    if (action.getIsInProgress() && !action.getCompleted()) {
-////                    log.info("本人操作环节：{},LocalPlayerCellId: {},ActorCellId: {}", JSON.toJSONString(action), sessionInfo.getLocalPlayerCellId(), action.getActorCellId());
-//                        if ("pick".equalsIgnoreCase(action.getType()) && !SelfGameSession.isSelected()) {
-//                            log.info("本人选择英雄");
-//                            if (clientCfg.getAutoPickChampID() != null && clientCfg.getAutoPickChampID() > 0) {
-//                                pickChampion(clientCfg.getAutoPickChampID(), action.getId());
-//                                SelfGameSession.setIsSelected(true);
-//                            }
-//                        } else if ("ban".equalsIgnoreCase(action.getType()) && !SelfGameSession.isBaned()) {
-//                            log.info("本人禁用英雄");
-//                            if (clientCfg.getAutoBanChampID() != null && clientCfg.getAutoBanChampID() > 0) {
-//                                banChampion(clientCfg.getAutoBanChampID(), action.getId());
-//                                SelfGameSession.setIsBanned(true);
-//                            }
-//                        }
-//
-//                    }
-//                }
-//            }
-//        }
     }
 
 
