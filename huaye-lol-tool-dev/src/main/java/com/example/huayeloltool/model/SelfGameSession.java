@@ -4,6 +4,7 @@ import com.example.huayeloltool.enums.GameEnums;
 import lombok.Data;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Data
@@ -110,11 +111,17 @@ public class SelfGameSession {
     }
 
     public static void setIsBanned(boolean b) {
+        if (instance == null) {
+            instance = new SelfGameSession();
+        }
         instance.isBaned = b;
 
     }
 
     public static void setIsSelected(boolean b) {
+        if (instance == null) {
+            instance = new SelfGameSession();
+        }
         instance.isSelected = b;
     }
 
@@ -126,11 +133,14 @@ public class SelfGameSession {
         instance.isBaned = false;
         instance.queueId = 0;
         instance.floor = 0;
-        instance.position = "";
+        instance.position = null;
         instance.processedActionIds.clear();
     }
 
     public static boolean isSoloRank() {
-        return GameEnums.GameQueueID.RANK_SOLO.getId() == instance.queueId;
+        if (instance == null) {
+            instance = new SelfGameSession();
+        }
+        return Objects.equals(GameEnums.GameQueueID.RANK_SOLO.getId(), instance.queueId);
     }
 }

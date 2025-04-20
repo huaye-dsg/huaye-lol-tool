@@ -234,14 +234,14 @@ public class ChampSelectSessionInfo extends CommonResp {
         private String puuid;
 //        /** 选定的皮肤ID */
 //        private int selectedSkinId;
-        /**
-         * 第一个召唤师技能ID
-         */
-        private String spell1Id;
-        /**
-         * 第二个召唤师技能ID
-         */
-        private String spell2Id;
+//        /**
+//         * 第一个召唤师技能ID
+//         */
+//        private String spell1Id;
+//        /**
+//         * 第二个召唤师技能ID
+//         */
+//        private String spell2Id;
         /**
          * 召唤师的唯一ID
          */

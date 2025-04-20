@@ -9,41 +9,41 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class RankedInfo {
-    @JsonProperty("currentSeasonSplitPoints")
-    private Integer currentSeasonSplitPoints; // 当前赛季分段积分
+//    @JsonProperty("currentSeasonSplitPoints")
+//    private Integer currentSeasonSplitPoints; // 当前赛季分段积分
 
-    @JsonProperty("earnedRegaliaRewardIds")
-    private List<Object> earnedRegaliaRewardIds; // 已获得的徽章奖励ID列表
+//    @JsonProperty("earnedRegaliaRewardIds")
+//    private List<Object> earnedRegaliaRewardIds; // 已获得的徽章奖励ID列表
 
-    @JsonProperty("highestPreviousSeasonAchievedDivision")
-    private String highestPreviousSeasonAchievedDivision; // 上一赛季达到的最高分段
+//    @JsonProperty("highestPreviousSeasonAchievedDivision")
+//    private String highestPreviousSeasonAchievedDivision; // 上一赛季达到的最高分段
 
-    @JsonProperty("highestPreviousSeasonAchievedTier")
-    private String highestPreviousSeasonAchievedTier; // 上一赛季达到的最高段位
+//    @JsonProperty("highestPreviousSeasonAchievedTier")
+//    private String highestPreviousSeasonAchievedTier; // 上一赛季达到的最高段位
 
-    @JsonProperty("highestPreviousSeasonEndDivision")
-    private String highestPreviousSeasonEndDivision; // 上一赛季结束时的最高分段
+//    @JsonProperty("highestPreviousSeasonEndDivision")
+//    private String highestPreviousSeasonEndDivision; // 上一赛季结束时的最高分段
 
-    @JsonProperty("highestPreviousSeasonEndTier")
-    private String highestPreviousSeasonEndTier; // 上一赛季结束时的最高段位
+//    @JsonProperty("highestPreviousSeasonEndTier")
+//    private String highestPreviousSeasonEndTier; // 上一赛季结束时的最高段位
 
-    @JsonProperty("highestRankedEntry")
-    private HighestRankedEntryDto highestRankedEntry; // 最高排位记录信息（通用）
+//    @JsonProperty("highestRankedEntry")
+//    private HighestRankedEntryDto highestRankedEntry; // 最高排位记录信息（通用）
 
     @JsonProperty("highestRankedEntrySR")
     private HighestRankedEntrySRDto highestRankedEntrySR; // 召唤师峡谷最高排位记录信息
 
-    @JsonProperty("queueMap")
-    private QueueMapDto queueMap; // 队列信息映射表
+//    @JsonProperty("queueMap")
+//    private QueueMapDto queueMap; // 队列信息映射表
+//
+//    @JsonProperty("queues")
+//    private List<QueuesDto> queues; // 队列信息列表
 
-    @JsonProperty("queues")
-    private List<QueuesDto> queues; // 队列信息列表
+//    @JsonProperty("rankedRegaliaLevel")
+//    private Integer rankedRegaliaLevel; // 排位徽章等级
 
-    @JsonProperty("rankedRegaliaLevel")
-    private Integer rankedRegaliaLevel; // 排位徽章等级
-
-    @JsonProperty("seasons")
-    private SeasonsDto seasons; // 赛季信息映射表
+//    @JsonProperty("seasons")
+//    private SeasonsDto seasons; // 赛季信息映射表
 
     @NoArgsConstructor
     @Data
@@ -122,35 +122,35 @@ public class RankedInfo {
         @JsonProperty("division")
         private String division; // 当前分段（如III、II等）
 
-        @JsonProperty("isProvisional")
-        private Boolean isProvisional; // 是否处于定位赛阶段
+//        @JsonProperty("isProvisional")
+//        private Boolean isProvisional; // 是否处于定位赛阶段
 
         @JsonProperty("leaguePoints")
         private Integer leaguePoints; // 段位积分（LP）
 
-        @JsonProperty("losses")
-        private Integer losses; // 失败场次
+//        @JsonProperty("losses")
+//        private Integer losses; // 失败场次
+//
+//        @JsonProperty("miniSeriesProgress")
+//        private String miniSeriesProgress; // 晋级赛进度（如WLLW）
 
-        @JsonProperty("miniSeriesProgress")
-        private String miniSeriesProgress; // 晋级赛进度（如WLLW）
-
-        @JsonProperty("previousSeasonAchievedDivision")
-        private String previousSeasonAchievedDivision; // 上一赛季达到的最高分段
-
-        @JsonProperty("previousSeasonAchievedTier")
-        private String previousSeasonAchievedTier; // 上一赛季达到的最高段位
-
-        @JsonProperty("previousSeasonEndDivision")
-        private String previousSeasonEndDivision; // 上一赛季结束时的分段
-
-        @JsonProperty("previousSeasonEndTier")
-        private String previousSeasonEndTier; // 上一赛季结束时的段位
-
-        @JsonProperty("provisionalGameThreshold")
-        private Integer provisionalGameThreshold; // 定位赛所需总场次
-
-        @JsonProperty("provisionalGamesRemaining")
-        private Integer provisionalGamesRemaining; // 剩余定位赛场次
+//        @JsonProperty("previousSeasonAchievedDivision")
+//        private String previousSeasonAchievedDivision; // 上一赛季达到的最高分段
+//
+//        @JsonProperty("previousSeasonAchievedTier")
+//        private String previousSeasonAchievedTier; // 上一赛季达到的最高段位
+//
+//        @JsonProperty("previousSeasonEndDivision")
+//        private String previousSeasonEndDivision; // 上一赛季结束时的分段
+//
+//        @JsonProperty("previousSeasonEndTier")
+//        private String previousSeasonEndTier; // 上一赛季结束时的段位
+//
+//        @JsonProperty("provisionalGameThreshold")
+//        private Integer provisionalGameThreshold; // 定位赛所需总场次
+//
+//        @JsonProperty("provisionalGamesRemaining")
+//        private Integer provisionalGamesRemaining; // 剩余定位赛场次
 
         @JsonProperty("queueType")
         private String queueType; // 队列类型（如RANKED_SOLO_5x5）
@@ -164,8 +164,8 @@ public class RankedInfo {
         @JsonProperty("tier")
         private String tier; // 当前段位（如GOLD、SILVER等）
 
-        @JsonProperty("warnings")
-        private WarningsDto warnings; // 段位衰减警告信息
+//        @JsonProperty("warnings")
+//        private WarningsDto warnings; // 段位衰减警告信息
 
         @JsonProperty("wins")
         private Integer wins; // 胜利场次
@@ -450,26 +450,26 @@ public class RankedInfo {
             @JsonProperty("losses")
             private Integer losses; // 失败场次
 
-            @JsonProperty("miniSeriesProgress")
-            private String miniSeriesProgress; // 晋级赛进度（如WLLW）
-
-            @JsonProperty("previousSeasonAchievedDivision")
-            private String previousSeasonAchievedDivision; // 上一赛季达到的最高分段
-
-            @JsonProperty("previousSeasonAchievedTier")
-            private String previousSeasonAchievedTier; // 上一赛季达到的最高段位
-
-            @JsonProperty("previousSeasonEndDivision")
-            private String previousSeasonEndDivision; // 上一赛季结束时的分段
-
-            @JsonProperty("previousSeasonEndTier")
-            private String previousSeasonEndTier; // 上一赛季结束时的段位
-
-            @JsonProperty("provisionalGameThreshold")
-            private Integer provisionalGameThreshold; // 定位赛所需总场次
-
-            @JsonProperty("provisionalGamesRemaining")
-            private Integer provisionalGamesRemaining; // 剩余定位赛场次
+//            @JsonProperty("miniSeriesProgress")
+//            private String miniSeriesProgress; // 晋级赛进度（如WLLW）
+//
+//            @JsonProperty("previousSeasonAchievedDivision")
+//            private String previousSeasonAchievedDivision; // 上一赛季达到的最高分段
+//
+//            @JsonProperty("previousSeasonAchievedTier")
+//            private String previousSeasonAchievedTier; // 上一赛季达到的最高段位
+//
+//            @JsonProperty("previousSeasonEndDivision")
+//            private String previousSeasonEndDivision; // 上一赛季结束时的分段
+//
+//            @JsonProperty("previousSeasonEndTier")
+//            private String previousSeasonEndTier; // 上一赛季结束时的段位
+//
+//            @JsonProperty("provisionalGameThreshold")
+//            private Integer provisionalGameThreshold; // 定位赛所需总场次
+//
+//            @JsonProperty("provisionalGamesRemaining")
+//            private Integer provisionalGamesRemaining; // 剩余定位赛场次
 
             @JsonProperty("queueType")
             private String queueType; // 队列类型（固定为RANKED_TFT_TURBO）
@@ -499,14 +499,14 @@ public class RankedInfo {
         @JsonProperty("RANKED_SOLO_5x5")
         private RANKEDSOLO5x5Dto rankedSolo5x5; // 单双排赛季信息
 
-        @JsonProperty("RANKED_TFT")
-        private RANKEDTFTDto rankedTft; // 云顶之弈单排赛季信息
+//        @JsonProperty("RANKED_TFT")
+//        private RANKEDTFTDto rankedTft; // 云顶之弈单排赛季信息
 
-        @JsonProperty("RANKED_TFT_PAIRS")
-        private RANKEDTFTPAIRSDto rankedTftPairs; // 云顶之弈双人赛季信息
-
-        @JsonProperty("RANKED_TFT_TURBO")
-        private RANKEDTFTTURBODto rankedTftTurbo; // 云顶之弈快速赛季信息
+//        @JsonProperty("RANKED_TFT_PAIRS")
+//        private RANKEDTFTPAIRSDto rankedTftPairs; // 云顶之弈双人赛季信息
+//
+//        @JsonProperty("RANKED_TFT_TURBO")
+//        private RANKEDTFTTURBODto rankedTftTurbo; // 云顶之弈快速赛季信息
 
         @NoArgsConstructor
         @Data

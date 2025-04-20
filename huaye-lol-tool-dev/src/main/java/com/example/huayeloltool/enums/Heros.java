@@ -90,7 +90,7 @@ public enum Heros {
     DAWN_GODDESS("曙光女神", 89, "蕾欧娜", "日女"),
     EMPTY_VOID_MASTER("虚空先知", 90, "玛尔扎哈", "蚂蚱"),
     BLADE_OF_THE_SHADOW("刀锋之影", 91, "泰隆", "男刀"),
-    EXILED_EDGE("放逐之刃", 92, "锐雯", "兔女郎"),
+    EXILED_EDGE("放逐之刃", 92, "锐雯", "锐雯"),
     ABYSSAL_OGRE("深渊巨口", 96, "克格莫", "大嘴"),
     TWILIGHT_EYE("暮光之眼", 98, "慎", "慎"),
     LIGHT_GIRL("光辉女郎", 99, "拉克丝", "光辉"),

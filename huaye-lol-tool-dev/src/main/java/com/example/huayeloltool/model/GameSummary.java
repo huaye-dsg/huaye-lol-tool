@@ -78,7 +78,7 @@ public class GameSummary extends CommonResp {
     /**
      * 队伍信息
      */
-    private List<Team> teams;
+//    private List<Team> teams;
 
     @Getter
     @Setter

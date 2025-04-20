@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -114,7 +115,7 @@ public class GameEnums {
         public static Map<String, String> rankMap = new HashMap<>();
 
         public static String getRankNameMap(String value) {
-            return rankMap.get(value);
+            return rankMap.getOrDefault(value, "未知");
         }
 
         static {
@@ -224,7 +225,7 @@ public class GameEnums {
         }
 
         public static String getGameNameMap(Integer value) {
-            return map.getOrDefault(value,UNKNOWN.getDescription());
+            return map.getOrDefault(value, UNKNOWN.getDescription());
         }
 
         static {
@@ -239,11 +240,11 @@ public class GameEnums {
     @AllArgsConstructor
     public enum Position {
 
-        TOP("TOP", "上路"),
-        JUNGLE("JUNGLE", "打野"),
-        MIDDLE("MIDDLE", "中路"),
-        BOTTOM("BOTTOM", "下路"),
-        UTILITY("UTILITY", "辅助");
+        TOP("top", "上路"),
+        JUNGLE("jungle", "打野"),
+        MIDDLE("middle", "中路"),
+        BOTTOM("bottom", "下路"),
+        UTILITY("utility", "辅助");
 
         private final String value;
         private final String desc;
@@ -251,7 +252,7 @@ public class GameEnums {
         public static Map<String, String> map = Arrays.stream(Position.values()).collect(Collectors.toMap(Position::getValue, Position::getDesc));
 
         public static String getDescByValue(String value) {
-            return map.getOrDefault(value,"未知");
+            return StringUtils.isEmpty(value) ? map.getOrDefault(value.toLowerCase(), "未知") : "未知";
         }
     }
 

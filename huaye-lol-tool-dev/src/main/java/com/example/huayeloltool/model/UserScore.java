@@ -13,6 +13,10 @@ public class UserScore {
     private Double score;
     private List<Kda> currKDA;
 
+    // 扩展字段。后加的
+    private String puuid;
+
+
 
     public UserScore(Long summonerID, Double score) {
         this.summonerID = summonerID;

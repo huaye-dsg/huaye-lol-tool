@@ -38,23 +38,23 @@ public class CommonRequest {
 
     public <T> T sendTypeRequest(Request request, TypeReference<T> type) {
         String result = "";
-        for (int i = 0; i < 3; i++){
+        for (int i = 0; i < 3; i++) {
             try (Response response = client.newCall(request).execute()) {
                 if (!response.isSuccessful()) {
-                    log.info("Request failed: URL= {}", request.url());
-                    throw new Exception("Request failed");
+                    log.error("Request failed: {}", request.url());
+                    continue;
                 }
                 ResponseBody body = response.body();
                 if (body == null) {
-                    log.error("Request empty body. URL: {}", request.url());
-                    throw new IOException("Response body is empty");
+                    log.error("Request failed: {}", request.url());
+                    continue;
                 }
                 result = body.string();
                 return JSON.parseObject(result, type);
-            }catch (SocketTimeoutException socketTimeoutException){
-                log.error("Request timeout. URL: {}。i: {}", request.url(),i);
+            } catch (SocketTimeoutException e) {
+                log.error("sendTypeRequestError: {}。i: {}", request.url(), i, e);
             } catch (Exception e) {
-                log.error("Request IO error. result: {}。i: {}", result,i);
+                log.error("sendTypeRequestError: {}。i: {}", result, i, e);
             }
         }
         return null;

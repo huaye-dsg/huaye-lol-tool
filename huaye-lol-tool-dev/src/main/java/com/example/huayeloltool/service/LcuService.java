@@ -82,17 +82,17 @@ public class LcuService extends CommonRequest {
     /**
      * 根据 PUUID 列出游戏历史记录
      */
-    public List<GameInfo> listGameHistory(String puuid, int begin, int limit) throws IOException {
+    public List<GameInfo> listGameHistory(CurrSummoner currSummoner, int begin, int limit) throws IOException {
         List<GameInfo> fmtList = new ArrayList<>();
-        GameAllData gameAllData = listGamesByPUUID(puuid, begin, limit);
+        GameAllData gameAllData = listGamesByPUUID(currSummoner.getPuuid(), begin, limit);
 
         if (Objects.isNull(gameAllData)) {
-            log.error("查询用户战绩失败: puuid={}", puuid);
+            log.error("查询用户战绩失败: {}", currSummoner.getGameName());
             return new ArrayList<>();
         }
         List<GameInfo> games = gameAllData.getGames().getGames();
         if (CollectionUtils.isEmpty(games)) {
-//            log.error("查询用户战绩为空！: puuid={}", puuid);
+            log.error("【风险警告】查询用户{}战绩为空！", currSummoner.getGameName());
             return new ArrayList<>();
         }
 
@@ -110,7 +110,7 @@ public class LcuService extends CommonRequest {
     /**
      * 根据 PUUID 获取比赛记录
      */
-    public GameAllData listGamesByPUUID(String puuid, int begin, int limit) throws IOException {
+    public GameAllData listGamesByPUUID(String puuid, int begin, int limit) {
         Request request = OkHttpUtil.createOkHttpGetRequest(
                 String.format("/lol-match-history/v1/products/lol/%s/matches?begIndex=%d&endIndex=%d", puuid, begin, begin + limit));
         return sendTypeRequest(request, new TypeReference<GameAllData>() {

@@ -1,8 +1,11 @@
 package com.example.huayeloltool.controller;
 
 import com.example.huayeloltool.cache.UserScoreCache;
+import com.example.huayeloltool.enums.GameEnums;
 import com.example.huayeloltool.model.CurrSummoner;
+import com.example.huayeloltool.model.RankedInfo;
 import com.example.huayeloltool.service.LcuService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +16,7 @@ import java.util.Map;
 
 
 //@Slf4j
+@Slf4j
 @CrossOrigin(origins = "*")
 @RestController(value = "game")
 public class GameController {
@@ -32,17 +36,25 @@ public class GameController {
     @GetMapping("/lcu/search/games")
     public Object searchGames() {
         try {
-            String puuid1 = CurrSummoner.getInstance().getPuuid();
-            return lcuService.listGameHistory(puuid1, 0, 10);
+            return lcuService.listGameHistory(CurrSummoner.getInstance(), 0, 10);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    @GetMapping("/lcu/search/sld")
-    public Object searchGame2222s() {
+    @GetMapping("/lcu/search/rankData")
+    public Object searchRankData() {
         try {
-            return lcuService.getRankData(CurrSummoner.getInstance().getPuuid());
+            RankedInfo rankData = lcuService.getRankData(CurrSummoner.getInstance().getPuuid());
+            RankedInfo.HighestRankedEntrySRDto highestRankedEntrySR = rankData.getHighestRankedEntrySR();
+            String tier = highestRankedEntrySR.getTier();
+            String division = highestRankedEntrySR.getDivision();
+            Integer leaguePoints = highestRankedEntrySR.getLeaguePoints();
+
+            String rankName = GameEnums.RankTier.getRankNameMap(tier);
+
+            String logMessage = String.format("段位：【%s-%s-%d】", rankName, division, leaguePoints);
+            return logMessage;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

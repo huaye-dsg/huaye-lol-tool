@@ -94,6 +94,58 @@ public class GameStateUpdateService extends CommonRequest {
 
 
     /**
+     * 查询队友战绩
+     */
+    @SneakyThrows
+    public void championSelectStart() {
+//        if (!SelfGameSession.isSoloRank()) {
+//            log.info("当前不是排位，不计算队友战绩信息");
+//        }
+
+        Thread.sleep(1500);
+
+        List<Long> summonerIDList = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            TimeUnit.SECONDS.sleep(1);
+            // 获取队伍所有用户信息
+            TeamUsersInfo teamUsersInfo = getTeamUsers();
+            if (Objects.isNull(teamUsersInfo)) {
+                log.error("teamUsersInfo 为null，继续下一次循环");
+                continue;
+            }
+            // 拿到SummonerId
+            summonerIDList = teamUsersInfo.getSummonerIdList();
+            if (summonerIDList.size() == 5) {
+                break;
+            }
+
+        }
+
+        if (SelfGameSession.isSoloRank()) {
+            if (summonerIDList.size() != 5) {
+                log.error("队伍人数不为5，size：{}:", summonerIDList.size());
+            }
+        }
+
+        if (summonerIDList.isEmpty()) {
+            log.info("summonerIDList is empty");
+            return;
+        }
+
+        log.info("队伍人员列表:{}", summonerIDList);
+
+        // 查询所有用户的信息并计算得分
+        List<CurrSummoner> summonerList = listSummoner(summonerIDList);
+        if (CollectionUtils.isEmpty(summonerList)) {
+            log.info("查询召唤师信息失败, summonerList为空！ ");
+            return;
+        }
+
+        // 战绩信息
+        calcScore(summonerList, true);
+    }
+
+    /**
      * 计算敌方队伍分数
      */
     public void calcEnemyTeamScore() {
@@ -200,53 +252,22 @@ public class GameStateUpdateService extends CommonRequest {
         return sendRequest(request, GameFlowSession.class);
     }
 
-    /**
-     * 查询队友战绩
-     */
-    @SneakyThrows
-    public void championSelectStart() {
-        if (!SelfGameSession.isSoloRank()) {
-            log.info("当前不是排位，不计算队友战绩信息");
+
+    private String rankData(String puuid) {
+        try {
+            RankedInfo rankData = lcuService.getRankData(puuid);
+            RankedInfo.HighestRankedEntrySRDto highestRankedEntrySR = rankData.getHighestRankedEntrySR();
+            String tier = highestRankedEntrySR.getTier();
+            String division = highestRankedEntrySR.getDivision();
+            Integer leaguePoints = highestRankedEntrySR.getLeaguePoints();
+            String rankName = GameEnums.RankTier.getRankNameMap(tier);
+            return String.format("【%s-%s-%d】", rankName, division, leaguePoints);
+        } catch (Exception e) {
+            log.error("查询{}战绩失败！", puuid, e);
         }
-
-        Thread.sleep(1500);
-
-        List<Long> summonerIDList = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            TimeUnit.SECONDS.sleep(1);
-            // 获取队伍所有用户信息
-            TeamUsersInfo teamUsersInfo = getTeamUsers();
-            if (Objects.isNull(teamUsersInfo)){
-                log.error("teamUsersInfo 为null，继续下一次循环");
-                continue;
-            }
-            // 拿到SummonerId
-            summonerIDList = teamUsersInfo.getSummonerIdList();
-            if (summonerIDList.size() == 5) {
-                break;
-            }
-
-        }
-        if (summonerIDList.size() != 5) {
-            log.error("队伍人数不为5，size：{}:", summonerIDList.size());
-        }
-
-        if (summonerIDList.isEmpty()) {
-            log.info("summonerIDList is empty");
-            return;
-        }
-
-        log.info("队伍人员列表:{}", summonerIDList);
-
-        // 查询所有用户的信息并计算得分
-        List<CurrSummoner> summonerList = listSummoner(summonerIDList);
-        if (CollectionUtils.isEmpty(summonerList)) {
-            log.info("查询召唤师信息失败, summonerList为空！ ");
-            return;
-        }
-
-        calcScore(summonerList, true);
+        return "";
     }
+
 
     private void calcScore(List<CurrSummoner> summonerList, Boolean isSelf) {
         if (CollectionUtils.isEmpty(summonerList)) {
@@ -273,11 +294,13 @@ public class GameStateUpdateService extends CommonRequest {
         userScores.forEach(scoreInfo -> {
             String horseName = findHorseName(scoreInfo.getScore(), horseArr, horseNames);
             String currKDAMsg = formatKDAInfo(scoreInfo);
-            String msg = String.format("【%s】【%d分】: %s %s",
+            String msg = String.format("【%s】【%d分】%s: %s %s ",
                     horseName,
                     scoreInfo.getScore().intValue(),
+                    rankData(scoreInfo.getPuuid()),
                     scoreInfo.getSummonerName(),
-                    currKDAMsg);
+                    currKDAMsg
+            );
             UserScoreCache.ScoreOverview userScoreCache = new UserScoreCache.ScoreOverview();
             userScoreCache.setSummonerName(scoreInfo.getSummonerName());
             userScoreCache.setHouseName(horseName);
@@ -329,21 +352,24 @@ public class GameStateUpdateService extends CommonRequest {
         long summonerID = summoner.getSummonerId();
         UserScore userScoreInfo = new UserScore(summonerID, defaultScore);
         userScoreInfo.setSummonerName(String.format("%s#%s", summoner.getGameName(), summoner.getTagLine()));
-
+        userScoreInfo.setPuuid(summoner.getPuuid());
         // 获取战绩列表
         List<GameInfo> gameList;
         try {
-            gameList = lcuService.listGameHistory(summoner.getPuuid(), 0, 10);
+            gameList = lcuService.listGameHistory(summoner, 0, 19);
         } catch (Exception e) {
             log.error("获取游戏战绩列表失败", e);
             return userScoreInfo;
         }
 
         if (CollectionUtils.isEmpty(gameList)) {
-            log.info("用户战绩查询为空！召唤师： {}", summoner.getDisplayName());
+//            log.error("用户战绩查询为空！召唤师： {}", summoner.getGameName());
             return null;
         }
 
+
+        // 临时分析是不是连败或者近期没打过排位
+        analyzeGameHistory(gameList, summoner.getGameName());
 
         List<GameSummary> gameSummaryList = Collections.synchronizedList(new ArrayList<>());
 
@@ -388,7 +414,7 @@ public class GameStateUpdateService extends CommonRequest {
 
         List<UserScore.Kda> kdaList = new ArrayList<>();
         for (GameInfo gameInfo : gameList) {
-
+            // 这里一定要用gameInfo去判断，不能用gameSummaryList
             List<GameInfo.Participant> participants = gameInfo.getParticipants();
             for (GameInfo.Participant participant : participants) {
                 GameInfo.Stats stats = participant.getStats();
@@ -407,6 +433,50 @@ public class GameStateUpdateService extends CommonRequest {
         userScoreInfo.setScore(weightTotalScore);
 
         return userScoreInfo;
+    }
+
+
+    private static final int MAX_LOSING_STREAK = 3; // 最大连跪场次
+    private static final int RECENT_GAMES_COUNT = 5; // 近期比赛场次
+    private static final int MIN_RANKED_GAMES = 3; // 最少排位场次
+
+    public static void analyzeGameHistory(List<GameInfo> gameInfoList, String gameName) {
+        int losingStreak = 0;
+        int recentRankedGames = 0;
+
+        // 倒序遍历，从最近的比赛开始
+        for (int i = 0; i < gameInfoList.size(); i++) {
+            GameInfo gameInfo = gameInfoList.get(i);
+
+            // 判断是否是排位赛
+            boolean isRankedGame = (gameInfo.getQueueId() == GameEnums.GameQueueID.RANK_SOLO.getId());
+
+            if (isRankedGame) {
+                recentRankedGames++; // 累加排位赛场次
+                GameInfo.Stats stats = gameInfo.getParticipants().get(0).getStats();
+                // 判断是否输了
+                if (!stats.getWin()) {
+                    losingStreak++; // 连跪场次+1
+                } else {
+                    losingStreak = 0; // 不是连跪，重置连跪计数
+                }
+            }
+
+            // 只检查最近的几场比赛
+            if (i >= RECENT_GAMES_COUNT - 1) {
+                break; // 退出循环
+            }
+        }
+
+        // 判断是否达到连跪阈值
+        if (losingStreak >= MAX_LOSING_STREAK) {
+            log.error("【{}】检测到连跪！已连跪 {} 场排位赛。", gameName, losingStreak);
+        }
+
+        // 判断近期排位赛场次
+        if (recentRankedGames < MIN_RANKED_GAMES) {
+            log.error("【{}】近期排位赛场次过少！最近 20 场比赛中，只有 {} 场排位赛。", gameName, recentRankedGames);
+        }
     }
 
 
