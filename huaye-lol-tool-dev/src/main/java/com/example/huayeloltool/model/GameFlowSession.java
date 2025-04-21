@@ -19,8 +19,8 @@ public class GameFlowSession extends CommonResp {
     @Data
     public static class GameData {
         private boolean spectatorsAllowed;
-        private List<GameFolwSessionTeamUser> teamOne;
-        private List<GameFolwSessionTeamUser> teamTwo;
+        private List<GameFlowSessionTeamUser> teamOne;
+        private List<GameFlowSessionTeamUser> teamTwo;
     }
 
     // 嵌套的 GameDodge 类

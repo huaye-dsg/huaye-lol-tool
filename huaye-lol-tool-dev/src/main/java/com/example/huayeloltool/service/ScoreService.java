@@ -190,7 +190,7 @@ public class ScoreService {
         // KDA调整
         double userJoinTeamKillRate = (double) (userParticipant.getStats().getAssists() + userParticipant.getStats().getKills()) / totalKill;
         int userDeathTimes = userParticipant.getStats().getDeaths() == 0 ? 1 : userParticipant.getStats().getDeaths();
-        double adjustVal = ((userParticipant.getStats().getKills() + userParticipant.getStats().getAssists()) / userDeathTimes - calcScoreConf.getAdjustKDA()[0] +
+        double adjustVal = ((double) (userParticipant.getStats().getKills() + userParticipant.getStats().getAssists()) / userDeathTimes - calcScoreConf.getAdjustKDA()[0] +
                 (userParticipant.getStats().getKills() - userParticipant.getStats().getDeaths()) / calcScoreConf.getAdjustKDA()[1]) * userJoinTeamKillRate;
         gameScore.add(adjustVal, ScoreOption.KDA_ADJUST);
 

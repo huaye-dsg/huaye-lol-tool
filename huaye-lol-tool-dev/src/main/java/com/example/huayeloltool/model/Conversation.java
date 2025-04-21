@@ -5,17 +5,17 @@ import lombok.Data;
 
 @Data
 public class Conversation {
-    private String gameName;
-    private String gameTag;
+//    private String gameName;
+//    private String gameTag;
     private String id;
-    private String inviterId;
-    private boolean isMuted;
-    private Object lastMessage;  // 根据需要调整类型
-    private String name;
-    private String password;
-    private String pid;
-    private String targetRegion;
+//    private String inviterId;
+//    private boolean isMuted;
+//    private Object lastMessage;  // 根据需要调整类型
+//    private String name;
+//    private String password;
+//    private String pid;
+//    private String targetRegion;
     private GameEnums.GameFlow type;  // 假设 models.GameStatus 在 Java 中是一个枚举
-    private int unreadMessageCount;
+//    private int unreadMessageCount;
 
 }

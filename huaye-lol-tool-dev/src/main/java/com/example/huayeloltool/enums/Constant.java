@@ -1,17 +1,9 @@
 package com.example.huayeloltool.enums;
 
 
-import java.util.regex.Pattern;
-
 public class Constant {
 
     public static final String LOL_UX_PROCESS_NAME = "LeagueClientUx";
-
-    public static final Pattern COMMANDLINE_PATTERN =
-            Pattern.compile(".*--app-port=([0-9]+).*--remoting-auth-token=([\\w-]+).*");
-
-    public static final int minGameDurationSec = 15 * 60;
-
 
     /**
      * 加入房间消息

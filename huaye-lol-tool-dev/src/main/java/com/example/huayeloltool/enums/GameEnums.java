@@ -14,58 +14,6 @@ import java.util.stream.Collectors;
  * 游戏相关的枚举类型定义
  */
 public class GameEnums {
-    /**
-     * 游戏模式枚举
-     */
-    @Getter
-    @AllArgsConstructor
-    public enum GameMode {
-        NONE(""),          // 游戏模式：无
-        CLASSIC("CLASSIC"),// 经典模式
-        ARAM("ARAM"),      // 大乱斗
-        TFT("TFT"),        // 云顶之弈
-        URF("URF"),        // 无限火力
-        CUSTOM("PRACTICETOOL"); // 自定义
-
-        private final String value;
-    }
-
-    /**
-     * 游戏队列类型枚举
-     */
-    @Getter
-    @AllArgsConstructor
-    public enum GameQueueType {
-        NORMAL("NORMAL"),            // 匹配
-        RANK_SOLO("RANKED_SOLO_5x5"),// 单双排
-        RANK_FLEX("RANKED_FLEX_SR"), // 组排
-        ARAM("ARAM_UNRANKED_5x5"),   // 大乱斗5v5
-        URF("URF"),                  // 无限火力
-        BOT("BOT"),                  // 人机
-        CUSTOM("PRACTICETOOL");      // 自定义
-
-        private final String value;
-    }
-
-    /**
-     * 游戏状态枚举
-     */
-    @Getter
-    @AllArgsConstructor
-    public enum GameStatus {
-        IN_QUEUE("inQueue"),             // 队列中
-        IN_GAME("inGame"),               // 游戏中
-        CHAMPION_SELECT("championSelect"),// 英雄选择中
-        OUT_OF_GAME("outOfGame"),        // 退出游戏中
-        HOST_NORMAL("hosting_NORMAL"),   // 匹配组队中-队长
-        HOST_RANK_SOLO("hosting_RANKED_SOLO_5x5"),// 单排组队中-队长
-        HOST_RANK_FLEX("hosting_RANKED_FLEX_SR"), // 组排组队中-队长
-        HOST_ARAM("hosting_ARAM_UNRANKED_5x5"),   // 大乱斗5v5组队中-队长
-        HOST_URF("hosting_URF"),         // 无限火力组队中-队长
-        HOST_BOT("hosting_BOT");         // 人机组队中-队长
-
-        private final String value;
-    }
 
     /**
      * 游戏流程枚举
@@ -128,26 +76,6 @@ public class GameEnums {
         private final String desc;
     }
 
-    /**
-     * 游戏类型枚举
-     */
-    @Getter
-    @AllArgsConstructor
-    public enum GameType {
-        MATCHED("MATCHED_GAME"); // 匹配
-        private final String value;
-    }
-
-    /**
-     * 地图ID枚举
-     */
-    @Getter
-    @AllArgsConstructor
-    public enum MapID {
-        CLASSIC(11), // 经典模式召唤师峡谷
-        ARAM(12);    // 极地大乱斗
-        private final int id;
-    }
 
     /**
      * 队伍ID枚举
@@ -160,31 +88,6 @@ public class GameEnums {
         RED(200); // 红色方
 
         private final int id;
-    }
-
-    /**
-     * 队伍ID字符串枚举
-     */
-    @Getter
-    @AllArgsConstructor
-    public enum TeamIDStr {
-        NONE(""),   // 未知
-        BLUE("100"),// 蓝色方
-        RED("200"); // 红色方
-
-        private final String id;
-    }
-
-    /**
-     * 召唤师技能枚举
-     */
-    @Getter
-    @AllArgsConstructor
-    public enum Spell {
-        PINGZHANG(21),// 屏障
-        SHANXIAN(4);  // 闪现
-
-        private final int value;
     }
 
 
@@ -252,7 +155,7 @@ public class GameEnums {
         public static Map<String, String> map = Arrays.stream(Position.values()).collect(Collectors.toMap(Position::getValue, Position::getDesc));
 
         public static String getDescByValue(String value) {
-            return StringUtils.isEmpty(value) ? map.getOrDefault(value.toLowerCase(), "未知") : "未知";
+            return StringUtils.isNotEmpty(value) ? map.getOrDefault(value.toLowerCase(), "未知") : "未知";
         }
     }
 
@@ -260,6 +163,6 @@ public class GameEnums {
     /**
      * 大区ID
      */
-    public static final String PlatformIDDX1 = "HN1"; // 艾欧尼亚
-    public static final String PlatformIDDX2 = "HN2"; // 祖安
+    //public static final String PlatformIDDX1 = "HN1"; // 艾欧尼亚
+    //public static final String PlatformIDDX2 = "HN2"; // 祖安
 }

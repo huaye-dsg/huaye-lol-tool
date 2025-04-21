@@ -15,6 +15,8 @@ public class UserScore {
 
     // 扩展字段。后加的
     private String puuid;
+    // 扩展字段。后加的
+    private String extMsg;
 
 
 

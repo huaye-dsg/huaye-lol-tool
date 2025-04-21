@@ -21,10 +21,10 @@ public class UserScoreCache {
         private String summonerName;
         private String houseName;
         private Integer score;
-
         private String gameDetail;
+        private String puuid;
 
-
+        private String extMag;
     }
 
 
@@ -32,12 +32,12 @@ public class UserScoreCache {
         return ImmutableMap.of("selfTeamScore", selfTeamScore, "enemyTeamScore", enemyTeamScore);
     }
 
-    public static void addSelfTeamScore(ScoreOverview score) {
-        selfTeamScore.add(score);
+    public static void addSelfTeamScore(List<ScoreOverview> score) {
+        selfTeamScore.addAll(score);
     }
 
-    public static void addEnemyTeamScore(ScoreOverview score) {
-        enemyTeamScore.add(score);
+    public static void addEnemyTeamScore(List<ScoreOverview> score) {
+        enemyTeamScore.addAll(score);
     }
 
     public static void clear() {

@@ -1,5 +1,6 @@
 package com.example.huayeloltool.model;
 
+import com.example.huayeloltool.cache.UserScoreCache;
 import com.example.huayeloltool.enums.GameEnums;
 import lombok.Data;
 
@@ -10,9 +11,10 @@ import java.util.Set;
 @Data
 public class SelfGameSession {
 
-
+    /**
+     * 游戏模式
+     */
     private Integer queueId;
-
 
     /**
      * 楼层。1-5楼
@@ -35,7 +37,7 @@ public class SelfGameSession {
      */
     private Boolean isSelected = false;
 
-    private Set<Integer> processedActionIds = new HashSet<>();
+    private Set<String> processedActionIds = new HashSet<>();
 
 
     private static SelfGameSession instance;
@@ -48,12 +50,12 @@ public class SelfGameSession {
         return instance;
     }
 
-    public static Set<Integer> getProcessedActionIds() {
+    public static Set<String> getProcessedActionIds() {
         return instance.processedActionIds;
     }
 
 
-    public static void addProcessedActionIds(Integer actionId) {
+    public static void addProcessedActionIds(String actionId) {
         instance.processedActionIds.add(actionId);
     }
 
@@ -110,7 +112,7 @@ public class SelfGameSession {
         instance.position = position;
     }
 
-    public static void setIsBanned(boolean b) {
+    public static synchronized void setIsBanned(boolean b) {
         if (instance == null) {
             instance = new SelfGameSession();
         }
@@ -118,7 +120,7 @@ public class SelfGameSession {
 
     }
 
-    public static void setIsSelected(boolean b) {
+    public static synchronized void setIsSelected(boolean b) {
         if (instance == null) {
             instance = new SelfGameSession();
         }
@@ -135,6 +137,9 @@ public class SelfGameSession {
         instance.floor = 0;
         instance.position = null;
         instance.processedActionIds.clear();
+
+
+        //UserScoreCache.clear();
     }
 
     public static boolean isSoloRank() {

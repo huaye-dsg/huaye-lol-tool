@@ -64,7 +64,7 @@ public class CalcScoreConf {
     private double[] adjustKDA = {2.0, 5.0};
     private HorseScoreConf[] horse = {
             new HorseScoreConf(180.0, "通天代"),
-            new HorseScoreConf(150.0, "小代"),
+            new HorseScoreConf(150.0, "小 代"),
             new HorseScoreConf(125.0, "上等马"),
             new HorseScoreConf(105.0, "中等马"),
             new HorseScoreConf(95.0, "下等马"),

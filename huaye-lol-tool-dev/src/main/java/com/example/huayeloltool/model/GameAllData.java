@@ -1,6 +1,8 @@
 package com.example.huayeloltool.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -11,6 +13,8 @@ public class GameAllData {
     private String platformId;
 
     @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class Games {
         private String gameBeginDate;
         private int gameCount;

@@ -2,7 +2,6 @@
 //
 //import com.alibaba.fastjson.JSON;
 //import com.alibaba.fastjson.JSONObject;
-//import com.google.cloud.vertexai.VertexAI;
 //import okhttp3.*;
 //import okio.BufferedSource;
 //import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -17,7 +16,7 @@
 //public class Google {
 //
 //
-//    private static final String API_KEY = "AIzaSyA50Mz29oPxbK3vdB1haBsI0iAOVmzFWR8";
+//    private static final String API_KEY = "";
 //    private static final String URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + API_KEY;
 //
 //    private static final String stream = "Https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContentStream";

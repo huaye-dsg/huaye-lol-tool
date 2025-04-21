@@ -27,11 +27,11 @@ public class DefaultClientConf {
     private String[] horseNameConf = {"通天代", "小代", "上等马", "中等马", "下等马", "牛 马"};
 
 
-    private  static DefaultClientConf instance;
+    private static DefaultClientConf instance;
 
-    public  static DefaultClientConf getInstance(){
-        if(instance == null){
-            instance =  new DefaultClientConf();
+    public static DefaultClientConf getInstance() {
+        if (instance == null) {
+            instance = new DefaultClientConf();
         }
         return instance;
     }

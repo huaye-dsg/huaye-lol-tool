@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
 
-//@Slf4j
 @Slf4j
 @CrossOrigin(origins = "*")
 @RestController(value = "game")
 public class GameController {
 
-    @Autowired
+    @Resource
     LcuService lcuService;
 
     @GetMapping("/lcu/getAuthInfo")

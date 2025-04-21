@@ -22,24 +22,23 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketSession;
 
+import javax.annotation.Resource;
 import java.util.Base64;
 import java.util.concurrent.TimeUnit;
 
-//@Slf4j
 @Component
 @Slf4j
 public class GameFlowMonitor implements CommandLineRunner, DisposableBean {
 
     private WebSocket webSocket;
 
-    @Autowired
+    @Resource
     GameStateUpdateService gameStateUpdateService;
-    @Autowired
+    @Resource
     LcuService lcuService;
-    @Autowired
+    @Resource
     GameSessionUpdateService gameSessionUpdateService;
-
-    @Autowired
+    @Resource
     @Qualifier(value = "unsafeOkHttpClient")
     private OkHttpClient client;
 
@@ -107,7 +106,6 @@ public class GameFlowMonitor implements CommandLineRunner, DisposableBean {
     private void handleWebSocketMessage(String message) {
         try {
             if (StringUtils.isEmpty(message)) {
-//                log.info("消息是空的！");
                 return;
             }
             JSONArray arr = JSON.parseArray(message);
@@ -117,28 +115,15 @@ public class GameFlowMonitor implements CommandLineRunner, DisposableBean {
             String uri = event.getString("uri");
             Object data = event.get("data");
 
-
-//            String string = data.toString();
-//            if (string.contains("420")){
-//                log.info("WebSocket message uri: {}. data: {}",uri, data);
-//            }
-
-//            log.info("WebSocket message uri: {}. data: {}",uri, data);
             switch (uri) {
                 case "/lol-gameflow/v1/gameflow-phase":
                     new Thread(() -> gameStateUpdateService.onGameFlowUpdate(data.toString())).start();
-//                    gameStateUpdateService.onGameFlowUpdate(data.toString());
                     break;
                 case "/lol-champ-select/v1/session":
-//                    log.info(JSON.toJSONString(data.toString()));
-                    ChampSelectSessionInfo ss = JSON.parseObject(data.toString(), ChampSelectSessionInfo.class);
-//                    log.info(JSON.toJSONString(ss));
-//                    new Thread(() -> gameSessionUpdateService.onChampSelectSessionUpdate(ss)).start();
-                    gameSessionUpdateService.onChampSelectSessionUpdate(ss);
+                    new Thread(() -> gameSessionUpdateService.onChampSelectSessionUpdate(data.toString())).start();
                     break;
                 case "/lol-lobby-team-builder/v1/matchmaking":
                     // 更新数据
-//                    log.info("WebSocket message uri: {}. data: {}", uri, data);
                     if (data == null) {
                         return;
                     }
@@ -152,8 +137,6 @@ public class GameFlowMonitor implements CommandLineRunner, DisposableBean {
                         }
                     }
                     break;
-
-
             }
         } catch (Exception e) {
             log.error("handleWebSocketMessage error", e);

@@ -219,7 +219,7 @@ public class ChampSelectSessionInfo extends CommonResp {
          */
         private Integer championId;
 //        /** 选人意图（业务字段，具体解释依据业务） */
-        private Integer championPickIntent;
+//        private Integer championPickIntent;
 //        /** 名称可见性类型，具体业务自定义 */
 //        private String nameVisibilityType;
 //        /** 混淆过的 PUUID（可能为空） */

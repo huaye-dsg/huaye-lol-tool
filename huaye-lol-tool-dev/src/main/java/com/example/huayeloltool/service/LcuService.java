@@ -3,8 +3,8 @@ package com.example.huayeloltool.service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.example.huayeloltool.config.OkHttpUtil;
+import com.example.huayeloltool.enums.Constant;
 import com.example.huayeloltool.enums.GameEnums;
-import com.example.huayeloltool.enums.Heros;
 import com.example.huayeloltool.model.*;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
@@ -19,10 +19,8 @@ import oshi.software.os.OSProcess;
 import oshi.software.os.OperatingSystem;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.example.huayeloltool.enums.GameEnums.GameFlow.CHAMPION_SELECT;
 
@@ -34,6 +32,9 @@ public class LcuService extends CommonRequest {
     @Qualifier(value = "unsafeOkHttpClient")
     private OkHttpClient client;
 
+    /**
+     * 当前用户信息
+     */
     public CurrSummoner getCurrSummoner() {
         try {
             Request okHttpRequest = OkHttpUtil.createOkHttpGetRequest("/lol-summoner/v1/current-summoner");
@@ -55,34 +56,34 @@ public class LcuService extends CommonRequest {
         List<OSProcess> processes = os.getProcesses();
 
         // 在进程列表中查找LOL进程
-        ProcessInfo processInfo = null;
         for (OSProcess process : processes) {
             if (process.getName().equalsIgnoreCase(processName)) {
-                log.info("成功找到进程！ {}", processName);
-                processInfo = new ProcessInfo();
+                //log.info("成功找到进程！ {}", processName);
+                ProcessInfo processInfo = new ProcessInfo();
                 List<String> arguments = process.getArguments();
                 for (String argument : arguments) {
                     if (argument.contains("--app-port")) {
                         String[] split = argument.split("=");
-                        log.info("解析的端口：{}", split[1]);
+                        //log.info("解析的端口：{}", split[1]);
                         processInfo.setPort(Integer.valueOf(split[1]));
                     }
                     if (argument.contains("--remoting-auth-token")) {
                         String[] split = argument.split("=");
-                        log.info("解析的token：{}", split[1]);
+                        //log.info("解析的token：{}", split[1]);
                         processInfo.setToken(split[1]);
                     }
                 }
-                break;
+                return processInfo;
             }
         }
-        return processInfo;
+
+        return null;
     }
 
     /**
      * 根据 PUUID 列出游戏历史记录
      */
-    public List<GameInfo> listGameHistory(CurrSummoner currSummoner, int begin, int limit) throws IOException {
+    public List<GameInfo> listGameHistory(CurrSummoner currSummoner, int begin, int limit) {
         List<GameInfo> fmtList = new ArrayList<>();
         GameAllData gameAllData = listGamesByPUUID(currSummoner.getPuuid(), begin, limit);
 
@@ -131,7 +132,7 @@ public class LcuService extends CommonRequest {
     }
 
     /**
-     * 查询英雄熟练度信息
+     * 查询英雄池熟练度列表
      */
     public List<ChampionMastery> searchChampionMasteryData(String puuid) {
         Request request = OkHttpUtil.createOkHttpGetRequest(String.format("/lol-champion-mastery/v1/" + puuid + "/champion-mastery"));
@@ -144,11 +145,20 @@ public class LcuService extends CommonRequest {
         }
 
         championMasteryList.sort(Comparator.comparingInt(ChampionMastery::getChampionLevel).reversed());
-        List<ChampionMastery> championInfos = championMasteryList.subList(0, 10);
-        for (ChampionMastery championInfo : championInfos) {
-            log.info("英雄：{}， 等级：{}，积分：{}", Heros.getNameById(championInfo.getChampionId()), championInfo.getChampionLevel(), championInfo.getChampionPoints());
-        }
-        return championInfos;
+        return championMasteryList.subList(0, 30);
+    }
+
+
+    /**
+     * 查询对局详情
+     *
+     * @param gameID 对局ID
+     * @return 对局详情信息对象
+     * @throws IOException 查询对局详情过程中遇到的异常
+     */
+    public GameSummary queryGameSummary(long gameID) throws IOException {
+        Request request = OkHttpUtil.createOkHttpGetRequest(String.format("/lol-match-history/v1/games/%d", gameID));
+        return sendRequest(request, GameSummary.class);
     }
 
     /**
@@ -168,9 +178,11 @@ public class LcuService extends CommonRequest {
         }
     }
 
-    public String getCurrConversationID() throws Exception {
+    /**
+     * 获取当前会话ID
+     */
+    public String getCurrConversationID() {
         Request request = OkHttpUtil.createOkHttpGetRequest("/lol-chat/v1/conversations");
-
         List<Conversation> conversations = sendTypeRequest(request, new TypeReference<List<Conversation>>() {
         });
 
@@ -183,6 +195,18 @@ public class LcuService extends CommonRequest {
         return null;
     }
 
+
+
+    /**
+     * 获取召唤师信息
+     */
+    public List<CurrSummoner> listSummoner(List<Long> summonerIDList) {
+        List<String> idStrList = summonerIDList.stream().map(String::valueOf).collect(Collectors.toList());
+        Request request = OkHttpUtil.createOkHttpGetRequest(String.format("/lol-summoner/v2/summoners?ids=[%s]", String.join(",", idStrList)));
+        return sendTypeRequest(request, new TypeReference<List<CurrSummoner>>() {
+        });
+    }
+
     /**
      * 根据会话ID获取会话组消息记录
      */
@@ -190,5 +214,61 @@ public class LcuService extends CommonRequest {
         Request request = OkHttpUtil.createOkHttpGetRequest(String.format("/lol-chat/v1/conversations/%s/messages", conversationID));
         return sendTypeRequest(request, new TypeReference<List<ConversationMsg>>() {
         });
+    }
+
+
+    /**
+     * 预选英雄
+     */
+    public void prePickChampion(int championId, int actionId) {
+        champSelectPatchAction(championId, actionId, null, null);
+    }
+
+    /**
+     * 确认选择
+     */
+    public void pickChampion(int championId, int actionId) {
+        champSelectPatchAction(
+                championId,
+                actionId,
+                Constant.CHAMP_SELECT_PATCH_TYPE_PICK,
+                true
+        );
+    }
+
+    /**
+     * 禁用英雄
+     */
+    public void banChampion(int championId, int actionId) {
+        champSelectPatchAction(
+                championId,
+                actionId,
+                Constant.CHAMP_SELECT_PATCH_TYPE_BAN,
+                true
+        );
+    }
+
+
+    /**
+     * 通用英雄选择操作
+     */
+    public void champSelectPatchAction(int championId, int actionId, String patchType, Boolean completed) {
+        if (championId <= 0) {
+            log.error("通用英雄选择操作, championId 为空！");
+            return;
+        }
+        Map<String, Object> body = new HashMap<>();
+        body.put("championId", championId);
+        Optional.ofNullable(patchType).ifPresent(t -> body.put("type", t));
+        Optional.ofNullable(completed).ifPresent(c -> body.put("completed", c));
+        Request request = OkHttpUtil.createOkHttpPatchRequest("/lol-champ-select/v1/session/actions/" + actionId, body);
+
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) {
+                log.error("champSelectPatchActionError: {}", response);
+            }
+        } catch (Exception e) {
+            log.error("champSelectPatchActionIOError", e);
+        }
     }
 }

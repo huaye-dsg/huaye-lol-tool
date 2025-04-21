@@ -1,6 +1,7 @@
 package com.example.huayeloltool.model;
 
 import lombok.Data;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -8,7 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class BaseUrlClient {
 
+    @Setter
     private int port;
+    @Setter
     private String authPwd;
     private String baseUrl;
 
@@ -27,24 +30,8 @@ public class BaseUrlClient {
         return instance.fmtClientApiUrl() + uri;
     }
 
-    public BaseUrlClient getCurrSummoner() {
-        return instance;
-    }
-
-    public void setCurrSummoner(BaseUrlClient currSummoner) {
-        instance = currSummoner;
-    }
 
     private BaseUrlClient() {
-    }
-    public void setPort(int port) {
-        this.port = port;
-    }
-    public void setAuthPwd(String authPwd) {
-        this.authPwd = authPwd;
-    }
-    private void setBaseUrl(String baseUrl) {
-        this.baseUrl = baseUrl;
     }
 
 
@@ -54,7 +41,6 @@ public class BaseUrlClient {
      * @return 格式化后的 API URL
      */
     private String fmtClientApiUrl() {
-//        return String.format("https://riot:%s@127.0.0.1:%d", authPwd, port);
         return String.format("https://riot:%s@127.0.0.1:%d", authPwd, port);
     }
 

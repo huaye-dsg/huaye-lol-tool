@@ -7,23 +7,22 @@ import java.util.Map;
 
 @Data
 public class ChampionMastery {
-
     // 英雄的 ID
     private int championId;
     // 英雄的等级
     private int championLevel;
     // 英雄的积分
     private int championPoints;
-//    // 自上次升级以来获得的英雄积分
+    //    // 自上次升级以来获得的英雄积分
 //    private int championPointsSinceLastLevel;
 //    // 距离下次升级还需要的英雄积分
 //    private int championPointsUntilNextLevel;
 //    // 英雄赛季里程碑
 //    private int championSeasonMilestone;
 //    // 最高评价等级
-//    private String highestGrade;
+    private String highestGrade;
 //    // 最后游玩时间
-//    private long lastPlayTime;
+    private long lastPlayTime;
 //    // 下次升级所需的标记数
 //    private int markRequiredForNextLevel;
 //    // 里程碑评价等级列表
