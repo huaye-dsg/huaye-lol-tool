@@ -244,3 +244,15 @@ Caused by: java.lang.NullPointerException: null
 
 2025-04-24 20:16:16 [Thread-651] INFO  c.e.h.service.GameStateUpdateService - 【中等马】【110分】【黄金-III-45】: 我想锤石你德玛#16700 [败-男刀]6/8/13   [败-佛耶戈]10/5/5   [胜-螳螂]11/2/4   [败-大眼]0/9/6   [胜-皇子]7/6/27 
 
+2025-04-24 20:47:13 [main] INFO  com.example.huayeloltool.Application - Starting Application using Java 1.8.0_202 on 花爷的计算机 with PID 24944 (E:\huaye-lol-tool-dev\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool-dev)
+2025-04-24 20:47:13 [main] INFO  com.example.huayeloltool.Application - No active profile set, falling back to default profiles: default
+2025-04-24 20:47:14 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9361 (http)
+2025-04-24 20:47:14 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9361"]
+2025-04-24 20:47:14 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-04-24 20:47:14 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.56]
+2025-04-24 20:47:14 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-04-24 20:47:14 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1217 ms
+2025-04-24 20:47:15 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9361"]
+2025-04-24 20:47:15 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9361 (http) with context path ''
+2025-04-24 20:47:15 [main] INFO  com.example.huayeloltool.Application - Started Application in 3.21 seconds (JVM running for 4.435)
+2025-04-24 20:47:16 [OkHttp https://127.0.0.1:49357/...] INFO  c.e.h.monitor.GameFlowMonitor - Connected to LCU
