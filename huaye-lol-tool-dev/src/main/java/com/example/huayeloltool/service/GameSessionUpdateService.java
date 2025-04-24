@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -33,91 +32,198 @@ public class GameSessionUpdateService {
 
     public void onChampSelectSessionUpdate(String sessionStr) {
         ChampSelectSessionInfo sessionInfo = JSON.parseObject(sessionStr, ChampSelectSessionInfo.class);
-        Integer localPlayerCellId = sessionInfo.getLocalPlayerCellId();
-        CustomGameSessionDetails.setFloor(localPlayerCellId);
+
         analyzeSession(sessionInfo);
     }
 
 
+//    public void analyzeSession2(ChampSelectSessionInfo session) {
+//        int localPlayerCellId = session.getLocalPlayerCellId();
+//        List<List<ChampSelectSessionInfo.Action>> actions = session.getActions();
+//
+//        List<ChampSelectSessionInfo.Player> myTeam = session.getMyTeam();
+//        // 队友楼层和位置映射
+//        CustomGameSessionDetails.getInstance().initPositionMapIfEmpty(myTeam);
+//        Map<Integer, ChampSelectSessionInfo.Player> positionMap = CustomGameSessionDetails.getInstance().getPositionMap();
+//
+//        // 解析actions
+//        for (List<ChampSelectSessionInfo.Action> actionsList : actions) {
+//            for (ChampSelectSessionInfo.Action action : actionsList) {
+//                String type = action.getType();
+//                int actorCellId = action.getActorCellId();
+//                int championId = action.getChampionId();
+//                boolean completed = action.getCompleted();
+//                Boolean isAllyAction = action.getIsAllyAction();
+//                Integer id = action.getId();
+//
+//                // 是否本人
+//                boolean isSelf = actorCellId == localPlayerCellId;
+//                String actionKey = actorCellId + "_" + id + "_" + type + "_" + completed + "_" + action.getIsInProgress();
+//
+//                if (completed && championId > 0) {
+//                    if (CustomGameSessionDetails.getInstance().markActionProcessed(actionKey)) {
+//                        boolean isPick = "pick".equals(type);
+//                        String position = positionMap.get(actorCellId) != null ?
+//                                GameEnums.Position.getDescByValue(positionMap.get(actorCellId).getAssignedPosition()) : "未知";
+//                        String logMessage;
+//                        if (isAllyAction) {
+//                            logMessage = String.format(
+//                                    "【我方】位置：%s, 动作: %s, 英雄: %s",
+//                                    position,
+//                                    isPick ? "选择（锁定）英雄" : "禁用英雄",
+//                                    Heros.getNameById(championId)
+//                            );
+//                        } else {
+//                            logMessage = String.format(
+//                                    "【敌方】动作: %s, 英雄: %s",
+//                                    isPick ? "选择（锁定）英雄" : "禁用英雄",
+//                                    Heros.getNameById(championId)
+//                            );
+//                        }
+//                        if (isPick && isAllyAction) {
+//                            logMessage = analyzeHeros(positionMap, actorCellId, logMessage, championId);
+//                        }
+//                        log.info(logMessage);
+//                    }
+//                } else if (!completed && isSelf) {
+//                    if (!CustomGameSessionDetails.getInstance().markActionProcessed(actionKey)) {
+//                        // Already processing this actionKey, skip
+//                        return;
+//                    }
+//
+//                    // 本人操作
+//                    if ("ban".equals(type) && clientCfg.getAutoBanChampID() > 0 && !CustomGameSessionDetails.getInstance().getIsBanned()) {
+//                        try {
+//                            TimeUnit.SECONDS.sleep(2);
+//                        } catch (InterruptedException ignored) {
+//                        }
+//                        log.info("本人禁用英雄，key：{}", actionKey);
+//                        boolean result = lcuApiService.banChampion(clientCfg.getAutoBanChampID(), action.getId());
+//                        if (result) {
+//                            log.info("禁用成功");
+//                            CustomGameSessionDetails.getInstance().setIsBanned(true);
+//                            action.setCompleted(true);
+//                        } else {
+//                            log.info("禁用失败");
+//                        }
+//                    } else if ("pick".equals(type) && clientCfg.getAutoPickChampID() > 0 && !CustomGameSessionDetails.getInstance().getIsSelected()) {
+//                        log.info("本人选择英雄，key：{}", actionKey);
+//                        lcuApiService.pickChampion(clientCfg.getAutoPickChampID(), action.getId());
+//                        CustomGameSessionDetails.getInstance().setIsSelected(true);
+//                        action.setCompleted(true);
+//                    }
+//                }
+//            }
+//        }
+//    }
+
     public void analyzeSession(ChampSelectSessionInfo session) {
-        int localPlayerCellId = session.getLocalPlayerCellId();
-        List<List<ChampSelectSessionInfo.Action>> actions = session.getActions();
-
+        CustomGameSessionDetails details = CustomGameSessionDetails.getInstance();
+        Map<Integer, ChampSelectSessionInfo.Player> positionMap = details.getPositionMap();
         List<ChampSelectSessionInfo.Player> myTeam = session.getMyTeam();
-        //log.info("localPlayerCellId: {}, myTeam: {}", localPlayerCellId, myTeam);
-        // 队友楼层和位置映射
-        Map<Integer, ChampSelectSessionInfo.Player> positionMap = myTeam.stream().
-                collect(Collectors.toMap(ChampSelectSessionInfo.Player::getCellId, Function.identity()));
-        // 解析actions
-        for (List<ChampSelectSessionInfo.Action> actionsList : actions) {
-            for (ChampSelectSessionInfo.Action action : actionsList) {
-                String type = action.getType();
-                int actorCellId = action.getActorCellId();
-                int championId = action.getChampionId();
-                boolean completed = action.getCompleted();
-                Boolean isAllyAction = action.getIsAllyAction();
-                Integer id = action.getId();
 
-                if (championId <= 0) {
+        // 懒初始化队友映射
+        details.initPositionMapIfEmpty(myTeam);
+
+        int localCellId = session.getLocalPlayerCellId();
+
+        for (List<ChampSelectSessionInfo.Action> round : session.getActions()) {
+            for (ChampSelectSessionInfo.Action action : round) {
+                String actionKey = buildActionKey(action);
+                boolean completed = action.getCompleted();
+                boolean isSelf = action.getActorCellId() == localCellId;
+                int champId = action.getChampionId();
+
+                // 处理锁定英雄的操作
+                if (completed && champId > 0) {
+                    if (details.markActionProcessed(actionKey)) {
+                        handleCompletedAction(action, positionMap);
+                    }
                     continue;
                 }
 
-                // 是否本人
-                boolean isSelf = actorCellId == localPlayerCellId;
-
-                String actionKey = actorCellId + "_" + id + "_" + type + "_" + completed + "_" + action.getIsInProgress();
-
-                if (completed && !CustomGameSessionDetails.getProcessedActionIds().contains(actionKey)) {
-                    CustomGameSessionDetails.addProcessedActionIds(actionKey);
-
-                    boolean isPick = "pick".equals(type);
-
-                    String position = positionMap.get(actorCellId) != null ?
-                            GameEnums.Position.getDescByValue(positionMap.get(actorCellId).getAssignedPosition()) : "未知";
-                    String logMessage;
-                    if (isAllyAction) {
-                        logMessage = String.format(
-                                "【我方】位置：%s, 动作: %s, 英雄: %s",
-                                position,
-                                isPick ? "选择（锁定）英雄" : "禁用英雄",
-                                Heros.getNameById(championId)
-                        );
-                    } else {
-                        logMessage = String.format(
-                                "【敌方】动作: %s, 英雄: %s",
-                                isPick ? "选择（锁定）英雄" : "禁用英雄",
-                                Heros.getNameById(championId)
-                        );
-                    }
-                    if (isPick && isAllyAction) {
-                        logMessage = analyzeHeros(positionMap, actorCellId, logMessage, championId);
-                    }
-                    log.info(logMessage);
-                } else if (!completed && isSelf) {
-                    if (CustomGameSessionDetails.isBaned() && CustomGameSessionDetails.isSelected()) {
+                // 只处理自己、且未完成的操作
+                if (!completed && isSelf) {
+                    if (!details.markActionProcessed(actionKey)) {
                         continue;
                     }
-                    // 本人操作
-                    if ("ban".equals(type) && clientCfg.getAutoBanChampID() > 0 && !CustomGameSessionDetails.isBaned()) {
-                        try {
-                            TimeUnit.SECONDS.sleep(2);
-                        } catch (InterruptedException ignored) {
-                        }
-                        Boolean result = lcuApiService.banChampion(clientCfg.getAutoBanChampID(), action.getId());
-                        if (result) {
-                            CustomGameSessionDetails.setIsBanned(true);
-                            CustomGameSessionDetails.addProcessedActionIds(actionKey);
-                            action.setCompleted(true);
-                        }
-                    } else if ("pick".equals(type) && clientCfg.getAutoPickChampID() > 0 && !CustomGameSessionDetails.isSelected()) {
-                        lcuApiService.pickChampion(clientCfg.getAutoPickChampID(), action.getId());
-                        CustomGameSessionDetails.setIsSelected(true);
-                        action.setCompleted(true);
-                    }
+                    handleSelfAction(action, details);
                 }
             }
         }
     }
+
+    // 示例：打印 pick/ban
+    private void handleCompletedAction(ChampSelectSessionInfo.Action action, Map<Integer, ChampSelectSessionInfo.Player> posMap) {
+        boolean isPick = "pick".equals(action.getType());
+        boolean isAlly = action.getIsAllyAction();
+        String positionDesc = Optional.ofNullable(posMap.get(action.getActorCellId()))
+                .map(p -> GameEnums.Position
+                        .getDescByValue(p.getAssignedPosition()))
+                .orElse("未知");
+        String which = isPick ? "选择（锁定）英雄" : "禁用英雄";
+        String heroName = Heros.getNameById(action.getChampionId());
+
+        String logMsg = isAlly
+                ? String.format("【我方】位置：%s, 动作: %s, 英雄: %s", positionDesc, which, heroName)
+                : String.format("【敌方】动作: %s, 英雄: %s", which, heroName);
+
+        if (isPick && isAlly) {
+            logMsg = analyzeHeros(posMap, action.getActorCellId(), logMsg, action.getChampionId());
+        }
+        log.info(logMsg);
+    }
+
+    // 示例：自动 ban / pick
+    private void handleSelfAction(ChampSelectSessionInfo.Action action, CustomGameSessionDetails details) {
+        String type = action.getType();
+        int id = action.getId();
+
+        switch (type) {
+            case "ban":
+                if (clientCfg.getAutoBanChampID() > 0 && !details.getIsBanned()) {
+                    sleepSeconds();
+                    log.info("本人禁用英雄，key：{}", buildActionKey(action));
+                    if (lcuApiService.banChampion(clientCfg.getAutoBanChampID(), id)) {
+                        log.info("禁用成功");
+                        details.setIsBanned(true);
+                        action.setCompleted(true);
+                    } else {
+                        log.info("禁用失败");
+                    }
+                }
+                break;
+            case "pick":
+                if (clientCfg.getAutoPickChampID() > 0 && !details.getIsSelected()) {
+                    log.info("本人选择英雄，key：{}", buildActionKey(action));
+                    lcuApiService.pickChampion(clientCfg.getAutoPickChampID(), id);
+                    details.setIsSelected(true);
+                    action.setCompleted(true);
+                }
+                break;
+            default:
+                // 其他类型忽略
+        }
+    }
+
+    private void sleepSeconds() {
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException ignored) {
+        }
+    }
+
+    // 抽取 actionKey 构建
+    private String buildActionKey(ChampSelectSessionInfo.Action action) {
+        return String.join("_",
+                String.valueOf(action.getActorCellId()),
+                String.valueOf(action.getId()),
+                action.getType(),
+                String.valueOf(action.getCompleted()),
+                String.valueOf(action.getIsInProgress())
+        );
+    }
+
 
     @NotNull
     private String analyzeHeros(Map<Integer, ChampSelectSessionInfo.Player> positionMap, int actorCellId, String logMessage, int championId) {

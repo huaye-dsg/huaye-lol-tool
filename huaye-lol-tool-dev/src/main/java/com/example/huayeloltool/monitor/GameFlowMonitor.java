@@ -129,7 +129,7 @@ public class GameFlowMonitor implements CommandLineRunner, DisposableBean {
                         Integer queueId = matchmaking.getQueueId();
                         if (queueId != null && queueId > 0) {
                             String modeName = GameEnums.GameQueueID.getGameNameMap(queueId);
-                            CustomGameSessionDetails.setQueue(queueId);
+                            CustomGameSessionDetails.getInstance().setQueueId(queueId);
                             log.info("当前游戏模式为：{}", modeName);
                         }
                     }

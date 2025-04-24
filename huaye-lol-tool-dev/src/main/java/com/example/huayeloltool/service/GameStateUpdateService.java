@@ -79,7 +79,7 @@ public class GameStateUpdateService extends CommonRequest {
                 break;
             case NONE:
                 // 初始化数据
-                CustomGameSessionDetails.init();
+                CustomGameSessionDetails.getInstance().init();
             default:
                 break;
         }
