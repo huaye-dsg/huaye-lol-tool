@@ -1,7 +1,9 @@
-package com.example.huayeloltool.service;
+package com.example.huayeloltool.model.score;
 
 import com.example.huayeloltool.enums.ScoreOption;
-import com.example.huayeloltool.model.*;
+import com.example.huayeloltool.model.base.CalcScoreConf;
+import com.example.huayeloltool.model.game.GameSummary;
+import com.example.huayeloltool.model.game.Participant;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -9,13 +11,12 @@ import java.util.*;
 @Service
 public class ScoreService {
 
-    private Double defaultScore = 100.0;
-
     /**
      * 计算用户游戏得分
      */
     public ScoreWithReason calcUserGameScore(long summonerID, GameSummary gameSummary) throws Exception {
         CalcScoreConf calcScoreConf = new CalcScoreConf();
+        double defaultScore = 100.0;
         ScoreWithReason gameScore = new ScoreWithReason(defaultScore);
         int userParticipantId = 0;
 

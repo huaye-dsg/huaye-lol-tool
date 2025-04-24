@@ -1,4 +1,4 @@
-package com.example.huayeloltool.model;
+package com.example.huayeloltool.model.base;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

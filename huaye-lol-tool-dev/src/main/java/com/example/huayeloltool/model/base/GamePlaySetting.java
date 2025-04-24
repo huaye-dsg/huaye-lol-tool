@@ -1,10 +1,10 @@
-package com.example.huayeloltool.model;
+package com.example.huayeloltool.model.base;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import lombok.Data;
 
 @Data
-public class DefaultClientConf {
+public class GamePlaySetting {
+
     /**
      * 是否自动接受游戏
      */
@@ -26,12 +26,11 @@ public class DefaultClientConf {
      */
     private String[] horseNameConf = {"通天代", "小代", "上等马", "中等马", "下等马", "牛 马"};
 
+    private static GamePlaySetting instance;
 
-    private static DefaultClientConf instance;
-
-    public static DefaultClientConf getInstance() {
+    public static GamePlaySetting getInstance() {
         if (instance == null) {
-            instance = new DefaultClientConf();
+            instance = new GamePlaySetting();
         }
         return instance;
     }

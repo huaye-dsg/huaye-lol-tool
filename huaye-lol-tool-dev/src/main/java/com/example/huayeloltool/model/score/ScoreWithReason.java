@@ -1,4 +1,4 @@
-package com.example.huayeloltool.model;
+package com.example.huayeloltool.model.score;
 
 import com.example.huayeloltool.enums.ScoreOption;
 import lombok.Data;

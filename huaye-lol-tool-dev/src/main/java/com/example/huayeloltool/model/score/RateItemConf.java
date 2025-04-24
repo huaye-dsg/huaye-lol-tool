@@ -1,10 +1,8 @@
-package com.example.huayeloltool.model;
+package com.example.huayeloltool.model.score;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Data
 @AllArgsConstructor

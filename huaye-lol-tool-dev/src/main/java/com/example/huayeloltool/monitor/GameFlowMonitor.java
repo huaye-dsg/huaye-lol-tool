@@ -6,21 +6,21 @@ import com.alibaba.fastjson2.JSONObject;
 import com.example.huayeloltool.enums.Constant;
 import com.example.huayeloltool.enums.GameEnums;
 import com.example.huayeloltool.model.*;
+import com.example.huayeloltool.model.base.BaseUrlClient;
 import com.example.huayeloltool.service.GameSessionUpdateService;
 import com.example.huayeloltool.service.GameStateUpdateService;
-import com.example.huayeloltool.service.LcuService;
+import com.example.huayeloltool.service.LcuApiService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import org.springframework.web.socket.WebSocketSession;
 
 import javax.annotation.Resource;
 import java.util.Base64;
@@ -35,7 +35,7 @@ public class GameFlowMonitor implements CommandLineRunner, DisposableBean {
     @Resource
     GameStateUpdateService gameStateUpdateService;
     @Resource
-    LcuService lcuService;
+    LcuApiService lcuApiService;
     @Resource
     GameSessionUpdateService gameSessionUpdateService;
     @Resource
@@ -44,8 +44,7 @@ public class GameFlowMonitor implements CommandLineRunner, DisposableBean {
 
     @Override
     public void run(String... args) {
-        log.info("监控任务开始运行！");
-        ProcessInfo lolClientApiInfo = lcuService.getLolClientApiInfo(Constant.LOL_UX_PROCESS_NAME);
+        Pair<Integer, String> lolClientApiInfo = lcuApiService.getLolClientApiInfo(Constant.LOL_UX_PROCESS_NAME);
         if (lolClientApiInfo == null) {
             log.error("LOL接口进程不存在！");
             return;
@@ -53,28 +52,26 @@ public class GameFlowMonitor implements CommandLineRunner, DisposableBean {
         try {
             // 初始化url请求路径
             BaseUrlClient instance = BaseUrlClient.getInstance();
-            instance.setPort(lolClientApiInfo.getPort());
-            instance.setAuthPwd(lolClientApiInfo.getToken());
+            instance.setPort(lolClientApiInfo.getLeft());
+            instance.setToken(lolClientApiInfo.getRight());
 
             // 初始化当前召唤师信息
-            CurrSummoner currSummoner2 = CurrSummoner.setInstance(lcuService.getCurrSummoner());
-            if (currSummoner2 == null) {
+            Summoner summoner = Summoner.setInstance(lcuApiService.getCurrSummoner());
+            if (summoner == null) {
                 log.error("获取当前召唤师信息失败！");
                 return;
             }
-            log.info("当前召唤师信息： {}", currSummoner2);
 
             // 初始化监听器
-            initGameFlowMonitor(lolClientApiInfo.getPort(), lolClientApiInfo.getToken());
+            initGameFlowMonitor(instance.getPort(), instance.getToken());
         } catch (Exception e) {
             log.error("initGameFlowMonitor error", e);
         }
     }
 
 
-    public void initGameFlowMonitor(int port, String authPwd) throws Exception {
-        log.info("initGameFlowMonitor begin");
-        String auth = Base64.getEncoder().encodeToString(("riot:" + authPwd).getBytes());
+    public void initGameFlowMonitor(int port, String token) throws Exception {
+        String auth = Base64.getEncoder().encodeToString(("riot:" + token).getBytes());
         Request request = new Request.Builder()
                 .url("wss://127.0.0.1:" + port + "/")
                 .addHeader("Authorization", "Basic " + auth)
@@ -89,12 +86,12 @@ public class GameFlowMonitor implements CommandLineRunner, DisposableBean {
             }
 
             @Override
-            public void onMessage(WebSocket webSocket, String text) {
+            public void onMessage(@NotNull WebSocket webSocket, @NotNull String text) {
                 handleWebSocketMessage(text);
             }
 
             @Override
-            public void onFailure(WebSocket webSocket, Throwable t, Response response) {
+            public void onFailure(@NotNull WebSocket webSocket, @NotNull Throwable t, Response response) {
                 log.error("WebSocket error: ", t);
             }
         });
@@ -123,7 +120,7 @@ public class GameFlowMonitor implements CommandLineRunner, DisposableBean {
                     new Thread(() -> gameSessionUpdateService.onChampSelectSessionUpdate(data.toString())).start();
                     break;
                 case "/lol-lobby-team-builder/v1/matchmaking":
-                    // 更新数据
+                    // 更新游戏模式
                     if (data == null) {
                         return;
                     }
@@ -132,7 +129,7 @@ public class GameFlowMonitor implements CommandLineRunner, DisposableBean {
                         Integer queueId = matchmaking.getQueueId();
                         if (queueId != null && queueId > 0) {
                             String modeName = GameEnums.GameQueueID.getGameNameMap(queueId);
-                            SelfGameSession.setQueue(queueId);
+                            CustomGameSessionDetails.setQueue(queueId);
                             log.info("当前游戏模式为：{}", modeName);
                         }
                     }

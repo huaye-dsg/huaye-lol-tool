@@ -1,5 +1,6 @@
-package com.example.huayeloltool.model;
+package com.example.huayeloltool.model.base;
 
+import com.example.huayeloltool.model.score.RateItemConf;
 import lombok.Data;
 
 import java.util.Arrays;

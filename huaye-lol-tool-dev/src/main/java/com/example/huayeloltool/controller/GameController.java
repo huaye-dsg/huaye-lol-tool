@@ -2,11 +2,10 @@ package com.example.huayeloltool.controller;
 
 import com.example.huayeloltool.cache.UserScoreCache;
 import com.example.huayeloltool.enums.GameEnums;
-import com.example.huayeloltool.model.CurrSummoner;
-import com.example.huayeloltool.model.RankedInfo;
-import com.example.huayeloltool.service.LcuService;
+import com.example.huayeloltool.model.Summoner;
+import com.example.huayeloltool.model.rankinfo.RankedInfo;
+import com.example.huayeloltool.service.LcuApiService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,12 +21,12 @@ import java.util.Map;
 public class GameController {
 
     @Resource
-    LcuService lcuService;
+    LcuApiService lcuApiService;
 
     @GetMapping("/lcu/getAuthInfo")
     public Object getAuthInfo() {
         try {
-            return lcuService.getCurrSummoner();
+            return lcuApiService.getCurrSummoner();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -36,7 +35,7 @@ public class GameController {
     @GetMapping("/lcu/search/games")
     public Object searchGames() {
         try {
-            return lcuService.listGameHistory(CurrSummoner.getInstance(), 0, 10);
+            return lcuApiService.listGameHistory(Summoner.getInstance(), 0, 10);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -45,7 +44,7 @@ public class GameController {
     @GetMapping("/lcu/search/rankData")
     public Object searchRankData() {
         try {
-            RankedInfo rankData = lcuService.getRankData(CurrSummoner.getInstance().getPuuid());
+            RankedInfo rankData = lcuApiService.getRankData(Summoner.getInstance().getPuuid());
             RankedInfo.HighestRankedEntrySRDto highestRankedEntrySR = rankData.getHighestRankedEntrySR();
             String tier = highestRankedEntrySR.getTier();
             String division = highestRankedEntrySR.getDivision();
@@ -53,8 +52,7 @@ public class GameController {
 
             String rankName = GameEnums.RankTier.getRankNameMap(tier);
 
-            String logMessage = String.format("段位：【%s-%s-%d】", rankName, division, leaguePoints);
-            return logMessage;
+            return String.format("段位：【%s-%s-%d】", rankName, division, leaguePoints);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -63,7 +61,7 @@ public class GameController {
     @GetMapping("/lcu/search/ewrwerwerwe")
     public Object searchGamedsds2222s() {
         try {
-            return lcuService.searchChampionMasteryData(CurrSummoner.getInstance().getPuuid());
+            return lcuApiService.searchChampionMasteryData(Summoner.getInstance().getPuuid());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

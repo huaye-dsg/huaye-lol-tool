@@ -1,9 +1,11 @@
-package com.example.huayeloltool.model;
+package com.example.huayeloltool.model.score;
 
 import com.example.huayeloltool.enums.ScoreOption;
 import lombok.Data;
+import lombok.Getter;
 
 
+@Getter
 @Data
 public class IncScoreReason {
     private final ScoreOption reason;
@@ -14,11 +16,4 @@ public class IncScoreReason {
         this.incVal = incVal;
     }
 
-    public ScoreOption getReason() {
-        return reason;
-    }
-
-    public double getIncVal() {
-        return incVal;
-    }
 }

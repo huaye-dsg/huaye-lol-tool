@@ -1,17 +1,20 @@
-package com.example.huayeloltool.model;
+package com.example.huayeloltool.model.game;
 
+import com.example.huayeloltool.enums.CommonResp;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
+/**
+ * 游戏对局详情
+ */
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class GameSummary extends CommonResp {
 
-    /**
-     * 游戏创建时间戳
+    /*
+      游戏创建时间戳
      */
     //private long gameCreation;
 
@@ -25,28 +28,28 @@ public class GameSummary extends CommonResp {
      */
     private int gameDuration;
 
-    /**
-     * 游戏ID
+    /*
+      游戏ID
      */
     //private long gameId;
 
-    /**
-     * 游戏模式
+    /*
+      游戏模式
      */
     //private String gameMode;
 
-    /**
-     * 游戏类型
+    /*
+      游戏类型
      */
     //private String gameType;
 
-    /**
-     * 游戏版本
+    /*
+      游戏版本
      */
     //private String gameVersion;
 
-    /**
-     * 地图ID
+    /*
+      地图ID
      */
     //private String mapId;
 
@@ -60,18 +63,18 @@ public class GameSummary extends CommonResp {
      */
     private List<Participant> participants;
 
-    /**
-     * 平台ID
+    /*
+      平台ID
      */
     //private String platformId;
 
-    /**
-     * 游戏队列ID
+    /*
+      游戏队列ID
      */
     //private Integer queueId;
 
-    /**
-     * 赛季ID
+    /*
+      赛季ID
      */
     //private Integer seasonId;
 
@@ -103,33 +106,33 @@ public class GameSummary extends CommonResp {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Player {
-        /**
-         * 账号ID
+        /*
+          账号ID
          */
         //private long accountId;
 
-        /**
-         * 当前账号ID
+        /*
+          当前账号ID
          */
         //private long currentAccountId;
 
-        /**
-         * 当前平台ID
+        /*
+          当前平台ID
          */
         //private String currentPlatformId;
 
-        /**
-         * 匹配历史URI
+        /*
+          匹配历史URI
          */
         //private String matchHistoryUri;
 
-        /**
-         * 平台ID
+        /*
+          平台ID
          */
         //private String platformId;
 
-        /**
-         * 头像ID
+        /*
+          头像ID
          */
         //private int profileIcon;
 
@@ -138,8 +141,8 @@ public class GameSummary extends CommonResp {
          */
         private long summonerId;
 
-        /**
-         * 召唤师名称
+        /*
+          召唤师名称
          */
         //private String summonerName;
     }

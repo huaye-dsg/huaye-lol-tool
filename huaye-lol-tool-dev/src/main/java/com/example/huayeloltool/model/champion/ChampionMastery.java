@@ -1,9 +1,6 @@
-package com.example.huayeloltool.model;
+package com.example.huayeloltool.model.champion;
 
 import lombok.Data;
-
-import java.util.List;
-import java.util.Map;
 
 @Data
 public class ChampionMastery {

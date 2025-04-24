@@ -1,6 +1,5 @@
 package com.example.huayeloltool.model;
 
-import com.example.huayeloltool.cache.UserScoreCache;
 import com.example.huayeloltool.enums.GameEnums;
 import lombok.Data;
 
@@ -8,8 +7,12 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+
+/**
+ * 当前本局游戏信息
+ */
 @Data
-public class SelfGameSession {
+public class CustomGameSessionDetails {
 
     /**
      * 游戏模式
@@ -20,7 +23,6 @@ public class SelfGameSession {
      * 楼层。1-5楼
      */
     private Integer floor;
-
 
     /**
      * 位置。例如中路
@@ -37,15 +39,19 @@ public class SelfGameSession {
      */
     private Boolean isSelected = false;
 
+    /**
+     * 已处理过的动作ID
+     */
     private Set<String> processedActionIds = new HashSet<>();
 
+    /**
+     * 单例
+     */
+    private static CustomGameSessionDetails instance;
 
-    private static SelfGameSession instance;
-
-
-    public static SelfGameSession getInstance() {
+    public static CustomGameSessionDetails getInstance() {
         if (instance == null) {
-            instance = new SelfGameSession();
+            instance = new CustomGameSessionDetails();
         }
         return instance;
     }
@@ -69,14 +75,14 @@ public class SelfGameSession {
 
     public static Integer getFloor() {
         if (instance == null) {
-            instance = new SelfGameSession();
+            instance = new CustomGameSessionDetails();
         }
         return instance.floor;
     }
 
     public static Integer getQueueId() {
         if (instance == null) {
-            instance = new SelfGameSession();
+            instance = new CustomGameSessionDetails();
         }
         return instance.queueId;
     }
@@ -84,7 +90,7 @@ public class SelfGameSession {
 
     public static String getPosition() {
         if (instance == null) {
-            instance = new SelfGameSession();
+            instance = new CustomGameSessionDetails();
         }
         return instance.position;
     }
@@ -92,14 +98,14 @@ public class SelfGameSession {
 
     public static void setQueue(Integer queueId) {
         if (instance == null) {
-            instance = new SelfGameSession();
+            instance = new CustomGameSessionDetails();
         }
         instance.queueId = queueId;
     }
 
     public static void setFloor(Integer floor) {
         if (instance == null) {
-            instance = new SelfGameSession();
+            instance = new CustomGameSessionDetails();
         }
         instance.floor = floor;
     }
@@ -107,14 +113,14 @@ public class SelfGameSession {
 
     public static void setPosition(String position) {
         if (instance == null) {
-            instance = new SelfGameSession();
+            instance = new CustomGameSessionDetails();
         }
         instance.position = position;
     }
 
     public static synchronized void setIsBanned(boolean b) {
         if (instance == null) {
-            instance = new SelfGameSession();
+            instance = new CustomGameSessionDetails();
         }
         instance.isBaned = b;
 
@@ -122,14 +128,14 @@ public class SelfGameSession {
 
     public static synchronized void setIsSelected(boolean b) {
         if (instance == null) {
-            instance = new SelfGameSession();
+            instance = new CustomGameSessionDetails();
         }
         instance.isSelected = b;
     }
 
     public static void init() {
         if (instance == null) {
-            instance = new SelfGameSession();
+            instance = new CustomGameSessionDetails();
         }
         instance.isSelected = false;
         instance.isBaned = false;
@@ -137,14 +143,14 @@ public class SelfGameSession {
         instance.floor = 0;
         instance.position = null;
         instance.processedActionIds.clear();
-
-
-        //UserScoreCache.clear();
     }
 
+    /**
+     * 是否是单双排排位
+     */
     public static boolean isSoloRank() {
         if (instance == null) {
-            instance = new SelfGameSession();
+            instance = new CustomGameSessionDetails();
         }
         return Objects.equals(GameEnums.GameQueueID.RANK_SOLO.getId(), instance.queueId);
     }

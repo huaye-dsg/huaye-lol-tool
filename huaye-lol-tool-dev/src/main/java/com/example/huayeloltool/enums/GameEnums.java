@@ -3,8 +3,6 @@ package com.example.huayeloltool.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
@@ -60,7 +58,7 @@ public class GameEnums {
         GRANDMASTER("GRANDMASTER", "宗师"),// 宗师
         CHALLENGER("CHALLENGER", "王者");  // 王者
 
-        public static Map<String, String> rankMap = new HashMap<>();
+        public static final Map<String, String> rankMap = new HashMap<>();
 
         public static String getRankNameMap(String value) {
             return rankMap.getOrDefault(value, "未知");
@@ -152,7 +150,7 @@ public class GameEnums {
         private final String value;
         private final String desc;
 
-        public static Map<String, String> map = Arrays.stream(Position.values()).collect(Collectors.toMap(Position::getValue, Position::getDesc));
+        public static final Map<String, String> map = Arrays.stream(Position.values()).collect(Collectors.toMap(Position::getValue, Position::getDesc));
 
         public static String getDescByValue(String value) {
             return StringUtils.isNotEmpty(value) ? map.getOrDefault(value.toLowerCase(), "未知") : "未知";
@@ -160,8 +158,8 @@ public class GameEnums {
     }
 
 
-    /**
-     * 大区ID
+    /*
+      大区ID
      */
     //public static final String PlatformIDDX1 = "HN1"; // 艾欧尼亚
     //public static final String PlatformIDDX2 = "HN2"; // 祖安

@@ -3,8 +3,11 @@ package com.example.huayeloltool.model;
 import lombok.Data;
 
 
+/**
+ * 召唤师信息
+ */
 @Data
-public class CurrSummoner {
+public class Summoner {
     /**
      * 账户ID
      */
@@ -13,12 +16,12 @@ public class CurrSummoner {
     /**
      * 显示名称
      */
-    private String displayName;
+    //private String displayName;
 
     /**
      * 内部名称
      */
-    private String internalName;
+    //private String internalName;
 
     /**
      * 名称更改标志
@@ -33,7 +36,7 @@ public class CurrSummoner {
     /**
      * 头像ID
      */
-    private Integer profileIconId;
+    //private Integer profileIconId;
 
     /**
      * 玩家唯一标识符
@@ -80,18 +83,18 @@ public class CurrSummoner {
      */
     //private Integer xpUntilNextLevel;
 
-    private static CurrSummoner instance;
+    private static Summoner instance;
 
 
-    public static synchronized CurrSummoner setInstance(CurrSummoner currSummoner) {
-        instance = currSummoner;
+    public static synchronized Summoner setInstance(Summoner summoner) {
+        instance = summoner;
         return instance;
     }
 
 
-    public static synchronized CurrSummoner getInstance() {
+    public static synchronized Summoner getInstance() {
         if (instance == null) {
-            instance = new CurrSummoner();
+            instance = new Summoner();
         }
         return instance;
     }

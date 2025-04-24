@@ -1,17 +1,16 @@
-package com.example.huayeloltool.model;
+package com.example.huayeloltool.model.game;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
 
 @Data
 public class Participant {
-    //private Integer championId; // 英雄ID
+    private Integer championId; // 英雄ID
     //private String highestAchievedSeasonTier; // 玩家在该赛季达到的最高段位，例如：GOLD, PLATINUM
     private Integer participantId; // 参与者ID，与ParticipantIdentity中的participantId对应
     //private Integer spell1Id; // 召唤师技能1 ID
     //private Integer spell2Id; // 召唤师技能2 ID
-    private Stats stats; // 统计数据
+    private Stats stats; // 详细数据
     private Integer teamId; // 队伍ID (100 or 200)
     private Timeline timeline; // 时间线数据
 
@@ -122,7 +121,7 @@ public class Participant {
         //private int visionWardsBoughtInGame; // 假眼购买数量
         //private int wardsKilled; // 眼位摧毁数
         //private int wardsPlaced; // 眼位放置数
-        //private Boolean win; // 是否胜利
+        private Boolean win; // 是否胜利
 
         // Getter, Setter 和 构造方法
     }

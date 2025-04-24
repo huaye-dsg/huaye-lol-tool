@@ -1,5 +1,6 @@
-package com.example.huayeloltool.model;
+package com.example.huayeloltool.model.champion;
 
+import com.example.huayeloltool.enums.CommonResp;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -284,5 +285,3 @@ public class ChampSelectSessionInfo extends CommonResp {
 //        private String state;
 //    }
 }
-
-

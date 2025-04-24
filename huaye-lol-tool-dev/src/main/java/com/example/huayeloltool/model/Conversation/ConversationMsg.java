@@ -1,8 +1,6 @@
-package com.example.huayeloltool.model;
+package com.example.huayeloltool.model.Conversation;
 
 import lombok.*;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Setter

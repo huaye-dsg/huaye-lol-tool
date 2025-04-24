@@ -3,16 +3,16 @@ package com.example.huayeloltool.service;
 import com.alibaba.fastjson2.JSON;
 import com.example.huayeloltool.enums.GameEnums;
 import com.example.huayeloltool.enums.Heros;
-import com.example.huayeloltool.model.ChampSelectSessionInfo;
-import com.example.huayeloltool.model.ChampionMastery;
-import com.example.huayeloltool.model.DefaultClientConf;
-import com.example.huayeloltool.model.SelfGameSession;
+import com.example.huayeloltool.model.champion.ChampSelectSessionInfo;
+import com.example.huayeloltool.model.champion.ChampionMastery;
+import com.example.huayeloltool.model.base.GamePlaySetting;
+import com.example.huayeloltool.model.CustomGameSessionDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -23,16 +23,18 @@ import java.util.stream.Collectors;
 @Slf4j
 public class GameSessionUpdateService {
 
-    private final DefaultClientConf clientCfg = DefaultClientConf.getInstance();
+    private final GamePlaySetting clientCfg = GamePlaySetting.getInstance();
 
-    @Autowired
-    private LcuService lcuService;
+    private final LcuApiService lcuApiService;
+
+    public GameSessionUpdateService(LcuApiService lcuApiService) {
+        this.lcuApiService = lcuApiService;
+    }
 
     public void onChampSelectSessionUpdate(String sessionStr) {
         ChampSelectSessionInfo sessionInfo = JSON.parseObject(sessionStr, ChampSelectSessionInfo.class);
-//        log.info("游戏选择会话变更： {}", JSON.toJSONString(sessionInfo));
         Integer localPlayerCellId = sessionInfo.getLocalPlayerCellId();
-        SelfGameSession.setFloor(localPlayerCellId);
+        CustomGameSessionDetails.setFloor(localPlayerCellId);
         analyzeSession(sessionInfo);
     }
 
@@ -42,7 +44,7 @@ public class GameSessionUpdateService {
         List<List<ChampSelectSessionInfo.Action>> actions = session.getActions();
 
         List<ChampSelectSessionInfo.Player> myTeam = session.getMyTeam();
-        log.info("localPlayerCellId: {}, myTeam: {}", localPlayerCellId, myTeam);
+        //log.info("localPlayerCellId: {}, myTeam: {}", localPlayerCellId, myTeam);
         // 队友楼层和位置映射
         Map<Integer, ChampSelectSessionInfo.Player> positionMap = myTeam.stream().
                 collect(Collectors.toMap(ChampSelectSessionInfo.Player::getCellId, Function.identity()));
@@ -56,50 +58,60 @@ public class GameSessionUpdateService {
                 Boolean isAllyAction = action.getIsAllyAction();
                 Integer id = action.getId();
 
+                if (championId <= 0) {
+                    continue;
+                }
+
                 // 是否本人
                 boolean isSelf = actorCellId == localPlayerCellId;
 
-                String actionKey = actorCellId + "_" + id + "_" + type + completed + action.getIsInProgress();
+                String actionKey = actorCellId + "_" + id + "_" + type + "_" + completed + "_" + action.getIsInProgress();
 
-                if (completed && !SelfGameSession.getProcessedActionIds().contains(actionKey)) {
-                    SelfGameSession.addProcessedActionIds(actionKey);
+                if (completed && !CustomGameSessionDetails.getProcessedActionIds().contains(actionKey)) {
+                    CustomGameSessionDetails.addProcessedActionIds(actionKey);
 
                     boolean isPick = "pick".equals(type);
 
-                    String position = "";
-                    try {
-                        position = positionMap.get(actorCellId) != null ?
-                                GameEnums.Position.getDescByValue(positionMap.get(actorCellId).getAssignedPosition()) : "未知";
-                    } catch (Exception e) {
-                        log.error("位置计算失败：", e);
+                    String position = positionMap.get(actorCellId) != null ?
+                            GameEnums.Position.getDescByValue(positionMap.get(actorCellId).getAssignedPosition()) : "未知";
+                    String logMessage;
+                    if (isAllyAction) {
+                        logMessage = String.format(
+                                "【我方】位置：%s, 动作: %s, 英雄: %s",
+                                position,
+                                isPick ? "选择（锁定）英雄" : "禁用英雄",
+                                Heros.getNameById(championId)
+                        );
+                    } else {
+                        logMessage = String.format(
+                                "【敌方】动作: %s, 英雄: %s",
+                                isPick ? "选择（锁定）英雄" : "禁用英雄",
+                                Heros.getNameById(championId)
+                        );
                     }
-
-
-                    String logMessage = String.format(
-                            "【%s】位置：%s, 动作: %s, 英雄: %s",
-                            isAllyAction ? "我方" : "敌方",
-                            position,
-                            isPick ? "选择（锁定）英雄" : "禁用英雄",
-                            Heros.getNameById(championId)
-                    );
-
-                    if (isPick && championId > 0 && isAllyAction) {
+                    if (isPick && isAllyAction) {
                         logMessage = analyzeHeros(positionMap, actorCellId, logMessage, championId);
                     }
                     log.info(logMessage);
                 } else if (!completed && isSelf) {
-                    if (SelfGameSession.isBaned() && SelfGameSession.isSelected()) {
+                    if (CustomGameSessionDetails.isBaned() && CustomGameSessionDetails.isSelected()) {
                         continue;
                     }
                     // 本人操作
-                    if ("ban".equals(type) && clientCfg.getAutoBanChampID() > 0 && !SelfGameSession.isBaned()) {
-                        lcuService.banChampion(clientCfg.getAutoBanChampID(), action.getId());
-                        SelfGameSession.setIsBanned(true);
-                        SelfGameSession.addProcessedActionIds(actionKey);
-                        action.setCompleted(true);
-                    } else if ("pick".equals(type) && clientCfg.getAutoPickChampID() > 0 && !SelfGameSession.isSelected()) {
-                        lcuService.pickChampion(clientCfg.getAutoPickChampID(), action.getId());
-                        SelfGameSession.setIsSelected(true);
+                    if ("ban".equals(type) && clientCfg.getAutoBanChampID() > 0 && !CustomGameSessionDetails.isBaned()) {
+                        try {
+                            TimeUnit.SECONDS.sleep(2);
+                        } catch (InterruptedException ignored) {
+                        }
+                        Boolean result = lcuApiService.banChampion(clientCfg.getAutoBanChampID(), action.getId());
+                        if (result) {
+                            CustomGameSessionDetails.setIsBanned(true);
+                            CustomGameSessionDetails.addProcessedActionIds(actionKey);
+                            action.setCompleted(true);
+                        }
+                    } else if ("pick".equals(type) && clientCfg.getAutoPickChampID() > 0 && !CustomGameSessionDetails.isSelected()) {
+                        lcuApiService.pickChampion(clientCfg.getAutoPickChampID(), action.getId());
+                        CustomGameSessionDetails.setIsSelected(true);
                         action.setCompleted(true);
                     }
                 }
@@ -112,7 +124,7 @@ public class GameSessionUpdateService {
         // 如果队友选择了英雄，则分析英雄熟练度
         ChampSelectSessionInfo.Player player = positionMap.get(actorCellId);
         String puuid = player.getPuuid();
-        List<ChampionMastery> championMasteries = lcuService.searchChampionMasteryData(puuid);
+        List<ChampionMastery> championMasteries = lcuApiService.searchChampionMasteryData(puuid);
         logMessage += String.format(", 熟练度: %s", calculateMasteryScore(championId, championMasteries));
 
         // 再找出这个人擅长的前5个英雄

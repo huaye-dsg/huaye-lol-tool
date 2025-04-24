@@ -1,4 +1,4 @@
-package com.example.huayeloltool.model;
+package com.example.huayeloltool.model.score;
 
 import lombok.Data;
 import lombok.ToString;

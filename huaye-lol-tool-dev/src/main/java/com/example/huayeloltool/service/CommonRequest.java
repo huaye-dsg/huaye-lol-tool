@@ -18,9 +18,11 @@ import java.net.SocketTimeoutException;
 @Component
 public class CommonRequest {
 
-    @Autowired
-    @Qualifier(value = "unsafeOkHttpClient")
-    private OkHttpClient client;
+    public final OkHttpClient client;
+
+    public CommonRequest(@Qualifier(value = "unsafeOkHttpClient") OkHttpClient client) {
+        this.client = client;
+    }
 
     public <T> T sendRequest(Request request, Class<T> responseClass) throws IOException {
         try (Response response = client.newCall(request).execute()) {
