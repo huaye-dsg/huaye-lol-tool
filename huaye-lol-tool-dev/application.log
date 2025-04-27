@@ -509,3 +509,146 @@ Caused by: java.lang.NullPointerException: null
 2025-04-24 21:58:51 [Thread-80] INFO  c.e.h.s.GameSessionUpdateService - 【我方】位置：未知, 动作: 禁用英雄, 英雄: 薇古斯
 2025-04-24 21:58:55 [Thread-95] INFO  c.e.h.s.GameSessionUpdateService - 【我方】位置：未知, 动作: 选择（锁定）英雄, 英雄: 维鲁斯, 熟练度: 0
  擅长英雄: 刀妹，亚索，德莱文，狐狸，大虫子
+2025-04-24 22:01:21 [main] INFO  com.example.huayeloltool.Application - Starting Application using Java 1.8.0_202 on 花爷的计算机 with PID 16260 (E:\huaye-lol-tool-dev\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool-dev)
+2025-04-24 22:01:21 [main] INFO  com.example.huayeloltool.Application - No active profile set, falling back to default profiles: default
+2025-04-24 22:01:22 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9361 (http)
+2025-04-24 22:01:22 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9361"]
+2025-04-24 22:01:22 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-04-24 22:01:22 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.56]
+2025-04-24 22:01:22 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-04-24 22:01:22 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1056 ms
+2025-04-24 22:01:24 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9361"]
+2025-04-24 22:01:24 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9361 (http) with context path ''
+2025-04-24 22:01:24 [main] INFO  com.example.huayeloltool.Application - Started Application in 2.898 seconds (JVM running for 4.173)
+2025-04-24 22:01:25 [OkHttp https://127.0.0.1:49357/...] INFO  c.e.h.monitor.GameFlowMonitor - Connected to LCU
+2025-04-24 22:01:37 [Thread-38] INFO  c.e.h.service.GameStateUpdateService - 进入英雄选择阶段, 正在计算我方分数
+2025-04-24 22:01:39 [Thread-36] INFO  c.e.h.s.GameSessionUpdateService - 本人禁用英雄，key：0_1_ban_false_true
+2025-04-24 22:01:39 [Thread-36] INFO  c.e.h.s.GameSessionUpdateService - 禁用成功
+2025-04-24 22:01:39 [Thread-49] INFO  c.e.h.s.GameSessionUpdateService - 【我方】位置：未知, 动作: 禁用英雄, 英雄: 男枪
+2025-04-24 22:01:42 [Thread-60] INFO  c.e.h.s.GameSessionUpdateService - 【我方】位置：未知, 动作: 禁用英雄, 英雄: 潘森
+2025-04-24 22:01:43 [Thread-39] INFO  c.e.h.service.GameStateUpdateService - 【中等马】【118分】【黄金-III-38】: 中国第一深情#92429 [胜-兔子]12/2/6   [胜-安蓓萨]5/11/19   [胜-维克托]12/9/19   [胜-电耗子]5/2/12   [败-塞拉斯]2/4/2 
+
+2025-04-24 22:01:45 [Thread-71] INFO  c.e.h.s.GameSessionUpdateService - 【我方】位置：未知, 动作: 禁用英雄, 英雄: 卡特
+2025-04-24 22:01:45 [Thread-73] INFO  c.e.h.s.GameSessionUpdateService - 本人选择英雄，key：0_4_pick_false_true
+2025-04-24 22:01:46 [Thread-78] INFO  c.e.h.s.GameSessionUpdateService - 【我方】位置：未知, 动作: 选择（锁定）英雄, 英雄: 狐狸, 熟练度: 87
+ 擅长英雄: 刀妹，亚索，德莱文，狐狸，大虫子
+2025-04-25 20:18:17 [main] INFO  com.example.huayeloltool.Application - Starting Application using Java 1.8.0_202 on 花爷的计算机 with PID 4424 (E:\huaye-lol-tool-dev\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool-dev)
+2025-04-25 20:18:17 [main] INFO  com.example.huayeloltool.Application - No active profile set, falling back to default profiles: default
+2025-04-25 20:18:18 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9361 (http)
+2025-04-25 20:18:18 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9361"]
+2025-04-25 20:18:18 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-04-25 20:18:18 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.56]
+2025-04-25 20:18:18 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-04-25 20:18:18 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1380 ms
+2025-04-25 20:18:19 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9361"]
+2025-04-25 20:18:19 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9361 (http) with context path ''
+2025-04-25 20:18:20 [main] INFO  com.example.huayeloltool.Application - Started Application in 3.528 seconds (JVM running for 5.368)
+2025-04-25 20:18:21 [OkHttp https://127.0.0.1:62187/...] INFO  c.e.h.monitor.GameFlowMonitor - Connected to LCU
+2025-04-25 20:18:39 [Thread-51] INFO  c.e.h.service.GameStateUpdateService - 进入英雄选择阶段, 正在计算我方分数
+2025-04-25 20:18:41 [Thread-50] INFO  c.e.h.s.GameSessionUpdateService - 本人禁用英雄，key：0_1_ban_false_true
+2025-04-25 20:18:41 [Thread-50] INFO  c.e.h.s.GameSessionUpdateService - 禁用成功
+2025-04-25 20:18:41 [Thread-61] INFO  c.e.h.s.GameSessionUpdateService - 【我方】位置：未知, 动作: 禁用英雄, 英雄: 男枪
+2025-04-25 20:18:45 [ForkJoinPool.commonPool-worker-4] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:18:45 [ForkJoinPool.commonPool-worker-15] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:18:45 [ForkJoinPool.commonPool-worker-12] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:18:45 [ForkJoinPool.commonPool-worker-10] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:18:45 [ForkJoinPool.commonPool-worker-1] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:18:45 [ForkJoinPool.commonPool-worker-11] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:18:45 [ForkJoinPool.commonPool-worker-8] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:18:45 [ForkJoinPool.commonPool-worker-9] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:18:45 [ForkJoinPool.commonPool-worker-5] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:18:45 [ForkJoinPool.commonPool-worker-7] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:18:45 [ForkJoinPool.commonPool-worker-14] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:18:45 [ForkJoinPool.commonPool-worker-1] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:18:45 [ForkJoinPool.commonPool-worker-9] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:18:45 [ForkJoinPool.commonPool-worker-15] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:18:45 [ForkJoinPool.commonPool-worker-12] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:18:45 [ForkJoinPool.commonPool-worker-11] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:18:45 [ForkJoinPool.commonPool-worker-8] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:18:45 [ForkJoinPool.commonPool-worker-4] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:18:45 [Thread-52] INFO  c.e.h.service.GameStateUpdateService - 【牛 马】【50分】【黄金-III-38】: 中国第一深情#92429 [胜-兔子]12/2/6   [胜-安蓓萨]5/11/19   [胜-维克托]12/9/19   [胜-电耗子]5/2/12   [败-塞拉斯]2/4/2 
+
+2025-04-25 20:22:35 [Thread-522] INFO  c.e.h.service.GameStateUpdateService - 进入英雄选择阶段, 正在计算我方分数
+2025-04-25 20:22:37 [Thread-521] INFO  c.e.h.s.GameSessionUpdateService - 本人禁用英雄，key：0_1_ban_false_true
+2025-04-25 20:22:37 [Thread-521] INFO  c.e.h.s.GameSessionUpdateService - 禁用成功
+2025-04-25 20:22:37 [Thread-532] INFO  c.e.h.s.GameSessionUpdateService - 【我方】位置：未知, 动作: 禁用英雄, 英雄: 男枪
+2025-04-25 20:22:40 [ForkJoinPool.commonPool-worker-2] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:22:40 [ForkJoinPool.commonPool-worker-9] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:22:40 [ForkJoinPool.commonPool-worker-0] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:22:40 [ForkJoinPool.commonPool-worker-11] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:34:29 [ForkJoinPool.commonPool-worker-13] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:34:29 [ForkJoinPool.commonPool-worker-1] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:34:29 [ForkJoinPool.commonPool-worker-8] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:34:29 [ForkJoinPool.commonPool-worker-10] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:34:29 [ForkJoinPool.commonPool-worker-6] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:34:29 [ForkJoinPool.commonPool-worker-15] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:34:29 [ForkJoinPool.commonPool-worker-2] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:34:29 [ForkJoinPool.commonPool-worker-9] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:34:29 [ForkJoinPool.commonPool-worker-11] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:34:29 [ForkJoinPool.commonPool-worker-1] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:34:29 [ForkJoinPool.commonPool-worker-8] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:34:29 [ForkJoinPool.commonPool-worker-0] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:34:29 [ForkJoinPool.commonPool-worker-13] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:34:29 [ForkJoinPool.commonPool-worker-4] INFO  c.e.h.m.score.GameScoreCalculator - 新模式正在分析
+2025-04-25 20:34:29 [Thread-523] INFO  c.e.h.service.GameStateUpdateService - 【牛 马】【50分】【黄金-III-38】: 中国第一深情#92429 [胜-兔子]12/2/6   [胜-安蓓萨]5/11/19   [胜-维克托]12/9/19   [胜-电耗子]5/2/12   [败-塞拉斯]2/4/2 
+
+2025-04-25 20:34:36 [main] INFO  com.example.huayeloltool.Application - Starting Application using Java 1.8.0_202 on 花爷的计算机 with PID 2908 (E:\huaye-lol-tool-dev\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool-dev)
+2025-04-25 20:34:36 [main] INFO  com.example.huayeloltool.Application - No active profile set, falling back to default profiles: default
+2025-04-25 20:34:37 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9361 (http)
+2025-04-25 20:34:37 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9361"]
+2025-04-25 20:34:37 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-04-25 20:34:37 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.56]
+2025-04-25 20:34:37 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-04-25 20:34:37 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1086 ms
+2025-04-25 20:34:39 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9361"]
+2025-04-25 20:34:39 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9361 (http) with context path ''
+2025-04-25 20:34:39 [main] INFO  com.example.huayeloltool.Application - Started Application in 3.001 seconds (JVM running for 4.104)
+2025-04-25 20:34:40 [OkHttp https://127.0.0.1:62187/...] INFO  c.e.h.monitor.GameFlowMonitor - Connected to LCU
+2025-04-25 20:34:50 [Thread-33] INFO  c.e.h.service.GameStateUpdateService - 进入英雄选择阶段, 正在计算我方分数
+2025-04-25 20:34:52 [Thread-32] INFO  c.e.h.s.GameSessionUpdateService - 本人禁用英雄，key：0_1_ban_false_true
+2025-04-25 20:34:52 [Thread-32] INFO  c.e.h.s.GameSessionUpdateService - 禁用成功
+2025-04-25 20:34:52 [Thread-43] INFO  c.e.h.s.GameSessionUpdateService - 【我方】位置：未知, 动作: 禁用英雄, 英雄: 男枪
+2025-04-25 20:34:55 [ForkJoinPool.commonPool-worker-8] INFO  c.e.h.m.score.GameScoreCalculator1 - 新模式正在分析
+2025-04-25 20:34:55 [ForkJoinPool.commonPool-worker-11] INFO  c.e.h.m.score.GameScoreCalculator1 - 新模式正在分析
+2025-04-25 20:34:55 [ForkJoinPool.commonPool-worker-5] INFO  c.e.h.m.score.GameScoreCalculator1 - 新模式正在分析
+2025-04-25 20:34:55 [ForkJoinPool.commonPool-worker-14] INFO  c.e.h.m.score.GameScoreCalculator1 - 新模式正在分析
+2025-04-25 20:34:55 [ForkJoinPool.commonPool-worker-4] INFO  c.e.h.m.score.GameScoreCalculator1 - 新模式正在分析
+2025-04-25 20:34:55 [ForkJoinPool.commonPool-worker-1] INFO  c.e.h.m.score.GameScoreCalculator1 - 新模式正在分析
+2025-04-25 20:34:55 [ForkJoinPool.commonPool-worker-3] INFO  c.e.h.m.score.GameScoreCalculator1 - 新模式正在分析
+2025-04-25 20:34:55 [ForkJoinPool.commonPool-worker-12] INFO  c.e.h.m.score.GameScoreCalculator1 - 新模式正在分析
+2025-04-25 20:34:55 [ForkJoinPool.commonPool-worker-6] INFO  c.e.h.m.score.GameScoreCalculator1 - 新模式正在分析
+2025-04-25 20:34:55 [ForkJoinPool.commonPool-worker-10] INFO  c.e.h.m.score.GameScoreCalculator1 - 新模式正在分析
+2025-04-25 20:34:55 [ForkJoinPool.commonPool-worker-2] INFO  c.e.h.m.score.GameScoreCalculator1 - 新模式正在分析
+2025-04-25 20:36:23 [ForkJoinPool.commonPool-worker-1] INFO  c.e.h.m.score.GameScoreCalculator1 - 新模式正在分析
+2025-04-25 20:36:23 [ForkJoinPool.commonPool-worker-14] INFO  c.e.h.m.score.GameScoreCalculator1 - 新模式正在分析
+2025-04-25 20:36:23 [ForkJoinPool.commonPool-worker-12] INFO  c.e.h.m.score.GameScoreCalculator1 - 新模式正在分析
+2025-04-25 20:36:23 [ForkJoinPool.commonPool-worker-3] INFO  c.e.h.m.score.GameScoreCalculator1 - 新模式正在分析
+2025-04-25 20:36:23 [ForkJoinPool.commonPool-worker-8] INFO  c.e.h.m.score.GameScoreCalculator1 - 新模式正在分析
+2025-04-25 20:36:23 [ForkJoinPool.commonPool-worker-5] INFO  c.e.h.m.score.GameScoreCalculator1 - 新模式正在分析
+2025-04-25 20:36:23 [ForkJoinPool.commonPool-worker-2] INFO  c.e.h.m.score.GameScoreCalculator1 - 新模式正在分析
+2025-04-25 20:36:23 [Thread-34] INFO  c.e.h.service.GameStateUpdateService - 【牛 马】【50分】【黄金-III-38】: 中国第一深情#92429 [胜-兔子]12/2/6   [胜-安蓓萨]5/11/19   [胜-维克托]12/9/19   [胜-电耗子]5/2/12   [败-塞拉斯]2/4/2 
+
+2025-04-25 20:36:31 [main] INFO  com.example.huayeloltool.Application - Starting Application using Java 1.8.0_202 on 花爷的计算机 with PID 18808 (E:\huaye-lol-tool-dev\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool-dev)
+2025-04-25 20:36:31 [main] INFO  com.example.huayeloltool.Application - No active profile set, falling back to default profiles: default
+2025-04-25 20:36:32 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9361 (http)
+2025-04-25 20:36:32 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9361"]
+2025-04-25 20:36:32 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-04-25 20:36:32 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.56]
+2025-04-25 20:36:32 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-04-25 20:36:32 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1066 ms
+2025-04-25 20:36:33 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9361"]
+2025-04-25 20:36:33 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9361 (http) with context path ''
+2025-04-25 20:36:33 [main] INFO  com.example.huayeloltool.Application - Started Application in 3.0 seconds (JVM running for 4.131)
+2025-04-25 20:36:34 [OkHttp https://127.0.0.1:62187/...] INFO  c.e.h.monitor.GameFlowMonitor - Connected to LCU
+2025-04-26 21:47:13 [main] INFO  com.example.huayeloltool.Application - Starting Application using Java 1.8.0_202 on ��ү�ļ���� with PID 21384 (E:\huaye-lol-tool-dev\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool-dev)
+2025-04-26 21:47:13 [main] INFO  com.example.huayeloltool.Application - No active profile set, falling back to default profiles: default
+2025-04-26 21:47:14 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9361 (http)
+2025-04-26 21:47:14 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9361"]
+2025-04-26 21:47:14 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-04-26 21:47:14 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.56]
+2025-04-26 21:47:14 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-04-26 21:47:14 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1088 ms
+2025-04-26 21:47:15 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9361"]
+2025-04-26 21:47:15 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9361 (http) with context path ''
+2025-04-26 21:47:15 [main] INFO  com.example.huayeloltool.Application - Started Application in 2.322 seconds (JVM running for 2.649)
+2025-04-26 21:47:15 [main] ERROR c.e.h.monitor.GameFlowMonitor - LOL�ӿڽ��̲����ڣ�

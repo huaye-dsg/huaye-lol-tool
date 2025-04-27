@@ -12,6 +12,7 @@ import com.example.huayeloltool.model.base.GamePlaySetting;
 import com.example.huayeloltool.model.base.HorseScoreConf;
 import com.example.huayeloltool.model.game.*;
 import com.example.huayeloltool.model.rankinfo.RankedInfo;
+import com.example.huayeloltool.model.score.GameScoreCalculator1;
 import com.example.huayeloltool.model.score.ScoreService;
 import com.example.huayeloltool.model.score.ScoreWithReason;
 import com.example.huayeloltool.model.score.UserScore;
@@ -44,6 +45,8 @@ public class GameStateUpdateService extends CommonRequest {
     private LcuApiService lcuApiService;
     @Resource
     private ScoreService scoreService;
+    @Resource
+    private GameScoreCalculator1 gameScoreCalculator1;
 
     private static final int MAX_KDA_DISPLAY = 5;
     private static final int SLEEP_TIME = 200;
@@ -323,6 +326,9 @@ public class GameStateUpdateService extends CommonRequest {
                         try {
                             GameSummary gameSummary = queryGameSummaryWithRetry(info.getGameId());
                             ScoreWithReason score = scoreService.calcUserGameScore(summonerID, gameSummary);
+
+//                            ScoreWithReason scoreWithReason = gameScoreCalculator1.calcUserGameScore(summonerID, gameSummary);
+
                             return new AbstractMap.SimpleEntry<>(score.getScore(), gameSummary.getGameCreationDate());
                         } catch (Exception e) {
                             log.error("获取或计算游戏数据失败", e);

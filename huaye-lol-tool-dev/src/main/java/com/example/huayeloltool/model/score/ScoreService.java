@@ -11,12 +11,14 @@ import java.util.*;
 @Service
 public class ScoreService {
 
+    static final CalcScoreConf calcScoreConf = CalcScoreConf.getInstance();
+    static final double defaultScore = 100.0;
+
     /**
      * 计算用户游戏得分
      */
     public ScoreWithReason calcUserGameScore(long summonerID, GameSummary gameSummary) throws Exception {
-        CalcScoreConf calcScoreConf = new CalcScoreConf();
-        double defaultScore = 100.0;
+
         ScoreWithReason gameScore = new ScoreWithReason(defaultScore);
         int userParticipantId = 0;
 
