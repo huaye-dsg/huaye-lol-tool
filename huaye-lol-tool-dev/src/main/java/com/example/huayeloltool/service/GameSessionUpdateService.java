@@ -1,28 +1,31 @@
 package com.example.huayeloltool.service;
 
 import com.alibaba.fastjson2.JSON;
+
+import lombok.extern.slf4j.Slf4j;
 import com.example.huayeloltool.enums.GameEnums;
 import com.example.huayeloltool.enums.Heros;
+import com.example.huayeloltool.model.game.CustomGameSession;
+import com.example.huayeloltool.model.base.GamePlaySetting;
 import com.example.huayeloltool.model.champion.ChampSelectSessionInfo;
 import com.example.huayeloltool.model.champion.ChampionMastery;
-import com.example.huayeloltool.model.base.GamePlaySetting;
-import com.example.huayeloltool.model.CustomGameSessionDetails;
-import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
-import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
  * 解析游戏会话、英雄选择或禁用等消息
  */
-@Service
 @Slf4j
 public class GameSessionUpdateService {
 
-    private final GamePlaySetting clientCfg = GamePlaySetting.getInstance();
+    private final static GamePlaySetting clientCfg = GamePlaySetting.getInstance();
+
+    private final static CustomGameSession details = CustomGameSession.getInstance();
 
     private final LcuApiService lcuApiService;
 
@@ -32,13 +35,11 @@ public class GameSessionUpdateService {
 
     public void onChampSelectSessionUpdate(String sessionStr) {
         ChampSelectSessionInfo sessionInfo = JSON.parseObject(sessionStr, ChampSelectSessionInfo.class);
-
         analyzeSession(sessionInfo);
     }
 
 
     public void analyzeSession(ChampSelectSessionInfo session) {
-        CustomGameSessionDetails details = CustomGameSessionDetails.getInstance();
         Map<Integer, ChampSelectSessionInfo.Player> positionMap = details.getPositionMap();
         List<ChampSelectSessionInfo.Player> myTeam = session.getMyTeam();
 
@@ -49,25 +50,23 @@ public class GameSessionUpdateService {
 
         for (List<ChampSelectSessionInfo.Action> round : session.getActions()) {
             for (ChampSelectSessionInfo.Action action : round) {
-                String actionKey = buildActionKey(action);
                 boolean completed = action.getCompleted();
-                boolean isSelf = action.getActorCellId() == localCellId;
-                int champId = action.getChampionId();
 
-                // 处理锁定英雄的操作
-                if (completed && champId > 0) {
+                // 处理队友和对手锁定英雄的操作
+                if (completed && action.getChampionId() > 0) {
+                    String actionKey = buildActionKey(action);
                     if (details.markActionProcessed(actionKey)) {
                         handleCompletedAction(action, positionMap);
                     }
                     continue;
                 }
 
-                // 只处理自己、且未完成的操作
-                if (!completed && isSelf) {
-                    if (!details.markActionProcessed(actionKey)) {
-                        continue;
+                // 只处理自己、且未完成的操作。选择或禁用英雄
+                if (!completed && action.getActorCellId() == localCellId && action.getIsInProgress()) {
+                    String actionKey = buildActionKey(action);
+                    if (details.markActionProcessed(actionKey)) {
+                        handleSelfAction(action, actionKey);
                     }
-                    handleSelfAction(action, details);
                 }
             }
         }
@@ -95,30 +94,33 @@ public class GameSessionUpdateService {
     }
 
     // 示例：自动 ban / pick
-    private void handleSelfAction(ChampSelectSessionInfo.Action action, CustomGameSessionDetails details) {
+    private void handleSelfAction(ChampSelectSessionInfo.Action action, String actionKey) {
         String type = action.getType();
         int id = action.getId();
 
         switch (type) {
             case "ban":
-                if (clientCfg.getAutoBanChampID() > 0 && !details.getIsBanned()) {
+                if (clientCfg.getAutoBanChampID() > 0 && !GameSessionUpdateService.details.getIsBanned()) {
                     sleepSeconds();
                     log.info("本人禁用英雄，key：{}", buildActionKey(action));
                     if (lcuApiService.banChampion(clientCfg.getAutoBanChampID(), id)) {
                         log.info("禁用成功");
-                        details.setIsBanned(true);
-                        action.setCompleted(true);
+                        GameSessionUpdateService.details.setIsBanned(true);
+                        //action.setCompleted(true);
                     } else {
-                        log.info("禁用失败");
+                        log.info("禁用失败: {}", JSON.toJSONString(action));
+                        GameSessionUpdateService.details.setIsBanned(false);
+                        // 没成功就把key删了
+                        GameSessionUpdateService.details.markActionUnProcessed(actionKey);
                     }
                 }
                 break;
             case "pick":
-                if (clientCfg.getAutoPickChampID() > 0 && !details.getIsSelected()) {
+                if (clientCfg.getAutoPickChampID() > 0 && !GameSessionUpdateService.details.getIsSelected()) {
                     log.info("本人选择英雄，key：{}", buildActionKey(action));
                     lcuApiService.pickChampion(clientCfg.getAutoPickChampID(), id);
-                    details.setIsSelected(true);
-                    action.setCompleted(true);
+                    GameSessionUpdateService.details.setIsSelected(true);
+                    //action.setCompleted(true);
                 }
                 break;
             default:
@@ -145,7 +147,6 @@ public class GameSessionUpdateService {
     }
 
 
-    @NotNull
     private String analyzeHeros(Map<Integer, ChampSelectSessionInfo.Player> positionMap, int actorCellId, String logMessage, int championId) {
         // 如果队友选择了英雄，则分析英雄熟练度
         ChampSelectSessionInfo.Player player = positionMap.get(actorCellId);

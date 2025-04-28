@@ -1,7 +1,8 @@
 package com.example.huayeloltool.model.base;
 
-import com.example.huayeloltool.model.score.RateItemConf;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Arrays;
 import java.util.List;
@@ -73,7 +74,6 @@ public class CalcScoreConf {
     };
     private boolean mergeMsg = false;
 
-
     private static CalcScoreConf instance;
 
     public static CalcScoreConf getInstance() {
@@ -81,6 +81,21 @@ public class CalcScoreConf {
             instance = new CalcScoreConf();
         }
         return instance;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class RateItemConf {
+        /**
+         * 比率限制 (例如: >30%)
+         */
+        private double limit;
+
+        /**
+         * 分数配置，格式为 [ [最低人头限制, 加分数] ]
+         */
+        private double[][] scoreConf;
     }
 
 

@@ -1,7 +1,7 @@
 package com.example.huayeloltool.config;
 
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.example.huayeloltool.model.base.BaseUrlClient;
 import okhttp3.MediaType;
 import okhttp3.Request;

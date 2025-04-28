@@ -15,7 +15,7 @@ public class Conversation {
 //    private String password;
 //    private String pid;
 //    private String targetRegion;
-    private GameEnums.GameFlow type;  // 假设 models.GameStatus 在 Java 中是一个枚举
+    private GameEnums.GameFlow type;
 //    private int unreadMessageCount;
 
 }

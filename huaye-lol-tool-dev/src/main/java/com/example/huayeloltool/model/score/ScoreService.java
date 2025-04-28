@@ -4,11 +4,9 @@ import com.example.huayeloltool.enums.ScoreOption;
 import com.example.huayeloltool.model.base.CalcScoreConf;
 import com.example.huayeloltool.model.game.GameSummary;
 import com.example.huayeloltool.model.game.Participant;
-import org.springframework.stereotype.Service;
 
 import java.util.*;
 
-@Service
 public class ScoreService {
 
     static final CalcScoreConf calcScoreConf = CalcScoreConf.getInstance();
@@ -18,86 +16,72 @@ public class ScoreService {
      * 计算用户游戏得分
      */
     public ScoreWithReason calcUserGameScore(long summonerID, GameSummary gameSummary) throws Exception {
-
         ScoreWithReason gameScore = new ScoreWithReason(defaultScore);
-        int userParticipantId = 0;
 
-        // 获取用户参与的ID
-        for (GameSummary.ParticipantIdentity identity : gameSummary.getParticipantIdentities()) {
-            if (identity.getPlayer().getSummonerId() == summonerID) {
-                userParticipantId = identity.getParticipantId();
-            }
-        }
+        // 获取用户参与者ID
+        int userParticipantId = gameSummary.getParticipantIdentities().stream()
+                .filter(identity -> identity.getPlayer().getSummonerId() == summonerID)
+                .findFirst() // 用于查找到第一个匹配的项
+                .map(GameSummary.ParticipantIdentity::getParticipantId) // 提取ID
+                .orElseThrow(() -> new Exception("获取用户参与者ID失败"));
 
+        List<Participant> participants = gameSummary.getParticipants();
 
-        if (userParticipantId == 0) {
-            throw new Exception("获取用户位置失败");
-        }
+        // 获取用户队伍ID
+        Participant userParticipant = participants.stream()
+                .filter(item -> item.getParticipantId() == userParticipantId)
+                .findFirst()
+                .orElseThrow(() -> new Exception("获取用户队伍ID失败"));
 
-        Optional<Integer> userTeamID = Optional.empty();
-        List<Integer> memberParticipantIDList = new ArrayList<>(4);
-        Map<Integer, Participant> idMapParticipant = new HashMap<>(gameSummary.getParticipants().size());
-
-        // 映射参与者ID和获取用户队伍ID
-        for (Participant item : gameSummary.getParticipants()) {
-            if (item.getParticipantId() == userParticipantId) {
-                userTeamID = Optional.of(item.getTeamId());
-            }
-            idMapParticipant.put(item.getParticipantId(), item);
-        }
-
-        if (!userTeamID.isPresent()) {
-            throw new Exception("获取用户队伍id失败");
-        }
+        int userTeamID = userParticipant.getTeamId();
 
         // 获取同队参与者ID列表
-        for (Participant item : gameSummary.getParticipants()) {
-            if (item.getTeamId().equals(userTeamID.get())) {
-                memberParticipantIDList.add(item.getParticipantId());
-            }
-        }
+        List<Integer> memberParticipantIDList = participants.stream()
+                .filter(item -> item.getTeamId().equals(userTeamID))
+                .map(Participant::getParticipantId).toList();
 
         int totalKill = 0;   // 总人头
         int totalDeath = 0;  // 总死亡
         int totalAssist = 0; // 总助攻
         int totalHurt = 0;   // 总伤害
         int totalMoney = 0;  // 总金钱
-
-        for (Participant participant : gameSummary.getParticipants()) {
-            if (!participant.getTeamId().equals(userTeamID.get())) {
-                continue;
+        // 统计全队数据
+        for (Participant participant : participants) {
+            if (participant.getTeamId().equals(userTeamID)) {
+                totalKill += participant.getStats().getKills();
+                totalDeath += participant.getStats().getDeaths();
+                totalAssist += participant.getStats().getAssists();
+                totalHurt += participant.getStats().getTotalDamageDealtToChampions();
+                totalMoney += participant.getStats().getGoldEarned();
             }
-            totalKill += participant.getStats().getKills();
-            totalDeath += participant.getStats().getDeaths();
-            totalAssist += participant.getStats().getAssists();
-            totalHurt += participant.getStats().getTotalDamageDealtToChampions();
-            totalMoney += participant.getStats().getGoldEarned();
         }
 
-        Participant userParticipant = idMapParticipant.get(userParticipantId);
+        // 判断是否为辅助
         boolean isSupportRole = userParticipant.getTimeline().getLane().equals("BOTTOM") &&
                 userParticipant.getTimeline().getRole().equals("SUPPORT");
 
+        Participant.Stats userParticipantStats = userParticipant.getStats();
+
         // 一血击杀
-        if (userParticipant.getStats().isFirstBloodKill()) {
+        if (userParticipantStats.isFirstBloodKill()) {
             gameScore.add(calcScoreConf.getFirstBlood()[0], ScoreOption.FIRST_BLOOD_KILL);
-        } else if (userParticipant.getStats().isFirstBloodAssist()) {
+        } else if (userParticipantStats.isFirstBloodAssist()) {
             gameScore.add(calcScoreConf.getFirstBlood()[1], ScoreOption.FIRST_BLOOD_ASSIST);
         }
 
         // 五杀、四杀、三杀
-        if (userParticipant.getStats().getPentaKills() > 0) {
+        if (userParticipantStats.getPentaKills() > 0) {
             gameScore.add(calcScoreConf.getPentaKills()[0], ScoreOption.PENTA_KILLS);
-        } else if (userParticipant.getStats().getQuadraKills() > 0) {
+        } else if (userParticipantStats.getQuadraKills() > 0) {
             gameScore.add(calcScoreConf.getQuadraKills()[0], ScoreOption.QUADRA_KILLS);
-        } else if (userParticipant.getStats().getTripleKills() > 0) {
+        } else if (userParticipantStats.getTripleKills() > 0) {
             gameScore.add(calcScoreConf.getTripleKills()[0], ScoreOption.TRIPLE_KILLS);
         }
 
         // 参团率
         if (totalKill > 0) {
             int joinTeamRateRank = 1;
-            double userJoinTeamKillRate = (double) (userParticipant.getStats().getAssists() + userParticipant.getStats().getKills()) / totalKill;
+            double userJoinTeamKillRate = (double) (userParticipantStats.getAssists() + userParticipantStats.getKills()) / totalKill;
             List<Double> memberJoinTeamKillRates = listMemberJoinTeamKillRates(gameSummary, totalKill, memberParticipantIDList);
             for (double rate : memberJoinTeamKillRates) {
                 if (rate > userJoinTeamKillRate) {
@@ -110,7 +94,7 @@ public class ScoreService {
         // 获取金钱
         if (totalMoney > 0) {
             int moneyRank = 1;
-            int userMoney = userParticipant.getStats().getGoldEarned();
+            int userMoney = userParticipantStats.getGoldEarned();
             List<Integer> memberMoneyList = listMemberMoney(gameSummary, memberParticipantIDList);
             for (int v : memberMoneyList) {
                 if (v > userMoney) {
@@ -123,7 +107,7 @@ public class ScoreService {
         // 伤害占比
         if (totalHurt > 0) {
             int hurtRank = 1;
-            int userHurt = userParticipant.getStats().getTotalDamageDealtToChampions();
+            int userHurt = userParticipantStats.getTotalDamageDealtToChampions();
             List<Integer> memberHurtList = listMemberHurt(gameSummary, memberParticipantIDList);
             for (int v : memberHurtList) {
                 if (v > userHurt) {
@@ -136,7 +120,7 @@ public class ScoreService {
         // 金钱转换伤害比
         if (totalMoney > 0 && totalHurt > 0) {
             int money2hurtRateRank = 1;
-            double userMoney2hurtRate = (double) userParticipant.getStats().getTotalDamageDealtToChampions() / userParticipant.getStats().getGoldEarned();
+            double userMoney2hurtRate = (double) userParticipantStats.getTotalDamageDealtToChampions() / userParticipantStats.getGoldEarned();
             List<Double> memberMoney2hurtRateList = listMemberMoney2hurtRate(gameSummary, memberParticipantIDList);
             for (double v : memberMoney2hurtRateList) {
                 if (v > userMoney2hurtRate) {
@@ -149,7 +133,7 @@ public class ScoreService {
         // 视野得分
         {
             int visionScoreRank = 1;
-            int userVisionScore = userParticipant.getStats().getVisionScore();
+            int userVisionScore = userParticipantStats.getVisionScore();
             List<Integer> memberVisionScoreList = listMemberVisionScore(gameSummary, memberParticipantIDList);
             for (int v : memberVisionScoreList) {
                 if (v > userVisionScore) {
@@ -161,7 +145,7 @@ public class ScoreService {
 
         // 补兵 每分钟8个刀以上加5分 ,9+10, 10+20
         {
-            int totalMinionsKilled = userParticipant.getStats().getTotalMinionsKilled();
+            int totalMinionsKilled = userParticipantStats.getTotalMinionsKilled();
             int gameDurationMinute = gameSummary.getGameDuration() / 60;
             int minuteMinionsKilled = totalMinionsKilled / gameDurationMinute;
             for (double[] minionsKilledLimit : calcScoreConf.getMinionsKilled()) {
@@ -174,27 +158,28 @@ public class ScoreService {
 
         // 人头占比
         if (totalKill > 0) {
-            double userKillRate = (double) userParticipant.getStats().getKills() / totalKill;
-            adjustGameScoreForRate(userKillRate, userParticipant.getStats().getKills(), calcScoreConf.getKillRate(), gameScore, ScoreOption.KILL_RATE);
+            double userKillRate = (double) userParticipantStats.getKills() / totalKill;
+            adjustGameScoreForRate(userKillRate, userParticipantStats.getKills(), calcScoreConf.getKillRate(), gameScore, ScoreOption.KILL_RATE);
         }
 
         // 伤害占比
         if (totalHurt > 0) {
-            double userHurtRate = (double) userParticipant.getStats().getTotalDamageDealtToChampions() / totalHurt;
-            adjustGameScoreForRate(userHurtRate, userParticipant.getStats().getKills(), calcScoreConf.getHurtRate(), gameScore, ScoreOption.HURT_RATE);
+            double userHurtRate = (double) userParticipantStats.getTotalDamageDealtToChampions() / totalHurt;
+            adjustGameScoreForRate(userHurtRate, userParticipantStats.getKills(), calcScoreConf.getHurtRate(), gameScore, ScoreOption.HURT_RATE);
         }
 
         // 助攻占比
         if (totalAssist > 0) {
-            double userAssistRate = (double) userParticipant.getStats().getAssists() / totalAssist;
-            adjustGameScoreForRate(userAssistRate, userParticipant.getStats().getKills(), calcScoreConf.getAssistRate(), gameScore, ScoreOption.ASSIST_RATE);
+            double userAssistRate = (double) userParticipantStats.getAssists() / totalAssist;
+            adjustGameScoreForRate(userAssistRate, userParticipantStats.getKills(), calcScoreConf.getAssistRate(), gameScore, ScoreOption.ASSIST_RATE);
         }
 
-        // KDA调整
-        double userJoinTeamKillRate = (double) (userParticipant.getStats().getAssists() + userParticipant.getStats().getKills()) / totalKill;
-        int userDeathTimes = userParticipant.getStats().getDeaths() == 0 ? 1 : userParticipant.getStats().getDeaths();
-        double adjustVal = ((double) (userParticipant.getStats().getKills() + userParticipant.getStats().getAssists()) / userDeathTimes - calcScoreConf.getAdjustKDA()[0] +
-                (userParticipant.getStats().getKills() - userParticipant.getStats().getDeaths()) / calcScoreConf.getAdjustKDA()[1]) * userJoinTeamKillRate;
+        // 参团率
+        double userJoinTeamKillRate = (double) (userParticipantStats.getAssists() + userParticipantStats.getKills()) / totalKill;
+        // 死亡次数
+        int userDeathTimes = userParticipantStats.getDeaths() == 0 ? 1 : userParticipantStats.getDeaths();
+        double adjustVal = ((double) (userParticipantStats.getKills() + userParticipantStats.getAssists()) / userDeathTimes - calcScoreConf.getAdjustKDA()[0] +
+                (userParticipantStats.getKills() - userParticipantStats.getDeaths()) / calcScoreConf.getAdjustKDA()[1]) * userJoinTeamKillRate;
         gameScore.add(adjustVal, ScoreOption.KDA_ADJUST);
 
         return gameScore;
@@ -219,8 +204,8 @@ public class ScoreService {
     }
 
     // 调整分数 根据rate
-    private void adjustGameScoreForRate(double rate, int kills, List<RateItemConf> rateConf, ScoreWithReason gameScore, ScoreOption option) {
-        for (RateItemConf confItem : rateConf) {
+    private void adjustGameScoreForRate(double rate, int kills, List<CalcScoreConf.RateItemConf> rateConf, ScoreWithReason gameScore, ScoreOption option) {
+        for (CalcScoreConf.RateItemConf confItem : rateConf) {
             if (rate > confItem.getLimit()) {
                 for (double[] limitConf : confItem.getScoreConf()) {
                     if (kills > (int) limitConf[0]) {

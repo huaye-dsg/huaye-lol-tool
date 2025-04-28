@@ -2,8 +2,6 @@ package com.example.huayeloltool.config;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
@@ -11,11 +9,9 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import java.util.concurrent.TimeUnit;
 
-@Configuration
 @Slf4j
 public class CommonBean {
 
-    @Bean(name = "unsafeOkHttpClient")
     public OkHttpClient unsafeOkHttpClient() {
         try {
             final TrustManager[] trustAllCerts = new TrustManager[]{

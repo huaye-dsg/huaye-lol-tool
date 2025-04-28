@@ -1,24 +1,24 @@
 package com.example.huayeloltool.service;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
+
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.TypeReference;
 import com.example.huayeloltool.config.OkHttpUtil;
 import com.example.huayeloltool.enums.Constant;
 import com.example.huayeloltool.enums.GameEnums;
-import com.example.huayeloltool.model.*;
 import com.example.huayeloltool.model.Conversation.Conversation;
 import com.example.huayeloltool.model.Conversation.ConversationMsg;
+import com.example.huayeloltool.model.summoner.Summoner;
 import com.example.huayeloltool.model.champion.ChampionMastery;
+import com.example.huayeloltool.model.game.GameFlowSession;
 import com.example.huayeloltool.model.game.GameHistory;
 import com.example.huayeloltool.model.game.GameSummary;
-import com.example.huayeloltool.model.rankinfo.RankedInfo;
+import com.example.huayeloltool.model.summoner.RankedInfo;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.stereotype.Component;
 import oshi.SystemInfo;
 import oshi.software.os.OSProcess;
 import oshi.software.os.OperatingSystem;
@@ -29,12 +29,10 @@ import java.util.stream.Collectors;
 
 import static com.example.huayeloltool.enums.GameEnums.GameFlow.CHAMPION_SELECT;
 
-@Component
 @Slf4j
 public class LcuApiService extends CommonRequest {
 
-    public LcuApiService(OkHttpClient client) {
-        super(client);
+    public LcuApiService() {
     }
 
     /**
@@ -51,9 +49,6 @@ public class LcuApiService extends CommonRequest {
     }
 
 
-    /**
-     * 找到LOL进程并解析端口和token
-     */
     /**
      * 找到LOL进程并解析端口和token
      */
@@ -83,7 +78,7 @@ public class LcuApiService extends CommonRequest {
             }
         }
 
-        return null;
+        return Pair.of(0, "");
     }
 
     /**
@@ -120,7 +115,7 @@ public class LcuApiService extends CommonRequest {
     public GameHistory listGamesByPUUID(String puuid, int begin, int limit) {
         Request request = OkHttpUtil.createOkHttpGetRequest(
                 String.format("/lol-match-history/v1/products/lol/%s/matches?begIndex=%d&endIndex=%d", puuid, begin, begin + limit));
-        return sendTypeRequest(request, new TypeReference<GameHistory>() {
+        return sendTypeRequest(request, new TypeReference<>() {
         });
     }
 
@@ -143,7 +138,7 @@ public class LcuApiService extends CommonRequest {
     public List<ChampionMastery> searchChampionMasteryData(String puuid) {
         Request request = OkHttpUtil.createOkHttpGetRequest(String.format("/lol-champion-mastery/v1/" + puuid + "/champion-mastery"));
 
-        List<ChampionMastery> championMasteryList = sendTypeRequest(request, new TypeReference<List<ChampionMastery>>() {
+        List<ChampionMastery> championMasteryList = sendTypeRequest(request, new TypeReference<>() {
         });
         if (CollectionUtils.isEmpty(championMasteryList)) {
             log.error("查询英雄熟练度失败！");
@@ -176,7 +171,7 @@ public class LcuApiService extends CommonRequest {
             Request request = OkHttpUtil.createOkHttpPostRequest("/lol-matchmaking/v1/ready-check/accept");
             try (Response response = client.newCall(request).execute()) {
                 if (!response.isSuccessful()) {
-                    log.info("自动接受对局失败: {}", com.alibaba.fastjson2.JSON.toJSONString(response));
+                    log.info("自动接受对局失败: {}", JSON.toJSONString(response));
                 }
             }
         } catch (Exception e) {
@@ -208,7 +203,7 @@ public class LcuApiService extends CommonRequest {
     public List<Summoner> listSummoner(List<Long> summonerIDList) {
         List<String> idStrList = summonerIDList.stream().map(String::valueOf).collect(Collectors.toList());
         Request request = OkHttpUtil.createOkHttpGetRequest(String.format("/lol-summoner/v2/summoners?ids=[%s]", String.join(",", idStrList)));
-        return sendTypeRequest(request, new TypeReference<List<Summoner>>() {
+        return sendTypeRequest(request, new TypeReference<>() {
         });
     }
 
@@ -217,9 +212,18 @@ public class LcuApiService extends CommonRequest {
      */
     public List<ConversationMsg> listConversationMsg(String conversationID) {
         Request request = OkHttpUtil.createOkHttpGetRequest(String.format("/lol-chat/v1/conversations/%s/messages", conversationID));
-        return sendTypeRequest(request, new TypeReference<List<ConversationMsg>>() {
+        return sendTypeRequest(request, new TypeReference<>() {
         });
     }
+
+    /**
+     * 查询对局状态
+     */
+    public GameFlowSession queryGameFlowSession() throws IOException {
+        Request request = OkHttpUtil.createOkHttpGetRequest("/lol-gameflow/v1/session");
+        return sendRequest(request, GameFlowSession.class);
+    }
+
 
 
     /**
