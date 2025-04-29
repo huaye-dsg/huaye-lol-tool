@@ -10,9 +10,26 @@ import javax.net.ssl.X509TrustManager;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
-public class CommonBean {
+public class OkHttpClientCommonBean {
 
-    public OkHttpClient unsafeOkHttpClient() {
+    private static volatile OkHttpClient instance;
+
+    private OkHttpClientCommonBean() {
+    }
+
+    public static OkHttpClient getInstance() {
+        if (instance == null) {
+            synchronized (OkHttpClientCommonBean.class) {
+                if (instance == null) {
+                    instance = unsafeOkHttpClient();
+                }
+            }
+        }
+        return instance;
+    }
+
+
+    private static OkHttpClient unsafeOkHttpClient() {
         try {
             final TrustManager[] trustAllCerts = new TrustManager[]{
                     new X509TrustManager() {

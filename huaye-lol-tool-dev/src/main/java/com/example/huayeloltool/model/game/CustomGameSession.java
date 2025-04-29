@@ -37,9 +37,7 @@ public class CustomGameSession {
     // 已处理过的动作 ID
     private final Set<String> processedActionIds = ConcurrentHashMap.newKeySet();
 
-    /**
-     * 队友位置映射
-     */
+    // 队友位置映射
     private Map<Integer, ChampSelectSessionInfo.Player> positionMap = new ConcurrentHashMap<>();
 
 

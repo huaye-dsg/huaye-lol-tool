@@ -41,18 +41,18 @@ public class GameFlowMonitor {
         client.newWebSocket(request, new WebSocketListener() {
             @SneakyThrows
             @Override
-            public void onOpen( WebSocket webSocket,  Response response) {
+            public void onOpen(WebSocket webSocket, Response response) {
                 log.info("Connected to LCU");
                 webSocket.send("[5, \"OnJsonApiEvent\"]");
             }
 
             @Override
-            public void onMessage( WebSocket webSocket,  String text) {
+            public void onMessage(WebSocket webSocket, String text) {
                 handleWebSocketMessage(text);
             }
 
             @Override
-            public void onFailure( WebSocket webSocket,  Throwable t, Response response) {
+            public void onFailure(WebSocket webSocket, Throwable t, Response response) {
                 log.error("WebSocket error: ", t);
             }
         });
@@ -74,13 +74,13 @@ public class GameFlowMonitor {
 
             JSONObject event = arr.getJSONObject(2);
             String uri = event.getString("uri");
-            Object data = event.get("data");
+            String data = event.getString("data");
 
             switch (uri) {
                 case "/lol-gameflow/v1/gameflow-phase" ->
-                        new Thread(() -> gameStateUpdateService.onGameFlowUpdate(data.toString())).start();
+                        new Thread(() -> gameStateUpdateService.onGameFlowUpdate(data)).start();
                 case "/lol-champ-select/v1/session" ->
-                        new Thread(() -> gameSessionUpdateService.onChampSelectSessionUpdate(data.toString())).start();
+                        new Thread(() -> gameSessionUpdateService.onChampSelectSessionUpdate(data)).start();
                 case "/lol-lobby-team-builder/v1/matchmaking" -> handGameMode(data);
             }
         } catch (Exception e) {
@@ -88,9 +88,9 @@ public class GameFlowMonitor {
         }
     }
 
-    private void handGameMode(Object data) {
+    private void handGameMode(String data) {
         if (data != null) {
-            Matchmaking matchmaking = JSON.parseObject(data.toString(), Matchmaking.class);
+            Matchmaking matchmaking = JSON.parseObject(data, Matchmaking.class);
             if (BooleanUtils.isTrue(matchmaking.getIsCurrentlyInQueue())) {
                 Integer queueId = matchmaking.getQueueId();
                 if (queueId != null && queueId > 0) {

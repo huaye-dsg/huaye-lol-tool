@@ -19,7 +19,8 @@ public enum ScoreOption {
     KILL_RATE("击杀占比"),
     HURT_RATE("伤害占比"),
     ASSIST_RATE("助攻占比"),
-    KDA_ADJUST("kda微调");
+    KDA_ADJUST("kda微调"),
+    COMBAT_PARTICIPATION("参团率");
 
     private final String displayName;
 

@@ -1,7 +1,7 @@
 package com.example.huayeloltool;
 
 import com.alibaba.fastjson2.JSON;
-import com.example.huayeloltool.config.CommonBean;
+import com.example.huayeloltool.config.OkHttpClientCommonBean;
 import com.example.huayeloltool.enums.Constant;
 import com.example.huayeloltool.model.summoner.Summoner;
 import com.example.huayeloltool.model.base.BaseUrlClient;
@@ -10,19 +10,13 @@ import com.example.huayeloltool.monitor.GameFlowMonitor;
 import com.example.huayeloltool.service.GameSessionUpdateService;
 import com.example.huayeloltool.service.GameStateUpdateService;
 import com.example.huayeloltool.service.LcuApiService;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import org.apache.commons.lang3.tuple.Pair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-//@Slf4j
+@Slf4j
 public class Main {
     public static void main(String[] args) {
-
-        Logger log = LoggerFactory.getLogger(Main.class);
-        System.out.println("Logger implementation: " + log.getClass().getName());
-
-
         LcuApiService lcuApiService = new LcuApiService();
 
         Pair<Integer, String> lolClientApiInfo = lcuApiService.getLolClientApiInfo(Constant.LOL_UX_PROCESS_NAME);
@@ -53,8 +47,7 @@ public class Main {
     }
 
     private static GameFlowMonitor getGameFlowMonitor(LcuApiService lcuApiService) {
-        CommonBean commonBean = new CommonBean();
-        OkHttpClient okHttpClient = commonBean.unsafeOkHttpClient();
+        OkHttpClient okHttpClient = OkHttpClientCommonBean.getInstance();
         ScoreService scoreService = new ScoreService();
         GameStateUpdateService gameStateUpdateService = new GameStateUpdateService(lcuApiService, scoreService);
         GameSessionUpdateService gameSessionUpdateService = new GameSessionUpdateService(lcuApiService);

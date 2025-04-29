@@ -258,40 +258,7 @@ public class GameStateUpdateService extends CommonRequest {
             }
 
             // 计算分数
-            List<AbstractMap.SimpleEntry<Double, LocalDateTime>> validScores = gameList.stream()
-                    .map(game -> {
-                        try {
-                            GameSummary gameSummary = queryGameSummaryWithRetry(game.getGameId());
-                            ScoreWithReason score = scoreService.calcUserGameScore(summonerID, gameSummary);
-                            return new AbstractMap.SimpleEntry<>(score.getScore(), gameSummary.getGameCreationDate());
-                        } catch (Exception e) {
-                            log.error("获取或计算游戏数据失败", e);
-                            return null; // 异常情况返回null，后续过滤
-                        }
-                    }).filter(Objects::nonNull).toList();
-
-            // 计算加权总分
-            LocalDateTime nowTime = LocalDateTime.now();
-            // 近期游戏分数
-            List<Double> currTimeScores = new ArrayList<>(validScores.size());
-            // 其他时段游戏分数
-            List<Double> otherTimeScores = new ArrayList<>(validScores.size());
-
-            double totalScore = 0;
-            int totalGameCount = validScores.size(); // 直接使用有效游戏数
-            for (AbstractMap.SimpleEntry<Double, LocalDateTime> entry : validScores) {
-                double score = entry.getKey();
-                totalScore += score;
-                if (nowTime.isBefore(entry.getValue().plusHours(24))) { // 24小时内游戏为当前时段
-                    currTimeScores.add(score);
-                } else {
-                    otherTimeScores.add(score);
-                }
-            }
-
-            // 计算加权分数（若有效游戏数为0则使用默认分）
-            double finalScore = totalGameCount > 0 ?
-                    calculateWeightedScore(currTimeScores, otherTimeScores, totalGameCount, totalScore) : defaultScore;
+            double finalScore = getFinalScore(gameList, summonerID);
 
             userScoreInfo.setCurrKDA(getKdas(gameList));
             userScoreInfo.setScore(finalScore);
@@ -302,6 +269,43 @@ public class GameStateUpdateService extends CommonRequest {
             log.error("计算用户得分失败, summoner: {}", summoner.getGameName(), e);
             return null; // 顶层异常返回null（上层需处理）
         }
+    }
+
+    private double getFinalScore(List<GameHistory.GameInfo> gameList, long summonerID) {
+        List<AbstractMap.SimpleEntry<Double, LocalDateTime>> validScores = gameList.stream()
+                .map(game -> {
+                    try {
+                        GameSummary gameSummary = queryGameSummaryWithRetry(game.getGameId());
+                        ScoreWithReason score = scoreService.calcUserGameScore(summonerID, gameSummary);
+                        return new AbstractMap.SimpleEntry<>(score.getScore(), gameSummary.getGameCreationDate());
+                    } catch (Exception e) {
+                        log.error("获取或计算游戏数据失败", e);
+                        return null; // 异常情况返回null，后续过滤
+                    }
+                }).filter(Objects::nonNull).toList();
+
+        // 计算加权总分
+        LocalDateTime nowTime = LocalDateTime.now();
+        // 近期游戏分数
+        List<Double> currTimeScores = new ArrayList<>(validScores.size());
+        // 其他时段游戏分数
+        List<Double> otherTimeScores = new ArrayList<>(validScores.size());
+
+        double totalScore = 0;
+        int totalGameCount = validScores.size(); // 直接使用有效游戏数
+        for (AbstractMap.SimpleEntry<Double, LocalDateTime> entry : validScores) {
+            double score = entry.getKey();
+            totalScore += score;
+            if (nowTime.isBefore(entry.getValue().plusHours(24))) { // 24小时内游戏为当前时段
+                currTimeScores.add(score);
+            } else {
+                otherTimeScores.add(score);
+            }
+        }
+
+        // 计算加权分数（若有效游戏数为0则使用默认分）
+        return totalGameCount > 0 ?
+                calculateWeightedScore(currTimeScores, otherTimeScores, totalGameCount, totalScore) : defaultScore;
     }
 
     /**

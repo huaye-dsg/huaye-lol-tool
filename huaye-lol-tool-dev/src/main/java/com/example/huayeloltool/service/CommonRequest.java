@@ -3,7 +3,7 @@ package com.example.huayeloltool.service;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.TypeReference;
-import com.example.huayeloltool.config.CommonBean;
+import com.example.huayeloltool.config.OkHttpClientCommonBean;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -16,12 +16,7 @@ import java.net.SocketTimeoutException;
 @Slf4j
 public class CommonRequest {
 
-    public final OkHttpClient client;
-
-    public CommonRequest() {
-        CommonBean commonBean = new CommonBean();
-        this.client = commonBean.unsafeOkHttpClient();
-    }
+    public static final OkHttpClient client = OkHttpClientCommonBean.getInstance();
 
     public <T> T sendRequest(Request request, Class<T> responseClass) throws IOException {
         try (Response response = client.newCall(request).execute()) {
