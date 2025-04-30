@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import com.example.huayeloltool.enums.GameEnums;
 import com.example.huayeloltool.enums.Heros;
 import com.example.huayeloltool.model.game.CustomGameSession;
-import com.example.huayeloltool.model.base.GamePlaySetting;
+import com.example.huayeloltool.model.base.GameGlobalSetting;
 import com.example.huayeloltool.model.champion.ChampSelectSessionInfo;
 import com.example.huayeloltool.model.champion.ChampionMastery;
 
@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class GameSessionUpdateService {
 
-    private final static GamePlaySetting clientCfg = GamePlaySetting.getInstance();
+    private final static GameGlobalSetting clientCfg = GameGlobalSetting.getInstance();
 
     private final static CustomGameSession details = CustomGameSession.getInstance();
 
@@ -93,7 +94,7 @@ public class GameSessionUpdateService {
         log.info(logMsg);
     }
 
-    // 示例：自动 ban / pick
+    // 自动 ban / pick
     private void handleSelfAction(ChampSelectSessionInfo.Action action, String actionKey) {
         String type = action.getType();
         int id = action.getId();
@@ -152,11 +153,20 @@ public class GameSessionUpdateService {
         ChampSelectSessionInfo.Player player = positionMap.get(actorCellId);
         String puuid = player.getPuuid();
         List<ChampionMastery> championMasteries = lcuApiService.searchChampionMasteryData(puuid);
-        logMessage += String.format(", 熟练度: %s", calculateMasteryScore(championId, championMasteries));
+        for (ChampionMastery mastery : championMasteries) {
+            //log.info("[{}] 熟练度: {}", Heros.getNameById(mastery.getChampionId()), mastery.getChampionPoints());
+            if (mastery.getChampionId() == championId) {
+                logMessage += String.format(", 等级: %d, 积分: %d，最高评价：%s, 最后游玩: %s",
+                        mastery.championLevel, mastery.championPoints, mastery.highestGrade, mastery.lastPlayTime);
+                break;
+            }
+        }
+
+        //logMessage += String.format(", 熟练度: %s", calculateMasteryScore(championId, championMasteries));
 
         // 再找出这个人擅长的前5个英雄
-        List<String> heros = championMasteries.subList(0, 5).stream().map(item -> Heros.getNameById(item.getChampionId())).collect(Collectors.toList());
-        logMessage += String.format("\n 擅长英雄: %s", String.join("，", heros));
+        //List<String> heros = championMasteries.subList(0, 5).stream().map(item -> Heros.getNameById(item.getChampionId())).collect(Collectors.toList());
+        //logMessage += String.format("\n 擅长英雄: %s", String.join("，", heros));
         return logMessage;
     }
 

@@ -1,20 +1,21 @@
 package com.example.huayeloltool.model.score.calc;
 
-import com.alibaba.fastjson2.JSON;
+import com.example.huayeloltool.enums.Heros;
+import com.example.huayeloltool.model.game.GameSummary;
 import com.example.huayeloltool.model.game.Participant;
-import lombok.Getter;
+import com.example.huayeloltool.service.LcuApiService;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 /**
- * LOL玩家综合评分计算器
- * 支持多场游戏数据聚合分析
- * 输出0-200分区间，包含6个评级层次
+ * 英雄联盟玩家综合评分系统（含动态基准值与稳定性分析）
  */
-public class LolPlayerScorer {
+@Slf4j
+public class LoLPlayerScorer {
 
-    // 各维度最大分值配置
+    private static LcuApiService lcuApiService = new LcuApiService();
+
     private static final int BASE_KILL_ASSIST_MAX = 30;     // 基础击杀/助攻上限
     private static final int DAMAGE_OUTPUT_MAX = 40;         // 伤害输出上限
     private static final int TEAM_CONTRIBUTION_MAX = 30;     // 团队贡献上限
@@ -22,284 +23,451 @@ public class LolPlayerScorer {
     private static final int SURVIVAL_RATE_MAX = 20;         // 生存能力上限
     private static final int VISION_CONTROL_MAX = 20;        // 视野控制上限
 
-    // 角色类型枚举
+    // 动态基准值容器（示例：需替换为实时采集数据）
+    private static final Map<String, Double> POSITION_BASELINES = new HashMap<>();
+
+    static {
+        // 上单位置（TOP）基准值
+        POSITION_BASELINES.put("TOP_kda", 2.9);          // 平均 KDA 值 (来自 OP.GG 综合评估) [[5]]
+        POSITION_BASELINES.put("TOP_cs_per_min", 7.1);   // 平均每分钟补刀数 [[5]]
+        POSITION_BASELINES.put("TOP_damage_per_gold", 1.25); // 每千金币造成伤害 [[5]]
+        POSITION_BASELINES.put("TOP_vision_score", 25.0); // 视野得分基准 [[5]]
+
+        // 打野位置（JUNGLE）基准值
+        POSITION_BASELINES.put("JUNGLE_kda", 3.1);       // 平均 KDA 值 [[5]]
+        POSITION_BASELINES.put("JUNGLE_cs_per_min", 6.8); // 平均每分钟补刀数 [[5]]
+        POSITION_BASELINES.put("JUNGLE_damage_per_gold", 1.35); // 每千金币造成伤害 [[5]]
+        POSITION_BASELINES.put("JUNGLE_vision_score", 35.0); // 视野得分基准 [[5]]
+
+        // 中单位置（MIDDLE）基准值
+        POSITION_BASELINES.put("MIDDLE_kda", 3.3);       // 平均 KDA 值 [[5]]
+        POSITION_BASELINES.put("MIDDLE_cs_per_min", 8.2); // 平均每分钟补刀数 [[5]]
+        POSITION_BASELINES.put("MIDDLE_damage_per_gold", 1.45); // 每千金币造成伤害 [[5]]
+        POSITION_BASELINES.put("MIDDLE_vision_score", 28.0); // 视野得分基准 [[5]]
+
+        // 下路位置（BOTTOM）基准值
+        POSITION_BASELINES.put("BOTTOM_kda", 2.7);       // 平均 KDA 值 [[5]]
+        POSITION_BASELINES.put("BOTTOM_cs_per_min", 9.0); // 平均每分钟补刀数 [[5]]
+        POSITION_BASELINES.put("BOTTOM_damage_per_gold", 1.55); // 每千金币造成伤害 [[5]]
+        POSITION_BASELINES.put("BOTTOM_vision_score", 20.0); // 视野得分基准 [[5]]
+
+        // 辅助位置（SUPPORT）基准值
+        POSITION_BASELINES.put("SUPPORT_kda", 4.2);      // 平均 KDA 值（侧重助攻）[[5]]
+        POSITION_BASELINES.put("SUPPORT_cs", 2.5); // 平均每分钟补刀数（较低）[[5]]
+        POSITION_BASELINES.put("SUPPORT_damage_per_gold", 0.95); // 每千金币造成伤害 [[5]]
+        POSITION_BASELINES.put("SUPPORT_vision_score", 50.0); // 高视野得分要求 [[5]]
+    }
+
+    public static double getFinalScore(List<Long> gameIdList, long summonerID) {
+        List<LoLPlayerScorer.GameScore> gameScores = new ArrayList<>(gameIdList.size());
+        for (Long gameId : gameIdList) {
+            // 查到当局游戏信息
+            try {
+                GameSummary gameSummary = lcuApiService.queryGameSummaryWithRetry(gameId);
+                // 获取用户参与者ID
+                int userParticipantId = gameSummary.getParticipantIdentities().stream()
+                        .filter(identity -> identity.getPlayer().getSummonerId() == summonerID)
+                        .findFirst() // 用于查找到第一个匹配的项
+                        .map(GameSummary.ParticipantIdentity::getParticipantId) // 提取ID
+                        .orElseThrow(() -> new Exception("获取用户参与者ID失败"));
+
+                List<Participant> participants = gameSummary.getParticipants();
+
+                // 获取用户队伍ID
+                Participant userParticipant = participants.stream()
+                        .filter(item -> item.getParticipantId() == userParticipantId)
+                        .findFirst()
+                        .orElseThrow(() -> new Exception("获取用户队伍ID失败"));
+
+                int userTeamID = userParticipant.getTeamId();
+
+                // 获取同队参与者ID列表
+                List<Participant> list = participants.stream().filter(item -> item.getTeamId().equals(userTeamID)).toList();
+
+                List<Participant.Stats> statsList = list.stream().map(Participant::getStats).toList();
+
+                GameScore gameScore = calculateGameScore(userParticipant, statsList);
+                gameScores.add(gameScore);
+            } catch (Exception e) {
+                log.error("获取或计算游戏数据失败", e);
+            }
+        }
+
+
+        return LoLPlayerScorer.aggregateScores(gameScores);
+    }
+
+    // 角色类型枚举（带动态权重）
     public enum RoleType {
-        TOP("上单", 0.4, 0.3, 0.2, 0.1),          // 物伤权重:团队贡献:经济效率:生存
-        JUNGLE("打野", 0.3, 0.4, 0.2, 0.1),
-        MIDDLE("中单", 0.35, 0.3, 0.25, 0.1),
-        BOTTOM("下路", 0.4, 0.25, 0.25, 0.1),
-        SUPPORT("辅助", 0.2, 0.4, 0.1, 0.3);
+        // 物伤:团队:经济:生存
+        TOP(0.4, 0.3, 0.2, 0.1),   // 上单
+        JUNGLE(0.3, 0.4, 0.2, 0.1), // 打野
+        MIDDLE(0.35, 0.3, 0.25, 0.1), // 中路
+        BOTTOM(0.4, 0.25, 0.25, 0.1), // 下路
+        SUPPORT(0.2, 0.4, 0.1, 0.3); // 辅助
 
-        @Getter
-        private final String roleName;
-        private final double[] weightConfig; // [物伤权重, 团队贡献, 经济效率, 生存]
+        private final double[] weights;
 
-        RoleType(String name, double... weights) {
-            this.roleName = name;
-            this.weightConfig = Arrays.copyOf(weights, weights.length);
+        RoleType(double... weights) {
+            this.weights = Arrays.copyOf(weights, weights.length);
         }
 
         public double getWeight(int index) {
-            return weightConfig[index];
+            return weights[index];
         }
     }
 
     /**
-     * 计算单场游戏评分
-     *
-     * @param participant 参与者数据
-     * @return 单场评分详情
+     * 单场游戏评分详情
      */
-    public static Map<String, Object> calculateGameScore(Participant participant) {
+    public record GameScore(
+            double baseKillAssist,
+            double damageOutput,
+            double teamContribution,
+            double economyEfficiency,
+            double survivalRate,
+            double visionControl,
+            double total,
+            RoleType role
+    ) {
+    }
+
+
+    /**
+     * 计算单场游戏评分（含动态基准值适应）
+     */
+    public static GameScore calculateGameScore(Participant participant, List<Participant.Stats> teamStats) {
         Participant.Stats stats = participant.getStats();
         Participant.Timeline timeline = participant.getTimeline();
 
         // 自动识别角色类型
-        RoleType role = identifyRole(participant.getTimeline().getLane(),
-                participant.getTimeline().getRole(),
-                stats.getItem0(),
-                stats.getItem5());
+        RoleType role = identifyRole(participant);
 
-        // 计算各项基础得分
-        double baseKillAssist = calculateBaseKillAssist(stats.getKills(), stats.getAssists(), role);
-        double damageOutput = calculateDamageOutput(stats, role);
-        double teamContribution = calculateTeamContribution(stats, timeline);
-        double economyEfficiency = calculateEconomyEfficiency(stats);
-        double survivalRate = calculateSurvivalRate(stats.getDeaths(), stats.getKills(), stats.getAssists());
-        double visionControl = calculateVisionControl(stats.getVisionScore(), stats.getWardsPlaced(), stats.getWardsKilled());
+        log.info("本局英雄：{}。推测位置为:{}", Heros.getNameById(participant.getChampionId()), role.name());
 
-        // 动态调整权重
-        double totalScore = normalizeScore(baseKillAssist, BASE_KILL_ASSIST_MAX) *
-                +normalizeScore(damageOutput, DAMAGE_OUTPUT_MAX) *
-                +normalizeScore(teamContribution, TEAM_CONTRIBUTION_MAX) *
-                +normalizeScore(economyEfficiency, ECONOMY_EFFICIENCY_MAX) *
-                +normalizeScore(survivalRate, SURVIVAL_RATE_MAX) *
-                +normalizeScore(visionControl, VISION_CONTROL_MAX);
+        // 获取位置基准值
+        double kdaBaseline = getPositionBaseline(role.name(), "kda");
+        double csBaseline = getPositionBaseline(role.name(), "cs");
+        double dmgPGBaseline = getPositionBaseline(role.name(), "damage_per_gold");
 
-        // 构建评分详情
-        Map<String, Object> result = new HashMap<>();
-        result.put("baseKillAssist", Math.round(normalizeScore(baseKillAssist, BASE_KILL_ASSIST_MAX)));
-        result.put("damageOutput", Math.round(normalizeScore(damageOutput, DAMAGE_OUTPUT_MAX)));
-        result.put("teamContribution", Math.round(normalizeScore(teamContribution, TEAM_CONTRIBUTION_MAX)));
-        result.put("economyEfficiency", Math.round(normalizeScore(economyEfficiency, ECONOMY_EFFICIENCY_MAX)));
-        result.put("survivalRate", Math.round(normalizeScore(survivalRate, SURVIVAL_RATE_MAX)));
-        result.put("visionControl", Math.round(normalizeScore(visionControl, VISION_CONTROL_MAX)));
-        result.put("total", Math.round(totalScore));
-        result.put("role", role.getRoleName());
+        // 基础指标计算
+        double baseKillAssist = calculateBaseKillAssist(stats.getKills(), stats.getAssists(), role, kdaBaseline);
+        double damageOutput = calculateDamageOutput(stats, role, dmgPGBaseline);
+        double teamContribution = calculateTeamContribution(stats, timeline, teamStats);
+        double economyEfficiency = calculateEconomyEfficiency(stats, csBaseline);
+        double survivalRate = calculateSurvivalRate(stats);
+        double visionControl = calculateVisionControl(stats, role);
 
-        return result;
+        // 权重归一化处理（Sigmoid函数）
+        double normalizedBaseKillAssist = sigmoidNormalize(baseKillAssist / kdaBaseline);
+        double normalizedDamageOutput = sigmoidNormalize(damageOutput / dmgPGBaseline);
+        double normalizedTeamContribution = sigmoidNormalize(teamContribution / 100); // 示例基准
+        double normalizedEconomyEfficiency = sigmoidNormalize(economyEfficiency / csBaseline);
+        double normalizedSurvivalRate = Math.min(survivalRate / SURVIVAL_RATE_MAX, 1.0);
+        double normalizedVisionControl = Math.min(visionControl / VISION_CONTROL_MAX, 1.0);
+
+        // 应用角色权重
+        double total =
+                normalizedBaseKillAssist * role.getWeight(0) +
+                        normalizedDamageOutput * role.getWeight(0) +
+                        normalizedTeamContribution * role.getWeight(1) +
+                        normalizedEconomyEfficiency * role.getWeight(2) +
+                        normalizedSurvivalRate * role.getWeight(3) +
+                        normalizedVisionControl * role.getWeight(1); // 辅助位视野权重高
+
+        // 胜负修正
+        if (Boolean.FALSE.equals(stats.win)) {
+            total *= 0.7; // 失败惩罚
+        } else if (isCarryGame(stats, teamStats)) {
+            total *= 1.3; // carry加成
+        }
+
+        return new GameScore(
+                normalizedBaseKillAssist,
+                normalizedDamageOutput,
+                normalizedTeamContribution,
+                normalizedEconomyEfficiency,
+                normalizedSurvivalRate,
+                normalizedVisionControl,
+                total * 100, // 映射到0-100
+                role
+        );
+    }
+
+
+    /**
+     * 计算基础击杀/助攻得分（含角色权重）
+     */
+    private static double calculateBaseKillAssist(int kills, int assists, RoleType role, double kdaBaseline) {
+        // 角色差异化权重应用
+        double killWeight = role.getWeight(0) * 1.5;  // 击杀权重强化
+        double assistWeight = role.getWeight(1) * 1.2; // 助攻权重弱化
+
+        // 基础KDA计算（使用Sigmoid归一化）
+        double rawKDA = (double) (kills + assists) / Math.max(1, kills);
+        double normalizedKDA = sigmoidNormalize(rawKDA / kdaBaseline);
+
+        // 加权合成
+        return (kills * killWeight + assists * assistWeight) * normalizedKDA;
     }
 
     /**
-     * 聚合多场游戏评分
-     *
-     * @param gameScores 多场评分记录
-     * @return 最终评分及等级评定
+     * 计算伤害输出效率（含经济效率修正）
      */
-    public static Map<String, Object> aggregateScores(List<Map<String, Object>> gameScores) {
-        if (gameScores == null || gameScores.isEmpty()) {
+    private static double calculateDamageOutput(Participant.Stats stats, RoleType role, double dmgPGBaseline) {
+        double physicalRatio = (double) stats.physicalDamageDealtToChampions /
+                Math.max(1, stats.totalDamageDealtToChampions);
+        double magicRatio = (double) stats.magicDamageDealtToChampions /
+                Math.max(1, stats.totalDamageDealtToChampions);
+
+        // 混合伤害系数（鼓励多伤害类型）
+        double mixedDmgFactor = 1.0 + Math.sqrt(physicalRatio * magicRatio);
+
+        // 经济效率修正因子
+        double goldEfficiency = (double) stats.goldEarned / Math.max(1, stats.goldSpent);
+        double efficiencyFactor = Math.min(goldEfficiency / 1.2, 1.2); // 上限保护
+
+        // 基础伤害评分（动态基准适配）
+        double baseDmgScore = (stats.totalDamageDealtToChampions * role.getWeight(0)) /
+                Math.max(1, dmgPGBaseline * stats.goldEarned);
+
+        return baseDmgScore * mixedDmgFactor * efficiencyFactor;
+    }
+
+    /**
+     * 团队贡献评估（结合地图阶段特征）
+     */
+    private static double calculateTeamContribution(Participant.Stats stats, Participant.Timeline timeline, List<Participant.Stats> teamStats) {
+        // 目标优先级系数（早期防御塔价值更高）
+        double towerPriority = timeline.getCsDiffPerMinDeltas().getTen() > 0 ? 1.2 : 0.8;
+
+        // 推塔贡献
+        double towerScore = stats.turretKills * 15 * towerPriority;
+
+        // 水晶贡献（后期价值提升）
+        double inhibitorScore = stats.inhibitorKills * 25 *
+                (timeline.getXpPerMinDeltas().getThirty() > 500 ? 1.3 : 1.0);
+
+        // 目标参与度（与队友比较）
+        double teamDmg = teamStats.stream()
+                .mapToDouble(s -> s.totalDamageDealtToChampions)
+                .sum();
+        double dmgContribution = teamDmg == 0 ? 0 :
+                (double) stats.totalDamageDealtToChampions / teamDmg;
+
+        return (towerScore + inhibitorScore) * (0.7 + dmgContribution * 0.3);
+    }
+
+    /**
+     * 经济效率计算（带补刀基准适配）
+     */
+    private static double calculateEconomyEfficiency(Participant.Stats stats, double csBaseline) {
+        // 补刀效率（考虑位置差异）
+        double csEfficiency = (stats.totalMinionsKilled + stats.neutralMinionsKilled) /
+                Math.max(1, csBaseline * 0.8); // 预留成长空间
+        csEfficiency = Math.min(csEfficiency, 1.5); // 极端值限制
+
+        // 金币转化率（装备利用率）
+        double itemUtilization = stats.item6 == 0 ? 1.0 : 0.8; // 未完成装备惩罚
+
+        // 经济稳定性（花销控制）
+        double goldStability = stats.goldSpent == 0 ? 0 :
+                (double) stats.goldEarned / stats.goldSpent;
+        goldStability = Math.min(goldStability, 1.3); // 过度消费惩罚
+
+        return csEfficiency * itemUtilization * goldStability;
+    }
+
+    /**
+     * 生存能力评估（结合KDA动态波动）
+     */
+    private static double calculateSurvivalRate(Participant.Stats stats) {
+        if (stats.deaths == 0) return SURVIVAL_RATE_MAX; // 全勤奖励
+
+        double kdaRatio = (stats.kills + stats.assists) / (double) stats.deaths;
+        double survivalPenalty = stats.deaths > 5 ? 1 - Math.log(stats.deaths) * 0.2 : 1.0;
+
+        // KDA曲线拟合（非线性衰减）
+        double kdaEffect = 1 - Math.exp(-kdaRatio / 3);
+
+        // 存活时长修正（来自Timeline数据）
+        double avgLifespan = 600; // 示例基准值（单位：秒）
+        double timeAlive = Optional.of(stats.longestTimeSpentLiving).orElse(0);
+        double lifespanBonus = timeAlive > avgLifespan ? 1.1 : 1.0;
+
+        return (kdaEffect * survivalPenalty * lifespanBonus) * SURVIVAL_RATE_MAX;
+    }
+
+    /**
+     * 视野控制评分（角色差异化处理）
+     */
+    private static double calculateVisionControl(Participant.Stats stats, RoleType role) {
+        // 基础视野得分
+        double visionScore = stats.getVisionScore() * 0.05;
+
+        // 眼位质量评估（探测眼权重）
+        int controlWards = 0;
+        for (int i = 0; i <= 5; i++) {
+            if (Arrays.asList(3363, 3340, 2049).contains(getItem(stats, i))) { // 控制守卫系列
+                controlWards++;
+            }
+        }
+
+        double wardQuality = controlWards * 0.3;
+        double wardQuantity = (stats.wardsPlaced + stats.sightWardsBoughtInGame) * 0.1;
+
+        // 排眼效率（辅助位特别重要）
+        double wardKiller = role == RoleType.SUPPORT ?
+                stats.wardsKilled * 0.2 :
+                stats.wardsKilled * 0.1;
+
+        return visionScore + wardQuality + wardQuantity + wardKiller;
+    }
+
+    // 辅助方法
+    private static int getItem(Participant.Stats stats, int slot) {
+        return switch (slot) {
+            case 0 -> stats.item0;
+            case 1 -> stats.item1;
+            case 2 -> stats.item2;
+            case 3 -> stats.item3;
+            case 4 -> stats.item4;
+            case 5 -> stats.item5;
+            default -> 0;
+        };
+    }
+
+    /**
+     * 聚合多场游戏评分（含稳定性分析）
+     */
+    public static int aggregateScores(List<GameScore> gameScores) {
+        if (gameScores.isEmpty()) {
             throw new IllegalArgumentException("评分记录不能为空");
         }
 
-        // 计算各维度平均分
-        Map<String, Integer> categoryAverages = new HashMap<>();
+        // 按维度计算平均分
+        Map<String, Double> avgScores = new HashMap<>();
+        Map<String, Double> variances = new HashMap<>();
         int totalGames = gameScores.size();
 
-        for (String key : Arrays.asList("baseKillAssist", "damageOutput", "teamContribution",
+        for (String dim : Arrays.asList("baseKillAssist", "damageOutput", "teamContribution",
                 "economyEfficiency", "survivalRate", "visionControl")) {
-            int sum = 0;
-            for (Map<String, Object> score : gameScores) {
-                sum += (Integer) score.get(key);
+            double sum = 0;
+            List<Double> values = new ArrayList<>();
+
+            for (GameScore score : gameScores) {
+                double val = switch (dim) {
+                    case "baseKillAssist" -> score.baseKillAssist();
+                    case "damageOutput" -> score.damageOutput();
+                    case "teamContribution" -> score.teamContribution();
+                    case "economyEfficiency" -> score.economyEfficiency();
+                    case "survivalRate" -> score.survivalRate();
+                    case "visionControl" -> score.visionControl();
+                    default -> 0;
+                };
+                sum += val;
+                values.add(val);
             }
-            categoryAverages.put(key, sum / totalGames);
+
+            double avg = sum / totalGames;
+            double variance = values.stream()
+                    .mapToDouble(v -> Math.pow(v - avg, 2))
+                    .average().orElse(0);
+
+            avgScores.put(dim, avg);
+            variances.put(dim, variance);
         }
 
-        // 计算总分(0-200)
-        int totalScore = Stream.of("baseKillAssist", "damageOutput", "teamContribution",
-                        "economyEfficiency", "survivalRate", "visionControl")
-                .mapToInt(categoryAverages::get)
-                .sum();
+        // 稳定性系数计算
+        double stabilityFactor = 1.0 - variances.values().stream()
+                .mapToDouble(Math::sqrt)
+                .average().orElse(0) / 100.0; // 假设最大波动为100%
 
-        // 等级划分
-        String rating = determineRating(totalScore);
+        // 总分计算（含稳定性修正）
+        double totalRawScore = avgScores.values().stream().mapToDouble(Double::doubleValue).sum()
+                * 100 / 6; // 归一化到100
 
-        // 构建返回结果
-        Map<String, Object> result = new HashMap<>();
-        result.put("分数", totalScore);
-        result.put("马匹", rating);
-        result.put("原因", categoryAverages);
-        result.put("建议", generateImprovementSuggestion(categoryAverages, rating));
+        double totalScore = (double) Math.round(totalRawScore * stabilityFactor * 2) / 2; // 0.5分精度
+        return (int) totalScore;
 
-        return result;
+    }
+
+    // ------------------- 核心算法实现 -------------------
+
+    /**
+     * 动态基准值获取（示例实现）
+     */
+    private static double getPositionBaseline(String position, String metric) {
+        return POSITION_BASELINES.getOrDefault(position + "_" + metric, 1.0);
     }
 
     /**
-     * 归一化评分函数
+     * Sigmoid归一化函数（缓解长尾效应）
      */
-    private static double normalizeScore(double value, double maxValue) {
-        return Math.min(value / maxValue, 1.0);
+    private static double sigmoidNormalize(double value) {
+        if (value <= 1.0) {
+            // 基准值以下：线性增长（0~0.5）
+            return value * 0.5;
+        } else if (value <= 2.0) {
+            // 基准值~2倍：中速增长（0.5~0.8）
+            return 0.5 + (value - 1.0) * 0.3;
+        } else if (value <= 3.0) {
+            // 2倍~3倍：较慢增长（0.8~0.9）
+            return 0.8 + (value - 2.0) * 0.1;
+        } else if (value <= 5.0) {
+            // 3倍~5倍：微弱增长（0.9~1.0）
+            return 0.9 + (value - 3.0) / 2.0 * 0.1;
+        } else {
+            // 超过5倍：封顶
+            return 1.0;
+        }
     }
 
     /**
-     * 自动识别角色类型
+     * 增强型角色识别（结合物品/视野/操作行为）
      */
-    private static RoleType identifyRole(String lane, String role, int item0, int item5) {
-        if ("UTILITY".equals(role)) return RoleType.SUPPORT;
-        if ("JUNGLE".equals(lane)) return RoleType.JUNGLE;
+    private static RoleType identifyRole(Participant participant) {
+        Participant.Stats stats = participant.getStats();
+        Participant.Timeline timeline = participant.getTimeline();
 
-        return switch (lane) {
-            case "TOP" -> RoleType.TOP;
-            case "MID" -> RoleType.MIDDLE;
-            case "BOTTOM" -> {
-                // 判断是否为辅助位（购买假眼数量）
-                if (item0 == 3340 || item5 == 3340) {
-                    yield RoleType.SUPPORT;
-                }
-                yield RoleType.BOTTOM;
+        // 高优先级判定：特殊物品组合
+        if ((stats.getItem0() == 3340 || stats.getItem5() == 3340) &&
+                stats.getVisionWardsBoughtInGame() > 8) {
+            return RoleType.SUPPORT;
+        }
+
+        // 中期路径分析
+        if ("JUNGLE".equals(timeline.getLane())) {
+            return RoleType.JUNGLE;
+        }
+
+        // 下路双人组细化判定
+        if ("BOTTOM".equals(timeline.getLane())) {
+            if (stats.getPhysicalDamageDealtToChampions() >
+                    stats.getMagicDamageDealtToChampions() * 1.5) {
+                return RoleType.BOTTOM; // ADC特征
             }
+            return RoleType.SUPPORT; // 默认视为辅助
+        }
+
+        // 其他位置基础判定
+        return switch (timeline.getLane()) {
+            case "TOP" -> RoleType.TOP;
+            case "MIDDLE" -> RoleType.MIDDLE;
             default -> RoleType.BOTTOM;
         };
     }
 
     /**
-     * 基础击杀/助攻评分计算
+     * 判断是否为carry对局
      */
-    private static double calculateBaseKillAssist(int kills, int assists, RoleType role) {
-        double killWeight = role.getWeight(0) * 1.5;
-        double assistWeight = role.getWeight(0) * 1.2;
-
-        return (kills * killWeight) + (assists * assistWeight);
+    private static boolean isCarryGame(Participant.Stats stats, List<Participant.Stats> teamStats) {
+        double personalDmgRatio = stats.getTotalDamageDealtToChampions() /
+                teamStats.stream()
+                        .mapToDouble(Participant.Stats::getTotalDamageDealtToChampions)
+                        .sum();
+        return personalDmgRatio > 0.3 || stats.getKills() >= 10 && stats.getDeaths() <= 2;
     }
 
-    /**
-     * 伤害输出评分计算
-     */
-    private static double calculateDamageOutput(Participant.Stats stats, RoleType role) {
-        double physicalRatio = (double) stats.getPhysicalDamageDealtToChampions() /
-                stats.getTotalDamageDealtToChampions();
 
-        double magicRatio = (double) stats.getMagicDamageDealtToChampions() /
-                stats.getTotalDamageDealtToChampions();
-
-        double damageWeight = role.getWeight(0);
-
-        return (stats.getTotalDamageDealtToChampions() * 0.0001) *
-                (physicalRatio * 0.6 + magicRatio * 0.4) * damageWeight;
-    }
-
-    /**
-     * 团队贡献评分计算
-     */
-    private static double calculateTeamContribution(Participant.Stats stats, Participant.Timeline timeline) {
-        double objectiveParticipation = (stats.getInhibitorKills() + stats.getTurretKills()) * 10;
-        double csDiff = timeline.getCsDiffPerMinDeltas().getTen() +
-                timeline.getCsDiffPerMinDeltas().getTwenty() +
-                timeline.getCsDiffPerMinDeltas().getThirty();
-
-        return (objectiveParticipation + csDiff * 2) * 0.75;
-    }
-
-    /**
-     * 经济效率评分计算
-     */
-    private static double calculateEconomyEfficiency(Participant.Stats stats) {
-        return ((stats.getGoldEarned() - stats.getGoldSpent()) * 0.0001) +
-                (stats.getTotalMinionsKilled() * 0.2);
-    }
-
-    /**
-     * 生存能力评分计算
-     */
-    private static double calculateSurvivalRate(int deaths, int kills, int assists) {
-        if (deaths == 0) return 20;
-        return (karmaFactor(kills, assists) * (100 - deaths * 5)) / 100.0;
-    }
-
-    /**
-     * K/D/A Karma因子计算
-     */
-    private static double karmaFactor(int kills, int assists) {
-        double kda = (kills + assists) / (double) (Math.max(1, kills + assists));
-        return kda > 0.7 ? 1.2 : (kda > 0.4 ? 1.0 : 0.8);
-    }
-
-    /**
-     * 视野控制评分计算
-     */
-    private static double calculateVisionControl(int visionScore, int wardsPlaced, int wardsKilled) {
-        return (visionScore * 0.05) +
-                (wardsPlaced * 0.1) -
-                (wardsKilled * 0.05);
-    }
-
-    /**
-     * 等级判定
-     */
-    private static String determineRating(int score) {
-        if (score >= 180) return "通天代";
-        if (score >= 160) return "小代";
-        if (score >= 140) return "上等马";
-        if (score >= 110) return "中等马";
-        if (score >= 80) return "下等马";
-        return "牛 马";
-    }
-
-    /**
-     * 生成改进建议
-     */
-    private static String generateImprovementSuggestion(Map<String, Integer> scores, String rating) {
-        StringBuilder suggestion = new StringBuilder();
-
-        if (rating.equals("通天代")) {
-            return "继续保持当前表现，注意维持团队协作平衡";
-        }
-
-        if (scores.get("baseKillAssist") < 20) {
-            suggestion.append("需要提升基本功，加强补刀和击杀意识\n");
-        }
-        if (scores.get("damageOutput") < 30) {
-            suggestion.append("需提高输出效率，注意装备选择时机\n");
-        }
-        if (scores.get("teamContribution") < 20) {
-            suggestion.append("应更多参与团队目标，提升地图理解\n");
-        }
-        if (scores.get("economyEfficiency") < 15) {
-            suggestion.append("注意资源分配，避免过度消费\n");
-        }
-        if (scores.get("survivalRate") < 15) {
-            suggestion.append("需提高生存意识，减少无意义死亡\n");
-        }
-        if (scores.get("visionControl") < 15) {
-            suggestion.append("加强视野布置，避免被gank\n");
-        }
-
-        return suggestion.toString();
-    }
-
-    // 示例调用方法
-    public static void main(String[] args) {
-        // 模拟数据初始化...
-        List<Map<String, Object>> mockScores = new ArrayList<>();
-        Map<String, Object> score1 = new HashMap<>();
-        score1.put("baseKillAssist", 25);
-        score1.put("damageOutput", 35);
-        score1.put("teamContribution", 28);
-        score1.put("economyEfficiency", 18);
-        score1.put("survivalRate", 19);
-        score1.put("visionControl", 17);
-        mockScores.add(score1);
-
-        Map<String, Object> score2 = new HashMap<>();
-        score2.put("baseKillAssist", 20);
-        score2.put("damageOutput", 30);
-        score2.put("teamContribution", 25);
-        score2.put("economyEfficiency", 16);
-        score2.put("survivalRate", 18);
-        score2.put("visionControl", 16);
-        mockScores.add(score2);
-
-        // 计算最终评分
-        Map<String, Object> result = aggregateScores(mockScores);
-        System.out.println(JSON.toJSONString(result));
-    }
 }

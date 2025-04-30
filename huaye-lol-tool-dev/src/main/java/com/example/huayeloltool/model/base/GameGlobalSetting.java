@@ -3,7 +3,7 @@ package com.example.huayeloltool.model.base;
 import lombok.Data;
 
 @Data
-public class GamePlaySetting {
+public class GameGlobalSetting {
 
     /**
      * 是否自动接受游戏
@@ -26,11 +26,11 @@ public class GamePlaySetting {
      */
     private String[] horseNameConf = {"通天代", "小代", "上等马", "中等马", "下等马", "牛 马"};
 
-    private static GamePlaySetting instance;
+    private static GameGlobalSetting instance;
 
-    public static GamePlaySetting getInstance() {
+    public static GameGlobalSetting getInstance() {
         if (instance == null) {
-            instance = new GamePlaySetting();
+            instance = new GameGlobalSetting();
         }
         return instance;
     }

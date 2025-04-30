@@ -5,10 +5,10 @@ import com.example.huayeloltool.enums.GameEnums;
 import com.example.huayeloltool.enums.Heros;
 import com.example.huayeloltool.model.Conversation.ConversationMsg;
 import com.example.huayeloltool.model.game.CustomGameSession;
+import com.example.huayeloltool.model.score.calc.LoLPlayerScorer;
 import com.example.huayeloltool.model.summoner.Summoner;
 import com.example.huayeloltool.model.base.CalcScoreConf;
-import com.example.huayeloltool.model.base.GamePlaySetting;
-import com.example.huayeloltool.model.base.HorseScoreConf;
+import com.example.huayeloltool.model.base.GameGlobalSetting;
 import com.example.huayeloltool.model.game.GameFlowSession;
 import com.example.huayeloltool.model.game.GameHistory;
 import com.example.huayeloltool.model.game.GameSummary;
@@ -33,7 +33,7 @@ import static com.example.huayeloltool.enums.GameEnums.GameFlow.IN_PROGRESS;
 @Slf4j
 public class GameStateUpdateService extends CommonRequest {
 
-    private final GamePlaySetting clientCfg = GamePlaySetting.getInstance();
+    private final GameGlobalSetting clientCfg = GameGlobalSetting.getInstance();
 
     private final LcuApiService lcuApiService;
     private final ScoreService scoreService;
@@ -43,7 +43,6 @@ public class GameStateUpdateService extends CommonRequest {
         this.lcuApiService = lcuApiService;
         this.scoreService = scoreService;
     }
-
 
     private static final String WIN_STR = "胜";
     private static final String LOSE_STR = "败";
@@ -215,7 +214,7 @@ public class GameStateUpdateService extends CommonRequest {
             return;
         }
 
-        HorseScoreConf[] horseArr = CalcScoreConf.getInstance().getHorse();
+        CalcScoreConf.HorseScoreConf[] horseArr = CalcScoreConf.getInstance().getHorse();
         String[] horseNames = clientCfg.getHorseNameConf();
 
         summonerList.stream()
@@ -258,7 +257,12 @@ public class GameStateUpdateService extends CommonRequest {
             }
 
             // 计算分数
-            double finalScore = getFinalScore(gameList, summonerID);
+
+            List<Long> gameIdList = gameList.stream().map(GameHistory.GameInfo::getGameId).toList();
+
+            //double finalScore = getFinalScore(gameIdList, summonerID);
+            double finalScore = LoLPlayerScorer.getFinalScore(gameIdList, summonerID);
+
 
             userScoreInfo.setCurrKDA(getKdas(gameList));
             userScoreInfo.setScore(finalScore);
@@ -271,11 +275,12 @@ public class GameStateUpdateService extends CommonRequest {
         }
     }
 
-    private double getFinalScore(List<GameHistory.GameInfo> gameList, long summonerID) {
-        List<AbstractMap.SimpleEntry<Double, LocalDateTime>> validScores = gameList.stream()
-                .map(game -> {
+
+    private double getFinalScore(List<Long> gameIdList, long summonerID) {
+        List<AbstractMap.SimpleEntry<Double, LocalDateTime>> validScores = gameIdList.stream()
+                .map(gameId -> {
                     try {
-                        GameSummary gameSummary = queryGameSummaryWithRetry(game.getGameId());
+                        GameSummary gameSummary = lcuApiService.queryGameSummaryWithRetry(gameId);
                         ScoreWithReason score = scoreService.calcUserGameScore(summonerID, gameSummary);
                         return new AbstractMap.SimpleEntry<>(score.getScore(), gameSummary.getGameCreationDate());
                     } catch (Exception e) {
@@ -326,7 +331,7 @@ public class GameStateUpdateService extends CommonRequest {
     }
 
 
-    private String findHorseName(double score, HorseScoreConf[] horseArr, String[] horseNames) {
+    private String findHorseName(double score, CalcScoreConf.HorseScoreConf[] horseArr, String[] horseNames) {
         for (int i = 0; i < horseArr.length; i++) {
             if (score >= horseArr[i].getScore()) {
                 return horseNames[i];
@@ -384,26 +389,6 @@ public class GameStateUpdateService extends CommonRequest {
         // 返回最终的加权总分
         return weightTotalScore;
     }
-
-    /**
-     * 有重试机制的查询游戏详情方法
-     */
-    private GameSummary queryGameSummaryWithRetry(long gameId) throws Exception {
-        int attempts = 5;
-        int delay = 10; // 毫秒
-        Exception lastException = null;
-
-        for (int i = 0; i < attempts; i++) {
-            try {
-                return lcuApiService.queryGameSummary(gameId);
-            } catch (Exception e) {
-                lastException = e;
-                Thread.sleep(delay);
-            }
-        }
-        throw lastException;
-    }
-
 
     /**
      * 从会话消息列表中获取召唤师ID列表

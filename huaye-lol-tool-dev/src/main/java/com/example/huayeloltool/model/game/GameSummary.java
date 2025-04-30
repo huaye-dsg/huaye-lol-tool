@@ -13,10 +13,10 @@ import java.util.List;
 @Data
 public class GameSummary extends CommonResp {
 
-    /*
-      游戏创建时间戳
-     */
-    private long gameCreation;
+    ///*
+    //  游戏创建时间戳
+    // */
+    //private long gameCreation;
 
     /**
      * 游戏创建日期
@@ -28,30 +28,30 @@ public class GameSummary extends CommonResp {
      */
     private int gameDuration;
 
-    /*
-      游戏ID
-     */
-    private long gameId;
-
-    /*
-      游戏模式
-     */
-    private String gameMode;
-
-    /*
-      游戏类型
-     */
-    private String gameType;
-
-    /*
-      游戏版本
-     */
-    private String gameVersion;
-
-    /*
-      地图ID
-     */
-    private String mapId;
+    ///*
+    //  游戏ID
+    // */
+    //private long gameId;
+    //
+    ///*
+    //  游戏模式
+    // */
+    //private String gameMode;
+    //
+    ///*
+    //  游戏类型
+    // */
+    //private String gameType;
+    //
+    ///*
+    //  游戏版本
+    // */
+    //private String gameVersion;
+    //
+    ///*
+    //  地图ID
+    // */
+    //private String mapId;
 
     /**
      * 参与者身份列表
@@ -63,25 +63,25 @@ public class GameSummary extends CommonResp {
      */
     private List<Participant> participants;
 
-    /*
-      平台ID
-     */
-    private String platformId;
-
-    /*
-      游戏队列ID
-     */
-    private Integer queueId;
-
-    /*
-      赛季ID
-     */
-    private Integer seasonId;
-
-    /**
-     * 队伍信息
-     */
-    private List<Team> teams;
+    ///*
+    //  平台ID
+    // */
+    //private String platformId;
+    //
+    ///*
+    //  游戏队列ID
+    // */
+    //private Integer queueId;
+    //
+    ///*
+    //  赛季ID
+    // */
+    //private Integer seasonId;
+    //
+    ///**
+    // * 队伍信息
+    // */
+    //private List<Team> teams;
 
     @Getter
     @Setter

@@ -50,6 +50,26 @@ public class LcuApiService extends CommonRequest {
 
 
     /**
+     * 有重试机制的查询游戏详情方法
+     */
+    public GameSummary queryGameSummaryWithRetry(long gameId) throws Exception {
+        int attempts = 5;
+        int delay = 10; // 毫秒
+        Exception lastException = null;
+
+        for (int i = 0; i < attempts; i++) {
+            try {
+                return queryGameSummary(gameId);
+            } catch (Exception e) {
+                lastException = e;
+                Thread.sleep(delay);
+            }
+        }
+        throw lastException;
+    }
+
+
+    /**
      * 找到LOL进程并解析端口和token
      */
     public Pair<Integer, String> getLolClientApiInfo(String processName) {
@@ -145,8 +165,9 @@ public class LcuApiService extends CommonRequest {
             return new ArrayList<>();
         }
 
-        championMasteryList.sort(Comparator.comparingInt(ChampionMastery::getChampionLevel).reversed());
-        return championMasteryList.subList(0, 30);
+        //championMasteryList.sort(Comparator.comparingInt(ChampionMastery::getChampionLevel).reversed());
+        //return championMasteryList.subList(0, 30);
+        return championMasteryList;
     }
 
 
@@ -223,7 +244,6 @@ public class LcuApiService extends CommonRequest {
         Request request = OkHttpUtil.createOkHttpGetRequest("/lol-gameflow/v1/session");
         return sendRequest(request, GameFlowSession.class);
     }
-
 
 
     /**

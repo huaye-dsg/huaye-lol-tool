@@ -98,5 +98,20 @@ public class CalcScoreConf {
         private double[][] scoreConf;
     }
 
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class HorseScoreConf {
+        /**
+         * 分数
+         */
+        private double score;
+
+        /**
+         * 名称
+         */
+        private String name;
+    }
+
 
 }
