@@ -15,8 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * 解析游戏会话、英雄选择或禁用等消息
@@ -89,7 +87,9 @@ public class GameSessionUpdateService {
                 : String.format("【敌方】动作: %s, 英雄: %s", which, heroName);
 
         if (isPick && isAlly) {
-            logMsg = analyzeHeros(posMap, action.getActorCellId(), logMsg, action.getChampionId());
+            ChampSelectSessionInfo.Player player = posMap.get(action.getActorCellId());
+            // 分析该玩家对这个英雄的熟练度
+            logMsg = analyzeHeroMastery(player.getPuuid(), logMsg, action.getChampionId());
         }
         log.info(logMsg);
     }
@@ -148,12 +148,10 @@ public class GameSessionUpdateService {
     }
 
 
-    private String analyzeHeros(Map<Integer, ChampSelectSessionInfo.Player> positionMap, int actorCellId, String logMessage, int championId) {
+    private String analyzeHeroMastery(String puuid, String logMessage, int championId) {
         // 如果队友选择了英雄，则分析英雄熟练度
-        ChampSelectSessionInfo.Player player = positionMap.get(actorCellId);
-        String puuid = player.getPuuid();
-        List<ChampionMastery> championMasteries = lcuApiService.searchChampionMasteryData(puuid);
-        for (ChampionMastery mastery : championMasteries) {
+        List<ChampionMastery> championMasteryList = lcuApiService.searchChampionMasteryData(puuid);
+        for (ChampionMastery mastery : championMasteryList) {
             //log.info("[{}] 熟练度: {}", Heros.getNameById(mastery.getChampionId()), mastery.getChampionPoints());
             if (mastery.getChampionId() == championId) {
                 logMessage += String.format(", 等级: %d, 积分: %d，最高评价：%s, 最后游玩: %s",
