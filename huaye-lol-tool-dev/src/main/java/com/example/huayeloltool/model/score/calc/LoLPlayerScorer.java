@@ -153,7 +153,7 @@ public class LoLPlayerScorer {
         // 基础指标计算
         double baseKillAssist = calculateBaseKillAssist(stats.getKills(), stats.getAssists(), role, kdaBaseline);
         double damageOutput = calculateDamageOutput(stats, role, dmgPGBaseline);
-        double teamContribution = calculateTeamContribution(stats, timeline, teamStats);
+        double teamContribution = timeline != null ?calculateTeamContribution(stats, timeline, teamStats):0;
         double economyEfficiency = calculateEconomyEfficiency(stats, csBaseline);
         double survivalRate = calculateSurvivalRate(stats);
         double visionControl = calculateVisionControl(stats, role);
