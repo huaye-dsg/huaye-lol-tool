@@ -34,6 +34,36 @@
 9. **GUI界面**
 
 10. **个人对线打法建议**
+
+
+
+jpackage --input dist \
+--name MyJavaApp \
+--main-jar app.jar \
+--main-class com.example.Main \
+--type exe \
+--win-console
+
+
+
+--input dist
+指定了输入目录为 dist，该目录应包含所有需要打包的资源文件（如 app.jar 和其他依赖项）。
+确保 dist 目录存在，并且其中确实包含 app.jar 文件。如果路径错误或文件缺失，命令会失败。
+
+--name MyJavaApp 指定了生成的应用程序名称为 MyJavaApp。
+这个参数没有问题，但请注意，最终生成的可执行文件将命名为 MyJavaApp.exe。
+
+--main-jar app.jar指定了主 JAR 文件为 app.jar。
+确保 app.jar 文件位于 dist 目录中，并且是一个有效的 JAR 文件。
+
+--main-class com.example.Main指定了主类为 com.example.Main。
+确保 app.jar 中的 META-INF/MANIFEST.MF 文件正确声明了主类，或者直接通过此参数指定的主类是正确的。如果主类不存在或包名错误，运行时会报错。
+
+--type exe 指定了生成的安装包类型为 .exe（Windows 可执行文件）。
+这个参数没有问题，但需要确保您的系统支持生成 .exe 文件（例如，您需要在 Windows 上运行此命令，或者使用交叉编译工具）。
+
+--win-console指定了生成的应用程序会启动一个控制台窗口。
+如果您的应用程序是一个 GUI 应用程序，建议去掉这个参数，否则会在运行时显示一个不必要的控制台窗口。
     
 
 
