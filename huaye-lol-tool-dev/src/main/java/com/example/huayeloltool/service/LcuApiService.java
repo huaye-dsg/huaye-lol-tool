@@ -132,6 +132,22 @@ public class LcuApiService extends CommonRequest {
     /**
      * 根据 PUUID 获取比赛记录
      */
+    /**
+     * "Plugin lol-match-history": [
+     * "POST /lol-match-history/v1/acs-endpoint-override",
+     * "GET /lol-match-history/v1/delta",
+     * "GET /lol-match-history/v1/game-timelines/{gameId}",
+     * "GET /lol-match-history/v1/games/{gameId}",
+     * "GET /lol-match-history/v1/products/lol/current-summoner/matches",
+     * "GET /lol-match-history/v1/products/lol/{puuid}/matches",
+     * "GET /lol-match-history/v1/products/tft/{puuid}/matches",
+     * "GET /lol-match-history/v1/recently-played-summoners",
+     * "GET /lol-match-history/v1/web-url",
+     * "GET /lol-match-history/v3/matchlist/account/{accountId}"
+     * ],
+     */
+
+    // 他这里为了寄生
     public GameHistory listGamesByPUUID(String puuid, int begin, int limit) {
         Request request = OkHttpUtil.createOkHttpGetRequest(
                 String.format("/lol-match-history/v1/products/lol/%s/matches?begIndex=%d&endIndex=%d", puuid, begin, begin + limit));
@@ -179,6 +195,8 @@ public class LcuApiService extends CommonRequest {
      * @throws IOException 查询对局详情过程中遇到的异常
      */
     public GameSummary queryGameSummary(long gameID) throws IOException {
+//        String format = String.format("/lol-match-history/v1/game-timelines/%d", gameID);
+
         Request request = OkHttpUtil.createOkHttpGetRequest(String.format("/lol-match-history/v1/games/%d", gameID));
         return sendRequest(request, GameSummary.class);
     }
