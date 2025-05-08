@@ -5,7 +5,6 @@ import com.example.huayeloltool.enums.GameEnums;
 import com.example.huayeloltool.enums.Heros;
 import com.example.huayeloltool.model.Conversation.ConversationMsg;
 import com.example.huayeloltool.model.game.CustomGameSession;
-import com.example.huayeloltool.model.score.calc.LoLPlayerScorer;
 import com.example.huayeloltool.model.summoner.Summoner;
 import com.example.huayeloltool.model.base.CalcScoreConf;
 import com.example.huayeloltool.model.base.GameGlobalSetting;
@@ -260,9 +259,7 @@ public class GameStateUpdateService extends CommonRequest {
 
             List<Long> gameIdList = gameList.stream().map(GameHistory.GameInfo::getGameId).toList();
 
-            //double finalScore = getFinalScore(gameIdList, summonerID);
-            double finalScore = LoLPlayerScorer.getFinalScore(gameIdList, summonerID);
-
+            double finalScore = getFinalScore(gameIdList, summonerID);
 
             userScoreInfo.setCurrKDA(getKdas(gameList));
             userScoreInfo.setScore(finalScore);

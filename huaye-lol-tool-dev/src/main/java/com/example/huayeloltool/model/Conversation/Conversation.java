@@ -7,6 +7,7 @@ import lombok.Data;
 public class Conversation {
 //    private String gameName;
 //    private String gameTag;
+    @SuppressWarnings("CommentedOutCode")
     private String id;
 //    private String inviterId;
 //    private boolean isMuted;
@@ -15,6 +16,7 @@ public class Conversation {
 //    private String password;
 //    private String pid;
 //    private String targetRegion;
+    @SuppressWarnings("CommentedOutCode")
     private GameEnums.GameFlow type;
 //    private int unreadMessageCount;
 

@@ -1,11 +1,11 @@
 package com.example.huayeloltool.model.base;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.Setter;
 
 
 @Setter
-@Data
+@Getter
 public class BaseUrlClient {
 
     /**

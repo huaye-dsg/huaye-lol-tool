@@ -152,49 +152,15 @@ public class GameSessionUpdateService {
         // 如果队友选择了英雄，则分析英雄熟练度
         List<ChampionMastery> championMasteryList = lcuApiService.searchChampionMasteryData(puuid);
         for (ChampionMastery mastery : championMasteryList) {
-            //log.info("[{}] 熟练度: {}", Heros.getNameById(mastery.getChampionId()), mastery.getChampionPoints());
             if (mastery.getChampionId() == championId) {
                 logMessage += String.format(", 等级: %d, 积分: %d，最高评价：%s, 最后游玩: %s",
                         mastery.championLevel, mastery.championPoints, mastery.highestGrade, mastery.lastPlayTime);
                 break;
             }
         }
-
-        //logMessage += String.format(", 熟练度: %s", calculateMasteryScore(championId, championMasteries));
-
-        // 再找出这个人擅长的前5个英雄
-        //List<String> heros = championMasteries.subList(0, 5).stream().map(item -> Heros.getNameById(item.getChampionId())).collect(Collectors.toList());
-        //logMessage += String.format("\n 擅长英雄: %s", String.join("，", heros));
         return logMessage;
     }
 
-
-    public static int calculateMasteryScore(int targetChampionId, List<ChampionMastery> masteryList) {
-        try {
-            for (ChampionMastery mastery : masteryList) {
-                if (mastery.getChampionId() == targetChampionId) {
-                    // 等级权重（30%）：满级7级对应30分
-                    int levelScore = (int) (mastery.getChampionLevel() / 7.0 * 30);
-
-                    // 熟练度积分权重（40%）：超过50w积分视为满分
-                    int pointsScore = (int) (Math.min(mastery.getChampionPoints(), 500000) / 500000.0 * 40);
-
-                    // 最近使用时间权重（20%）：90天内为满分，超过则线性衰减
-                    long daysSincePlayed = (System.currentTimeMillis() - mastery.getLastPlayTime()) / (1000 * 86400L);
-                    int recencyScore = daysSincePlayed <= 90 ? 20 : Math.max(0, 20 - (int) (daysSincePlayed - 90) / 30);
-
-                    // 最高评级权重（10%）：S+为10分，S为8分，A为5分，其他0分
-                    int gradeScore = calculateGradeScore(mastery.getHighestGrade());
-
-                    return levelScore + pointsScore + recencyScore + gradeScore;
-                }
-            }
-            return 0; // 未找到英雄
-        } catch (Exception e) {
-            log.error("calculateMasteryScore error", e);
-            return 0;
-        }
-    }
 
     private static int calculateGradeScore(String grade) {
         if (grade == null) return 0;

@@ -2,9 +2,8 @@ package com.example.huayeloltool.model.Conversation;
 
 import lombok.*;
 
-@Getter
-@Setter
-@ToString
+@SuppressWarnings({"DanglingJavadoc", "CommentedOutCode"})
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ConversationMsg {

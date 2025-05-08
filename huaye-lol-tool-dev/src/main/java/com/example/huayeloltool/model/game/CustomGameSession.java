@@ -15,7 +15,6 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * 当前本局游戏信息
  */
-@Getter
 @Data
 public class CustomGameSession {
 

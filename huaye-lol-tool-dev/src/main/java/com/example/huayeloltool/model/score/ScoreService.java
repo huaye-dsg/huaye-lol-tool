@@ -4,10 +4,11 @@ import com.example.huayeloltool.enums.ScoreOption;
 import com.example.huayeloltool.model.base.CalcScoreConf;
 import com.example.huayeloltool.model.game.GameSummary;
 import com.example.huayeloltool.model.game.Participant;
+import com.example.huayeloltool.model.score.calc.CommonScoreService;
 
 import java.util.*;
 
-public class ScoreService {
+public class ScoreService extends CommonScoreService {
 
     static final CalcScoreConf calcScoreConf = CalcScoreConf.getInstance();
     static final double defaultScore = 100.0;
@@ -19,11 +20,7 @@ public class ScoreService {
         ScoreWithReason gameScore = new ScoreWithReason(defaultScore);
 
         // 获取用户参与者ID
-        int userParticipantId = gameSummary.getParticipantIdentities().stream()
-                .filter(identity -> identity.getPlayer().getSummonerId() == summonerID)
-                .findFirst() // 用于查找到第一个匹配的项
-                .map(GameSummary.ParticipantIdentity::getParticipantId) // 提取ID
-                .orElseThrow(() -> new Exception("获取用户参与者ID失败"));
+        int userParticipantId = getUserParticipantId(summonerID, gameSummary);
 
         List<Participant> participants = gameSummary.getParticipants();
 
@@ -175,15 +172,20 @@ public class ScoreService {
         }
 
         // 参团率
-        double userJoinTeamKillRate = (double) (userParticipantStats.getAssists() + userParticipantStats.getKills()) / totalKill;
-        // 死亡次数
-        int userDeathTimes = userParticipantStats.getDeaths() == 0 ? 1 : userParticipantStats.getDeaths();
-        double adjustVal = ((double) (userParticipantStats.getKills() + userParticipantStats.getAssists()) / userDeathTimes - calcScoreConf.getAdjustKDA()[0] +
-                (userParticipantStats.getKills() - userParticipantStats.getDeaths()) / calcScoreConf.getAdjustKDA()[1]) * userJoinTeamKillRate;
+        double adjustVal = getAdjustVal(userParticipantStats, totalKill);
         gameScore.add(adjustVal, ScoreOption.KDA_ADJUST);
 
         return gameScore;
     }
+
+    private static double getAdjustVal(Participant.Stats userParticipantStats, int totalKill) {
+        double userJoinTeamKillRate = (double) (userParticipantStats.getAssists() + userParticipantStats.getKills()) / totalKill;
+        // 死亡次数
+        int userDeathTimes = userParticipantStats.getDeaths() == 0 ? 1 : userParticipantStats.getDeaths();
+        return ((double) (userParticipantStats.getKills() + userParticipantStats.getAssists()) / userDeathTimes - calcScoreConf.getAdjustKDA()[0] +
+                (userParticipantStats.getKills() - userParticipantStats.getDeaths()) / calcScoreConf.getAdjustKDA()[1]) * userJoinTeamKillRate;
+    }
+
 
     // 调整分数 根据排名
     private void adjustGameScoreForRank(int rank, ScoreWithReason gameScore, double[] scoreConf, ScoreOption option) {

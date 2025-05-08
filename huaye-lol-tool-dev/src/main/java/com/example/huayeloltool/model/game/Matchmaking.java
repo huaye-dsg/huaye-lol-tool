@@ -3,6 +3,7 @@ package com.example.huayeloltool.model.game;
 
 import lombok.Data;
 
+@SuppressWarnings({"DanglingJavadoc", "CommentedOutCode"})
 @Data
 public class Matchmaking {
 

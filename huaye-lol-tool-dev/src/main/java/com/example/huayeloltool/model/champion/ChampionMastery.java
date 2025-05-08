@@ -2,6 +2,7 @@ package com.example.huayeloltool.model.champion;
 
 import lombok.Data;
 
+@SuppressWarnings("CommentedOutCode")
 @Data
 public class ChampionMastery {
     // 英雄的 ID
@@ -11,7 +12,7 @@ public class ChampionMastery {
     // 英雄的积分
     public int championPoints;
     public String highestGrade;
-    //    // 最后游玩时间
+    // 最后游玩时间
     public long lastPlayTime;
     //    // 自上次升级以来获得的英雄积分
 //    public int championPointsSinceLastLevel;

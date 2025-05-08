@@ -165,7 +165,7 @@ public class LcuApiService extends CommonRequest {
             return new ArrayList<>();
         }
 
-        //championMasteryList.sort(Comparator.comparingInt(ChampionMastery::getChampionLevel).reversed());
+        championMasteryList.sort(Comparator.comparingInt(ChampionMastery::getChampionLevel).reversed());
         //return championMasteryList.subList(0, 30);
         return championMasteryList;
     }
@@ -205,7 +205,7 @@ public class LcuApiService extends CommonRequest {
      */
     public String getCurrConversationID() {
         Request request = OkHttpUtil.createOkHttpGetRequest("/lol-chat/v1/conversations");
-        List<Conversation> conversations = sendTypeRequest(request, new TypeReference<List<Conversation>>() {
+        List<Conversation> conversations = sendTypeRequest(request, new TypeReference<>() {
         });
 
         for (Conversation conversation : conversations) {

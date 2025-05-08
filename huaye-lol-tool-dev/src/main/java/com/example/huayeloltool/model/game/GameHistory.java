@@ -14,7 +14,7 @@ public class GameHistory {
     /**
      * 玩家的账户ID。
      */
-    private long accountId;
+    //private long accountId;
 
     /**
      * 包含游戏相关信息的对象。
@@ -24,7 +24,7 @@ public class GameHistory {
     /**
      * 游戏平台ID。
      */
-    private String platformId;
+    //private String platformId;
 
     /**
      * 表示一组游戏信息的数据类。
@@ -34,30 +34,30 @@ public class GameHistory {
     @NoArgsConstructor
     public static class Games {
 
-        /**
-         * 游戏开始日期。
-         */
-        private String gameBeginDate;
-
-        /**
-         * 游戏数量。
-         */
-        private int gameCount;
-
-        /**
-         * 游戏结束日期。
-         */
-        private String gameEndDate;
-
-        /**
-         * 游戏索引起始位置。
-         */
-        private int gameIndexBegin;
-
-        /**
-         * 游戏索引结束位置。
-         */
-        private int gameIndexEnd;
+        ///**
+        // * 游戏开始日期。
+        // */
+        //private String gameBeginDate;
+        //
+        ///**
+        // * 游戏数量。
+        // */
+        //private int gameCount;
+        //
+        ///**
+        // * 游戏结束日期。
+        // */
+        //private String gameEndDate;
+        //
+        ///**
+        // * 游戏索引起始位置。
+        // */
+        //private int gameIndexBegin;
+        //
+        ///**
+        // * 游戏索引结束位置。
+        // */
+        //private int gameIndexEnd;
 
         /**
          * 游戏列表。

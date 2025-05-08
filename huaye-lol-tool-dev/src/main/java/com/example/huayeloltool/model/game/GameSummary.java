@@ -109,32 +109,32 @@ public class GameSummary extends CommonResp {
         /*
           账号ID
          */
-        private long accountId;
+        //private long accountId;
 
         /*
           当前账号ID
          */
-        private long currentAccountId;
+        //private long currentAccountId;
 
         /*
           当前平台ID
          */
         private String currentPlatformId;
-
-        /*
-          匹配历史URI
-         */
-        private String matchHistoryUri;
-
-        /*
-          平台ID
-         */
-        private String platformId;
-
-        /*
-          头像ID
-         */
-        private int profileIcon;
+        //
+        ///*
+        //  匹配历史URI
+        // */
+        //private String matchHistoryUri;
+        //
+        ///*
+        //  平台ID
+        // */
+        //private String platformId;
+        //
+        ///*
+        //  头像ID
+        // */
+        //private int profileIcon;
 
         /**
          * 召唤师ID
@@ -144,90 +144,90 @@ public class GameSummary extends CommonResp {
         /*
           召唤师名称
          */
-        private String summonerName;
+        //private String summonerName;
     }
 
-    @Getter
-    @Setter
-    @ToString
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class Team {
-        /**
-         * 禁用的英雄列表
-         */
-        private List<Ban> bans;
-
-        /**
-         * 男爵击杀数
-         */
-        private int baronKills;
-
-        /**
-         * Dominion胜利分数
-         */
-        private int dominionVictoryScore;
-
-        /**
-         * 龙的击杀数
-         */
-        private int dragonKills;
-
-        /**
-         * 是否首个击杀男爵
-         */
-        private boolean firstBaron;
-
-        /**
-         * 是否首个击杀
-         */
-        private boolean firstBlood;
-
-        /**
-         * 是否首个击杀龙
-         */
-        private boolean firstDargon;
-
-        /**
-         * 是否首个摧毁抑制器
-         */
-        private boolean firstInhibitor;
-
-        /**
-         * 是否首个摧毁塔
-         */
-        private boolean firstTower;
-
-        /**
-         * 抑制器击杀数
-         */
-        private int inhibitorKills;
-
-        /**
-         * 峡谷先锋击杀数
-         */
-        private int riftHeraldKills;
-
-        /**
-         * 队伍ID
-         */
-        private int teamId;
-
-        /**
-         * 摧毁塔的数量
-         */
-        private int towerKills;
-
-        /**
-         * 蛛后击杀数
-         */
-        private int vilemawKills;
-
-        /**
-         * 胜利标记
-         */
-        private String win;
-    }
+    //@Getter
+    //@Setter
+    //@ToString
+    //@NoArgsConstructor
+    //@AllArgsConstructor
+    //public static class Team {
+    //    /**
+    //     * 禁用的英雄列表
+    //     */
+    //    private List<Ban> bans;
+    //
+    //    /**
+    //     * 男爵击杀数
+    //     */
+    //    private int baronKills;
+    //
+    //    /**
+    //     * Dominion胜利分数
+    //     */
+    //    private int dominionVictoryScore;
+    //
+    //    /**
+    //     * 龙的击杀数
+    //     */
+    //    private int dragonKills;
+    //
+    //    /**
+    //     * 是否首个击杀男爵
+    //     */
+    //    private boolean firstBaron;
+    //
+    //    /**
+    //     * 是否首个击杀
+    //     */
+    //    private boolean firstBlood;
+    //
+    //    /**
+    //     * 是否首个击杀龙
+    //     */
+    //    private boolean firstDargon;
+    //
+    //    /**
+    //     * 是否首个摧毁抑制器
+    //     */
+    //    private boolean firstInhibitor;
+    //
+    //    /**
+    //     * 是否首个摧毁塔
+    //     */
+    //    private boolean firstTower;
+    //
+    //    /**
+    //     * 抑制器击杀数
+    //     */
+    //    private int inhibitorKills;
+    //
+    //    /**
+    //     * 峡谷先锋击杀数
+    //     */
+    //    private int riftHeraldKills;
+    //
+    //    /**
+    //     * 队伍ID
+    //     */
+    //    private int teamId;
+    //
+    //    /**
+    //     * 摧毁塔的数量
+    //     */
+    //    private int towerKills;
+    //
+    //    /**
+    //     * 蛛后击杀数
+    //     */
+    //    private int vilemawKills;
+    //
+    //    /**
+    //     * 胜利标记
+    //     */
+    //    private String win;
+    //}
 
     @Getter
     @Setter

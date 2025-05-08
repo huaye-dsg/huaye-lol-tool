@@ -36,19 +36,19 @@ public class GameFlowSession extends CommonResp {
     //}
 
     // 嵌套的 Map 类
-    @Data
-    public static class Map {
-        private String gameMode;
-        private String gameModeName;
-        private String gameModeShortName;
-        private String gameMutator;
-        private int id;
-        private boolean isRGM;
-        private String mapStringId;
-        private String name;
-        private String platformName;
-        private String platformId;
-        private String description;
+    //@Data
+    //public static class Map {
+        //private String gameMode;
+        //private String gameModeName;
+        //private String gameModeShortName;
+        //private String gameMutator;
+        //private int id;
+        //private boolean isRGM;
+        //private String mapStringId;
+        //private String name;
+        //private String platformName;
+        //private String platformId;
+        //private String description;
 
 //        private Properties properties;
 //        private PerPositionDisallowedSummonerSpells perPositionDisallowedSummonerSpells;
@@ -106,7 +106,7 @@ public class GameFlowSession extends CommonResp {
 //            private boolean suppressRunesMasteriesPerks;
 //        }
 
-    }
+    //}
 
     @Data
     public static class GameFlowSessionTeamUser {

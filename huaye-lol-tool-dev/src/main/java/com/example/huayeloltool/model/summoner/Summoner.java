@@ -6,6 +6,7 @@ import lombok.Data;
 /**
  * 召唤师信息
  */
+@SuppressWarnings("DanglingJavadoc")
 @Data
 public class Summoner {
     /**
@@ -99,12 +100,12 @@ public class Summoner {
         return instance;
     }
 
-    //@Data
-    //public static class RerollPoints {
-    //    private int currentPoints;
-    //    private int maxRolls;
-    //    private int numberOfRolls;
-    //    private int pointsCostToRoll;
-    //    private int pointsToReroll;
-    //}
+    @Data
+    public static class RerollPoints {
+        private int currentPoints;
+        private int maxRolls;
+        private int numberOfRolls;
+        private int pointsCostToRoll;
+        private int pointsToReroll;
+    }
 }

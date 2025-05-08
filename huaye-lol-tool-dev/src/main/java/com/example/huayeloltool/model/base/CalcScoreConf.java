@@ -2,29 +2,30 @@ package com.example.huayeloltool.model.base;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Arrays;
 import java.util.List;
 
-@Data
+@Getter
 public class CalcScoreConf {
-    private boolean enabled = true;
-    private double[] firstBlood = {10.0, 5.0};
-    private double[] pentaKills = {20.0};
-    private double[] quadraKills = {10.0};
-    private double[] tripleKills = {5.0};
-    private double[] joinTeamRateRank = {10.0, 5.0, 5.0, 10.0};
-    private double[] goldEarnedRank = {10.0, 5.0, 5.0, 10.0};
-    private double[] hurtRank = {10.0, 5.0};
-    private double[] money2hurtRateRank = {10.0, 5.0};
-    private double[] visionScoreRank = {10.0, 5.0};
-    private double[][] minionsKilled = {
+    private final boolean enabled = true;
+    private final double[] firstBlood = {10.0, 5.0};
+    private final double[] pentaKills = {20.0};
+    private final double[] quadraKills = {10.0};
+    private final double[] tripleKills = {5.0};
+    private final double[] joinTeamRateRank = {10.0, 5.0, 5.0, 10.0};
+    private final double[] goldEarnedRank = {10.0, 5.0, 5.0, 10.0};
+    private final double[] hurtRank = {10.0, 5.0};
+    private final double[] money2hurtRateRank = {10.0, 5.0};
+    private final double[] visionScoreRank = {10.0, 5.0};
+    private final double[][] minionsKilled = {
             {10.0, 20.0},
             {9.0, 10.0},
             {8.0, 5.0}
     };
-    private List<RateItemConf> killRate = Arrays.asList(
+    private final List<RateItemConf> killRate = Arrays.asList(
             new RateItemConf(50, new double[][]{
                     {15.0, 40.0},
                     {10.0, 20.0},
@@ -36,7 +37,7 @@ public class CalcScoreConf {
                     {5.0, 5.0}
             })
     );
-    private List<RateItemConf> hurtRate = Arrays.asList(
+    private final List<RateItemConf> hurtRate = Arrays.asList(
             new RateItemConf(40, new double[][]{
                     {15.0, 40.0},
                     {10.0, 20.0},
@@ -48,7 +49,7 @@ public class CalcScoreConf {
                     {5.0, 5.0}
             })
     );
-    private List<RateItemConf> assistRate = Arrays.asList(
+    private final List<RateItemConf> assistRate = Arrays.asList(
             new RateItemConf(50, new double[][]{
                     {20.0, 30.0},
                     {18.0, 25.0},
@@ -63,8 +64,8 @@ public class CalcScoreConf {
                     {5.0, 3.0}
             })
     );
-    private double[] adjustKDA = {2.0, 5.0};
-    private HorseScoreConf[] horse = {
+    private final double[] adjustKDA = {2.0, 5.0};
+    private final HorseScoreConf[] horse = {
             new HorseScoreConf(180.0, "通天代"),
             new HorseScoreConf(150.0, "小 代"),
             new HorseScoreConf(125.0, "上等马"),
@@ -72,7 +73,7 @@ public class CalcScoreConf {
             new HorseScoreConf(95.0, "下等马"),
             new HorseScoreConf(0.0001, "牛 马")
     };
-    private boolean mergeMsg = false;
+    private final boolean mergeMsg = false;
 
     private static CalcScoreConf instance;
 
