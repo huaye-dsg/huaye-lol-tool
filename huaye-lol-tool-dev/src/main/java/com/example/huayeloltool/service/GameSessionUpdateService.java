@@ -75,6 +75,12 @@ public class GameSessionUpdateService {
     private void handleCompletedAction(ChampSelectSessionInfo.Action action, Map<Integer, ChampSelectSessionInfo.Player> posMap) {
         boolean isPick = "pick".equals(action.getType());
         boolean isAlly = action.getIsAllyAction();
+
+        if (!(isPick && isAlly)) {
+            // 只关注我方选择英雄
+            return;
+        }
+
         String positionDesc = Optional.ofNullable(posMap.get(action.getActorCellId()))
                 .map(p -> GameEnums.Position
                         .getDescByValue(p.getAssignedPosition()))
@@ -103,13 +109,13 @@ public class GameSessionUpdateService {
             case "ban":
                 if (clientCfg.getAutoBanChampID() > 0 && !GameSessionUpdateService.details.getIsBanned()) {
                     sleepSeconds();
-                    log.info("本人禁用英雄，key：{}", buildActionKey(action));
+//                    log.info("本人禁用英雄，key：{}", buildActionKey(action));
                     if (lcuApiService.banChampion(clientCfg.getAutoBanChampID(), id)) {
-                        log.info("禁用成功");
+//                        log.info("禁用成功");
                         GameSessionUpdateService.details.setIsBanned(true);
                         //action.setCompleted(true);
                     } else {
-                        log.info("禁用失败: {}", JSON.toJSONString(action));
+//                        log.info("禁用失败: {}", JSON.toJSONString(action));
                         GameSessionUpdateService.details.setIsBanned(false);
                         // 没成功就把key删了
                         GameSessionUpdateService.details.markActionUnProcessed(actionKey);
@@ -118,7 +124,7 @@ public class GameSessionUpdateService {
                 break;
             case "pick":
                 if (clientCfg.getAutoPickChampID() > 0 && !GameSessionUpdateService.details.getIsSelected()) {
-                    log.info("本人选择英雄，key：{}", buildActionKey(action));
+//                    log.info("本人选择英雄，key：{}", buildActionKey(action));
                     lcuApiService.pickChampion(clientCfg.getAutoPickChampID(), id);
                     GameSessionUpdateService.details.setIsSelected(true);
                     //action.setCompleted(true);
@@ -154,11 +160,22 @@ public class GameSessionUpdateService {
         for (ChampionMastery mastery : championMasteryList) {
             if (mastery.getChampionId() == championId) {
                 logMessage += String.format(", 等级: %d, 积分: %d，最高评价：%s, 最后游玩: %s",
-                        mastery.championLevel, mastery.championPoints, mastery.highestGrade, mastery.lastPlayTime);
+                        mastery.championLevel, mastery.championPoints, mastery.highestGrade, convertTimestampToDate(mastery.lastPlayTime));
                 break;
             }
         }
         return logMessage;
+    }
+
+    /**
+     * 把毫秒时间戳转为年月日
+     */
+    private static String convertTimestampToDate(long timestamp) {
+        // 1. 创建一个 Date 对象，传入时间戳
+        java.util.Date date = new java.util.Date(timestamp);
+        // 2. 使用 SimpleDateFormat 格式化日期
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(date);
     }
 
 
