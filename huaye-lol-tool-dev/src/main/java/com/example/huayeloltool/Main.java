@@ -20,11 +20,12 @@ public class Main {
         LcuApiService lcuApiService = new LcuApiService();
 
         Pair<Integer, String> lolClientApiInfo = lcuApiService.getLolClientApiInfo(Constant.LOL_UX_PROCESS_NAME);
-        log.info("lolClientApiInfo: {}", JSON.toJSONString(lolClientApiInfo));
+//        log.info("lolClientApiInfo: {}", JSON.toJSONString(lolClientApiInfo));
         if (lolClientApiInfo.getLeft() == 0) {
             log.error("LOL接口进程不存在！");
             return;
         }
+        log.info("lol connect success");
         try {
             // 初始化url请求路径
             BaseUrlClient instance = BaseUrlClient.getInstance();

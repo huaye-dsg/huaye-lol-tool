@@ -42,7 +42,7 @@ public class GameFlowMonitor {
             @SneakyThrows
             @Override
             public void onOpen(WebSocket webSocket, Response response) {
-                log.info("Connected to LCU");
+                log.info("load game info success！");
                 webSocket.send("[5, \"OnJsonApiEvent\"]");
             }
 

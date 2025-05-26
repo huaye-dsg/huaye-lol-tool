@@ -67,6 +67,12 @@ public class GameStateUpdateService extends CommonRequest {
      */
     @SneakyThrows
     public void championSelectStart() {
+        if (GameEnums.GameQueueID.isValidData(CustomGameSession.getInstance().getQueueId())){
+            // 不存在选人界面的模式，直接返回
+            return;
+        }
+
+
         Thread.sleep(1500);
 
         List<Long> summonerIdList = new ArrayList<>();

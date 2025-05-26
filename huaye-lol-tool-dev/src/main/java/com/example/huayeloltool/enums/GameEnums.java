@@ -119,7 +119,7 @@ public class GameEnums {
 
         private final static Map<Integer, String> map = new HashMap<>();
 
-        private final static List<Integer> list = Arrays.asList(RANK_SOLO.id, RANK_FLEX.id, NORMAL_BLIND.id, NORMAL_DRAFT.id, FAST_NORMAL.id, ARAM.id);
+        private final static List<Integer> list = Arrays.asList(RANK_SOLO.id, RANK_FLEX.id, NORMAL_BLIND.id, NORMAL_DRAFT.id, ARAM.id);
 
         public static Boolean isValidData(Integer value) {
             return list.contains(value);
