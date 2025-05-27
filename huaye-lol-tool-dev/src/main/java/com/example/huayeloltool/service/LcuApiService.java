@@ -3,9 +3,9 @@ package com.example.huayeloltool.service;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.TypeReference;
-import com.example.huayeloltool.config.OkHttpUtil;
+import com.example.huayeloltool.common.CommonRequest;
+import com.example.huayeloltool.common.OkHttpUtil;
 import com.example.huayeloltool.enums.Constant;
-import com.example.huayeloltool.enums.GameEnums;
 import com.example.huayeloltool.model.Conversation.Conversation;
 import com.example.huayeloltool.model.Conversation.ConversationMsg;
 import com.example.huayeloltool.model.summoner.Summoner;
@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import oshi.SystemInfo;
 import oshi.software.os.OSProcess;
@@ -32,8 +33,18 @@ import static com.example.huayeloltool.enums.GameEnums.GameFlow.CHAMPION_SELECT;
 @Slf4j
 public class LcuApiService extends CommonRequest {
 
+    private static LcuApiService instance;
+
+    public static LcuApiService getInstance() {
+        if (instance == null) {
+            instance = new LcuApiService();
+        }
+        return instance;
+    }
+
     public LcuApiService() {
     }
+
 
     /**
      * 当前用户信息
@@ -102,7 +113,7 @@ public class LcuApiService extends CommonRequest {
     }
 
     /**
-     * 根据 PUUID 列出游戏历史记录
+     * 根据 puuid 查询游戏记录
      */
     public List<GameHistory.GameInfo> listGameHistory(Summoner summoner, int begin, int limit) {
         List<GameHistory.GameInfo> fmtList = new ArrayList<>();
@@ -118,36 +129,17 @@ public class LcuApiService extends CommonRequest {
             return new ArrayList<>();
         }
 
-        // 过滤符合条件的游戏信息
         for (GameHistory.GameInfo gameItem : games) {
-            // 只统计排位匹配大乱斗
-            if (gameItem.getGameDuration() < 300 || !GameEnums.GameQueueID.isValidData(gameItem.getQueueId())) {
-                continue;
+            // 过滤时长短的无效游戏
+            if (gameItem.getGameDuration() > 300) {
+                fmtList.add(gameItem);
             }
-            fmtList.add(gameItem);
         }
         return fmtList;
     }
 
-    /**
-     * 根据 PUUID 获取比赛记录
-     */
-    /**
-     * "Plugin lol-match-history": [
-     * "POST /lol-match-history/v1/acs-endpoint-override",
-     * "GET /lol-match-history/v1/delta",
-     * "GET /lol-match-history/v1/game-timelines/{gameId}",
-     * "GET /lol-match-history/v1/games/{gameId}",
-     * "GET /lol-match-history/v1/products/lol/current-summoner/matches",
-     * "GET /lol-match-history/v1/products/lol/{puuid}/matches",
-     * "GET /lol-match-history/v1/products/tft/{puuid}/matches",
-     * "GET /lol-match-history/v1/recently-played-summoners",
-     * "GET /lol-match-history/v1/web-url",
-     * "GET /lol-match-history/v3/matchlist/account/{accountId}"
-     * ],
-     */
 
-    // 他这里为了寄生
+    // 游戏列表
     public GameHistory listGamesByPUUID(String puuid, int begin, int limit) {
         Request request = OkHttpUtil.createOkHttpGetRequest(
                 String.format("/lol-match-history/v1/products/lol/%s/matches?begIndex=%d&endIndex=%d", puuid, begin, begin + limit));
@@ -182,7 +174,6 @@ public class LcuApiService extends CommonRequest {
         }
 
         championMasteryList.sort(Comparator.comparingInt(ChampionMastery::getChampionLevel).reversed());
-        //return championMasteryList.subList(0, 30);
         return championMasteryList;
     }
 
@@ -195,8 +186,6 @@ public class LcuApiService extends CommonRequest {
      * @throws IOException 查询对局详情过程中遇到的异常
      */
     public GameSummary queryGameSummary(long gameID) throws IOException {
-//        String format = String.format("/lol-match-history/v1/game-timelines/%d", gameID);
-
         Request request = OkHttpUtil.createOkHttpGetRequest(String.format("/lol-match-history/v1/games/%d", gameID));
         return sendRequest(request, GameSummary.class);
     }
@@ -232,7 +221,7 @@ public class LcuApiService extends CommonRequest {
             }
         }
         log.info("当前未查询到会话信息：{}", JSON.toJSONString(conversations));
-        return null;
+        return StringUtils.EMPTY;
     }
 
 
@@ -313,7 +302,8 @@ public class LcuApiService extends CommonRequest {
         try (Response response = client.newCall(request).execute()) {
             boolean successful = response.isSuccessful();
             if (!successful) {
-                log.error("champSelectPatchActionError: {}", response);
+                log.error("champSelectPatchActionError，championId: {}, actionId: {}, patchType: {}, completed: {}, response: {}",
+                        championId, actionId, patchType, completed, response);
                 return false;
             }
             return true;

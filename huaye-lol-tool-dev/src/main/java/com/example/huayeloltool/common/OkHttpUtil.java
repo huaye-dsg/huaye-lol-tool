@@ -1,4 +1,4 @@
-package com.example.huayeloltool.config;
+package com.example.huayeloltool.common;
 
 
 import com.alibaba.fastjson2.JSON;

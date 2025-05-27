@@ -1,4 +1,4 @@
-package com.example.huayeloltool.enums;
+package com.example.huayeloltool.common;
 
 import lombok.Data;
 

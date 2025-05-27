@@ -1,57 +1,70 @@
 package com.example.huayeloltool;
 
-import com.alibaba.fastjson2.JSON;
-import com.example.huayeloltool.config.OkHttpClientCommonBean;
 import com.example.huayeloltool.enums.Constant;
-import com.example.huayeloltool.model.summoner.Summoner;
 import com.example.huayeloltool.model.base.BaseUrlClient;
-import com.example.huayeloltool.model.score.ScoreService;
-import com.example.huayeloltool.monitor.GameFlowMonitor;
-import com.example.huayeloltool.service.GameSessionUpdateService;
-import com.example.huayeloltool.service.GameStateUpdateService;
+import com.example.huayeloltool.model.summoner.Summoner;
+import com.example.huayeloltool.service.GameFlowMonitor;
 import com.example.huayeloltool.service.LcuApiService;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.OkHttpClient;
 import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.Objects;
 
 @Slf4j
 public class Main {
-    public static void main(String[] args) {
-        LcuApiService lcuApiService = new LcuApiService();
 
-        Pair<Integer, String> lolClientApiInfo = lcuApiService.getLolClientApiInfo(Constant.LOL_UX_PROCESS_NAME);
-//        log.info("lolClientApiInfo: {}", JSON.toJSONString(lolClientApiInfo));
-        if (lolClientApiInfo.getLeft() == 0) {
+    static LcuApiService lcuApiService = LcuApiService.getInstance();
+
+    /**
+     * 主程序入口，负责初始化LCU API连接、召唤师信息和游戏流程监控
+     */
+    public static void main(String[] args) {
+        // 检查LOL客户端API连接状态
+        if (!checkLolClientConnection()) {
             log.error("LOL接口进程不存在！");
             return;
         }
-        log.info("lol connect success");
-        try {
-            // 初始化url请求路径
-            BaseUrlClient instance = BaseUrlClient.getInstance();
-            instance.setPort(lolClientApiInfo.getLeft());
-            instance.setToken(lolClientApiInfo.getRight());
+        log.info("LOL客户端连接成功");
 
+        try {
             // 初始化当前召唤师信息
-            Summoner summoner = Summoner.setInstance(lcuApiService.getCurrSummoner());
-            if (summoner == null) {
-                log.error("获取当前召唤师信息失败！");
+            if (!initializeSummonerInfo()) {
+                log.error("初始化当前召唤师信息失败！");
                 return;
             }
 
-            // 初始化监听器
-            GameFlowMonitor gameFlowMonitor = getGameFlowMonitor(lcuApiService);
-            gameFlowMonitor.initGameFlowMonitor(instance.getPort(), instance.getToken());
+            // 原神！启动！
+            GameFlowMonitor.startGameFlowMonitor();
         } catch (Exception e) {
-            log.error("initGameFlowMonitor error", e);
+            log.error("主程序初始化过程中发生错误", e);
         }
     }
 
-    private static GameFlowMonitor getGameFlowMonitor(LcuApiService lcuApiService) {
-        OkHttpClient okHttpClient = OkHttpClientCommonBean.getInstance();
-        ScoreService scoreService = new ScoreService();
-        GameStateUpdateService gameStateUpdateService = new GameStateUpdateService(lcuApiService, scoreService);
-        GameSessionUpdateService gameSessionUpdateService = new GameSessionUpdateService(lcuApiService);
-        return new GameFlowMonitor(okHttpClient, gameStateUpdateService, gameSessionUpdateService);
+    /**
+     * 检查LOL客户端API连接状态
+     *
+     * @return 连接是否成功
+     */
+    private static boolean checkLolClientConnection() {
+        Pair<Integer, String> apiInfo = lcuApiService.getLolClientApiInfo(Constant.LOL_UX_PROCESS_NAME);
+        if (apiInfo.getLeft() == 0) {
+            return false;
+        }
+        BaseUrlClient instance = BaseUrlClient.getInstance();
+        instance.setPort(apiInfo.getLeft());
+        instance.setToken(apiInfo.getRight());
+        return true;
     }
+
+
+    /**
+     * 初始化当前召唤师信息
+     *
+     * @return 初始化是否成功
+     */
+    private static boolean initializeSummonerInfo() {
+        Summoner summoner = Summoner.setInstance(lcuApiService.getCurrSummoner());
+        return Objects.nonNull(summoner);
+    }
+
 }

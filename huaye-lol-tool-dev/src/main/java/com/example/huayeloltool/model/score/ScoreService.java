@@ -5,6 +5,7 @@ import com.example.huayeloltool.model.base.CalcScoreConf;
 import com.example.huayeloltool.model.game.GameSummary;
 import com.example.huayeloltool.model.game.Participant;
 import com.example.huayeloltool.model.score.calc.CommonScoreService;
+import lombok.Getter;
 
 import java.util.*;
 
@@ -12,6 +13,11 @@ public class ScoreService extends CommonScoreService {
 
     static final CalcScoreConf calcScoreConf = CalcScoreConf.getInstance();
     static final double defaultScore = 100.0;
+    // 单例模式
+    @Getter
+    public static final ScoreService instance = new ScoreService();
+    private ScoreService() {
+    }
 
     /**
      * 计算用户游戏得分
@@ -277,6 +283,14 @@ public class ScoreService extends CommonScoreService {
             res.add(participant.getStats().getTotalDamageDealtToChampions());
         }
         return res;
+    }
+
+    public int getUserParticipantId(long summonerID, GameSummary gameSummary) throws Exception {
+        return gameSummary.getParticipantIdentities().stream()
+                .filter(identity -> identity.getPlayer().getSummonerId() == summonerID)
+                .findFirst() // 用于查找到第一个匹配的项
+                .map(GameSummary.ParticipantIdentity::getParticipantId) // 提取ID
+                .orElseThrow(() -> new Exception("获取用户参与者ID失败"));
     }
 
 

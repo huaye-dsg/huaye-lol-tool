@@ -1,5 +1,6 @@
 package com.example.huayeloltool.model.base;
 
+import com.example.huayeloltool.enums.Heros;
 import lombok.Getter;
 
 @Getter
@@ -18,7 +19,7 @@ public class GameGlobalSetting {
     /**
      * 自动禁用的英雄ID
      */
-    private final Integer autoBanChampID = 104;
+    private final Integer autoBanChampID = Heros.OUTLAW.getId();
 
 
     /**

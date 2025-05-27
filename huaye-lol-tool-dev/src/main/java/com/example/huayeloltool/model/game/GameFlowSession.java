@@ -1,6 +1,6 @@
 package com.example.huayeloltool.model.game;
 
-import com.example.huayeloltool.enums.CommonResp;
+import com.example.huayeloltool.common.CommonResp;
 import com.example.huayeloltool.enums.GameEnums;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

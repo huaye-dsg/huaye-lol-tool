@@ -75,13 +75,7 @@ public class CustomGameSession {
 
     // 初始化方法
     public void init() {
-        this.isSelected = false;
-        this.isBanned = false;
-        this.queueId = 0;
-        this.floor = 0;
-        this.position = null;
-        this.processedActionIds.clear();
-        this.positionMap.clear();
+        instance = null;
     }
 
     // 是否是单双排排位

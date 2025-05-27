@@ -1,5 +1,6 @@
 package com.example.huayeloltool.service;
 
+import com.example.huayeloltool.common.CommonRequest;
 import com.example.huayeloltool.enums.Constant;
 import com.example.huayeloltool.enums.GameEnums;
 import com.example.huayeloltool.enums.Heros;
@@ -19,6 +20,7 @@ import com.example.huayeloltool.model.score.UserScore;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.time.LocalDateTime;
@@ -34,12 +36,11 @@ public class GameStateUpdateService extends CommonRequest {
 
     private final GameGlobalSetting clientCfg = GameGlobalSetting.getInstance();
 
-    private final LcuApiService lcuApiService;
+    private final LcuApiService lcuApiService = LcuApiService.getInstance();
     private final ScoreService scoreService;
 
     // 构造函数注入
-    public GameStateUpdateService(LcuApiService lcuApiService, ScoreService scoreService) {
-        this.lcuApiService = lcuApiService;
+    public GameStateUpdateService(ScoreService scoreService) {
         this.scoreService = scoreService;
     }
 
@@ -67,26 +68,13 @@ public class GameStateUpdateService extends CommonRequest {
      */
     @SneakyThrows
     public void championSelectStart() {
-        if (GameEnums.GameQueueID.isValidData(CustomGameSession.getInstance().getQueueId())){
+        if (!GameEnums.GameQueueID.isNormalGameMode(CustomGameSession.getInstance().getQueueId())) {
             // 不存在选人界面的模式，直接返回
             return;
         }
 
-
         Thread.sleep(1500);
-
-        List<Long> summonerIdList = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            TimeUnit.SECONDS.sleep(1);
-            // 根据聊天框会话拿到我方的召唤师ID
-            summonerIdList = getTeamSummonerIdList();
-            if (CollectionUtils.isEmpty(summonerIdList)) {
-                continue;
-            }
-            if (summonerIdList.size() == 5) {
-                break;
-            }
-        }
+        List<Long> summonerIdList = fetchTeamSummonerIds();
         if (CollectionUtils.isEmpty(summonerIdList)) {
             log.error("队友召唤师ID查询失败！");
             return;
@@ -108,6 +96,24 @@ public class GameStateUpdateService extends CommonRequest {
 
         // 分析战绩并打印
         calculateScore(summonerList, true);
+    }
+
+
+    /**
+     * 尝试获取当前团队中的召唤师ID列表（最多尝试3次）
+     *
+     * @return 召唤师ID列表
+     */
+    private List<Long> fetchTeamSummonerIds() throws InterruptedException {
+        List<Long> summonerIdList = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            TimeUnit.SECONDS.sleep(1);
+            summonerIdList = getTeamSummonerIdList();
+            if (CollectionUtils.isNotEmpty(summonerIdList) && summonerIdList.size() == 5) {
+                break;
+            }
+        }
+        return summonerIdList;
     }
 
     /**
@@ -251,29 +257,29 @@ public class GameStateUpdateService extends CommonRequest {
             List<GameHistory.GameInfo> gameList;
             try {
                 gameList = lcuApiService.listGameHistory(summoner, 0, 19); // 获取最近20场游戏记录
+                // 过滤指定的游戏模式
+                gameList = gameList.stream().filter(game -> GameEnums.GameQueueID.isNormalGameMode(game.getQueueId())).toList();
+                if (CollectionUtils.isEmpty(gameList)) {
+                    log.error("【{}】战绩查询为空！", summoner.getGameName());
+                    return null;
+                }
             } catch (Exception e) {
-                log.error("获取【{}】游戏战绩列表失败", summoner.getGameName(), e);
-                return null;
-            }
-
-            if (CollectionUtils.isEmpty(gameList)) {
-                log.error("用户战绩查询为空！召唤师： 【{}】", summoner.getGameName());
+                log.error("【{}】战绩列表获取失败", summoner.getGameName(), e);
                 return null;
             }
 
             // 计算分数
-
             List<Long> gameIdList = gameList.stream().map(GameHistory.GameInfo::getGameId).toList();
 
             double finalScore = getFinalScore(gameIdList, summonerID);
 
             userScoreInfo.setCurrKDA(getKdas(gameList));
             userScoreInfo.setScore(finalScore);
-            userScoreInfo.setExtMsg(GameAnalysis.analyzeGameHistory(gameList, summoner.getGameName(), isSelf));
+            userScoreInfo.setExtMsg(analyzeGameHistory(gameList, summoner.getGameName(), isSelf));
 
             return userScoreInfo;
         } catch (Exception e) {
-            log.error("计算用户得分失败, summoner: {}", summoner.getGameName(), e);
+            log.error("【{}】计算用户得分失败", summoner.getGameName(), e);
             return null; // 顶层异常返回null（上层需处理）
         }
     }
@@ -398,7 +404,7 @@ public class GameStateUpdateService extends CommonRequest {
      */
     public List<Long> getTeamSummonerIdList() {
         String conversationID = lcuApiService.getCurrConversationID();
-        if (conversationID == null || conversationID.isEmpty()) {
+        if (StringUtils.isBlank(conversationID)) {
             log.error("当前不在英雄选择阶段");
             return Collections.emptyList();
         }
@@ -418,6 +424,46 @@ public class GameStateUpdateService extends CommonRequest {
             }
         }
         return summonerIDList;
+    }
+
+    public static String analyzeGameHistory(List<GameHistory.GameInfo> gameInfoList, String gameName, boolean isTeammate) {
+        if (CollectionUtils.isEmpty(gameInfoList)) {
+            return "";
+        }
+        if (gameInfoList.size() < 3) {
+            return "";
+        }
+
+        List<GameHistory.GameInfo> gameInfos = gameInfoList.subList(0, 3);
+        boolean isAllSoloQueue = true;
+        for (GameHistory.GameInfo gameInfo : gameInfos) {
+            if (!GameEnums.GameQueueID.isNormalGameMode(gameInfo.getQueueId())) {
+                isAllSoloQueue = false;
+                break;
+            }
+        }
+        if (!isAllSoloQueue) {
+            return "";
+        }
+
+        boolean allTrue = gameInfoList.stream().allMatch(item -> item.getParticipants().get(0).getStats().getWin());
+        boolean allFalse = gameInfoList.stream().noneMatch(item -> item.getParticipants().get(0).getStats().getWin());
+        if (allTrue || allFalse) {
+            if (isTeammate) {
+                if (allTrue) {
+                    return "恭喜！队友：" + gameName + "三连胜，请积极对局";
+                } else {
+                    return "警告！队友：" + gameName + "三连跪，请谨慎对局";
+                }
+            } else {
+                if (allTrue) {
+                    return "警告！对手：" + gameName + "三连胜，请注意针对";
+                } else {
+                    return "恭喜！对手：" + gameName + "三连跪，请注意针对";
+                }
+            }
+        }
+        return "";
     }
 
 

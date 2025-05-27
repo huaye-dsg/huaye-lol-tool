@@ -26,10 +26,10 @@ public class GameSessionUpdateService {
 
     private final static CustomGameSession details = CustomGameSession.getInstance();
 
-    private final LcuApiService lcuApiService;
+    private final static LcuApiService lcuApiService = LcuApiService.getInstance();
 
-    public GameSessionUpdateService(LcuApiService lcuApiService) {
-        this.lcuApiService = lcuApiService;
+    public GameSessionUpdateService() {
+
     }
 
     public void onChampSelectSessionUpdate(String sessionStr) {
@@ -50,7 +50,6 @@ public class GameSessionUpdateService {
         for (List<ChampSelectSessionInfo.Action> round : session.getActions()) {
             for (ChampSelectSessionInfo.Action action : round) {
                 boolean completed = action.getCompleted();
-
                 // 处理队友和对手锁定英雄的操作
                 if (completed && action.getChampionId() > 0) {
                     String actionKey = buildActionKey(action);
@@ -71,7 +70,9 @@ public class GameSessionUpdateService {
         }
     }
 
-    // 示例：打印 pick/ban
+    /**
+     * 处理英雄选定事件
+     */
     private void handleCompletedAction(ChampSelectSessionInfo.Action action, Map<Integer, ChampSelectSessionInfo.Player> posMap) {
         boolean isPick = "pick".equals(action.getType());
         boolean isAlly = action.getIsAllyAction();
@@ -155,15 +156,22 @@ public class GameSessionUpdateService {
 
 
     private String analyzeHeroMastery(String puuid, String logMessage, int championId) {
-        // 如果队友选择了英雄，则分析英雄熟练度
+        // 获取玩家的所有英雄熟练度数据
         List<ChampionMastery> championMasteryList = lcuApiService.searchChampionMasteryData(puuid);
-        for (ChampionMastery mastery : championMasteryList) {
-            if (mastery.getChampionId() == championId) {
-                logMessage += String.format(", 等级: %d, 积分: %d，最高评价：%s, 最后游玩: %s",
-                        mastery.championLevel, mastery.championPoints, mastery.highestGrade, convertTimestampToDate(mastery.lastPlayTime));
-                break;
-            }
+
+        // 查找特定英雄的熟练度信息
+        Optional<ChampionMastery> optionalMastery = championMasteryList.stream()
+                .filter(mastery -> mastery.getChampionId() == championId)
+                .findFirst();
+
+        // 如果找到匹配的英雄熟练度信息，则更新日志消息
+        if (optionalMastery.isPresent()) {
+            ChampionMastery mastery = optionalMastery.get();
+            logMessage += String.format(", 等级: %d, 积分: %d，最高评价：%s, 最后游玩: %s",
+                    mastery.championLevel, mastery.championPoints, mastery.highestGrade,
+                    convertTimestampToDate(mastery.lastPlayTime));
         }
+
         return logMessage;
     }
 
@@ -176,18 +184,6 @@ public class GameSessionUpdateService {
         // 2. 使用 SimpleDateFormat 格式化日期
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
         return sdf.format(date);
-    }
-
-
-    private static int calculateGradeScore(String grade) {
-        if (grade == null) return 0;
-        Map<String, Integer> gradeScores = new HashMap<>();
-        gradeScores.put("S+", 10);
-        gradeScores.put("S", 8);
-        gradeScores.put("A", 5);
-
-        String upperCaseGrade = grade.toUpperCase();
-        return gradeScores.getOrDefault(upperCaseGrade, 0);
     }
 
 

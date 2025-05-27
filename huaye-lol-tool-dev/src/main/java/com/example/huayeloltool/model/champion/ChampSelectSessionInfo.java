@@ -1,6 +1,6 @@
 package com.example.huayeloltool.model.champion;
 
-import com.example.huayeloltool.enums.CommonResp;
+import com.example.huayeloltool.common.CommonResp;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

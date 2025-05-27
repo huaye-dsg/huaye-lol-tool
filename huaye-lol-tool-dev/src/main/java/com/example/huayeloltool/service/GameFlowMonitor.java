@@ -1,13 +1,14 @@
-package com.example.huayeloltool.monitor;
+package com.example.huayeloltool.service;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
+import com.example.huayeloltool.common.OkHttpClientCommonBean;
 import com.example.huayeloltool.enums.GameEnums;
+import com.example.huayeloltool.model.base.BaseUrlClient;
 import com.example.huayeloltool.model.game.CustomGameSession;
 import com.example.huayeloltool.model.game.Matchmaking;
-import com.example.huayeloltool.service.GameSessionUpdateService;
-import com.example.huayeloltool.service.GameStateUpdateService;
+import com.example.huayeloltool.model.score.ScoreService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
@@ -20,19 +21,17 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class GameFlowMonitor {
 
-    public final OkHttpClient client;
-    private final GameStateUpdateService gameStateUpdateService;
-    private final GameSessionUpdateService gameSessionUpdateService;
+    static OkHttpClient client = OkHttpClientCommonBean.getInstance();
+    static GameStateUpdateService gameStateUpdateService = new GameStateUpdateService(ScoreService.instance);
+    static GameSessionUpdateService gameSessionUpdateService = new GameSessionUpdateService();
 
-    // 构造函数注入
-    public GameFlowMonitor(OkHttpClient client, GameStateUpdateService gameStateUpdateService, GameSessionUpdateService gameSessionUpdateService) {
-        this.client = client;
-        this.gameStateUpdateService = gameStateUpdateService;
-        this.gameSessionUpdateService = gameSessionUpdateService;
-    }
-
-    public void initGameFlowMonitor(int port, String token) throws Exception {
+    @SneakyThrows
+    public static void startGameFlowMonitor() {
+        BaseUrlClient baseUrlClient = BaseUrlClient.getInstance();
+        int port = baseUrlClient.getPort();
+        String token = baseUrlClient.getToken();
         String auth = Base64.getEncoder().encodeToString(("riot:" + token).getBytes());
+
         Request request = new Request.Builder()
                 .url("wss://127.0.0.1:" + port + "/")
                 .addHeader("Authorization", "Basic " + auth)
@@ -61,7 +60,8 @@ public class GameFlowMonitor {
         boolean b = client.dispatcher().executorService().awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
     }
 
-    private void handleWebSocketMessage(String message) {
+
+    private static void handleWebSocketMessage(String message) {
         try {
             if (StringUtils.isEmpty(message)) {
                 return;
@@ -81,26 +81,48 @@ public class GameFlowMonitor {
                         new Thread(() -> gameStateUpdateService.onGameFlowUpdate(data)).start();
                 case "/lol-champ-select/v1/session" ->
                         new Thread(() -> gameSessionUpdateService.onChampSelectSessionUpdate(data)).start();
-                case "/lol-lobby-team-builder/v1/matchmaking" -> handGameMode(data);
+                case "/lol-lobby-team-builder/v1/matchmaking" -> handleGameMode(data);
             }
         } catch (Exception e) {
             log.error("handleWebSocketMessage error", e);
         }
     }
 
-    private void handGameMode(String data) {
-        if (data != null) {
+    /**
+     * 处理游戏模式数据
+     *
+     * @param data 包含游戏模式信息的数据字符串
+     */
+    private static void handleGameMode(String data) {
+        // 如果传入的数据为空，则直接返回
+        if (data == null) return;
+
+        try {
+            // 将JSON格式的数据解析成Matchmaking对象
             Matchmaking matchmaking = JSON.parseObject(data, Matchmaking.class);
-            if (BooleanUtils.isTrue(matchmaking.getIsCurrentlyInQueue())) {
-                Integer queueId = matchmaking.getQueueId();
-                if (queueId != null && queueId > 0) {
-                    String modeName = GameEnums.GameQueueID.getGameNameMap(queueId);
-                    CustomGameSession.getInstance().setQueueId(queueId);
-                    log.info("当前游戏模式为：{}", modeName);
-                }
+
+            // 判断是否正在排队
+            boolean isInQueue = BooleanUtils.isTrue(matchmaking.getIsCurrentlyInQueue());
+
+            // 获取队列ID
+            Integer queueId = matchmaking.getQueueId();
+
+            // 如果正在排队并且队列ID有效（大于0）
+            if (isInQueue && queueId != null && queueId > 0) {
+                // 根据队列ID获取对应的游戏模式名称
+                String modeName = GameEnums.GameQueueID.getGameNameMap(queueId);
+
+                // 设置当前队列ID到自定义游戏会话实例中
+                CustomGameSession.getInstance().setQueueId(queueId);
+
+                // 记录日志，显示当前游戏模式
+                log.info("custom mode：{}", modeName);
             }
+
+        } catch (Exception e) {
+            // 添加异常处理，防止程序因意外情况而崩溃
+            log.error("处理游戏模式时发生错误", e);
         }
     }
-
 
 }

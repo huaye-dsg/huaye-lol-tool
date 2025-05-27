@@ -175,10 +175,10 @@ public enum Heros {
     ALCHEMIST_BARON("炼金男爵", 888, "烈娜塔・戈拉斯克", "烈娜塔"),
     DOUBLE_RABBITS("双界灵兔", 893, "阿萝拉", "兔子"),
     RECKLESSLY_JOYFUL("不羁之悦", 895, "尼菈", "尼菈"),
-    LASER_GLORY("纳祖芒荣耀", 897, "奎桑提", "黑哥"),
+    LASER_GLORY("纳祖芒荣耀", 897, "奎桑提", "奎桑提"),
     FIERY_CHICK("炽炎雏龙", 901, "斯莫德", "小火龙"),
     CANDLE_OF_LIFE("明烛", 902, "米利欧", "米利欧"),
-    PAINTER_OF_THE_SWEET_BROWS("异画师", 910, "慧", "毛笔人"),
+    PAINTER_OF_THE_SWEET_BROWS("异画师", 910, "慧", "异画师"),
     HUNDREDKILLS_GHOSTHOUND("百裂冥犬", 950, "纳亚菲利", "狼狗"),
     BULUMU("布鲁姆", 957, "布鲁姆", "布鲁姆"),
     KASHA("虚空之女",999,"卡莎","卡莎");

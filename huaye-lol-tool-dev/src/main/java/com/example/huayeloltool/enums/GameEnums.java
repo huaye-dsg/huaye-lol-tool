@@ -119,10 +119,10 @@ public class GameEnums {
 
         private final static Map<Integer, String> map = new HashMap<>();
 
-        private final static List<Integer> list = Arrays.asList(RANK_SOLO.id, RANK_FLEX.id, NORMAL_BLIND.id, NORMAL_DRAFT.id, ARAM.id);
+        private final static List<Integer> NORMAL_GAME_MODE_LIST = Arrays.asList(RANK_SOLO.id, RANK_FLEX.id, NORMAL_BLIND.id, NORMAL_DRAFT.id, ARAM.id);
 
-        public static Boolean isValidData(Integer value) {
-            return list.contains(value);
+        public static Boolean isNormalGameMode(Integer value) {
+            return NORMAL_GAME_MODE_LIST.contains(value);
         }
 
         public static String getGameNameMap(Integer value) {
@@ -157,10 +157,4 @@ public class GameEnums {
         }
     }
 
-
-    /*
-      大区ID
-     */
-    //public static final String PlatformIDDX1 = "HN1"; // 艾欧尼亚
-    //public static final String PlatformIDDX2 = "HN2"; // 祖安
 }

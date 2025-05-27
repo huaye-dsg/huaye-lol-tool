@@ -1,9 +1,8 @@
-package com.example.huayeloltool.service;
+package com.example.huayeloltool.common;
 
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.TypeReference;
-import com.example.huayeloltool.config.OkHttpClientCommonBean;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -20,7 +19,10 @@ public class CommonRequest {
 
     public <T> T sendRequest(Request request, Class<T> responseClass) throws IOException {
         try (Response response = client.newCall(request).execute()) {
-            handleResponseStatus(response, request);
+            if (!response.isSuccessful()) {
+                log.info("Request failed: URL= {}", request.url());
+                throw new IOException("Request failed");
+            }
             ResponseBody body = response.body();
             if (body == null) {
                 log.error("Request empty body. URL: {}", request.url());
@@ -53,14 +55,6 @@ public class CommonRequest {
             }
         }
         return null;
-    }
-
-
-    public void handleResponseStatus(Response response, Request request) throws IOException {
-        if (!response.isSuccessful()) {
-            log.info("Request failed: URL= {}", request.url());
-            throw new IOException("Request failed");
-        }
     }
 
 }
