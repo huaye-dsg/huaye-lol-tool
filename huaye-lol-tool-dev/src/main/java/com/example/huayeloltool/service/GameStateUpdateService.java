@@ -210,10 +210,10 @@ public class GameStateUpdateService extends CommonRequest {
     private String rankData(String puuid) {
         try {
             RankedInfo rankData = lcuApiService.getRankData(puuid);
-            RankedInfo.HighestRankedEntrySRDto highestRankedEntrySR = rankData.getHighestRankedEntrySR();
-            String tier = highestRankedEntrySR.getTier();
-            String division = highestRankedEntrySR.getDivision();
-            Integer leaguePoints = highestRankedEntrySR.getLeaguePoints();
+            RankedInfo.QueueMapDto.RANKEDSOLO5x5Dto rankedSoloInfo = rankData.getQueueMap().getRankedSolo5x5();
+            String tier = rankedSoloInfo.getTier();
+            String division = rankedSoloInfo.getDivision();
+            Integer leaguePoints = rankedSoloInfo.getLeaguePoints();
             return String.format("【%s-%s-%d】", GameEnums.RankTier.getRankNameMap(tier), division, leaguePoints);
         } catch (Exception e) {
             log.error("查询{}战绩失败！", puuid, e);
