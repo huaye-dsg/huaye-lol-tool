@@ -216,7 +216,7 @@ public class LcuApiService extends CommonRequest {
         });
 
         for (Conversation conversation : conversations) {
-            if (CHAMPION_SELECT.equals(conversation.getType())) { // 换成你实际的类型比较
+            if (CHAMPION_SELECT.equals(conversation.getType())) {
                 return conversation.getId();
             }
         }

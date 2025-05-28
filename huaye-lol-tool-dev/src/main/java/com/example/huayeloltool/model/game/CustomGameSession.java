@@ -73,9 +73,15 @@ public class CustomGameSession {
         processedActionIds.remove(actionId);
     }
 
-    // 初始化方法
-    public void init() {
-        instance = null;
+    // 重置所有状态
+    public void reset() {
+        queueId = null;
+        floor = null;
+        position = null;
+        isBanned = false;
+        isSelected = false;
+        processedActionIds.clear();
+        positionMap.clear();
     }
 
     // 是否是单双排排位

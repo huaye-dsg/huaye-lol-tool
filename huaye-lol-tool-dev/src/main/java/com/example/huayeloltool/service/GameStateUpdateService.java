@@ -58,7 +58,7 @@ public class GameStateUpdateService extends CommonRequest {
             case READY_CHECK -> lcuApiService.acceptGame();
             case CHAMPION_SELECT -> new Thread(this::championSelectStart).start();
             case IN_PROGRESS -> new Thread(this::calcEnemyTeamScore).start();
-            case NONE -> CustomGameSession.getInstance().init();
+            case NONE -> CustomGameSession.getInstance().reset();
         }
     }
 
