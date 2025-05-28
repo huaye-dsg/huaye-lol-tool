@@ -16,8 +16,7 @@ import java.util.Objects;
 
 @Slf4j
 public class Main {
-
-    static LcuApiService lcuApiService = LcuApiService.getInstance();
+    private static final LcuApiService lcuApiService = LcuApiService.getInstance();
 
     /**
      * 主程序入口，负责初始化LCU API连接、召唤师信息和游戏流程监控
@@ -44,12 +43,13 @@ public class Main {
         }
     }
 
+
     /**
      * 检查LOL客户端API连接状态
      *
      * @return 连接是否成功
      */
-    private static boolean checkLolClientConnection() {
+    public static boolean checkLolClientConnection() {
         Pair<Integer, String> apiInfo = getLolClientApiInfo(Constant.LOL_UX_PROCESS_NAME);
         if (apiInfo.getLeft() == 0) {
             return false;
@@ -66,11 +66,10 @@ public class Main {
      *
      * @return 初始化是否成功
      */
-    private static boolean initializeSummonerInfo() {
+    public static boolean initializeSummonerInfo() {
         Summoner summoner = Summoner.setInstance(lcuApiService.getCurrSummoner());
         return Objects.nonNull(summoner);
     }
-
 
 
     /**
@@ -104,4 +103,6 @@ public class Main {
 
         return Pair.of(0, "");
     }
+
+
 }

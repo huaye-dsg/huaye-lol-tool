@@ -1,0 +1,58 @@
+2025-05-28 17:16:53 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 35167 (/Users/zhangshuai/Desktop/ali-work/github/huaye-lol-tool/huaye-lol-tool-dev/target/classes started by zhangshuai in /Users/zhangshuai/Desktop/ali-work/github/huaye-lol-tool)
+2025-05-28 17:16:53 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-05-28 17:16:53 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-05-28 17:16:53 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-05-28 17:16:53 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-05-28 17:16:53 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-05-28 17:16:53 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-05-28 17:16:53 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 319 ms
+2025-05-28 17:16:53 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-05-28 17:16:53 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-05-28 17:16:53 INFO  c.example.huayeloltool.Application - Started Application in 0.681 seconds (process running for 1.067)
+2025-05-28 17:16:54 ERROR com.example.huayeloltool.Main - LOL接口进程不存在！
+2025-05-28 17:17:39 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-28 17:17:39 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-05-28 17:17:41 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 35256 (/Users/zhangshuai/Desktop/ali-work/github/huaye-lol-tool/huaye-lol-tool-dev/target/classes started by zhangshuai in /Users/zhangshuai/Desktop/ali-work/github/huaye-lol-tool)
+2025-05-28 17:17:41 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-05-28 17:17:41 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-05-28 17:17:41 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-05-28 17:17:41 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-05-28 17:17:41 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-05-28 17:17:41 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-05-28 17:17:41 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 445 ms
+2025-05-28 17:17:41 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-05-28 17:17:41 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-05-28 17:17:41 INFO  c.example.huayeloltool.Application - Started Application in 0.86 seconds (process running for 1.279)
+2025-05-28 17:17:42 ERROR com.example.huayeloltool.Main - LOL接口进程不存在！
+2025-05-28 17:18:05 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-28 17:18:05 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-05-28 17:18:05 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-05-28 17:18:05 INFO  c.e.h.controller.HelloController - hello
+2025-05-28 17:18:32 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-28 17:18:32 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-05-28 17:18:33 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 35407 (/Users/zhangshuai/Desktop/ali-work/github/huaye-lol-tool/huaye-lol-tool-dev/target/classes started by zhangshuai in /Users/zhangshuai/Desktop/ali-work/github/huaye-lol-tool)
+2025-05-28 17:18:33 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-05-28 17:18:33 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-05-28 17:18:33 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-05-28 17:18:33 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-05-28 17:18:33 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-05-28 17:18:33 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-05-28 17:18:33 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 328 ms
+2025-05-28 17:18:33 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-05-28 17:18:33 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-05-28 17:18:33 INFO  c.example.huayeloltool.Application - Started Application in 0.641 seconds (process running for 0.93)
+2025-05-28 17:18:34 ERROR com.example.huayeloltool.Main - LOL接口进程不存在！
+2025-05-28 17:19:24 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-28 17:19:24 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-05-28 17:21:54 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 35930 (/Users/zhangshuai/Desktop/ali-work/github/huaye-lol-tool/huaye-lol-tool-dev/target/classes started by zhangshuai in /Users/zhangshuai/Desktop/ali-work/github/huaye-lol-tool)
+2025-05-28 17:21:54 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-05-28 17:21:54 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-05-28 17:21:54 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-05-28 17:21:54 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-05-28 17:21:54 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-05-28 17:21:54 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-05-28 17:21:54 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 311 ms
+2025-05-28 17:21:54 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-05-28 17:21:54 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-05-28 17:21:54 INFO  c.example.huayeloltool.Application - Started Application in 0.595 seconds (process running for 0.911)
+2025-05-28 17:21:55 ERROR com.example.huayeloltool.Main - LOL接口进程不存在！
