@@ -80,37 +80,6 @@ public class LcuApiService extends CommonRequest {
     }
 
 
-    /**
-     * 找到LOL进程并解析端口和token
-     */
-    public Pair<Integer, String> getLolClientApiInfo(String processName) {
-        SystemInfo systemInfo = new SystemInfo();
-        OperatingSystem os = systemInfo.getOperatingSystem();
-        // 获取所有进程
-        List<OSProcess> processes = os.getProcesses();
-
-        // 在进程列表中查找LOL进程
-        for (OSProcess process : processes) {
-            if (process.getName().equalsIgnoreCase(processName)) {
-                List<String> arguments = process.getArguments();
-                int port = 0;
-                String token = "";
-                for (String argument : arguments) {
-                    if (argument.contains("--app-port")) {
-                        String[] split = argument.split("=");
-                        port = Integer.parseInt(split[1]);
-                    }
-                    if (argument.contains("--remoting-auth-token")) {
-                        String[] split = argument.split("=");
-                        token = split[1];
-                    }
-                }
-                return Pair.of(port, token);
-            }
-        }
-
-        return Pair.of(0, "");
-    }
 
     /**
      * 根据 puuid 查询游戏记录
@@ -195,7 +164,6 @@ public class LcuApiService extends CommonRequest {
      */
     public void acceptGame() {
         try {
-            Thread.sleep(1500);
             Request request = OkHttpUtil.createOkHttpPostRequest("/lol-matchmaking/v1/ready-check/accept");
             try (Response response = client.newCall(request).execute()) {
                 if (!response.isSuccessful()) {

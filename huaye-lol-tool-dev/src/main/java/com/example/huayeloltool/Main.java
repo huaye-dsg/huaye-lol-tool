@@ -7,7 +7,11 @@ import com.example.huayeloltool.service.GameFlowMonitor;
 import com.example.huayeloltool.service.LcuApiService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.Pair;
+import oshi.SystemInfo;
+import oshi.software.os.OSProcess;
+import oshi.software.os.OperatingSystem;
 
+import java.util.List;
 import java.util.Objects;
 
 @Slf4j
@@ -46,7 +50,7 @@ public class Main {
      * @return 连接是否成功
      */
     private static boolean checkLolClientConnection() {
-        Pair<Integer, String> apiInfo = lcuApiService.getLolClientApiInfo(Constant.LOL_UX_PROCESS_NAME);
+        Pair<Integer, String> apiInfo = getLolClientApiInfo(Constant.LOL_UX_PROCESS_NAME);
         if (apiInfo.getLeft() == 0) {
             return false;
         }
@@ -67,4 +71,37 @@ public class Main {
         return Objects.nonNull(summoner);
     }
 
+
+
+    /**
+     * 找到LOL进程并解析端口和token
+     */
+    public static Pair<Integer, String> getLolClientApiInfo(String processName) {
+        SystemInfo systemInfo = new SystemInfo();
+        OperatingSystem os = systemInfo.getOperatingSystem();
+        // 获取所有进程
+        List<OSProcess> processes = os.getProcesses();
+
+        // 在进程列表中查找LOL进程
+        for (OSProcess process : processes) {
+            if (process.getName().equalsIgnoreCase(processName)) {
+                List<String> arguments = process.getArguments();
+                int port = 0;
+                String token = "";
+                for (String argument : arguments) {
+                    if (argument.contains("--app-port")) {
+                        String[] split = argument.split("=");
+                        port = Integer.parseInt(split[1]);
+                    }
+                    if (argument.contains("--remoting-auth-token")) {
+                        String[] split = argument.split("=");
+                        token = split[1];
+                    }
+                }
+                return Pair.of(port, token);
+            }
+        }
+
+        return Pair.of(0, "");
+    }
 }

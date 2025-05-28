@@ -55,13 +55,18 @@ public class GameStateUpdateService extends CommonRequest {
     public void onGameFlowUpdate(String gameState) {
         switch (GameEnums.GameFlow.getByValue(gameState)) {
             case MATCHMAKING -> log.info("开始匹配");
-            case READY_CHECK -> lcuApiService.acceptGame();
+            case READY_CHECK -> this.acceptGame();
             case CHAMPION_SELECT -> new Thread(this::championSelectStart).start();
             case IN_PROGRESS -> new Thread(this::calcEnemyTeamScore).start();
             case NONE -> CustomGameSession.getInstance().reset();
         }
     }
 
+    @SneakyThrows
+    private void acceptGame() {
+        Thread.sleep(1500);
+        lcuApiService.acceptGame();
+    }
 
     /**
      * 查询队友战绩
