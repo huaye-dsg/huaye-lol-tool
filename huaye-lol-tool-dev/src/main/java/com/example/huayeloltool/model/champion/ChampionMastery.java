@@ -11,7 +11,8 @@ public class ChampionMastery {
     public int championLevel;
     // 英雄的积分
     public int championPoints;
-    public String highestGrade;
+    //    // 最高评价等级
+    //public String highestGrade;
     // 最后游玩时间
     public long lastPlayTime;
     //    // 自上次升级以来获得的英雄积分
@@ -20,7 +21,6 @@ public class ChampionMastery {
 //    public int championPointsUntilNextLevel;
 //    // 英雄赛季里程碑
 //    public int championSeasonMilestone;
-//    // 最高评价等级
 
 //    // 下次升级所需的标记数
 //    public int markRequiredForNextLevel;

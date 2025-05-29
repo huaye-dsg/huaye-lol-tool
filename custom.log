@@ -56,3 +56,5 @@
 2025-05-28 17:21:54 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
 2025-05-28 17:21:54 INFO  c.example.huayeloltool.Application - Started Application in 0.595 seconds (process running for 0.911)
 2025-05-28 17:21:55 ERROR com.example.huayeloltool.Main - LOL接口进程不存在！
+2025-05-28 17:26:03 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-05-28 17:26:03 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete

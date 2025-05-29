@@ -90,7 +90,8 @@ public class GameSessionUpdateService {
         String heroName = Heros.getNameById(action.getChampionId());
 
         String logMsg = isAlly
-                ? String.format("【我方】位置：%s, 动作: %s, 英雄: %s", positionDesc, which, heroName)
+                //? String.format("【我方】位置：%s, 动作: %s, 英雄: %s", positionDesc, which, heroName)
+                ? String.format("【我方】动作: %s, 英雄: %s", which, heroName)
                 : String.format("【敌方】动作: %s, 英雄: %s", which, heroName);
 
         if (isPick && isAlly) {
@@ -167,8 +168,8 @@ public class GameSessionUpdateService {
         // 如果找到匹配的英雄熟练度信息，则更新日志消息
         if (optionalMastery.isPresent()) {
             ChampionMastery mastery = optionalMastery.get();
-            logMessage += String.format(", 等级: %d, 积分: %d，最高评价：%s, 最后游玩: %s",
-                    mastery.championLevel, mastery.championPoints, mastery.highestGrade,
+            logMessage += String.format(", 等级: %d, 积分: %d，最后游玩: %s",
+                    mastery.championLevel, mastery.championPoints,
                     convertTimestampToDate(mastery.lastPlayTime));
         }
 
