@@ -14,6 +14,7 @@ import com.example.huayeloltool.model.game.GameFlowSession;
 import com.example.huayeloltool.model.game.GameHistory;
 import com.example.huayeloltool.model.game.GameSummary;
 import com.example.huayeloltool.model.summoner.RankedInfo;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -25,6 +26,8 @@ import oshi.software.os.OSProcess;
 import oshi.software.os.OperatingSystem;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -78,7 +81,6 @@ public class LcuApiService extends CommonRequest {
         }
         throw lastException;
     }
-
 
 
     /**
@@ -279,5 +281,49 @@ public class LcuApiService extends CommonRequest {
             log.error("champSelectPatchActionIOError", e);
             return false;
         }
+    }
+
+    /**
+     * 再来一局（回到大厅）
+     */
+    public boolean playAgain() {
+        try {
+            Request request = OkHttpUtil.createOkHttpPostRequest("/lol-lobby/v2/play-again");
+            try (Response response = client.newCall(request).execute()) {
+                if (!response.isSuccessful()) {
+                    log.info("回到大厅失败: {}", JSON.toJSONString(response));
+                    return false;
+                }
+                return true;
+            }
+        } catch (Exception e) {
+            log.error("回到大厅失败!", e);
+            return false;
+        }
+    }
+
+    /**
+     * 自动开始匹配
+     */
+    public void autoStartMatch() {
+        try {
+            Request request = OkHttpUtil.createOkHttpPostRequest("/lol-lobby/v2/lobby/matchmaking/search");
+            try (Response response = client.newCall(request).execute()) {
+                if (!response.isSuccessful()) {
+                    log.info("自动开始匹配失败: {}", JSON.toJSONString(response));
+                }
+            }
+        } catch (Exception e) {
+            log.error("自动开始匹配失败!", e);
+        }
+    }
+
+    @SneakyThrows
+    public String getSummonerByNickName(String name, String tagLine) {
+
+        String encodedParam = URLEncoder.encode(name + "#" + tagLine, StandardCharsets.UTF_8);
+
+        Request request = OkHttpUtil.createOkHttpGetRequest(String.format("/lol-summoner/v1/summoners/?name=%s", encodedParam));
+        return sendRequest(request, String.class);
     }
 }

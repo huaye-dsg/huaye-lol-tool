@@ -1,6 +1,7 @@
 package com.example.huayeloltool.enums;
 
 
+import com.example.huayeloltool.model.game.Matchmaking;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
@@ -9,24 +10,29 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * 游戏相关的枚举类型定义
+ * 对局相关的枚举类型定义
  */
 public class GameEnums {
 
     /**
-     * 游戏流程枚举
+     * 对局流程枚举
      */
     @Getter
     @AllArgsConstructor
     public enum GameFlow {
+        LOBBY("Lobby"),                 // 大厅
         CHAMPION_SELECT("ChampSelect"), // 英雄选择中
         READY_CHECK("ReadyCheck"),      // 等待接受对局
         IN_PROGRESS("InProgress"),      // 进行中
         MATCHMAKING("Matchmaking"),     // 匹配中
-        NONE("None");                   // 无
+        GAME_START("GameStart"),        // 游戏开始
+        PRE_END_OF_GAME("PreEndOfGame"),   // 游戏结束前
+        END_OF_GAME("EndOfGame"),         // 游戏结束
+        WAITING_FOR_STATS("WaitingForStats"), // 等待统计
+        NONE("None");                  // 无
+
 
         private final String value;
-
         public static GameFlow getByValue(String status) {
 
             GameFlow[] values = GameFlow.values();

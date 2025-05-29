@@ -15,6 +15,13 @@ public class Summoner {
     private Long accountId;
 
     /**
+     * 是否公开个人信息
+     * "PRIVATE" | "PUBLIC"
+     */
+    private String privacy;
+
+
+    /**
      * 显示名称
      */
     //private String displayName;

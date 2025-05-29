@@ -41,7 +41,6 @@ public class GameFlowMonitor {
             @SneakyThrows
             @Override
             public void onOpen(WebSocket webSocket, Response response) {
-                log.info("load game info success！");
                 webSocket.send("[5, \"OnJsonApiEvent\"]");
             }
 
@@ -52,7 +51,7 @@ public class GameFlowMonitor {
 
             @Override
             public void onFailure(WebSocket webSocket, Throwable t, Response response) {
-                log.error("WebSocket error: ", t);
+                log.error("客户端通信连接失败", t);
             }
         });
 
@@ -116,7 +115,7 @@ public class GameFlowMonitor {
                 CustomGameSession.getInstance().setQueueId(queueId);
 
                 // 记录日志，显示当前游戏模式
-                log.info("custom mode：{}", modeName);
+                log.info("当前模式：{}，queueId：{}", modeName, queueId);
             }
 
         } catch (Exception e) {

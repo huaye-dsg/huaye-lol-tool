@@ -18,16 +18,22 @@ import java.util.Objects;
 public class Main {
     private static final LcuApiService lcuApiService = LcuApiService.getInstance();
 
+        // OPGGapi
+    //https://lol-api-champion.op.gg/api/KR/champions/ranked/${championId}/${position}
+
+    // LCUAPI
+    // https://lcu.kebs.dev/swagger.html
+
     /**
      * 主程序入口，负责初始化LCU API连接、召唤师信息和游戏流程监控
      */
     public static void main(String[] args) {
         // 检查LOL客户端API连接状态
         if (!checkLolClientConnection()) {
-            log.error("LOL接口进程不存在！");
+            log.error("客户端进程不存在！");
             return;
         }
-        log.info("LOL客户端连接成功");
+        log.info("客户端连接成功");
 
         try {
             // 初始化当前召唤师信息
@@ -68,6 +74,8 @@ public class Main {
      */
     public static boolean initializeSummonerInfo() {
         Summoner summoner = Summoner.setInstance(lcuApiService.getCurrSummoner());
+        String privacy = summoner.getPrivacy();
+        log.info("战绩隐藏情况为: {}", privacy);
         return Objects.nonNull(summoner);
     }
 

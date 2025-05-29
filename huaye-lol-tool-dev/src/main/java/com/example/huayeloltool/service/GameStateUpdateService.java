@@ -58,7 +58,21 @@ public class GameStateUpdateService extends CommonRequest {
             case READY_CHECK -> this.acceptGame();
             case CHAMPION_SELECT -> new Thread(this::championSelectStart).start();
             case IN_PROGRESS -> new Thread(this::calcEnemyTeamScore).start();
+            case END_OF_GAME -> new Thread(this::autoStartNextGame).start();
             case NONE -> CustomGameSession.getInstance().reset();
+        }
+    }
+
+    /**
+     * 自动开启下一场对局
+     */
+    @SneakyThrows
+    private void autoStartNextGame() {
+        Thread.sleep(1500);
+        boolean result = lcuApiService.playAgain();
+        // TODO 扩展，检查自己是不是房主
+        if (result) {
+            lcuApiService.autoStartMatch();
         }
     }
 
