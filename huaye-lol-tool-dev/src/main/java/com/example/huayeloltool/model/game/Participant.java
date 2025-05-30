@@ -11,7 +11,6 @@ public class Participant {
     public Integer participantId; // 参与者ID，与ParticipantIdentity中的participantId对应
     //public Integer spell1Id; // 召唤师技能1 ID
     //public Integer spell2Id; // 召唤师技能2 ID
-    @SuppressWarnings("CommentedOutCode")
     public Stats stats; // 详细数据
     public Integer teamId; // 队伍ID (100 or 200)
     public Timeline timeline; // 时间线数据
@@ -87,7 +86,6 @@ public class Participant {
         //public int perk5Var3; // 副系符文2 变量 3
         //public int perkPrimaryStyle; // 主要符文风格ID
         //public int perkSubStyle; // 次要符文风格ID
-        @SuppressWarnings("CommentedOutCode")
         public int physicalDamageDealt; // 物理伤害
         public int physicalDamageDealtToChampions; // 对英雄造成的物理伤害
         public int physicalDamageTaken; // 承受的物理伤害
@@ -101,7 +99,6 @@ public class Participant {
         //public int playerScore7; // 玩家分数7
         //public int playerScore8; // 玩家分数8
         //public int playerScore9; // 玩家分数9
-        @SuppressWarnings("CommentedOutCode")
         public int quadraKills; // 四杀数
         //public int sightWardsBoughtInGame; // 真眼购买数量
         //public boolean teamEarlySurrendered; // 队伍是否提前投降

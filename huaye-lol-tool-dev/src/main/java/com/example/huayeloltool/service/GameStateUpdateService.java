@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -37,18 +38,20 @@ public class GameStateUpdateService extends CommonRequest {
     private final GameGlobalSetting clientCfg = GameGlobalSetting.getInstance();
 
     private final LcuApiService lcuApiService = LcuApiService.getInstance();
-    private final ScoreService scoreService;
+    private final ScoreService scoreService = ScoreService.getInstance();
 
-    // 构造函数注入
-    public GameStateUpdateService(ScoreService scoreService) {
-        this.scoreService = scoreService;
-    }
-
-    private static final String WIN_STR = "胜";
-    private static final String LOSE_STR = "败";
     private static final String SCORE_RESULT = "【%s】【%d分】%s: %s %s ";
-    private static final String KDA_FORMAT = "[%s-%s]%d/%d/%d   ";
+    private static final String KDA_FORMAT = "[%s-%s-%s-%d/%d/%d]";
     private static final Double defaultScore = 100.0;
+
+    private static GameStateUpdateService instance;
+
+    public static GameStateUpdateService getInstance() {
+        if (instance == null) {
+            instance = new GameStateUpdateService();
+        }
+        return instance;
+    }
 
 
     @SneakyThrows
@@ -245,7 +248,6 @@ public class GameStateUpdateService extends CommonRequest {
         }
 
         CalcScoreConf.HorseScoreConf[] horseArr = CalcScoreConf.getInstance().getHorse();
-        String[] horseNames = clientCfg.getHorseNameConf();
 
         summonerList.stream()
                 .map(summoner -> calculateUserScore(summoner, isSelf))
@@ -254,11 +256,11 @@ public class GameStateUpdateService extends CommonRequest {
                 .forEach(scoreInfo -> {
                     double score = scoreInfo.getScore();
                     String msg = String.format(SCORE_RESULT,
-                            findHorseName(score, horseArr, horseNames),  // 马匹信息
+                            findHorseName(score, horseArr),  // 马匹信息
                             (int) score, // 分数
                             rankData(scoreInfo.getPuuid()), // 段位
                             scoreInfo.getSummonerName(), // 召唤师名称
-                            formatKDAInfo(scoreInfo));  // 前几局KDA
+                            formatKDAInfo(scoreInfo.getCurrKDA(), 5));  // 前几局KDA
                     log.info("{}\n{}", msg, scoreInfo.getExtMsg());
                 });
     }
@@ -344,7 +346,7 @@ public class GameStateUpdateService extends CommonRequest {
     /**
      * 分析每一场游戏的KDA和使用英雄
      */
-    private List<UserScore.Kda> getKdas(List<GameHistory.GameInfo> gameList) {
+    public List<UserScore.Kda> getKdas(List<GameHistory.GameInfo> gameList) {
         return gameList.stream().map(gameInfo -> {
             Participant participant = gameInfo.getParticipants().get(0);
             Participant.Stats stats = participant.getStats();
@@ -353,29 +355,31 @@ public class GameStateUpdateService extends CommonRequest {
             kda.setDeaths(stats.getDeaths());
             kda.setAssists(stats.getAssists());
             kda.setWin(stats.getWin());
+            kda.setQueueGame(GameEnums.GameQueueID.getGameNameMap(gameInfo.getQueueId()));
             kda.setChampionName(Heros.getNameById(participant.getChampionId()));
             return kda;
         }).toList();
     }
 
 
-    private String findHorseName(double score, CalcScoreConf.HorseScoreConf[] horseArr, String[] horseNames) {
+    private String findHorseName(double score, CalcScoreConf.HorseScoreConf[] horseArr) {
         for (int i = 0; i < horseArr.length; i++) {
             if (score >= horseArr[i].getScore()) {
-                return horseNames[i];
+                return Constant.HORSE_NAME_CONF[i];
             }
         }
         return "";
     }
 
     /**
-     * 格式化最后5场游戏kda和胜负字符串
+     * 格式化对局kda详情
      */
-    private String formatKDAInfo(UserScore scoreInfo) {
-        return scoreInfo.getCurrKDA().stream()
-                .limit(5)
+    public String formatKDAInfo(List<UserScore.Kda> kdaList, int limit) {
+        return kdaList.stream()
+                .limit(limit)
                 .map(kda -> String.format(KDA_FORMAT,
-                        kda.getWin() ? WIN_STR : LOSE_STR,
+                        kda.getQueueGame(),
+                        kda.getWin() ? Constant.WIN_STR : Constant.LOSE_STR,
                         kda.getChampionName(),
                         kda.getKills(),
                         kda.getDeaths(),

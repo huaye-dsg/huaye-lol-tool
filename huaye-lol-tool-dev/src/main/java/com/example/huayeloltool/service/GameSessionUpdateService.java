@@ -32,6 +32,15 @@ public class GameSessionUpdateService {
 
     }
 
+    private static GameSessionUpdateService instance;
+
+    public static GameSessionUpdateService getInstance() {
+        if (instance == null) {
+            instance = new GameSessionUpdateService();
+        }
+        return null;
+    }
+
     public void onChampSelectSessionUpdate(String sessionStr) {
         ChampSelectSessionInfo sessionInfo = JSON.parseObject(sessionStr, ChampSelectSessionInfo.class);
         analyzeSession(sessionInfo);

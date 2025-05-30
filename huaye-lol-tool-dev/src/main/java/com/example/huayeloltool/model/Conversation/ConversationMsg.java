@@ -2,7 +2,6 @@ package com.example.huayeloltool.model.Conversation;
 
 import lombok.*;
 
-@SuppressWarnings({"DanglingJavadoc", "CommentedOutCode"})
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -7,7 +7,7 @@ import lombok.Getter;
 public class GameGlobalSetting {
 
     /**
-     * 是否自动接受游戏
+     * 是否自动接受对局
      */
     private final Boolean autoAcceptGame = true;
 
@@ -20,12 +20,6 @@ public class GameGlobalSetting {
      * 自动禁用的英雄ID
      */
     private final Integer autoBanChampID = Heros.OUTLAW.getId();
-
-
-    /**
-     * 马匹名称配置
-     */
-    private final String[] horseNameConf = {"通天代", "小代", "上等马", "中等马", "下等马", "牛 马"};
 
     private static GameGlobalSetting instance;
 

@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 
-@SuppressWarnings({"DanglingJavadoc", "CommentedOutCode"})
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class ChampSelectSessionInfo extends CommonResp {
@@ -153,7 +152,6 @@ public class ChampSelectSessionInfo extends CommonResp {
     /**
      * 禁用英雄相关数据
      */
-    @SuppressWarnings("DanglingJavadoc")
     @Data
     @NoArgsConstructor
     public static class Bans {
@@ -206,7 +204,6 @@ public class ChampSelectSessionInfo extends CommonResp {
     /**
      * 表示一个队伍成员（玩家）的数据
      */
-    @SuppressWarnings("CommentedOutCode")
     @Data
     @NoArgsConstructor
     public static class Player {

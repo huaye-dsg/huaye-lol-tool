@@ -2,7 +2,6 @@ package com.example.huayeloltool.model.champion;
 
 import lombok.Data;
 
-@SuppressWarnings("CommentedOutCode")
 @Data
 public class ChampionMastery {
     // 英雄的 ID
