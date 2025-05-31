@@ -38,7 +38,7 @@ public class GameSessionUpdateService {
         if (instance == null) {
             instance = new GameSessionUpdateService();
         }
-        return null;
+        return instance;
     }
 
     public void onChampSelectSessionUpdate(String sessionStr) {
