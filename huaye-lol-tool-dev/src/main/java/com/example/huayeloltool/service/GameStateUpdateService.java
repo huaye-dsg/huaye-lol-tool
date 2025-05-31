@@ -68,10 +68,12 @@ public class GameStateUpdateService extends CommonRequest {
      */
     @SneakyThrows
     private void autoStartNextGame() {
+        CustomGameSession.getInstance().reset();
         Thread.sleep(1500);
         boolean result = lcuApiService.playAgain();
         // TODO 扩展，检查自己是不是房主
         if (result) {
+            Thread.sleep(1500);
             lcuApiService.autoStartMatch();
         }
     }
@@ -216,6 +218,7 @@ public class GameStateUpdateService extends CommonRequest {
     private void fillUserIds(List<GameFlowSession.GameFlowSessionTeamUser> teamUsers, List<Long> targetList) {
         teamUsers.stream()
                 .map(GameFlowSession.GameFlowSessionTeamUser::getSummonerId)
+                .filter(Objects::nonNull)
                 .filter(userId -> userId > 0)
                 .forEach(targetList::add);
     }
