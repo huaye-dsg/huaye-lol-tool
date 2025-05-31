@@ -6,9 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * DESCRIPTION
- *
- * @author zhangshuai
- * @since 2025/5/28
  */
 @RestController
 @Slf4j

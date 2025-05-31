@@ -22,8 +22,8 @@ import java.util.concurrent.TimeUnit;
 public class GameFlowMonitor {
 
     static OkHttpClient client = OkHttpClientCommonBean.getInstance();
-    static GameStateUpdateService gameStateUpdateService = new GameStateUpdateService(ScoreService.instance);
-    static GameSessionUpdateService gameSessionUpdateService = new GameSessionUpdateService();
+    static GameStateUpdateService gameStateUpdateService = GameStateUpdateService.getInstance();
+    static GameSessionUpdateService gameSessionUpdateService = GameSessionUpdateService.getInstance();
 
     @SneakyThrows
     public static void startGameFlowMonitor() {

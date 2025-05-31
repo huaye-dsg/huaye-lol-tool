@@ -34,8 +34,7 @@ public class UserScore {
 
         // 扩展字段。后加的
         private Boolean win;
-        //private Integer championId;
         private String championName;
-
+        private String queueGame;
     }
 }

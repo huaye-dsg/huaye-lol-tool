@@ -6,7 +6,6 @@ import lombok.Data;
 /**
  * 召唤师信息
  */
-@SuppressWarnings("DanglingJavadoc")
 @Data
 public class Summoner {
     /**

@@ -319,11 +319,9 @@ public class LcuApiService extends CommonRequest {
     }
 
     @SneakyThrows
-    public String getSummonerByNickName(String name, String tagLine) {
-
+    public Summoner getSummonerByNickName(String name, String tagLine) {
         String encodedParam = URLEncoder.encode(name + "#" + tagLine, StandardCharsets.UTF_8);
-
         Request request = OkHttpUtil.createOkHttpGetRequest(String.format("/lol-summoner/v1/summoners/?name=%s", encodedParam));
-        return sendRequest(request, String.class);
+        return sendRequest(request, Summoner.class);
     }
 }

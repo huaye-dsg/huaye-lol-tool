@@ -31,6 +31,11 @@ public class Constant {
     public static final String AVAILABILITY_OFFLINE = "offline";
 
 
+    public static final String WIN_STR = "胜";
+    public static final String LOSE_STR = "败";
+
+    public static final String[] HORSE_NAME_CONF = {"通天代", "小代", "上等马", "中等马", "下等马", "牛 马"};
+
 
 
 }
