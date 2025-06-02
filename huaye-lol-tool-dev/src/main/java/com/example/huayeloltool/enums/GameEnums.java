@@ -114,6 +114,7 @@ public class GameEnums {
         ARENA(1700, "斗魂竞技场"),
         CLASH(700, "战队赛 Clash"),
         TUTORIAL(2000, "新手教程"),
+        SHENMUZHIMEN(2300, "神木之门"),
         BOT_INTRO(830, "人机入门"),
         BOT_BEGINNER(840, "人机新手"),
         BOT_INTERMEDIATE(850, "人机一般"),
