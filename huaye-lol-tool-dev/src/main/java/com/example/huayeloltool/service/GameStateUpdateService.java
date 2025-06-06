@@ -62,8 +62,9 @@ public class GameStateUpdateService extends CommonRequest {
             case READY_CHECK -> this.acceptGame();
             case CHAMPION_SELECT -> new Thread(this::championSelectStart).start();
             case IN_PROGRESS -> new Thread(this::calcEnemyTeamScore).start();
-            case END_OF_GAME -> new Thread(this::autoStartNextGame).start();
-            case NONE -> CustomGameSession.getInstance().reset();
+//            case END_OF_GAME -> new Thread(this::autoStartNextGame).start();
+            case LOBBY -> CustomGameSession.getInstance().reset();
+
         }
     }
 
@@ -76,6 +77,7 @@ public class GameStateUpdateService extends CommonRequest {
         boolean result = lcuApiService.playAgain();
         // TODO 扩展，检查自己是不是房主
         if (result) {
+            Thread.sleep(1500);
             lcuApiService.autoStartMatch();
         }
     }
@@ -220,6 +222,7 @@ public class GameStateUpdateService extends CommonRequest {
     private void fillUserIds(List<GameFlowSession.GameFlowSessionTeamUser> teamUsers, List<Long> targetList) {
         teamUsers.stream()
                 .map(GameFlowSession.GameFlowSessionTeamUser::getSummonerId)
+                .filter(Objects::nonNull)
                 .filter(userId -> userId > 0)
                 .forEach(targetList::add);
     }
