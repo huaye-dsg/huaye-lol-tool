@@ -1,6 +1,7 @@
 package com.example.huayeloltool.controller;
 
 import com.example.huayeloltool.enums.Constant;
+import com.example.huayeloltool.model.cache.CustomGameCache;
 import com.example.huayeloltool.model.game.GameHistory;
 import com.example.huayeloltool.model.score.UserScore;
 import com.example.huayeloltool.model.summoner.Summoner;
@@ -47,6 +48,16 @@ public class LcuController {
         }
         return getGameBriefInfos(kdas);
     }
+
+    @GetMapping("/game/overview")
+    public List<CustomGameCache.Item> getSummonerGameHistory(@RequestParam("type") Integer type) {
+        if (type == 1) {
+            return CustomGameCache.getInstance().getTeamList();
+        } else {
+            return CustomGameCache.getInstance().getEnemyList();
+        }
+    }
+
 
     private static List<GameBriefInfo> getGameBriefInfos(List<UserScore.Kda> kdas) {
         List<GameBriefInfo> gameBriefInfos = new ArrayList<>();

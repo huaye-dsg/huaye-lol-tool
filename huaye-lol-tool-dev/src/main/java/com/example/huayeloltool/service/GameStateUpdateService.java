@@ -5,6 +5,7 @@ import com.example.huayeloltool.enums.Constant;
 import com.example.huayeloltool.enums.GameEnums;
 import com.example.huayeloltool.enums.Heros;
 import com.example.huayeloltool.model.Conversation.ConversationMsg;
+import com.example.huayeloltool.model.cache.CustomGameCache;
 import com.example.huayeloltool.model.game.CustomGameSession;
 import com.example.huayeloltool.model.summoner.Summoner;
 import com.example.huayeloltool.model.base.CalcScoreConf;
@@ -248,21 +249,51 @@ public class GameStateUpdateService extends CommonRequest {
         }
 
         CalcScoreConf.HorseScoreConf[] horseArr = CalcScoreConf.getInstance().getHorse();
+        // 打印日志
+        //summonerList.stream()
+        //        .map(summoner -> calculateUserScore(summoner, isSelf))
+        //        .filter(Objects::nonNull) // 过滤无效值
+        //        .sorted(Comparator.comparingDouble(UserScore::getScore).reversed()) // 先按照分数排序
+        //        .forEach(scoreInfo -> {
+        //            double score = scoreInfo.getScore();
+        //            String msg = String.format(SCORE_RESULT,
+        //                    findHorseName(score, horseArr),  // 马匹信息
+        //                    (int) score, // 分数
+        //                    rankData(scoreInfo.getPuuid()), // 段位
+        //                    scoreInfo.getSummonerName(), // 召唤师名称
+        //                    formatKDAInfo(scoreInfo.getCurrKDA(), 5));  // 前几局KDA
+        //            log.info("{}\n{}", msg, scoreInfo.getExtMsg());
+        //        });
 
+        // 存储到缓存
         summonerList.stream()
                 .map(summoner -> calculateUserScore(summoner, isSelf))
                 .filter(Objects::nonNull) // 过滤无效值
                 .sorted(Comparator.comparingDouble(UserScore::getScore).reversed()) // 先按照分数排序
                 .forEach(scoreInfo -> {
-                    double score = scoreInfo.getScore();
-                    String msg = String.format(SCORE_RESULT,
-                            findHorseName(score, horseArr),  // 马匹信息
-                            (int) score, // 分数
-                            rankData(scoreInfo.getPuuid()), // 段位
-                            scoreInfo.getSummonerName(), // 召唤师名称
-                            formatKDAInfo(scoreInfo.getCurrKDA(), 5));  // 前几局KDA
-                    log.info("{}\n{}", msg, scoreInfo.getExtMsg());
+                    CustomGameCache.Item item = new CustomGameCache.Item();
+                    item.setHorse(findHorseName(scoreInfo.getScore(), horseArr));
+                    item.setScore(scoreInfo.getScore());
+                    item.setRank(rankData(scoreInfo.getPuuid()));
+                    item.setSummonerName(scoreInfo.getSummonerName());
+                    List<UserScore.Kda> currKDA = scoreInfo.getCurrKDA();
+
+                    List<String> collect = currKDA.stream().limit(5).map(kda -> String.format(KDA_FORMAT,
+                            kda.getQueueGame(),
+                            kda.getWin() ? Constant.WIN_STR : Constant.LOSE_STR,
+                            kda.getChampionName(),
+                            kda.getKills(),
+                            kda.getDeaths(),
+                            kda.getAssists())).toList();
+                    item.setCurrKDA(collect);
+                    if (isSelf) {
+                        CustomGameCache.getInstance().getTeamList().add(item);
+                    }else {
+                        CustomGameCache.getInstance().getEnemyList().add(item);
+                    }
                 });
+        log.info("【信息缓存成功】我方：{}", CustomGameCache.getInstance().getTeamList());
+        log.info("【信息缓存成功】敌方：{}", CustomGameCache.getInstance().getEnemyList());
     }
 
 
@@ -278,7 +309,7 @@ public class GameStateUpdateService extends CommonRequest {
             List<GameHistory.GameInfo> gameList;
             try {
                 gameList = lcuApiService.listGameHistory(summoner, 0, 19); // 获取最近20场游戏记录
-                // 过滤指定的游戏模式
+                // 过滤指定的对局模式
                 gameList = gameList.stream().filter(game -> GameEnums.GameQueueID.isNormalGameMode(game.getQueueId())).toList();
                 if (CollectionUtils.isEmpty(gameList)) {
                     log.error("【{}】战绩查询为空！", summoner.getGameName());
@@ -314,7 +345,7 @@ public class GameStateUpdateService extends CommonRequest {
                         ScoreWithReason score = scoreService.calcUserGameScore(summonerID, gameSummary);
                         return new AbstractMap.SimpleEntry<>(score.getScore(), gameSummary.getGameCreationDate());
                     } catch (Exception e) {
-                        log.error("获取或计算游戏数据失败", e);
+                        log.error("获取或计算对局数据失败", e);
                         return null; // 异常情况返回null，后续过滤
                     }
                 }).filter(Objects::nonNull).toList();
