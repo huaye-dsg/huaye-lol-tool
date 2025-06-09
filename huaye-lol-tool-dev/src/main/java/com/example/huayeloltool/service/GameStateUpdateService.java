@@ -276,7 +276,7 @@ public class GameStateUpdateService extends CommonRequest {
                 .forEach(scoreInfo -> {
                     CustomGameCache.Item item = new CustomGameCache.Item();
                     item.setHorse(findHorseName(scoreInfo.getScore(), horseArr));
-                    item.setScore(scoreInfo.getScore());
+                    item.setScore(scoreInfo.getScore().intValue());
                     item.setRank(rankData(scoreInfo.getPuuid()));
                     item.setSummonerName(scoreInfo.getSummonerName());
                     List<UserScore.Kda> currKDA = scoreInfo.getCurrKDA();

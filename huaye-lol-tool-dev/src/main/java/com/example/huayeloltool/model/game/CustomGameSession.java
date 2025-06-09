@@ -1,6 +1,7 @@
 package com.example.huayeloltool.model.game;
 
 import com.example.huayeloltool.enums.GameEnums;
+import com.example.huayeloltool.model.cache.CustomGameCache;
 import com.example.huayeloltool.model.champion.ChampSelectSessionInfo;
 import lombok.Data;
 import lombok.Getter;
@@ -82,6 +83,7 @@ public class CustomGameSession {
         isSelected = false;
         processedActionIds.clear();
         positionMap.clear();
+        CustomGameCache.clear();
     }
 
     // 是否是单双排排位

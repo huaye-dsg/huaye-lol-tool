@@ -737,3 +737,696 @@ Caused by: java.lang.IllegalArgumentException: When allowCredentials is true, al
 2025-06-06 16:35:13 INFO  c.e.h.controller.HelloController - hello
 2025-06-06 17:40:25 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
 2025-06-06 17:40:25 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-06 20:59:27 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 15008 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-06 20:59:27 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-06 20:59:28 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-06 20:59:28 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-06 20:59:28 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-06 20:59:28 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-06 20:59:28 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-06 20:59:28 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 768 ms
+2025-06-06 20:59:29 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-06 20:59:29 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-06 20:59:29 INFO  c.example.huayeloltool.Application - Started Application in 1.544 seconds (process running for 2.293)
+2025-06-06 20:59:29 ERROR com.example.huayeloltool.Main - 客户端进程不存在！
+2025-06-06 20:59:57 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-06 20:59:57 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-06 20:59:57 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-06-06 21:00:01 INFO  c.e.h.controller.HelloController - hello
+2025-06-06 21:00:44 INFO  c.e.h.controller.HelloController - hello
+2025-06-06 21:02:14 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-06 21:02:15 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-06 21:02:19 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 21876 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-06 21:02:19 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-06 21:02:20 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-06 21:02:20 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-06 21:02:20 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-06 21:02:20 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-06 21:02:20 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-06 21:02:20 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1084 ms
+2025-06-06 21:02:20 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-06 21:02:20 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-06 21:02:20 INFO  c.example.huayeloltool.Application - Started Application in 2.005 seconds (process running for 2.96)
+2025-06-06 21:02:21 INFO  com.example.huayeloltool.Main - 客户端连接成功
+2025-06-06 21:03:13 INFO  c.e.h.service.GameFlowMonitor - 当前模式：单排排位，queueId：420
+2025-06-06 21:03:13 INFO  c.e.h.service.GameStateUpdateService - 开始匹配
+2025-06-06 21:05:15 ERROR c.e.h.service.LcuApiService - champSelectPatchActionError，championId: 104, actionId: 3, patchType: ban, completed: true, response: Response{protocol=h2, code=500, message=, url=https://riot:z3E4dQrfCFyMLl5lxZBNTg@127.0.0.1:6613/lol-champ-select/v1/session/actions/3}
+2025-06-06 21:05:22 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】我方：[CustomGameCache.Item(horse=中等马, score=115.73922785852528, rank=【黄金-I-54】, summonerName=或许是我太极端吧#83491, currKDA=[[单排排位-胜-莫甘娜-4/5/16], [单排排位-胜-潘森-12/6/11], [单排排位-败-稻草人-5/13/4], [单排排位-胜-潘森-1/4/7], [单排排位-胜-卡莎-6/1/6]]), CustomGameCache.Item(horse=中等马, score=113.69150570241257, rank=【黄金-II-24】, summonerName=落地羽毛#29555, currKDA=[[单排排位-败-剑圣-9/13/2], [单排排位-败-剑圣-5/6/6], [单排排位-胜-剑圣-11/2/3], [单排排位-胜-剑圣-4/7/3], [单排排位-败-龙龟-4/10/7]]), CustomGameCache.Item(horse=中等马, score=110.17726321977594, rank=【黄金-II-13】, summonerName=终极黑暗暴龙战神#83288, currKDA=[[单排排位-胜-乌鸦-1/4/8], [单排排位-胜-莫甘娜-2/8/16], [单排排位-胜-女警-1/1/7], [单排排位-败-日女-2/10/8], [单排排位-败-光辉-1/5/3]]), CustomGameCache.Item(horse=中等马, score=110.07063901780725, rank=【黄金-III-92】, summonerName=中国第一深情#92429, currKDA=[[单排排位-败-阿卡丽-7/9/9], [单排排位-败-小火龙-9/8/10], [单排排位-败-奥恩-7/5/21], [单排排位-胜-卡米尔-5/7/3], [单排排位-败-蚂蚱-0/3/0]]), CustomGameCache.Item(horse=下等马, score=103.39275900079065, rank=【黄金-II-20】, summonerName=情白衣#17935, currKDA=[[单排排位-胜-皎月-5/4/2], [单排排位-胜-诡术妖姬-10/2/5], [单排排位-败-皎月-1/2/0], [单排排位-胜-阿卡丽-17/3/7], [单排排位-败-劫-3/5/3]])]
+2025-06-06 21:05:22 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】敌方：[]
+2025-06-06 21:05:30 ERROR c.e.h.service.LcuApiService - champSelectPatchActionError，championId: 104, actionId: 3, patchType: ban, completed: true, response: Response{protocol=h2, code=500, message=, url=https://riot:z3E4dQrfCFyMLl5lxZBNTg@127.0.0.1:6613/lol-champ-select/v1/session/actions/3}
+2025-06-06 21:05:34 ERROR c.e.h.service.LcuApiService - champSelectPatchActionError，championId: 104, actionId: 3, patchType: ban, completed: true, response: Response{protocol=h2, code=500, message=, url=https://riot:z3E4dQrfCFyMLl5lxZBNTg@127.0.0.1:6613/lol-champ-select/v1/session/actions/3}
+2025-06-06 21:06:33 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-06 21:06:33 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-06 21:06:33 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-06-06 21:06:33 INFO  c.e.h.controller.HelloController - hello
+2025-06-06 21:06:36 INFO  c.e.h.controller.HelloController - hello
+2025-06-06 21:06:39 INFO  c.e.h.controller.HelloController - hello
+2025-06-06 21:06:40 INFO  c.e.h.s.GameSessionUpdateService - 【我方】动作: 选择（锁定）英雄, 英雄: 剑圣, 等级: 46, 积分: 476505，最后游玩: 2025-06-06
+2025-06-06 21:07:20 INFO  c.e.h.s.GameSessionUpdateService - 【我方】动作: 选择（锁定）英雄, 英雄: 光辉, 等级: 8, 积分: 64138，最后游玩: 2025-06-04
+2025-06-06 21:07:41 INFO  c.e.h.service.GameFlowMonitor - 当前模式：单排排位，queueId：420
+2025-06-06 21:07:41 INFO  c.e.h.service.GameStateUpdateService - 开始匹配
+2025-06-06 21:09:28 INFO  c.e.h.service.GameFlowMonitor - 当前模式：单排排位，queueId：420
+2025-06-06 21:09:28 INFO  c.e.h.service.GameStateUpdateService - 开始匹配
+2025-06-06 21:09:31 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】我方：[CustomGameCache.Item(horse=中等马, score=115.73922785852528, rank=【黄金-I-54】, summonerName=或许是我太极端吧#83491, currKDA=[[单排排位-胜-莫甘娜-4/5/16], [单排排位-胜-潘森-12/6/11], [单排排位-败-稻草人-5/13/4], [单排排位-胜-潘森-1/4/7], [单排排位-胜-卡莎-6/1/6]]), CustomGameCache.Item(horse=中等马, score=113.69150570241257, rank=【黄金-II-24】, summonerName=落地羽毛#29555, currKDA=[[单排排位-败-剑圣-9/13/2], [单排排位-败-剑圣-5/6/6], [单排排位-胜-剑圣-11/2/3], [单排排位-胜-剑圣-4/7/3], [单排排位-败-龙龟-4/10/7]]), CustomGameCache.Item(horse=中等马, score=110.17726321977594, rank=【黄金-II-13】, summonerName=终极黑暗暴龙战神#83288, currKDA=[[单排排位-胜-乌鸦-1/4/8], [单排排位-胜-莫甘娜-2/8/16], [单排排位-胜-女警-1/1/7], [单排排位-败-日女-2/10/8], [单排排位-败-光辉-1/5/3]]), CustomGameCache.Item(horse=中等马, score=110.07063901780725, rank=【黄金-III-92】, summonerName=中国第一深情#92429, currKDA=[[单排排位-败-阿卡丽-7/9/9], [单排排位-败-小火龙-9/8/10], [单排排位-败-奥恩-7/5/21], [单排排位-胜-卡米尔-5/7/3], [单排排位-败-蚂蚱-0/3/0]]), CustomGameCache.Item(horse=下等马, score=103.39275900079065, rank=【黄金-II-20】, summonerName=情白衣#17935, currKDA=[[单排排位-胜-皎月-5/4/2], [单排排位-胜-诡术妖姬-10/2/5], [单排排位-败-皎月-1/2/0], [单排排位-胜-阿卡丽-17/3/7], [单排排位-败-劫-3/5/3]]), CustomGameCache.Item(horse=中等马, score=113.31687116212467, rank=【黄金-I-31】, summonerName=上路对线一老登#20052, currKDA=[[大乱斗-胜-剑魔-18/14/23], [单排排位-胜-天使-4/1/3], [大乱斗-败-卢锡安-20/10/10], [匹配盲选-败-大头-0/6/0], [大乱斗-胜-龙王-16/16/33]]), CustomGameCache.Item(horse=中等马, score=111.33156707495822, rank=【黄金-IV-26】, summonerName=去厨房看夕阳#37106, currKDA=[[单排排位-败-皎月-11/11/3], [单排排位-败-武器-3/7/5], [灵活排位-败-佛耶戈-2/10/4], [灵活排位-胜-武器-9/10/10], [灵活排位-败-塔姆-3/6/6]]), CustomGameCache.Item(horse=中等马, score=110.07063901780725, rank=【黄金-III-92】, summonerName=中国第一深情#92429, currKDA=[[单排排位-败-阿卡丽-7/9/9], [单排排位-败-小火龙-9/8/10], [单排排位-败-奥恩-7/5/21], [单排排位-胜-卡米尔-5/7/3], [单排排位-败-蚂蚱-0/3/0]]), CustomGameCache.Item(horse=下等马, score=98.95453409842612, rank=【黄金-IV-30】, summonerName=平平安安#54365, currKDA=[[单排排位-败-小火龙-0/7/10], [单排排位-败-鳄鱼-6/6/2], [灵活排位-败-赵信-3/12/11], [灵活排位-败-卢锡安-9/10/9], [灵活排位-胜-剑圣-9/3/7]]), CustomGameCache.Item(horse=牛 马, score=89.38844228068788, rank=【黄金-IV-74】, summonerName=半拉大馒头#13040, currKDA=[[单排排位-胜-球女-4/5/11], [单排排位-败-球女-4/6/4], [单排排位-败-球女-1/2/1], [单排排位-胜-球女-2/2/3], [单排排位-败-球女-3/7/3]])]
+2025-06-06 21:09:31 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】敌方：[]
+2025-06-06 21:09:57 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】我方：[CustomGameCache.Item(horse=中等马, score=115.73922785852528, rank=【黄金-I-54】, summonerName=或许是我太极端吧#83491, currKDA=[[单排排位-胜-莫甘娜-4/5/16], [单排排位-胜-潘森-12/6/11], [单排排位-败-稻草人-5/13/4], [单排排位-胜-潘森-1/4/7], [单排排位-胜-卡莎-6/1/6]]), CustomGameCache.Item(horse=中等马, score=113.69150570241257, rank=【黄金-II-24】, summonerName=落地羽毛#29555, currKDA=[[单排排位-败-剑圣-9/13/2], [单排排位-败-剑圣-5/6/6], [单排排位-胜-剑圣-11/2/3], [单排排位-胜-剑圣-4/7/3], [单排排位-败-龙龟-4/10/7]]), CustomGameCache.Item(horse=中等马, score=110.17726321977594, rank=【黄金-II-13】, summonerName=终极黑暗暴龙战神#83288, currKDA=[[单排排位-胜-乌鸦-1/4/8], [单排排位-胜-莫甘娜-2/8/16], [单排排位-胜-女警-1/1/7], [单排排位-败-日女-2/10/8], [单排排位-败-光辉-1/5/3]]), CustomGameCache.Item(horse=中等马, score=110.07063901780725, rank=【黄金-III-92】, summonerName=中国第一深情#92429, currKDA=[[单排排位-败-阿卡丽-7/9/9], [单排排位-败-小火龙-9/8/10], [单排排位-败-奥恩-7/5/21], [单排排位-胜-卡米尔-5/7/3], [单排排位-败-蚂蚱-0/3/0]]), CustomGameCache.Item(horse=下等马, score=103.39275900079065, rank=【黄金-II-20】, summonerName=情白衣#17935, currKDA=[[单排排位-胜-皎月-5/4/2], [单排排位-胜-诡术妖姬-10/2/5], [单排排位-败-皎月-1/2/0], [单排排位-胜-阿卡丽-17/3/7], [单排排位-败-劫-3/5/3]]), CustomGameCache.Item(horse=中等马, score=113.31687116212467, rank=【黄金-I-31】, summonerName=上路对线一老登#20052, currKDA=[[大乱斗-胜-剑魔-18/14/23], [单排排位-胜-天使-4/1/3], [大乱斗-败-卢锡安-20/10/10], [匹配盲选-败-大头-0/6/0], [大乱斗-胜-龙王-16/16/33]]), CustomGameCache.Item(horse=中等马, score=111.33156707495822, rank=【黄金-IV-26】, summonerName=去厨房看夕阳#37106, currKDA=[[单排排位-败-皎月-11/11/3], [单排排位-败-武器-3/7/5], [灵活排位-败-佛耶戈-2/10/4], [灵活排位-胜-武器-9/10/10], [灵活排位-败-塔姆-3/6/6]]), CustomGameCache.Item(horse=中等马, score=110.07063901780725, rank=【黄金-III-92】, summonerName=中国第一深情#92429, currKDA=[[单排排位-败-阿卡丽-7/9/9], [单排排位-败-小火龙-9/8/10], [单排排位-败-奥恩-7/5/21], [单排排位-胜-卡米尔-5/7/3], [单排排位-败-蚂蚱-0/3/0]]), CustomGameCache.Item(horse=下等马, score=98.95453409842612, rank=【黄金-IV-30】, summonerName=平平安安#54365, currKDA=[[单排排位-败-小火龙-0/7/10], [单排排位-败-鳄鱼-6/6/2], [灵活排位-败-赵信-3/12/11], [灵活排位-败-卢锡安-9/10/9], [灵活排位-胜-剑圣-9/3/7]]), CustomGameCache.Item(horse=牛 马, score=89.38844228068788, rank=【黄金-IV-74】, summonerName=半拉大馒头#13040, currKDA=[[单排排位-胜-球女-4/5/11], [单排排位-败-球女-4/6/4], [单排排位-败-球女-1/2/1], [单排排位-胜-球女-2/2/3], [单排排位-败-球女-3/7/3]]), CustomGameCache.Item(horse=中等马, score=115.63806346757946, rank=【白银-I-62】, summonerName=你那李白吗#52763, currKDA=[[单排排位-败-龙王-8/7/10], [单排排位-胜-龙王-19/9/13], [单排排位-败-狗头-4/6/8], [单排排位-胜-龙王-4/4/16], [单排排位-败-厄斐琉斯-0/6/2]]), CustomGameCache.Item(horse=中等马, score=111.33156707495822, rank=【黄金-IV-26】, summonerName=去厨房看夕阳#37106, currKDA=[[单排排位-败-皎月-11/11/3], [单排排位-败-武器-3/7/5], [灵活排位-败-佛耶戈-2/10/4], [灵活排位-胜-武器-9/10/10], [灵活排位-败-塔姆-3/6/6]]), CustomGameCache.Item(horse=中等马, score=110.85574823466916, rank=【黄金-II-40】, summonerName=瑞萌萌的剑#28565, currKDA=[[单排排位-胜-维鲁斯-6/3/1], [单排排位-败-霞-4/11/8], [单排排位-败-EZ-5/9/7], [大乱斗-胜-EZ-23/9/29], [灵活排位-胜-霞-19/3/9]]), CustomGameCache.Item(horse=中等马, score=110.07063901780725, rank=【黄金-III-92】, summonerName=中国第一深情#92429, currKDA=[[单排排位-败-阿卡丽-7/9/9], [单排排位-败-小火龙-9/8/10], [单排排位-败-奥恩-7/5/21], [单排排位-胜-卡米尔-5/7/3], [单排排位-败-蚂蚱-0/3/0]]), CustomGameCache.Item(horse=下等马, score=98.95453409842612, rank=【黄金-IV-30】, summonerName=平平安安#54365, currKDA=[[单排排位-败-小火龙-0/7/10], [单排排位-败-鳄鱼-6/6/2], [灵活排位-败-赵信-3/12/11], [灵活排位-败-卢锡安-9/10/9], [灵活排位-胜-剑圣-9/3/7]])]
+2025-06-06 21:09:57 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】敌方：[]
+2025-06-06 21:11:30 INFO  c.e.h.s.GameSessionUpdateService - 【我方】动作: 选择（锁定）英雄, 英雄: 霞, 等级: 2, 积分: 4036，最后游玩: 2023-08-04
+2025-06-06 21:11:52 INFO  c.e.h.s.GameSessionUpdateService - 【我方】动作: 选择（锁定）英雄, 英雄: 赵信, 等级: 6, 积分: 38548，最后游玩: 2025-03-16
+2025-06-06 21:11:54 INFO  c.e.h.s.GameSessionUpdateService - 【我方】动作: 选择（锁定）英雄, 英雄: 剑魔, 等级: 6, 积分: 42065，最后游玩: 2025-05-09
+2025-06-06 21:13:02 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】我方：[CustomGameCache.Item(horse=中等马, score=115.73922785852528, rank=【黄金-I-54】, summonerName=或许是我太极端吧#83491, currKDA=[[单排排位-胜-莫甘娜-4/5/16], [单排排位-胜-潘森-12/6/11], [单排排位-败-稻草人-5/13/4], [单排排位-胜-潘森-1/4/7], [单排排位-胜-卡莎-6/1/6]]), CustomGameCache.Item(horse=中等马, score=113.69150570241257, rank=【黄金-II-24】, summonerName=落地羽毛#29555, currKDA=[[单排排位-败-剑圣-9/13/2], [单排排位-败-剑圣-5/6/6], [单排排位-胜-剑圣-11/2/3], [单排排位-胜-剑圣-4/7/3], [单排排位-败-龙龟-4/10/7]]), CustomGameCache.Item(horse=中等马, score=110.17726321977594, rank=【黄金-II-13】, summonerName=终极黑暗暴龙战神#83288, currKDA=[[单排排位-胜-乌鸦-1/4/8], [单排排位-胜-莫甘娜-2/8/16], [单排排位-胜-女警-1/1/7], [单排排位-败-日女-2/10/8], [单排排位-败-光辉-1/5/3]]), CustomGameCache.Item(horse=中等马, score=110.07063901780725, rank=【黄金-III-92】, summonerName=中国第一深情#92429, currKDA=[[单排排位-败-阿卡丽-7/9/9], [单排排位-败-小火龙-9/8/10], [单排排位-败-奥恩-7/5/21], [单排排位-胜-卡米尔-5/7/3], [单排排位-败-蚂蚱-0/3/0]]), CustomGameCache.Item(horse=下等马, score=103.39275900079065, rank=【黄金-II-20】, summonerName=情白衣#17935, currKDA=[[单排排位-胜-皎月-5/4/2], [单排排位-胜-诡术妖姬-10/2/5], [单排排位-败-皎月-1/2/0], [单排排位-胜-阿卡丽-17/3/7], [单排排位-败-劫-3/5/3]]), CustomGameCache.Item(horse=中等马, score=113.31687116212467, rank=【黄金-I-31】, summonerName=上路对线一老登#20052, currKDA=[[大乱斗-胜-剑魔-18/14/23], [单排排位-胜-天使-4/1/3], [大乱斗-败-卢锡安-20/10/10], [匹配盲选-败-大头-0/6/0], [大乱斗-胜-龙王-16/16/33]]), CustomGameCache.Item(horse=中等马, score=111.33156707495822, rank=【黄金-IV-26】, summonerName=去厨房看夕阳#37106, currKDA=[[单排排位-败-皎月-11/11/3], [单排排位-败-武器-3/7/5], [灵活排位-败-佛耶戈-2/10/4], [灵活排位-胜-武器-9/10/10], [灵活排位-败-塔姆-3/6/6]]), CustomGameCache.Item(horse=中等马, score=110.07063901780725, rank=【黄金-III-92】, summonerName=中国第一深情#92429, currKDA=[[单排排位-败-阿卡丽-7/9/9], [单排排位-败-小火龙-9/8/10], [单排排位-败-奥恩-7/5/21], [单排排位-胜-卡米尔-5/7/3], [单排排位-败-蚂蚱-0/3/0]]), CustomGameCache.Item(horse=下等马, score=98.95453409842612, rank=【黄金-IV-30】, summonerName=平平安安#54365, currKDA=[[单排排位-败-小火龙-0/7/10], [单排排位-败-鳄鱼-6/6/2], [灵活排位-败-赵信-3/12/11], [灵活排位-败-卢锡安-9/10/9], [灵活排位-胜-剑圣-9/3/7]]), CustomGameCache.Item(horse=牛 马, score=89.38844228068788, rank=【黄金-IV-74】, summonerName=半拉大馒头#13040, currKDA=[[单排排位-胜-球女-4/5/11], [单排排位-败-球女-4/6/4], [单排排位-败-球女-1/2/1], [单排排位-胜-球女-2/2/3], [单排排位-败-球女-3/7/3]]), CustomGameCache.Item(horse=中等马, score=115.63806346757946, rank=【白银-I-62】, summonerName=你那李白吗#52763, currKDA=[[单排排位-败-龙王-8/7/10], [单排排位-胜-龙王-19/9/13], [单排排位-败-狗头-4/6/8], [单排排位-胜-龙王-4/4/16], [单排排位-败-厄斐琉斯-0/6/2]]), CustomGameCache.Item(horse=中等马, score=111.33156707495822, rank=【黄金-IV-26】, summonerName=去厨房看夕阳#37106, currKDA=[[单排排位-败-皎月-11/11/3], [单排排位-败-武器-3/7/5], [灵活排位-败-佛耶戈-2/10/4], [灵活排位-胜-武器-9/10/10], [灵活排位-败-塔姆-3/6/6]]), CustomGameCache.Item(horse=中等马, score=110.85574823466916, rank=【黄金-II-40】, summonerName=瑞萌萌的剑#28565, currKDA=[[单排排位-胜-维鲁斯-6/3/1], [单排排位-败-霞-4/11/8], [单排排位-败-EZ-5/9/7], [大乱斗-胜-EZ-23/9/29], [灵活排位-胜-霞-19/3/9]]), CustomGameCache.Item(horse=中等马, score=110.07063901780725, rank=【黄金-III-92】, summonerName=中国第一深情#92429, currKDA=[[单排排位-败-阿卡丽-7/9/9], [单排排位-败-小火龙-9/8/10], [单排排位-败-奥恩-7/5/21], [单排排位-胜-卡米尔-5/7/3], [单排排位-败-蚂蚱-0/3/0]]), CustomGameCache.Item(horse=下等马, score=98.95453409842612, rank=【黄金-IV-30】, summonerName=平平安安#54365, currKDA=[[单排排位-败-小火龙-0/7/10], [单排排位-败-鳄鱼-6/6/2], [灵活排位-败-赵信-3/12/11], [灵活排位-败-卢锡安-9/10/9], [灵活排位-胜-剑圣-9/3/7]])]
+2025-06-06 21:13:02 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】敌方：[CustomGameCache.Item(horse=中等马, score=113.31687116212467, rank=【黄金-I-31】, summonerName=上路对线一老登#20052, currKDA=[[大乱斗-胜-剑魔-18/14/23], [单排排位-胜-天使-4/1/3], [大乱斗-败-卢锡安-20/10/10], [匹配盲选-败-大头-0/6/0], [大乱斗-胜-龙王-16/16/33]]), CustomGameCache.Item(horse=中等马, score=111.95100017658417, rank=【黄金-III-70】, summonerName=yesguhaleshaosha#27430, currKDA=[[单排排位-胜-梦魇-8/6/10], [单排排位-胜-梦魇-10/6/14], [单排排位-败-梦魇-8/7/9], [大乱斗-胜-梦魇-22/15/30], [单排排位-败-梦魇-8/10/13]]), CustomGameCache.Item(horse=中等马, score=107.2640191837003, rank=【黄金-II-32】, summonerName=召唤师20051417#82532, currKDA=[[单排排位-胜-瑟提-12/13/9], [单排排位-胜-诺手-8/7/8], [单排排位-败-狗熊-5/11/6], [单排排位-胜-卢锡安-10/5/5], [单排排位-胜-诺手-21/8/8]]), CustomGameCache.Item(horse=下等马, score=104.53858860262693, rank=【黄金-I-95】, summonerName=九霄龙吟惊天变13#46830, currKDA=[[单排排位-胜-日女-3/6/22], [单排排位-胜-机器人-3/7/13], [单排排位-败-纳尔-2/12/3], [单排排位-败-塞拉斯-11/9/19], [单排排位-败-盲僧-5/6/3]]), CustomGameCache.Item(horse=牛 马, score=89.38844228068788, rank=【黄金-IV-74】, summonerName=半拉大馒头#13040, currKDA=[[单排排位-胜-球女-4/5/11], [单排排位-败-球女-4/6/4], [单排排位-败-球女-1/2/1], [单排排位-胜-球女-2/2/3], [单排排位-败-球女-3/7/3]])]
+2025-06-06 21:38:07 INFO  c.e.h.service.GameFlowMonitor - 当前模式：单排排位，queueId：420
+2025-06-06 21:38:07 INFO  c.e.h.service.GameStateUpdateService - 开始匹配
+2025-06-06 21:40:07 ERROR c.e.h.service.LcuApiService - champSelectPatchActionError，championId: 104, actionId: 0, patchType: ban, completed: true, response: Response{protocol=h2, code=500, message=, url=https://riot:z3E4dQrfCFyMLl5lxZBNTg@127.0.0.1:6613/lol-champ-select/v1/session/actions/0}
+2025-06-06 21:40:07 INFO  c.e.h.service.LcuApiService - 当前未查询到会话信息：[]
+2025-06-06 21:40:07 ERROR c.e.h.service.GameStateUpdateService - 当前不在英雄选择阶段
+2025-06-06 21:40:09 INFO  c.e.h.service.LcuApiService - 当前未查询到会话信息：[]
+2025-06-06 21:40:09 ERROR c.e.h.service.GameStateUpdateService - 当前不在英雄选择阶段
+2025-06-06 21:40:18 ERROR c.e.h.service.LcuApiService - champSelectPatchActionError，championId: 104, actionId: 0, patchType: ban, completed: true, response: Response{protocol=h2, code=500, message=, url=https://riot:z3E4dQrfCFyMLl5lxZBNTg@127.0.0.1:6613/lol-champ-select/v1/session/actions/0}
+2025-06-06 21:40:18 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】我方：[CustomGameCache.Item(horse=中等马, score=115.73922785852528, rank=【黄金-I-54】, summonerName=或许是我太极端吧#83491, currKDA=[[单排排位-胜-莫甘娜-4/5/16], [单排排位-胜-潘森-12/6/11], [单排排位-败-稻草人-5/13/4], [单排排位-胜-潘森-1/4/7], [单排排位-胜-卡莎-6/1/6]]), CustomGameCache.Item(horse=中等马, score=113.69150570241257, rank=【黄金-II-24】, summonerName=落地羽毛#29555, currKDA=[[单排排位-败-剑圣-9/13/2], [单排排位-败-剑圣-5/6/6], [单排排位-胜-剑圣-11/2/3], [单排排位-胜-剑圣-4/7/3], [单排排位-败-龙龟-4/10/7]]), CustomGameCache.Item(horse=中等马, score=110.17726321977594, rank=【黄金-II-13】, summonerName=终极黑暗暴龙战神#83288, currKDA=[[单排排位-胜-乌鸦-1/4/8], [单排排位-胜-莫甘娜-2/8/16], [单排排位-胜-女警-1/1/7], [单排排位-败-日女-2/10/8], [单排排位-败-光辉-1/5/3]]), CustomGameCache.Item(horse=中等马, score=110.07063901780725, rank=【黄金-III-92】, summonerName=中国第一深情#92429, currKDA=[[单排排位-败-阿卡丽-7/9/9], [单排排位-败-小火龙-9/8/10], [单排排位-败-奥恩-7/5/21], [单排排位-胜-卡米尔-5/7/3], [单排排位-败-蚂蚱-0/3/0]]), CustomGameCache.Item(horse=下等马, score=103.39275900079065, rank=【黄金-II-20】, summonerName=情白衣#17935, currKDA=[[单排排位-胜-皎月-5/4/2], [单排排位-胜-诡术妖姬-10/2/5], [单排排位-败-皎月-1/2/0], [单排排位-胜-阿卡丽-17/3/7], [单排排位-败-劫-3/5/3]]), CustomGameCache.Item(horse=中等马, score=113.31687116212467, rank=【黄金-I-31】, summonerName=上路对线一老登#20052, currKDA=[[大乱斗-胜-剑魔-18/14/23], [单排排位-胜-天使-4/1/3], [大乱斗-败-卢锡安-20/10/10], [匹配盲选-败-大头-0/6/0], [大乱斗-胜-龙王-16/16/33]]), CustomGameCache.Item(horse=中等马, score=111.33156707495822, rank=【黄金-IV-26】, summonerName=去厨房看夕阳#37106, currKDA=[[单排排位-败-皎月-11/11/3], [单排排位-败-武器-3/7/5], [灵活排位-败-佛耶戈-2/10/4], [灵活排位-胜-武器-9/10/10], [灵活排位-败-塔姆-3/6/6]]), CustomGameCache.Item(horse=中等马, score=110.07063901780725, rank=【黄金-III-92】, summonerName=中国第一深情#92429, currKDA=[[单排排位-败-阿卡丽-7/9/9], [单排排位-败-小火龙-9/8/10], [单排排位-败-奥恩-7/5/21], [单排排位-胜-卡米尔-5/7/3], [单排排位-败-蚂蚱-0/3/0]]), CustomGameCache.Item(horse=下等马, score=98.95453409842612, rank=【黄金-IV-30】, summonerName=平平安安#54365, currKDA=[[单排排位-败-小火龙-0/7/10], [单排排位-败-鳄鱼-6/6/2], [灵活排位-败-赵信-3/12/11], [灵活排位-败-卢锡安-9/10/9], [灵活排位-胜-剑圣-9/3/7]]), CustomGameCache.Item(horse=牛 马, score=89.38844228068788, rank=【黄金-IV-74】, summonerName=半拉大馒头#13040, currKDA=[[单排排位-胜-球女-4/5/11], [单排排位-败-球女-4/6/4], [单排排位-败-球女-1/2/1], [单排排位-胜-球女-2/2/3], [单排排位-败-球女-3/7/3]]), CustomGameCache.Item(horse=中等马, score=115.63806346757946, rank=【白银-I-62】, summonerName=你那李白吗#52763, currKDA=[[单排排位-败-龙王-8/7/10], [单排排位-胜-龙王-19/9/13], [单排排位-败-狗头-4/6/8], [单排排位-胜-龙王-4/4/16], [单排排位-败-厄斐琉斯-0/6/2]]), CustomGameCache.Item(horse=中等马, score=111.33156707495822, rank=【黄金-IV-26】, summonerName=去厨房看夕阳#37106, currKDA=[[单排排位-败-皎月-11/11/3], [单排排位-败-武器-3/7/5], [灵活排位-败-佛耶戈-2/10/4], [灵活排位-胜-武器-9/10/10], [灵活排位-败-塔姆-3/6/6]]), CustomGameCache.Item(horse=中等马, score=110.85574823466916, rank=【黄金-II-40】, summonerName=瑞萌萌的剑#28565, currKDA=[[单排排位-胜-维鲁斯-6/3/1], [单排排位-败-霞-4/11/8], [单排排位-败-EZ-5/9/7], [大乱斗-胜-EZ-23/9/29], [灵活排位-胜-霞-19/3/9]]), CustomGameCache.Item(horse=中等马, score=110.07063901780725, rank=【黄金-III-92】, summonerName=中国第一深情#92429, currKDA=[[单排排位-败-阿卡丽-7/9/9], [单排排位-败-小火龙-9/8/10], [单排排位-败-奥恩-7/5/21], [单排排位-胜-卡米尔-5/7/3], [单排排位-败-蚂蚱-0/3/0]]), CustomGameCache.Item(horse=下等马, score=98.95453409842612, rank=【黄金-IV-30】, summonerName=平平安安#54365, currKDA=[[单排排位-败-小火龙-0/7/10], [单排排位-败-鳄鱼-6/6/2], [灵活排位-败-赵信-3/12/11], [灵活排位-败-卢锡安-9/10/9], [灵活排位-胜-剑圣-9/3/7]]), CustomGameCache.Item(horse=, score=NaN, rank=【白银-III-4】, summonerName=艾艾艾艾艾艾艾#11203, currKDA=[[灵活排位-败-锤石-0/6/8], [大乱斗-败-阿克尚-6/9/11], [灵活排位-败-锤石-2/11/25], [灵活排位-胜-露露-0/3/13], [灵活排位-胜-女警-6/7/14]]), CustomGameCache.Item(horse=中等马, score=117.32216437541751, rank=【黄金-IV-0】, summonerName=不讲理的普通人#46770, currKDA=[[大乱斗-败-锐雯-10/12/26], [灵活排位-败-薇恩-10/3/4], [灵活排位-胜-塞拉斯-8/7/8], [灵活排位-胜-卡莎-7/3/7], [灵活排位-败-塞拉斯-2/10/4]]), CustomGameCache.Item(horse=中等马, score=112.20974748583852, rank=【白银-II-65】, summonerName=麦克阿瑟#66080, currKDA=[[单排排位-败-螳螂-8/7/4], [单排排位-败-盲僧-5/4/13], [单排排位-败-莉莉娅-3/6/5], [灵活排位-胜-螳螂-4/2/6], [灵活排位-败-佛耶戈-5/4/2]]), CustomGameCache.Item(horse=中等马, score=112.05537053288492, rank=【黄金-II-18】, summonerName=中国第一深情#92429, currKDA=[[单排排位-胜-洛-2/0/12], [单排排位-败-阿卡丽-7/9/9], [单排排位-败-小火龙-9/8/10], [单排排位-败-奥恩-7/5/21], [单排排位-胜-卡米尔-5/7/3]]), CustomGameCache.Item(horse=下等马, score=100.0352610603471, rank=【未知-NA-0】, summonerName=青铜6#57060, currKDA=[[单排排位-胜-厄斐琉斯-7/5/1], [单排排位-胜-厄斐琉斯-8/9/7], [单排排位-败-厄斐琉斯-2/9/2], [单排排位-败-电耗子-1/5/3], [单排排位-败-劫-7/10/13]])]
+2025-06-06 21:40:18 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】敌方：[CustomGameCache.Item(horse=中等马, score=113.31687116212467, rank=【黄金-I-31】, summonerName=上路对线一老登#20052, currKDA=[[大乱斗-胜-剑魔-18/14/23], [单排排位-胜-天使-4/1/3], [大乱斗-败-卢锡安-20/10/10], [匹配盲选-败-大头-0/6/0], [大乱斗-胜-龙王-16/16/33]]), CustomGameCache.Item(horse=中等马, score=111.95100017658417, rank=【黄金-III-70】, summonerName=yesguhaleshaosha#27430, currKDA=[[单排排位-胜-梦魇-8/6/10], [单排排位-胜-梦魇-10/6/14], [单排排位-败-梦魇-8/7/9], [大乱斗-胜-梦魇-22/15/30], [单排排位-败-梦魇-8/10/13]]), CustomGameCache.Item(horse=中等马, score=107.2640191837003, rank=【黄金-II-32】, summonerName=召唤师20051417#82532, currKDA=[[单排排位-胜-瑟提-12/13/9], [单排排位-胜-诺手-8/7/8], [单排排位-败-狗熊-5/11/6], [单排排位-胜-卢锡安-10/5/5], [单排排位-胜-诺手-21/8/8]]), CustomGameCache.Item(horse=下等马, score=104.53858860262693, rank=【黄金-I-95】, summonerName=九霄龙吟惊天变13#46830, currKDA=[[单排排位-胜-日女-3/6/22], [单排排位-胜-机器人-3/7/13], [单排排位-败-纳尔-2/12/3], [单排排位-败-塞拉斯-11/9/19], [单排排位-败-盲僧-5/6/3]]), CustomGameCache.Item(horse=牛 马, score=89.38844228068788, rank=【黄金-IV-74】, summonerName=半拉大馒头#13040, currKDA=[[单排排位-胜-球女-4/5/11], [单排排位-败-球女-4/6/4], [单排排位-败-球女-1/2/1], [单排排位-胜-球女-2/2/3], [单排排位-败-球女-3/7/3]])]
+2025-06-06 21:40:21 ERROR c.e.h.service.LcuApiService - champSelectPatchActionError，championId: 104, actionId: 0, patchType: ban, completed: true, response: Response{protocol=h2, code=500, message=, url=https://riot:z3E4dQrfCFyMLl5lxZBNTg@127.0.0.1:6613/lol-champ-select/v1/session/actions/0}
+2025-06-06 21:41:35 INFO  c.e.h.s.GameSessionUpdateService - 【我方】动作: 选择（锁定）英雄, 英雄: 卡米尔, 等级: 7, 积分: 49227，最后游玩: 2025-06-05
+2025-06-06 21:41:58 INFO  c.e.h.s.GameSessionUpdateService - 【我方】动作: 选择（锁定）英雄, 英雄: 劫, 等级: 6, 积分: 32573，最后游玩: 2025-06-06
+2025-06-06 21:42:16 INFO  c.e.h.s.GameSessionUpdateService - 【我方】动作: 选择（锁定）英雄, 英雄: 莫甘娜, 等级: 9, 积分: 72421，最后游玩: 2025-05-15
+2025-06-06 21:42:39 INFO  c.e.h.s.GameSessionUpdateService - 【我方】动作: 选择（锁定）英雄, 英雄: 维鲁斯, 等级: 7, 积分: 53160，最后游玩: 2025-01-04
+2025-06-06 21:43:03 INFO  c.e.h.s.GameSessionUpdateService - 【我方】动作: 选择（锁定）英雄, 英雄: 莉莉娅, 等级: 3, 积分: 12329，最后游玩: 2025-06-06
+2025-06-06 21:44:19 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】我方：[CustomGameCache.Item(horse=中等马, score=115.73922785852528, rank=【黄金-I-54】, summonerName=或许是我太极端吧#83491, currKDA=[[单排排位-胜-莫甘娜-4/5/16], [单排排位-胜-潘森-12/6/11], [单排排位-败-稻草人-5/13/4], [单排排位-胜-潘森-1/4/7], [单排排位-胜-卡莎-6/1/6]]), CustomGameCache.Item(horse=中等马, score=113.69150570241257, rank=【黄金-II-24】, summonerName=落地羽毛#29555, currKDA=[[单排排位-败-剑圣-9/13/2], [单排排位-败-剑圣-5/6/6], [单排排位-胜-剑圣-11/2/3], [单排排位-胜-剑圣-4/7/3], [单排排位-败-龙龟-4/10/7]]), CustomGameCache.Item(horse=中等马, score=110.17726321977594, rank=【黄金-II-13】, summonerName=终极黑暗暴龙战神#83288, currKDA=[[单排排位-胜-乌鸦-1/4/8], [单排排位-胜-莫甘娜-2/8/16], [单排排位-胜-女警-1/1/7], [单排排位-败-日女-2/10/8], [单排排位-败-光辉-1/5/3]]), CustomGameCache.Item(horse=中等马, score=110.07063901780725, rank=【黄金-III-92】, summonerName=中国第一深情#92429, currKDA=[[单排排位-败-阿卡丽-7/9/9], [单排排位-败-小火龙-9/8/10], [单排排位-败-奥恩-7/5/21], [单排排位-胜-卡米尔-5/7/3], [单排排位-败-蚂蚱-0/3/0]]), CustomGameCache.Item(horse=下等马, score=103.39275900079065, rank=【黄金-II-20】, summonerName=情白衣#17935, currKDA=[[单排排位-胜-皎月-5/4/2], [单排排位-胜-诡术妖姬-10/2/5], [单排排位-败-皎月-1/2/0], [单排排位-胜-阿卡丽-17/3/7], [单排排位-败-劫-3/5/3]]), CustomGameCache.Item(horse=中等马, score=113.31687116212467, rank=【黄金-I-31】, summonerName=上路对线一老登#20052, currKDA=[[大乱斗-胜-剑魔-18/14/23], [单排排位-胜-天使-4/1/3], [大乱斗-败-卢锡安-20/10/10], [匹配盲选-败-大头-0/6/0], [大乱斗-胜-龙王-16/16/33]]), CustomGameCache.Item(horse=中等马, score=111.33156707495822, rank=【黄金-IV-26】, summonerName=去厨房看夕阳#37106, currKDA=[[单排排位-败-皎月-11/11/3], [单排排位-败-武器-3/7/5], [灵活排位-败-佛耶戈-2/10/4], [灵活排位-胜-武器-9/10/10], [灵活排位-败-塔姆-3/6/6]]), CustomGameCache.Item(horse=中等马, score=110.07063901780725, rank=【黄金-III-92】, summonerName=中国第一深情#92429, currKDA=[[单排排位-败-阿卡丽-7/9/9], [单排排位-败-小火龙-9/8/10], [单排排位-败-奥恩-7/5/21], [单排排位-胜-卡米尔-5/7/3], [单排排位-败-蚂蚱-0/3/0]]), CustomGameCache.Item(horse=下等马, score=98.95453409842612, rank=【黄金-IV-30】, summonerName=平平安安#54365, currKDA=[[单排排位-败-小火龙-0/7/10], [单排排位-败-鳄鱼-6/6/2], [灵活排位-败-赵信-3/12/11], [灵活排位-败-卢锡安-9/10/9], [灵活排位-胜-剑圣-9/3/7]]), CustomGameCache.Item(horse=牛 马, score=89.38844228068788, rank=【黄金-IV-74】, summonerName=半拉大馒头#13040, currKDA=[[单排排位-胜-球女-4/5/11], [单排排位-败-球女-4/6/4], [单排排位-败-球女-1/2/1], [单排排位-胜-球女-2/2/3], [单排排位-败-球女-3/7/3]]), CustomGameCache.Item(horse=中等马, score=115.63806346757946, rank=【白银-I-62】, summonerName=你那李白吗#52763, currKDA=[[单排排位-败-龙王-8/7/10], [单排排位-胜-龙王-19/9/13], [单排排位-败-狗头-4/6/8], [单排排位-胜-龙王-4/4/16], [单排排位-败-厄斐琉斯-0/6/2]]), CustomGameCache.Item(horse=中等马, score=111.33156707495822, rank=【黄金-IV-26】, summonerName=去厨房看夕阳#37106, currKDA=[[单排排位-败-皎月-11/11/3], [单排排位-败-武器-3/7/5], [灵活排位-败-佛耶戈-2/10/4], [灵活排位-胜-武器-9/10/10], [灵活排位-败-塔姆-3/6/6]]), CustomGameCache.Item(horse=中等马, score=110.85574823466916, rank=【黄金-II-40】, summonerName=瑞萌萌的剑#28565, currKDA=[[单排排位-胜-维鲁斯-6/3/1], [单排排位-败-霞-4/11/8], [单排排位-败-EZ-5/9/7], [大乱斗-胜-EZ-23/9/29], [灵活排位-胜-霞-19/3/9]]), CustomGameCache.Item(horse=中等马, score=110.07063901780725, rank=【黄金-III-92】, summonerName=中国第一深情#92429, currKDA=[[单排排位-败-阿卡丽-7/9/9], [单排排位-败-小火龙-9/8/10], [单排排位-败-奥恩-7/5/21], [单排排位-胜-卡米尔-5/7/3], [单排排位-败-蚂蚱-0/3/0]]), CustomGameCache.Item(horse=下等马, score=98.95453409842612, rank=【黄金-IV-30】, summonerName=平平安安#54365, currKDA=[[单排排位-败-小火龙-0/7/10], [单排排位-败-鳄鱼-6/6/2], [灵活排位-败-赵信-3/12/11], [灵活排位-败-卢锡安-9/10/9], [灵活排位-胜-剑圣-9/3/7]]), CustomGameCache.Item(horse=, score=NaN, rank=【白银-III-4】, summonerName=艾艾艾艾艾艾艾#11203, currKDA=[[灵活排位-败-锤石-0/6/8], [大乱斗-败-阿克尚-6/9/11], [灵活排位-败-锤石-2/11/25], [灵活排位-胜-露露-0/3/13], [灵活排位-胜-女警-6/7/14]]), CustomGameCache.Item(horse=中等马, score=117.32216437541751, rank=【黄金-IV-0】, summonerName=不讲理的普通人#46770, currKDA=[[大乱斗-败-锐雯-10/12/26], [灵活排位-败-薇恩-10/3/4], [灵活排位-胜-塞拉斯-8/7/8], [灵活排位-胜-卡莎-7/3/7], [灵活排位-败-塞拉斯-2/10/4]]), CustomGameCache.Item(horse=中等马, score=112.20974748583852, rank=【白银-II-65】, summonerName=麦克阿瑟#66080, currKDA=[[单排排位-败-螳螂-8/7/4], [单排排位-败-盲僧-5/4/13], [单排排位-败-莉莉娅-3/6/5], [灵活排位-胜-螳螂-4/2/6], [灵活排位-败-佛耶戈-5/4/2]]), CustomGameCache.Item(horse=中等马, score=112.05537053288492, rank=【黄金-II-18】, summonerName=中国第一深情#92429, currKDA=[[单排排位-胜-洛-2/0/12], [单排排位-败-阿卡丽-7/9/9], [单排排位-败-小火龙-9/8/10], [单排排位-败-奥恩-7/5/21], [单排排位-胜-卡米尔-5/7/3]]), CustomGameCache.Item(horse=下等马, score=100.0352610603471, rank=【未知-NA-0】, summonerName=青铜6#57060, currKDA=[[单排排位-胜-厄斐琉斯-7/5/1], [单排排位-胜-厄斐琉斯-8/9/7], [单排排位-败-厄斐琉斯-2/9/2], [单排排位-败-电耗子-1/5/3], [单排排位-败-劫-7/10/13]])]
+2025-06-06 21:44:19 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】敌方：[CustomGameCache.Item(horse=中等马, score=113.31687116212467, rank=【黄金-I-31】, summonerName=上路对线一老登#20052, currKDA=[[大乱斗-胜-剑魔-18/14/23], [单排排位-胜-天使-4/1/3], [大乱斗-败-卢锡安-20/10/10], [匹配盲选-败-大头-0/6/0], [大乱斗-胜-龙王-16/16/33]]), CustomGameCache.Item(horse=中等马, score=111.95100017658417, rank=【黄金-III-70】, summonerName=yesguhaleshaosha#27430, currKDA=[[单排排位-胜-梦魇-8/6/10], [单排排位-胜-梦魇-10/6/14], [单排排位-败-梦魇-8/7/9], [大乱斗-胜-梦魇-22/15/30], [单排排位-败-梦魇-8/10/13]]), CustomGameCache.Item(horse=中等马, score=107.2640191837003, rank=【黄金-II-32】, summonerName=召唤师20051417#82532, currKDA=[[单排排位-胜-瑟提-12/13/9], [单排排位-胜-诺手-8/7/8], [单排排位-败-狗熊-5/11/6], [单排排位-胜-卢锡安-10/5/5], [单排排位-胜-诺手-21/8/8]]), CustomGameCache.Item(horse=下等马, score=104.53858860262693, rank=【黄金-I-95】, summonerName=九霄龙吟惊天变13#46830, currKDA=[[单排排位-胜-日女-3/6/22], [单排排位-胜-机器人-3/7/13], [单排排位-败-纳尔-2/12/3], [单排排位-败-塞拉斯-11/9/19], [单排排位-败-盲僧-5/6/3]]), CustomGameCache.Item(horse=牛 马, score=89.38844228068788, rank=【黄金-IV-74】, summonerName=半拉大馒头#13040, currKDA=[[单排排位-胜-球女-4/5/11], [单排排位-败-球女-4/6/4], [单排排位-败-球女-1/2/1], [单排排位-胜-球女-2/2/3], [单排排位-败-球女-3/7/3]]), CustomGameCache.Item(horse=, score=NaN, rank=【白银-III-51】, summonerName=卢本伟#25242, currKDA=[[单排排位-败-异画师-4/5/7], [单排排位-胜-维克托-3/5/6], [单排排位-胜-锤石-5/6/17], [大乱斗-败-男枪-16/10/25], [大乱斗-败-莉莉娅-10/11/41]]), CustomGameCache.Item(horse=上等马, score=135.1221292956037, rank=【白银-IV-44】, summonerName=打的好啊阿超#55640, currKDA=[[单排排位-胜-卡莎-7/3/4], [大乱斗-败-泽拉斯-16/8/26], [单排排位-胜-莉莉娅-13/6/18], [大乱斗-胜-EZ-9/8/15], [大乱斗-胜-大嘴-22/15/43]]), CustomGameCache.Item(horse=中等马, score=123.27294441853361, rank=【黄金-III-80】, summonerName=香芋派#39553, currKDA=[[单排排位-胜-寡妇-15/4/3], [单排排位-胜-寡妇-7/2/6], [单排排位-胜-蜘蛛-10/1/1], [单排排位-败-寡妇-6/8/9], [单排排位-胜-莉莉娅-8/4/5]]), CustomGameCache.Item(horse=中等马, score=111.21130745674539, rank=【未知-NA-0】, summonerName=索拉失误就是卡丶#55617, currKDA=[[单排排位-胜-露露-3/3/8], [单排排位-胜-悠米-4/3/12], [单排排位-胜-悠米-1/3/26], [匹配盲选-胜-悠米-2/1/44], [大乱斗-败-蒙多-5/11/18]]), CustomGameCache.Item(horse=中等马, score=108.36460276096898, rank=【白银-III-98】, summonerName=误入人群潘塔kill#68778, currKDA=[[单排排位-胜-鳄鱼-9/8/8], [单排排位-胜-薇恩-11/4/4], [单排排位-败-薇恩-4/13/4], [单排排位-胜-薇恩-3/1/1], [单排排位-胜-薇恩-4/6/4]])]
+2025-06-06 22:16:51 ERROR c.e.h.service.GameFlowMonitor - 客户端通信连接失败
+java.io.EOFException: null
+	at okio.RealBufferedSource.require(RealBufferedSource.kt:202)
+	at okio.RealBufferedSource.readByte(RealBufferedSource.kt:212)
+	at okhttp3.internal.ws.WebSocketReader.readHeader(WebSocketReader.kt:119)
+	at okhttp3.internal.ws.WebSocketReader.processNextFrame(WebSocketReader.kt:102)
+	at okhttp3.internal.ws.RealWebSocket.loopReader(RealWebSocket.kt:293)
+	at okhttp3.internal.ws.RealWebSocket$connect$1.onResponse(RealWebSocket.kt:195)
+	at okhttp3.internal.connection.RealCall$AsyncCall.run(RealCall.kt:519)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+2025-06-06 22:34:02 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-06 22:34:02 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-06 22:34:06 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 14332 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-06 22:34:06 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-06 22:34:06 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-06 22:34:06 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-06 22:34:06 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-06 22:34:06 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-06 22:34:07 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-06 22:34:07 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 932 ms
+2025-06-06 22:34:07 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-06 22:34:07 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-06 22:34:07 INFO  c.example.huayeloltool.Application - Started Application in 1.791 seconds (process running for 2.684)
+2025-06-06 22:34:07 ERROR com.example.huayeloltool.Main - 客户端进程不存在！
+2025-06-06 22:34:55 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-06 22:34:56 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-06 22:34:58 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 18312 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-06 22:34:58 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-06 22:34:59 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-06 22:34:59 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-06 22:34:59 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-06 22:34:59 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-06 22:34:59 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-06 22:34:59 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 749 ms
+2025-06-06 22:34:59 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-06 22:35:00 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-06 22:35:00 INFO  c.example.huayeloltool.Application - Started Application in 1.535 seconds (process running for 2.175)
+2025-06-06 22:35:00 ERROR com.example.huayeloltool.Main - 客户端进程不存在！
+2025-06-06 22:35:02 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-06 22:35:02 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-06 22:35:02 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2025-06-06 22:35:02 INFO  c.e.h.controller.HelloController - hello
+2025-06-06 22:35:05 INFO  c.e.h.controller.HelloController - hello
+2025-06-06 22:35:11 INFO  c.e.h.controller.HelloController - hello
+2025-06-06 22:37:55 INFO  c.e.h.controller.HelloController - hello
+2025-06-06 22:37:59 INFO  c.e.h.controller.HelloController - hello
+2025-06-06 22:38:03 INFO  c.e.h.controller.HelloController - hello
+2025-06-06 22:38:04 INFO  c.e.h.controller.HelloController - hello
+2025-06-06 22:38:09 INFO  c.e.h.controller.HelloController - hello
+2025-06-06 22:38:10 INFO  c.e.h.controller.HelloController - hello
+2025-06-06 22:38:11 INFO  c.e.h.controller.HelloController - hello
+2025-06-06 22:38:12 INFO  c.e.h.controller.HelloController - hello
+2025-06-06 22:38:21 INFO  c.e.h.controller.HelloController - hello
+2025-06-06 22:38:23 INFO  c.e.h.controller.HelloController - hello
+2025-06-06 22:49:37 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-06 22:49:37 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-06 22:49:42 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 17676 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-06 22:49:42 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-06 22:49:43 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-06 22:49:43 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-06 22:49:43 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-06 22:49:43 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-06 22:49:43 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-06 22:49:43 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 698 ms
+2025-06-06 22:49:43 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-06 22:49:43 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-06 22:49:43 INFO  c.example.huayeloltool.Application - Started Application in 1.441 seconds (process running for 2.083)
+2025-06-06 22:49:44 ERROR com.example.huayeloltool.Main - 客户端进程不存在！
+2025-06-06 22:49:48 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-06 22:49:48 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-06 22:49:48 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2025-06-06 23:00:13 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-06 23:00:13 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-06 23:00:17 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 23720 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-06 23:00:17 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-06 23:00:18 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-06 23:00:18 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-06 23:00:18 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-06 23:00:18 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-06 23:00:18 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-06 23:00:18 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 679 ms
+2025-06-06 23:00:18 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-06 23:00:18 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-06 23:00:18 INFO  c.example.huayeloltool.Application - Started Application in 1.373 seconds (process running for 1.981)
+2025-06-06 23:00:19 ERROR com.example.huayeloltool.Main - 客户端进程不存在！
+2025-06-06 23:00:21 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-06 23:00:21 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-06 23:00:21 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2025-06-06 23:02:18 INFO  c.e.h.controller.HelloController - hello
+2025-06-06 23:02:19 INFO  c.e.h.controller.HelloController - hello
+2025-06-07 09:54:05 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 3856 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-07 09:54:05 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-07 09:54:06 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-07 09:54:06 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-07 09:54:06 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-07 09:54:06 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-07 09:54:06 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-07 09:54:06 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 886 ms
+2025-06-07 09:54:06 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-07 09:54:06 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-07 09:54:06 INFO  c.example.huayeloltool.Application - Started Application in 1.775 seconds (process running for 2.551)
+2025-06-07 09:54:06 ERROR com.example.huayeloltool.Main - 客户端进程不存在！
+2025-06-07 09:54:09 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-07 09:54:09 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-07 09:54:09 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2025-06-07 09:54:55 INFO  c.e.h.controller.HelloController - hello
+2025-06-07 09:54:56 INFO  c.e.h.controller.HelloController - hello
+2025-06-07 10:11:34 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-07 10:11:34 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-07 10:11:39 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 3712 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-07 10:11:39 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-07 10:11:40 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-07 10:11:40 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-07 10:11:40 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-07 10:11:40 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-07 10:11:40 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-07 10:11:40 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 650 ms
+2025-06-07 10:11:40 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-07 10:11:40 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-07 10:11:40 INFO  c.example.huayeloltool.Application - Started Application in 1.409 seconds (process running for 2.064)
+2025-06-07 10:11:40 ERROR com.example.huayeloltool.Main - 客户端进程不存在！
+2025-06-07 10:42:31 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-07 10:42:31 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-07 10:42:31 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2025-06-07 10:42:32 INFO  c.e.h.controller.HelloController - hello
+2025-06-07 10:42:32 INFO  c.e.h.controller.HelloController - hello
+2025-06-07 10:43:39 WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'championId' for method parameter type Integer is not present]
+2025-06-07 10:43:45 WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'championId' for method parameter type Integer is not present]
+2025-06-07 10:44:18 WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'championId' for method parameter type Integer is not present]
+2025-06-07 10:47:03 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-07 10:47:03 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-07 10:47:08 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 3496 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-07 10:47:08 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-07 10:47:08 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-07 10:47:08 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-07 10:47:08 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-07 10:47:08 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-07 10:47:08 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-07 10:47:08 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 671 ms
+2025-06-07 10:47:09 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-07 10:47:09 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-07 10:47:09 INFO  c.example.huayeloltool.Application - Started Application in 1.373 seconds (process running for 1.969)
+2025-06-07 10:47:09 ERROR com.example.huayeloltool.Main - 客户端进程不存在！
+2025-06-07 10:47:17 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-07 10:47:17 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-07 10:47:17 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-06-07 10:47:17 INFO  c.e.h.controller.LcuController - set ban champion id: 2
+2025-06-07 10:47:21 INFO  c.e.h.controller.LcuController - set ban champion id: 3
+2025-06-07 10:47:39 INFO  c.e.h.controller.LcuController - set ban champion id: 3
+2025-06-07 10:48:53 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-07 10:48:53 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-07 10:48:57 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 9280 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-07 10:48:57 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-07 10:48:58 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-07 10:48:58 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-07 10:48:58 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-07 10:48:58 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-07 10:48:58 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-07 10:48:58 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 737 ms
+2025-06-07 10:48:58 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-07 10:48:58 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-07 10:48:58 INFO  c.example.huayeloltool.Application - Started Application in 1.549 seconds (process running for 2.262)
+2025-06-07 10:48:59 ERROR com.example.huayeloltool.Main - 客户端进程不存在！
+2025-06-07 10:49:05 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-07 10:49:05 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-07 10:49:05 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2025-06-07 10:49:05 WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'POST' is not supported]
+2025-06-07 10:54:39 WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'POST' is not supported]
+2025-06-07 10:54:43 WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'POST' is not supported]
+2025-06-07 10:54:45 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-07 10:54:45 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-07 10:54:50 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 12156 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-07 10:54:50 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-07 10:54:50 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-07 10:54:50 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-07 10:54:50 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-07 10:54:50 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-07 10:54:50 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-07 10:54:50 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 635 ms
+2025-06-07 10:54:51 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-07 10:54:51 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-07 10:54:51 INFO  c.example.huayeloltool.Application - Started Application in 1.344 seconds (process running for 1.926)
+2025-06-07 10:54:51 ERROR com.example.huayeloltool.Main - 客户端进程不存在！
+2025-06-07 10:54:53 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-07 10:54:53 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-07 10:54:53 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-06-07 10:54:53 INFO  c.e.h.controller.LcuController - set ban champion id: 1
+2025-06-07 10:55:12 INFO  c.e.h.controller.LcuController - set ban champion id: 1
+2025-06-07 10:56:59 WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' is not supported]
+2025-06-07 10:57:01 WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' is not supported]
+2025-06-07 10:57:03 WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' is not supported]
+2025-06-07 10:57:05 WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' is not supported]
+2025-06-07 10:57:06 WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' is not supported]
+2025-06-07 10:58:12 INFO  c.e.h.controller.LcuController - set ban champion id: 0
+2025-06-07 10:58:15 INFO  c.e.h.controller.LcuController - set ban champion id: 0
+2025-06-07 10:58:16 INFO  c.e.h.controller.LcuController - set ban champion id: 0
+2025-06-07 10:58:20 INFO  c.e.h.controller.LcuController - set ban champion id: 0
+2025-06-07 10:58:20 INFO  c.e.h.controller.LcuController - set ban champion id: 0
+2025-06-07 10:58:23 INFO  c.e.h.controller.LcuController - set ban champion id: 0
+2025-06-07 10:58:24 INFO  c.e.h.controller.LcuController - set ban champion id: 0
+2025-06-07 10:58:25 INFO  c.e.h.controller.LcuController - set ban champion id: 4
+2025-06-07 10:59:42 INFO  c.e.h.controller.HelloController - hello
+2025-06-07 10:59:42 INFO  c.e.h.controller.HelloController - hello
+2025-06-07 11:03:55 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-07 11:03:56 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-07 11:04:00 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 5008 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-07 11:04:00 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-07 11:04:01 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-07 11:04:01 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-07 11:04:01 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-07 11:04:01 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-07 11:04:01 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-07 11:04:01 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 644 ms
+2025-06-07 11:04:01 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-07 11:04:01 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-07 11:04:01 INFO  c.example.huayeloltool.Application - Started Application in 1.338 seconds (process running for 1.943)
+2025-06-07 11:04:01 ERROR com.example.huayeloltool.Main - 客户端进程不存在！
+2025-06-07 11:04:05 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-07 11:04:05 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-07 11:04:05 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2025-06-07 11:04:05 INFO  c.e.h.controller.HelloController - hello
+2025-06-07 11:04:06 INFO  c.e.h.controller.LcuController - set ban champion id: null
+2025-06-07 11:04:23 INFO  c.e.h.controller.LcuController - set ban champion id: null
+2025-06-07 11:04:32 INFO  c.e.h.controller.LcuController - set ban champion id: null
+2025-06-07 11:05:58 INFO  c.e.h.controller.LcuController - set ban champion id: 2
+2025-06-07 11:07:04 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-07 11:07:04 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-07 11:07:08 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 7632 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-07 11:07:08 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-07 11:07:09 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-07 11:07:09 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-07 11:07:09 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-07 11:07:09 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-07 11:07:09 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-07 11:07:09 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 711 ms
+2025-06-07 11:07:09 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-07 11:07:09 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-07 11:07:09 INFO  c.example.huayeloltool.Application - Started Application in 1.499 seconds (process running for 2.155)
+2025-06-07 11:07:09 ERROR com.example.huayeloltool.Main - 客户端进程不存在！
+2025-06-07 11:07:11 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-07 11:07:11 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-07 11:07:11 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-06-07 11:07:17 INFO  c.e.h.controller.LcuController - set ban champion id: 11
+2025-06-07 11:08:28 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-07 11:08:28 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-07 11:08:33 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 15652 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-07 11:08:33 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-07 11:08:33 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-07 11:08:33 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-07 11:08:33 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-07 11:08:33 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-07 11:08:33 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-07 11:08:34 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 741 ms
+2025-06-07 11:08:34 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-07 11:08:34 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-07 11:08:34 INFO  c.example.huayeloltool.Application - Started Application in 1.615 seconds (process running for 2.746)
+2025-06-07 11:08:34 ERROR com.example.huayeloltool.Main - 客户端进程不存在！
+2025-06-07 11:08:36 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-07 11:08:36 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-07 11:08:36 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2025-06-07 11:09:40 INFO  c.e.h.controller.LcuController - set ban champion id: 3
+2025-06-07 11:09:37 INFO  c.e.h.controller.LcuController - set ban champion id: null
+2025-06-07 11:09:43 INFO  c.e.h.controller.LcuController - set ban champion id: 3
+2025-06-07 11:11:41 INFO  c.e.h.controller.LcuController - set ban champion id: null
+2025-06-07 11:11:45 INFO  c.e.h.controller.LcuController - set ban champion id: null
+2025-06-07 11:11:57 INFO  c.e.h.controller.LcuController - set ban champion id: 2
+2025-06-07 11:12:46 INFO  c.e.h.controller.LcuController - set ban champion id: 5
+2025-06-07 11:13:27 INFO  c.e.h.controller.LcuController - set ban champion id: null
+2025-06-07 11:13:40 INFO  c.e.h.controller.LcuController - set ban champion id: 2
+2025-06-07 11:14:09 INFO  c.e.h.controller.LcuController - set ban champion id: 1
+2025-06-07 11:15:02 INFO  c.e.h.controller.LcuController - set ban champion id: 5
+2025-06-07 11:15:05 INFO  c.e.h.controller.LcuController - set ban champion id: 2
+2025-06-07 11:15:58 INFO  c.e.h.controller.LcuController - set ban champion id: 5
+2025-06-07 11:15:58 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-07 11:15:59 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-07 11:16:17 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 2568 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-07 11:16:17 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-07 11:16:18 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-07 11:16:18 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-07 11:16:18 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-07 11:16:18 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-07 11:16:18 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-07 11:16:18 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 766 ms
+2025-06-07 11:16:18 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-07 11:16:18 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-07 11:16:18 INFO  c.example.huayeloltool.Application - Started Application in 1.745 seconds (process running for 2.586)
+2025-06-07 11:16:19 ERROR com.example.huayeloltool.Main - 客户端进程不存在！
+2025-06-07 11:16:24 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-07 11:16:24 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-07 11:16:24 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2025-06-07 11:16:32 INFO  c.e.h.controller.LcuController - set ban champion id: 1
+2025-06-07 11:16:38 INFO  c.e.h.controller.LcuController - set ban champion id: 5
+2025-06-07 11:16:40 INFO  c.e.h.controller.HelloController - hello
+2025-06-07 11:16:58 INFO  c.e.h.controller.HelloController - hello
+2025-06-07 11:19:40 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-07 11:19:40 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-07 11:19:45 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 5064 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-07 11:19:45 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-07 11:19:45 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-07 11:19:45 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-07 11:19:45 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-07 11:19:45 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-07 11:19:46 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-07 11:19:46 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 746 ms
+2025-06-07 11:19:46 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-07 11:19:46 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-07 11:19:46 INFO  c.example.huayeloltool.Application - Started Application in 1.558 seconds (process running for 2.289)
+2025-06-07 11:19:46 ERROR com.example.huayeloltool.Main - 客户端进程不存在！
+2025-06-07 11:19:49 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-07 11:19:49 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-07 11:19:49 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2025-06-07 11:19:50 INFO  c.e.h.controller.LcuController - auto accept game id: false
+2025-06-07 11:19:52 INFO  c.e.h.controller.LcuController - auto accept game id: true
+2025-06-07 11:26:19 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-07 11:26:19 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-07 11:26:23 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 8276 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-07 11:26:23 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-07 11:26:24 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-07 11:26:24 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-07 11:26:24 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-07 11:26:24 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-07 11:26:24 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-07 11:26:24 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 751 ms
+2025-06-07 11:26:24 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-07 11:26:24 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-07 11:26:24 INFO  c.example.huayeloltool.Application - Started Application in 1.587 seconds (process running for 2.445)
+2025-06-07 11:26:25 ERROR com.example.huayeloltool.Main - 客户端进程不存在！
+2025-06-07 11:26:27 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-07 11:26:27 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-07 11:26:27 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-06-07 11:31:14 INFO  c.e.h.controller.LcuController - set ban champion id: null
+2025-06-07 11:31:15 INFO  c.e.h.controller.LcuController - auto accept game id: false
+2025-06-07 11:31:17 INFO  c.e.h.controller.LcuController - auto accept game id: true
+2025-06-07 11:31:20 INFO  c.e.h.controller.LcuController - set ban champion id: 2
+2025-06-07 11:40:17 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-07 11:40:17 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-07 14:22:15 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 5080 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-07 14:22:15 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-07 14:22:15 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-07 14:22:15 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-07 14:22:15 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-07 14:22:15 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-07 14:22:15 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-07 14:22:15 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 832 ms
+2025-06-07 14:22:16 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-07 14:22:16 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-07 14:22:16 INFO  c.example.huayeloltool.Application - Started Application in 1.935 seconds (process running for 3.463)
+2025-06-07 14:22:17 ERROR com.example.huayeloltool.Main - 客户端进程不存在！
+2025-06-07 14:23:31 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-07 14:23:32 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-07 14:23:37 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 24516 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-07 14:23:37 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-07 14:23:38 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-07 14:23:38 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-07 14:23:38 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-07 14:23:38 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-07 14:23:38 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-07 14:23:38 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 998 ms
+2025-06-07 14:23:39 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-07 14:23:39 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-07 14:23:39 INFO  c.example.huayeloltool.Application - Started Application in 2.361 seconds (process running for 4.768)
+2025-06-07 14:23:39 INFO  com.example.huayeloltool.Main - 客户端连接成功
+2025-06-07 14:23:41 INFO  c.e.h.service.GameFlowMonitor - 当前模式：大乱斗，queueId：450
+2025-06-07 14:23:41 INFO  c.e.h.service.GameStateUpdateService - 开始匹配
+2025-06-07 14:24:10 INFO  c.e.h.service.GameFlowMonitor - 当前模式：大乱斗，queueId：450
+2025-06-07 14:24:10 INFO  c.e.h.service.GameStateUpdateService - 开始匹配
+2025-06-07 14:24:23 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】我方：[CustomGameCache.Item(horse=上等马, score=129.33212324493525, rank=【青铜-III-46】, summonerName=圣vs魔之召唤师#11275, currKDA=[[大乱斗-胜-永恩-9/13/22], [大乱斗-胜-大头-10/18/26], [大乱斗-败-轮子妈-7/12/37], [大乱斗-胜-赵信-10/8/21], [匹配盲选-败-瑟提-1/6/1]]), CustomGameCache.Item(horse=中等马, score=123.28316871948167, rank=【黑铁-IV-25】, summonerName=超星学习通23#71084, currKDA=[[大乱斗-败-女枪-16/13/19], [大乱斗-胜-慎-7/11/49], [大乱斗-胜-螃蟹-8/8/33], [大乱斗-败-佛耶戈-16/19/19], [大乱斗-败-加里奥-4/13/15]]), CustomGameCache.Item(horse=中等马, score=122.66675302212707, rank=【未知-NA-0】, summonerName=异世界当社畜#41906, currKDA=[[大乱斗-败-光辉-13/9/29], [大乱斗-败-黄鸡-0/7/6], [大乱斗-胜-乌鸦-12/11/30], [大乱斗-胜-永恩-8/6/19], [大乱斗-败-提莫-4/12/36]]), CustomGameCache.Item(horse=中等马, score=107.17227525599762, rank=【黄金-II-43】, summonerName=中国第一深情#92429, currKDA=[[单排排位-胜-卡米尔-5/6/15], [单排排位-胜-洛-2/0/12], [单排排位-败-阿卡丽-7/9/9], [单排排位-败-小火龙-9/8/10], [单排排位-败-奥恩-7/5/21]]), CustomGameCache.Item(horse=下等马, score=103.4479095964521, rank=【白金-IV-0】, summonerName=white伞兵一号#43492, currKDA=[[大乱斗-败-塔莉垭-7/13/15], [大乱斗-败-烬-10/13/19], [大乱斗-胜-烬-14/8/30], [大乱斗-胜-尼菈-16/18/29], [大乱斗-败-铁男-6/15/28]])]
+2025-06-07 14:24:23 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】敌方：[]
+2025-06-07 14:24:42 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-07 14:24:42 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-07 14:24:42 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2025-06-07 14:25:34 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】我方：[CustomGameCache.Item(horse=上等马, score=129.33212324493525, rank=【青铜-III-46】, summonerName=圣vs魔之召唤师#11275, currKDA=[[大乱斗-胜-永恩-9/13/22], [大乱斗-胜-大头-10/18/26], [大乱斗-败-轮子妈-7/12/37], [大乱斗-胜-赵信-10/8/21], [匹配盲选-败-瑟提-1/6/1]]), CustomGameCache.Item(horse=中等马, score=123.28316871948167, rank=【黑铁-IV-25】, summonerName=超星学习通23#71084, currKDA=[[大乱斗-败-女枪-16/13/19], [大乱斗-胜-慎-7/11/49], [大乱斗-胜-螃蟹-8/8/33], [大乱斗-败-佛耶戈-16/19/19], [大乱斗-败-加里奥-4/13/15]]), CustomGameCache.Item(horse=中等马, score=122.66675302212707, rank=【未知-NA-0】, summonerName=异世界当社畜#41906, currKDA=[[大乱斗-败-光辉-13/9/29], [大乱斗-败-黄鸡-0/7/6], [大乱斗-胜-乌鸦-12/11/30], [大乱斗-胜-永恩-8/6/19], [大乱斗-败-提莫-4/12/36]]), CustomGameCache.Item(horse=中等马, score=107.17227525599762, rank=【黄金-II-43】, summonerName=中国第一深情#92429, currKDA=[[单排排位-胜-卡米尔-5/6/15], [单排排位-胜-洛-2/0/12], [单排排位-败-阿卡丽-7/9/9], [单排排位-败-小火龙-9/8/10], [单排排位-败-奥恩-7/5/21]]), CustomGameCache.Item(horse=下等马, score=103.4479095964521, rank=【白金-IV-0】, summonerName=white伞兵一号#43492, currKDA=[[大乱斗-败-塔莉垭-7/13/15], [大乱斗-败-烬-10/13/19], [大乱斗-胜-烬-14/8/30], [大乱斗-胜-尼菈-16/18/29], [大乱斗-败-铁男-6/15/28]])]
+2025-06-07 14:25:34 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】敌方：[CustomGameCache.Item(horse=上等马, score=130.44816057846498, rank=【未知-NA-0】, summonerName=丨本尊丶无视一切#52960, currKDA=[[大乱斗-败-武器-17/18/13], [大乱斗-败-石头人-7/13/38], [大乱斗-胜-冰女-8/10/33], [大乱斗-败-女枪-7/19/14], [大乱斗-败-轮子妈-9/5/10]]), CustomGameCache.Item(horse=中等马, score=123.39824762024475, rank=【未知-NA-0】, summonerName=断魂小战#74080, currKDA=[[大乱斗-败-小树-5/12/16], [大乱斗-胜-机器人-9/12/20], [大乱斗-败-俄洛伊-18/22/28], [大乱斗-胜-小丑-4/9/42], [大乱斗-胜-小鱼人-10/18/39]]), CustomGameCache.Item(horse=中等马, score=123.26191014660698, rank=【未知-NA-0】, summonerName=后期无限搔#15941, currKDA=[[大乱斗-败-火男-10/7/18], [大乱斗-败-大眼-5/6/22], [大乱斗-胜-大眼-16/7/45], [大乱斗-败-火男-3/7/19], [大乱斗-胜-稻草人-4/7/30]]), CustomGameCache.Item(horse=中等马, score=119.1266408469155, rank=【未知-NA-0】, summonerName=妖影流颜#25190, currKDA=[[大乱斗-胜-德莱文-15/5/22], [大乱斗-败-金克丝-20/13/14], [大乱斗-败-永恩-9/14/21], [单排排位-败-乌鸦-0/7/1], [大乱斗-败-小火龙-13/13/18]]), CustomGameCache.Item(horse=中等马, score=112.77721579955141, rank=【未知-NA-0】, summonerName=假凤虚凰#21712, currKDA=[[大乱斗-胜-锤石-7/11/24], [大乱斗-败-石头人-24/25/33], [大乱斗-败-薇恩-4/11/4], [大乱斗-败-劫-22/21/26], [大乱斗-胜-寒冰射手-5/10/31]])]
+2025-06-07 14:26:16 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-07 14:26:17 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-07 14:26:24 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 18104 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-07 14:26:24 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-07 14:26:25 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-07 14:26:25 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-07 14:26:25 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-07 14:26:25 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-07 14:26:25 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-07 14:26:25 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 950 ms
+2025-06-07 14:26:26 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-07 14:26:26 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-07 14:26:26 INFO  c.example.huayeloltool.Application - Started Application in 2.111 seconds (process running for 3.35)
+2025-06-07 14:26:26 INFO  com.example.huayeloltool.Main - 客户端连接成功
+2025-06-07 14:28:58 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-07 14:28:58 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-07 14:28:58 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-06-07 14:43:52 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-07 14:43:52 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-07 18:45:24 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 21684 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-07 18:45:24 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-07 18:45:26 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-07 18:45:26 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-07 18:45:26 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-07 18:45:26 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-07 18:45:26 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-07 18:45:26 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1404 ms
+2025-06-07 18:45:27 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-07 18:45:27 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-07 18:45:27 INFO  c.example.huayeloltool.Application - Started Application in 2.901 seconds (process running for 4.785)
+2025-06-07 18:45:28 INFO  com.example.huayeloltool.Main - 客户端连接成功
+2025-06-07 18:45:44 INFO  c.e.h.service.GameFlowMonitor - 当前模式：大乱斗，queueId：450
+2025-06-07 18:45:44 INFO  c.e.h.service.GameStateUpdateService - 开始匹配
+2025-06-07 18:46:02 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】我方：[CustomGameCache.Item(horse=上等马, score=127.4542607219801, rank=【青铜-IV-88】, summonerName=快TM来帮帮木木#43865, currKDA=[[大乱斗-败-机器人-9/15/27], [大乱斗-败-亚索-10/12/8], [大乱斗-败-佐伊-7/11/30], [大乱斗-胜-诡术妖姬-23/19/37], [大乱斗-胜-盲僧-16/15/20]]), CustomGameCache.Item(horse=上等马, score=125.94894731450438, rank=【未知-NA-0】, summonerName=我逗你玩1#33408, currKDA=[[大乱斗-败-大头-12/11/32], [大乱斗-败-人马-8/4/11], [大乱斗-败-薇恩-5/6/13], [大乱斗-胜-武器-9/10/6], [大乱斗-败-武器-11/10/11]]), CustomGameCache.Item(horse=中等马, score=123.03221178813891, rank=【未知-NA-0】, summonerName=动感光BObiu卷卷#13892, currKDA=[[大乱斗-败-霞-4/9/15], [大乱斗-胜-萨勒芬妮-7/11/48], [大乱斗-败-EZ-19/11/21], [大乱斗-胜-寒冰射手-3/14/40], [大乱斗-败-黄鸡-12/21/28]]), CustomGameCache.Item(horse=中等马, score=121.58124852693322, rank=【黄金-II-58】, summonerName=中国第一深情#92429, currKDA=[[大乱斗-败-机器人-16/10/29], [单排排位-胜-卡米尔-5/6/15], [单排排位-胜-洛-2/0/12], [单排排位-败-阿卡丽-7/9/9], [单排排位-败-小火龙-9/8/10]]), CustomGameCache.Item(horse=中等马, score=118.23515473402288, rank=【未知-NA-0】, summonerName=灵魂狩猎者丶#68989, currKDA=[[大乱斗-败-螃蟹-3/8/15], [大乱斗-胜-艾克-23/14/27], [大乱斗-败-小炮-14/11/29], [大乱斗-胜-瑞兹-14/10/25], [大乱斗-败-风女-14/11/45]])]
+2025-06-07 18:46:02 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】敌方：[]
+2025-06-07 18:46:13 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-07 18:46:13 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-07 18:46:13 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2025-06-07 18:47:12 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】我方：[CustomGameCache.Item(horse=上等马, score=127.4542607219801, rank=【青铜-IV-88】, summonerName=快TM来帮帮木木#43865, currKDA=[[大乱斗-败-机器人-9/15/27], [大乱斗-败-亚索-10/12/8], [大乱斗-败-佐伊-7/11/30], [大乱斗-胜-诡术妖姬-23/19/37], [大乱斗-胜-盲僧-16/15/20]]), CustomGameCache.Item(horse=上等马, score=125.94894731450438, rank=【未知-NA-0】, summonerName=我逗你玩1#33408, currKDA=[[大乱斗-败-大头-12/11/32], [大乱斗-败-人马-8/4/11], [大乱斗-败-薇恩-5/6/13], [大乱斗-胜-武器-9/10/6], [大乱斗-败-武器-11/10/11]]), CustomGameCache.Item(horse=中等马, score=123.03221178813891, rank=【未知-NA-0】, summonerName=动感光BObiu卷卷#13892, currKDA=[[大乱斗-败-霞-4/9/15], [大乱斗-胜-萨勒芬妮-7/11/48], [大乱斗-败-EZ-19/11/21], [大乱斗-胜-寒冰射手-3/14/40], [大乱斗-败-黄鸡-12/21/28]]), CustomGameCache.Item(horse=中等马, score=121.58124852693322, rank=【黄金-II-58】, summonerName=中国第一深情#92429, currKDA=[[大乱斗-败-机器人-16/10/29], [单排排位-胜-卡米尔-5/6/15], [单排排位-胜-洛-2/0/12], [单排排位-败-阿卡丽-7/9/9], [单排排位-败-小火龙-9/8/10]]), CustomGameCache.Item(horse=中等马, score=118.23515473402288, rank=【未知-NA-0】, summonerName=灵魂狩猎者丶#68989, currKDA=[[大乱斗-败-螃蟹-3/8/15], [大乱斗-胜-艾克-23/14/27], [大乱斗-败-小炮-14/11/29], [大乱斗-胜-瑞兹-14/10/25], [大乱斗-败-风女-14/11/45]])]
+2025-06-07 18:47:12 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】敌方：[CustomGameCache.Item(horse=上等马, score=127.4509005514713, rank=【未知-NA-0】, summonerName=我的半布#42366, currKDA=[[大乱斗-胜-诺手-30/7/25], [大乱斗-败-派克-10/11/4], [大乱斗-败-瑞兹-10/9/22], [大乱斗-败-安妮-1/5/6], [大乱斗-败-薇恩-15/16/21]]), CustomGameCache.Item(horse=上等马, score=127.07544192070867, rank=【未知-NA-0】, summonerName=Didima#63937, currKDA=[[大乱斗-败-狮子狗-7/13/6], [大乱斗-败-女枪-16/10/16], [大乱斗-败-艾克-26/15/11], [大乱斗-胜-男枪-35/17/35], [大乱斗-胜-诡术妖姬-10/1/8]]), CustomGameCache.Item(horse=上等马, score=127.03712487054815, rank=【黑铁-IV-99】, summonerName=人生南北多歧路#89857, currKDA=[[大乱斗-败-火男-9/19/16], [大乱斗-胜-提莫-13/12/12], [大乱斗-胜-佛耶戈-13/16/32], [大乱斗-胜-金克丝-7/9/25], [大乱斗-胜-女枪-14/6/18]]), CustomGameCache.Item(horse=中等马, score=120.1400063978447, rank=【未知-NA-0】, summonerName=x与恐惧共舞x#64938, currKDA=[[大乱斗-胜-芮尔-9/8/46], [大乱斗-败-鳄鱼-8/9/14], [大乱斗-败-派克-15/12/19], [大乱斗-胜-大眼-6/11/50], [大乱斗-胜-鳄鱼-11/10/29]]), CustomGameCache.Item(horse=中等马, score=118.05854106014982, rank=【黄金-II-77】, summonerName=寒菲霏#75576, currKDA=[[大乱斗-胜-寒冰射手-4/13/58], [大乱斗-败-卡莎-12/13/20], [大乱斗-败-剑圣-18/16/22], [大乱斗-败-提莫-6/8/7], [大乱斗-败-阿卡丽-9/17/43]])]
+2025-06-07 18:48:24 INFO  c.e.h.controller.LcuController - set ban champion id: 910
+2025-06-07 19:14:36 ERROR c.e.h.service.GameFlowMonitor - 客户端通信连接失败
+java.io.EOFException: null
+	at okio.RealBufferedSource.require(RealBufferedSource.kt:202)
+	at okio.RealBufferedSource.readByte(RealBufferedSource.kt:212)
+	at okhttp3.internal.ws.WebSocketReader.readHeader(WebSocketReader.kt:119)
+	at okhttp3.internal.ws.WebSocketReader.processNextFrame(WebSocketReader.kt:102)
+	at okhttp3.internal.ws.RealWebSocket.loopReader(RealWebSocket.kt:293)
+	at okhttp3.internal.ws.RealWebSocket$connect$1.onResponse(RealWebSocket.kt:195)
+	at okhttp3.internal.connection.RealCall$AsyncCall.run(RealCall.kt:519)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+2025-06-08 11:32:42 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 7540 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-08 11:32:42 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-08 11:32:43 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-08 11:32:43 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-08 11:32:43 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-08 11:32:43 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-08 11:32:43 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-08 11:32:43 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1094 ms
+2025-06-08 11:32:44 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-08 11:32:44 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-08 11:32:44 INFO  c.example.huayeloltool.Application - Started Application in 2.238 seconds (process running for 4.223)
+2025-06-08 11:32:44 ERROR com.example.huayeloltool.Main - 客户端进程不存在！
+2025-06-08 11:33:51 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-08 11:33:51 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-08 11:33:54 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 8448 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-08 11:33:54 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-08 11:33:55 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-08 11:33:55 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-08 11:33:55 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-08 11:33:55 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-08 11:33:55 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-08 11:33:55 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 787 ms
+2025-06-08 11:33:56 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-08 11:33:56 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-08 11:33:56 INFO  c.example.huayeloltool.Application - Started Application in 1.934 seconds (process running for 3.49)
+2025-06-08 11:33:56 INFO  com.example.huayeloltool.Main - 客户端连接成功
+2025-06-08 11:34:08 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-08 11:34:08 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-08 11:34:08 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-06-08 11:34:54 ERROR c.e.h.service.GameFlowMonitor - 客户端通信连接失败
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.NioSocketImpl.implRead(NioSocketImpl.java:328)
+	at java.base/sun.nio.ch.NioSocketImpl.read(NioSocketImpl.java:355)
+	at java.base/sun.nio.ch.NioSocketImpl$1.read(NioSocketImpl.java:808)
+	at java.base/java.net.Socket$SocketInputStream.read(Socket.java:966)
+	at java.base/sun.security.ssl.SSLSocketInputRecord.read(SSLSocketInputRecord.java:484)
+	at java.base/sun.security.ssl.SSLSocketInputRecord.readHeader(SSLSocketInputRecord.java:478)
+	at java.base/sun.security.ssl.SSLSocketInputRecord.bytesInCompletePacket(SSLSocketInputRecord.java:70)
+	at java.base/sun.security.ssl.SSLSocketImpl.readApplicationRecord(SSLSocketImpl.java:1465)
+	at java.base/sun.security.ssl.SSLSocketImpl$AppInputStream.read(SSLSocketImpl.java:1069)
+	at okio.InputStreamSource.read(JvmOkio.kt:93)
+	at okio.AsyncTimeout$source$1.read(AsyncTimeout.kt:128)
+	at okio.RealBufferedSource.request(RealBufferedSource.kt:209)
+	at okio.RealBufferedSource.require(RealBufferedSource.kt:202)
+	at okio.RealBufferedSource.readByte(RealBufferedSource.kt:212)
+	at okhttp3.internal.ws.WebSocketReader.readHeader(WebSocketReader.kt:119)
+	at okhttp3.internal.ws.WebSocketReader.processNextFrame(WebSocketReader.kt:102)
+	at okhttp3.internal.ws.RealWebSocket.loopReader(RealWebSocket.kt:293)
+	at okhttp3.internal.ws.RealWebSocket$connect$1.onResponse(RealWebSocket.kt:195)
+	at okhttp3.internal.connection.RealCall$AsyncCall.run(RealCall.kt:519)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+2025-06-08 11:35:57 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-08 11:35:57 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-08 11:36:03 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 22588 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-08 11:36:03 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-08 11:36:04 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-08 11:36:04 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-08 11:36:04 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-08 11:36:04 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-08 11:36:04 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-08 11:36:04 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1079 ms
+2025-06-08 11:36:04 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-08 11:36:04 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-08 11:36:04 INFO  c.example.huayeloltool.Application - Started Application in 2.158 seconds (process running for 3.661)
+2025-06-08 11:36:05 INFO  com.example.huayeloltool.Main - 客户端连接成功
+2025-06-08 11:36:07 INFO  c.e.h.service.GameFlowMonitor - 当前模式：单排排位，queueId：420
+2025-06-08 11:36:07 INFO  c.e.h.service.GameStateUpdateService - 开始匹配
+2025-06-08 11:36:40 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-08 11:36:40 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-08 11:36:40 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-06-08 11:36:40 INFO  c.e.h.controller.LcuController - set ban champion id: 2
+2025-06-08 11:37:06 INFO  c.e.h.service.GameFlowMonitor - 当前模式：单排排位，queueId：420
+2025-06-08 11:37:06 INFO  c.e.h.service.GameStateUpdateService - 开始匹配
+2025-06-08 11:38:18 ERROR c.e.h.service.LcuApiService - champSelectPatchActionError，championId: 2, actionId: 8, patchType: ban, completed: true, response: Response{protocol=h2, code=500, message=, url=https://riot:YkYRV4Sb_rvTwJWit83Vgg@127.0.0.1:7570/lol-champ-select/v1/session/actions/8}
+2025-06-08 11:38:30 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】我方：[CustomGameCache.Item(horse=上等马, score=145.7993972641245, rank=【黄金-II-58】, summonerName=中国第一深情#92429, currKDA=[[大乱斗-胜-死歌-18/12/26], [大乱斗-败-机器人-16/10/29], [单排排位-胜-卡米尔-5/6/15], [单排排位-胜-洛-2/0/12], [单排排位-败-阿卡丽-7/9/9]]), CustomGameCache.Item(horse=中等马, score=116.19438640012166, rank=【黄金-II-60】, summonerName=召唤师63224#60620, currKDA=[[单排排位-胜-露露-4/5/25], [单排排位-败-娜美-1/7/21], [单排排位-败-娜美-5/11/10], [单排排位-败-锤石-1/9/16], [单排排位-败-娜美-3/10/6]]), CustomGameCache.Item(horse=中等马, score=115.44195645554151, rank=【黄金-II-64】, summonerName=Leedodo#43553, currKDA=[[单排排位-胜-小炮-12/5/3], [单排排位-胜-EZ-9/1/6], [大乱斗-败-轮子妈-19/13/28], [大乱斗-败-蛇女-8/15/35], [单排排位-胜-EZ-12/4/6]]), CustomGameCache.Item(horse=中等马, score=115.29964439055126, rank=【黄金-I-24】, summonerName=宁德时代BMS#91185, currKDA=[[单排排位-败-梦魇-4/4/2], [单排排位-胜-梦魇-3/4/23], [单排排位-败-狗熊-9/4/9], [单排排位-败-莉莉娅-7/9/12], [单排排位-胜-梦魇-3/1/3]]), CustomGameCache.Item(horse=下等马, score=100.02260598012546, rank=【黄金-IV-0】, summonerName=真在尽力玩#36901, currKDA=[[单排排位-败-加里奥-2/5/7], [单排排位-胜-加里奥-4/5/18], [单排排位-败-诺手-3/7/4], [单排排位-败-剑魔-5/8/6], [灵活排位-败-冰女-1/7/9]])]
+2025-06-08 11:38:30 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】敌方：[]
+2025-06-08 11:39:39 INFO  c.e.h.s.GameSessionUpdateService - 【我方】动作: 选择（锁定）英雄, 英雄: EZ, 等级: 24, 积分: 295772，最后游玩: 2025-06-08
+2025-06-08 11:39:48 INFO  c.e.h.s.GameSessionUpdateService - 【我方】动作: 选择（锁定）英雄, 英雄: 巨魔, 等级: 9, 积分: 82518，最后游玩: 2025-05-09
+2025-06-08 11:40:44 INFO  c.e.h.s.GameSessionUpdateService - 【我方】动作: 选择（锁定）英雄, 英雄: 维克托, 等级: 4, 积分: 17842，最后游玩: 2025-06-03
+2025-06-08 11:40:50 INFO  c.e.h.s.GameSessionUpdateService - 【我方】动作: 选择（锁定）英雄, 英雄: 乌鸦, 等级: 19, 积分: 180703，最后游玩: 2025-05-29
+2025-06-08 11:41:22 INFO  c.e.h.s.GameSessionUpdateService - 【我方】动作: 选择（锁定）英雄, 英雄: 人马, 等级: 10, 积分: 84148，最后游玩: 2025-05-06
+2025-06-08 11:42:10 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】我方：[CustomGameCache.Item(horse=上等马, score=145.7993972641245, rank=【黄金-II-58】, summonerName=中国第一深情#92429, currKDA=[[大乱斗-胜-死歌-18/12/26], [大乱斗-败-机器人-16/10/29], [单排排位-胜-卡米尔-5/6/15], [单排排位-胜-洛-2/0/12], [单排排位-败-阿卡丽-7/9/9]]), CustomGameCache.Item(horse=中等马, score=116.19438640012166, rank=【黄金-II-60】, summonerName=召唤师63224#60620, currKDA=[[单排排位-胜-露露-4/5/25], [单排排位-败-娜美-1/7/21], [单排排位-败-娜美-5/11/10], [单排排位-败-锤石-1/9/16], [单排排位-败-娜美-3/10/6]]), CustomGameCache.Item(horse=中等马, score=115.44195645554151, rank=【黄金-II-64】, summonerName=Leedodo#43553, currKDA=[[单排排位-胜-小炮-12/5/3], [单排排位-胜-EZ-9/1/6], [大乱斗-败-轮子妈-19/13/28], [大乱斗-败-蛇女-8/15/35], [单排排位-胜-EZ-12/4/6]]), CustomGameCache.Item(horse=中等马, score=115.29964439055126, rank=【黄金-I-24】, summonerName=宁德时代BMS#91185, currKDA=[[单排排位-败-梦魇-4/4/2], [单排排位-胜-梦魇-3/4/23], [单排排位-败-狗熊-9/4/9], [单排排位-败-莉莉娅-7/9/12], [单排排位-胜-梦魇-3/1/3]]), CustomGameCache.Item(horse=下等马, score=100.02260598012546, rank=【黄金-IV-0】, summonerName=真在尽力玩#36901, currKDA=[[单排排位-败-加里奥-2/5/7], [单排排位-胜-加里奥-4/5/18], [单排排位-败-诺手-3/7/4], [单排排位-败-剑魔-5/8/6], [灵活排位-败-冰女-1/7/9]])]
+2025-06-08 11:42:10 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】敌方：[CustomGameCache.Item(horse=中等马, score=121.86630544516207, rank=【黄金-II-53】, summonerName=丶老花丶#68562, currKDA=[[单排排位-胜-卡牌-7/4/13], [单排排位-败-烬-6/4/3], [单排排位-胜-女警-16/1/1], [单排排位-胜-火男-1/5/8], [单排排位-胜-娜美-3/5/28]]), CustomGameCache.Item(horse=中等马, score=120.537379095429, rank=【黄金-II-22】, summonerName=今年39想打职业#83551, currKDA=[[单排排位-胜-大虫子-6/4/12], [单排排位-败-光辉-2/6/3], [单排排位-胜-瑟提-20/6/18], [单排排位-败-大虫子-14/5/7], [单排排位-败-金克丝-11/9/10]]), CustomGameCache.Item(horse=中等马, score=118.18810196849903, rank=【黄金-II-90】, summonerName=丨荒丨#40395, currKDA=[[单排排位-胜-塞纳-10/3/5], [单排排位-胜-塞纳-5/1/10], [单排排位-胜-塞纳-5/1/15], [单排排位-败-机器人-4/12/15], [单排排位-败-狼狗-10/13/14]]), CustomGameCache.Item(horse=中等马, score=116.27159615386515, rank=【黄金-II-44】, summonerName=抽烟丶#70312, currKDA=[[单排排位-败-火男-5/11/13], [单排排位-败-芮尔-1/6/7], [单排排位-败-烬-1/4/7], [灵活排位-胜-芮尔-3/3/15], [单排排位-胜-烬-21/8/15]]), CustomGameCache.Item(horse=下等马, score=103.02174571576876, rank=【黄金-II-12】, summonerName=無極丶易#54641, currKDA=[[单排排位-胜-永恩-0/2/6], [单排排位-胜-泽拉斯-3/6/9], [单排排位-胜-光辉-8/1/3], [单排排位-败-狐狸-5/8/9], [单排排位-败-异画师-5/9/16]])]
+2025-06-08 12:16:26 INFO  c.e.h.service.GameFlowMonitor - 当前模式：单排排位，queueId：420
+2025-06-08 12:16:26 INFO  c.e.h.service.GameStateUpdateService - 开始匹配
+2025-06-08 12:17:40 INFO  c.e.h.service.GameFlowMonitor - 当前模式：单排排位，queueId：420
+2025-06-08 12:17:40 INFO  c.e.h.service.GameStateUpdateService - 开始匹配
+2025-06-08 12:20:15 INFO  c.e.h.service.GameFlowMonitor - 当前模式：单排排位，queueId：420
+2025-06-08 12:20:15 INFO  c.e.h.service.GameStateUpdateService - 开始匹配
+2025-06-08 12:20:32 INFO  c.e.h.service.GameFlowMonitor - 当前模式：单排排位，queueId：420
+2025-06-08 12:20:32 INFO  c.e.h.service.GameStateUpdateService - 开始匹配
+2025-06-08 12:21:46 INFO  c.e.h.service.GameFlowMonitor - 当前模式：单排排位，queueId：420
+2025-06-08 12:21:46 INFO  c.e.h.service.GameStateUpdateService - 开始匹配
+2025-06-08 12:22:00 INFO  c.e.h.service.GameFlowMonitor - 当前模式：单排排位，queueId：420
+2025-06-08 12:22:00 INFO  c.e.h.service.GameStateUpdateService - 开始匹配
+2025-06-08 12:22:12 ERROR c.e.h.service.LcuApiService - champSelectPatchActionError，championId: 2, actionId: 6, patchType: ban, completed: true, response: Response{protocol=h2, code=500, message=, url=https://riot:YkYRV4Sb_rvTwJWit83Vgg@127.0.0.1:7570/lol-champ-select/v1/session/actions/6}
+2025-06-08 12:22:22 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】我方：[CustomGameCache.Item(horse=上等马, score=145.7993972641245, rank=【黄金-II-58】, summonerName=中国第一深情#92429, currKDA=[[大乱斗-胜-死歌-18/12/26], [大乱斗-败-机器人-16/10/29], [单排排位-胜-卡米尔-5/6/15], [单排排位-胜-洛-2/0/12], [单排排位-败-阿卡丽-7/9/9]]), CustomGameCache.Item(horse=中等马, score=116.19438640012166, rank=【黄金-II-60】, summonerName=召唤师63224#60620, currKDA=[[单排排位-胜-露露-4/5/25], [单排排位-败-娜美-1/7/21], [单排排位-败-娜美-5/11/10], [单排排位-败-锤石-1/9/16], [单排排位-败-娜美-3/10/6]]), CustomGameCache.Item(horse=中等马, score=115.44195645554151, rank=【黄金-II-64】, summonerName=Leedodo#43553, currKDA=[[单排排位-胜-小炮-12/5/3], [单排排位-胜-EZ-9/1/6], [大乱斗-败-轮子妈-19/13/28], [大乱斗-败-蛇女-8/15/35], [单排排位-胜-EZ-12/4/6]]), CustomGameCache.Item(horse=中等马, score=115.29964439055126, rank=【黄金-I-24】, summonerName=宁德时代BMS#91185, currKDA=[[单排排位-败-梦魇-4/4/2], [单排排位-胜-梦魇-3/4/23], [单排排位-败-狗熊-9/4/9], [单排排位-败-莉莉娅-7/9/12], [单排排位-胜-梦魇-3/1/3]]), CustomGameCache.Item(horse=下等马, score=100.02260598012546, rank=【黄金-IV-0】, summonerName=真在尽力玩#36901, currKDA=[[单排排位-败-加里奥-2/5/7], [单排排位-胜-加里奥-4/5/18], [单排排位-败-诺手-3/7/4], [单排排位-败-剑魔-5/8/6], [灵活排位-败-冰女-1/7/9]]), CustomGameCache.Item(horse=上等马, score=133.6339259915699, rank=【黄金-II-81】, summonerName=中国第一深情#92429, currKDA=[[单排排位-胜-维克托-7/5/6], [大乱斗-胜-死歌-18/12/26], [大乱斗-败-机器人-16/10/29], [单排排位-胜-卡米尔-5/6/15], [单排排位-胜-洛-2/0/12]]), CustomGameCache.Item(horse=中等马, score=114.45288813077525, rank=【黄金-III-22】, summonerName=你的短裙好飘逸#88060, currKDA=[[单排排位-胜-轮子妈-6/1/4], [单排排位-胜-轮子妈-3/3/10], [单排排位-胜-轮子妈-4/5/12], [单排排位-胜-轮子妈-12/4/4], [单排排位-胜-轮子妈-8/1/6]]), CustomGameCache.Item(horse=中等马, score=113.93851818355195, rank=【黄金-II-56】, summonerName=爱与宽容#63872, currKDA=[[单排排位-败-悠米-3/7/15], [单排排位-胜-悠米-5/5/30], [单排排位-败-悠米-2/6/20], [单排排位-败-悠米-1/7/9], [单排排位-胜-悠米-0/4/23]]), CustomGameCache.Item(horse=中等马, score=109.99725631029635, rank=【黄金-I-12】, summonerName=河图我是清明啊#11214, currKDA=[[单排排位-胜-婕拉-6/3/8], [单排排位-胜-婕拉-9/0/16], [单排排位-胜-永恩-5/4/1], [单排排位-败-永恩-5/6/7], [单排排位-败-永恩-2/6/3]]), CustomGameCache.Item(horse=下等马, score=98.77781292018383, rank=【黄金-III-93】, summonerName=aka阿du踏蝶#74063, currKDA=[[单排排位-胜-盖伦-7/10/7], [单排排位-败-盖伦-5/9/8], [单排排位-胜-婕拉-1/8/17], [单排排位-胜-瑟提-11/0/13], [单排排位-胜-吸血鬼-4/4/4]])]
+2025-06-08 12:22:22 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】敌方：[CustomGameCache.Item(horse=中等马, score=121.86630544516207, rank=【黄金-II-53】, summonerName=丶老花丶#68562, currKDA=[[单排排位-胜-卡牌-7/4/13], [单排排位-败-烬-6/4/3], [单排排位-胜-女警-16/1/1], [单排排位-胜-火男-1/5/8], [单排排位-胜-娜美-3/5/28]]), CustomGameCache.Item(horse=中等马, score=120.537379095429, rank=【黄金-II-22】, summonerName=今年39想打职业#83551, currKDA=[[单排排位-胜-大虫子-6/4/12], [单排排位-败-光辉-2/6/3], [单排排位-胜-瑟提-20/6/18], [单排排位-败-大虫子-14/5/7], [单排排位-败-金克丝-11/9/10]]), CustomGameCache.Item(horse=中等马, score=118.18810196849903, rank=【黄金-II-90】, summonerName=丨荒丨#40395, currKDA=[[单排排位-胜-塞纳-10/3/5], [单排排位-胜-塞纳-5/1/10], [单排排位-胜-塞纳-5/1/15], [单排排位-败-机器人-4/12/15], [单排排位-败-狼狗-10/13/14]]), CustomGameCache.Item(horse=中等马, score=116.27159615386515, rank=【黄金-II-44】, summonerName=抽烟丶#70312, currKDA=[[单排排位-败-火男-5/11/13], [单排排位-败-芮尔-1/6/7], [单排排位-败-烬-1/4/7], [灵活排位-胜-芮尔-3/3/15], [单排排位-胜-烬-21/8/15]]), CustomGameCache.Item(horse=下等马, score=103.02174571576876, rank=【黄金-II-12】, summonerName=無極丶易#54641, currKDA=[[单排排位-胜-永恩-0/2/6], [单排排位-胜-泽拉斯-3/6/9], [单排排位-胜-光辉-8/1/3], [单排排位-败-狐狸-5/8/9], [单排排位-败-异画师-5/9/16]])]
+2025-06-08 12:22:23 ERROR c.e.h.service.LcuApiService - champSelectPatchActionError，championId: 2, actionId: 6, patchType: ban, completed: true, response: Response{protocol=h2, code=500, message=, url=https://riot:YkYRV4Sb_rvTwJWit83Vgg@127.0.0.1:7570/lol-champ-select/v1/session/actions/6}
+2025-06-08 12:23:17 INFO  c.e.h.s.GameSessionUpdateService - 【我方】动作: 选择（锁定）英雄, 英雄: 轮子妈, 等级: 4, 积分: 20186，最后游玩: 2025-06-08
+2025-06-08 12:23:33 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-08 12:23:34 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-08 12:23:40 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 13612 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-08 12:23:40 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-08 12:23:41 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-08 12:23:41 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-08 12:23:41 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-08 12:23:41 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-08 12:23:41 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-08 12:23:41 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1045 ms
+2025-06-08 12:23:42 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-08 12:23:42 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-08 12:23:42 INFO  c.example.huayeloltool.Application - Started Application in 2.162 seconds (process running for 3.441)
+2025-06-08 12:23:43 INFO  com.example.huayeloltool.Main - 客户端连接成功
+2025-06-08 12:23:45 INFO  c.e.h.s.GameSessionUpdateService - 【我方】动作: 选择（锁定）英雄, 英雄: 轮子妈, 等级: 4, 积分: 20186，最后游玩: 2025-06-08
+2025-06-08 12:23:45 INFO  c.e.h.s.GameSessionUpdateService - 【我方】动作: 选择（锁定）英雄, 英雄: 瑟提, 等级: 8, 积分: 61718，最后游玩: 2025-06-07
+2025-06-08 12:24:09 INFO  c.e.h.s.GameSessionUpdateService - 【我方】动作: 选择（锁定）英雄, 英雄: 雪人, 等级: 9, 积分: 71282，最后游玩: 2025-05-31
+2025-06-08 12:24:30 INFO  c.e.h.s.GameSessionUpdateService - 【我方】动作: 选择（锁定）英雄, 英雄: 黄鸡, 等级: 7, 积分: 46134，最后游玩: 2025-05-23
+2025-06-08 12:25:04 INFO  c.e.h.s.GameSessionUpdateService - 【我方】动作: 选择（锁定）英雄, 英雄: 婕拉, 等级: 1, 积分: 1534，最后游玩: 2023-12-01
+2025-06-08 12:25:49 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】我方：[]
+2025-06-08 12:25:49 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】敌方：[CustomGameCache.Item(horse=中等马, score=114, rank=【黄金-II-25】, summonerName=窦天鹰#16423, currKDA=[[单排排位-败-阿木木-15/6/18], [单排排位-胜-石头人-2/1/13], [单排排位-败-盖伦-4/5/3], [单排排位-胜-蚂蚱-7/5/12], [单排排位-败-蚂蚱-1/2/1]]), CustomGameCache.Item(horse=中等马, score=112, rank=【黄金-II-70】, summonerName=粗粗之爹#62219, currKDA=[[单排排位-败-维克托-4/11/13], [单排排位-胜-塞纳-12/5/26], [单排排位-败-狐狸-13/6/17], [单排排位-败-鳄鱼-0/9/5], [单排排位-败-薇古斯-16/10/8]]), CustomGameCache.Item(horse=中等马, score=109, rank=【黄金-I-20】, summonerName=七只小松鼠#30549, currKDA=[[单排排位-败-卢锡安-2/5/4], [单排排位-败-小火龙-9/8/3], [单排排位-败-EZ-7/13/12], [单排排位-败-金克丝-8/6/6], [单排排位-败-霞-3/9/4]]), CustomGameCache.Item(horse=中等马, score=109, rank=【黄金-II-58】, summonerName=Mr丶Y#69505, currKDA=[[单排排位-胜-锤石-0/7/24], [单排排位-胜-赛恩-0/6/16], [单排排位-败-奥恩-0/8/3], [单排排位-败-鳄鱼-9/10/6], [单排排位-败-皇子-4/9/9]]), CustomGameCache.Item(horse=中等马, score=106, rank=【黄金-III-63】, summonerName=Wongye#16956, currKDA=[[单排排位-胜-永恩-1/5/10], [单排排位-胜-铁男-7/3/4], [单排排位-败-日女-1/11/21], [单排排位-胜-铁男-4/4/3], [单排排位-败-铁男-2/5/5]])]
+2025-06-08 12:27:19 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-08 12:27:19 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-08 12:27:19 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2025-06-08 16:26:46 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 19176 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-08 16:26:46 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-08 16:26:47 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-08 16:26:47 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-08 16:26:47 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-08 16:26:47 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-08 16:26:47 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-08 16:26:47 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1164 ms
+2025-06-08 16:26:48 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-08 16:26:48 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-08 16:26:48 INFO  c.example.huayeloltool.Application - Started Application in 2.436 seconds (process running for 4.978)
+2025-06-08 16:26:48 INFO  com.example.huayeloltool.Main - 客户端连接成功
+2025-06-08 16:27:29 ERROR c.e.h.service.LcuApiService - champSelectPatchActionError，championId: 104, actionId: 1, patchType: ban, completed: true, response: Response{protocol=h2, code=500, message=, url=https://riot:U0vAlJSIo9vzAn3ks9S7ZQ@127.0.0.1:14403/lol-champ-select/v1/session/actions/1}
+2025-06-08 16:27:35 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-08 16:27:35 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-08 16:27:35 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-06-08 16:27:46 ERROR c.e.h.service.LcuApiService - champSelectPatchActionError，championId: 104, actionId: 1, patchType: ban, completed: true, response: Response{protocol=h2, code=500, message=, url=https://riot:U0vAlJSIo9vzAn3ks9S7ZQ@127.0.0.1:14403/lol-champ-select/v1/session/actions/1}
+2025-06-08 16:28:47 INFO  c.e.h.s.GameSessionUpdateService - 【我方】动作: 选择（锁定）英雄, 英雄: 盲僧, 等级: 8, 积分: 55228，最后游玩: 2025-06-08
+2025-06-08 16:29:08 INFO  c.e.h.s.GameSessionUpdateService - 【我方】动作: 选择（锁定）英雄, 英雄: 卡米尔, 等级: 7, 积分: 50652，最后游玩: 2025-06-06
+2025-06-08 16:29:09 INFO  c.e.h.s.GameSessionUpdateService - 【我方】动作: 选择（锁定）英雄, 英雄: 狗头, 等级: 2, 积分: 5481，最后游玩: 2023-06-29
+2025-06-08 16:29:45 INFO  c.e.h.s.GameSessionUpdateService - 【我方】动作: 选择（锁定）英雄, 英雄: 炸弹人, 等级: 4, 积分: 19138，最后游玩: 2025-06-03
+2025-06-08 16:29:51 INFO  c.e.h.s.GameSessionUpdateService - 【我方】动作: 选择（锁定）英雄, 英雄: 大树, 等级: 1, 积分: 803，最后游玩: 2018-04-14
+2025-06-08 16:31:02 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】我方：[]
+2025-06-08 16:31:02 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】敌方：[CustomGameCache.Item(horse=上等马, score=126, rank=【黄金-II-74】, summonerName=稻子与麦田#75371, currKDA=[[单排排位-败-狐狸-6/11/4], [单排排位-胜-狐狸-5/5/6], [单排排位-胜-发条-5/6/11], [单排排位-胜-发条-9/11/13], [单排排位-败-狐狸-12/15/15]]), CustomGameCache.Item(horse=中等马, score=114, rank=【黄金-I-32】, summonerName=飞虎神鹰小阿里#42480, currKDA=[[单排排位-胜-剑圣-14/3/8], [单排排位-败-剑圣-10/13/11], [单排排位-胜-剑圣-10/7/6], [单排排位-败-剑圣-2/7/2], [大乱斗-败-发条-13/14/61]]), CustomGameCache.Item(horse=中等马, score=113, rank=【黄金-I-11】, summonerName=小坑货678#75276, currKDA=[[单排排位-败-乌鸦-2/9/5], [单排排位-胜-娜美-1/1/17], [单排排位-胜-娜美-5/6/25], [单排排位-败-萨勒芬妮-1/8/5], [单排排位-败-萨勒芬妮-1/8/7]]), CustomGameCache.Item(horse=中等马, score=106, rank=【黄金-II-79】, summonerName=跳着押韵的张无忌#15443, currKDA=[[单排排位-败-小炮-4/4/4], [单排排位-胜-小炮-10/4/6], [单排排位-胜-小炮-9/5/11], [单排排位-败-塞纳-2/9/7], [单排排位-胜-布隆-1/8/16]]), CustomGameCache.Item(horse=下等马, score=101, rank=【黄金-III-82】, summonerName=回到幼儿园当学爸#75710, currKDA=[[单排排位-败-狗头-6/8/2], [单排排位-胜-狗头-10/5/1], [单排排位-胜-狗头-6/2/1], [单排排位-胜-盲僧-2/4/2], [单排排位-胜-光辉-8/9/31]])]
+2025-06-08 17:13:48 ERROR c.e.h.service.GameFlowMonitor - 客户端通信连接失败
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.NioSocketImpl.implRead(NioSocketImpl.java:328)
+	at java.base/sun.nio.ch.NioSocketImpl.read(NioSocketImpl.java:355)
+	at java.base/sun.nio.ch.NioSocketImpl$1.read(NioSocketImpl.java:808)
+	at java.base/java.net.Socket$SocketInputStream.read(Socket.java:966)
+	at java.base/sun.security.ssl.SSLSocketInputRecord.read(SSLSocketInputRecord.java:484)
+	at java.base/sun.security.ssl.SSLSocketInputRecord.readHeader(SSLSocketInputRecord.java:478)
+	at java.base/sun.security.ssl.SSLSocketInputRecord.bytesInCompletePacket(SSLSocketInputRecord.java:70)
+	at java.base/sun.security.ssl.SSLSocketImpl.readApplicationRecord(SSLSocketImpl.java:1465)
+	at java.base/sun.security.ssl.SSLSocketImpl$AppInputStream.read(SSLSocketImpl.java:1069)
+	at okio.InputStreamSource.read(JvmOkio.kt:93)
+	at okio.AsyncTimeout$source$1.read(AsyncTimeout.kt:128)
+	at okio.RealBufferedSource.request(RealBufferedSource.kt:209)
+	at okio.RealBufferedSource.require(RealBufferedSource.kt:202)
+	at okio.RealBufferedSource.readByte(RealBufferedSource.kt:212)
+	at okhttp3.internal.ws.WebSocketReader.readHeader(WebSocketReader.kt:119)
+	at okhttp3.internal.ws.WebSocketReader.processNextFrame(WebSocketReader.kt:102)
+	at okhttp3.internal.ws.RealWebSocket.loopReader(RealWebSocket.kt:293)
+	at okhttp3.internal.ws.RealWebSocket$connect$1.onResponse(RealWebSocket.kt:195)
+	at okhttp3.internal.connection.RealCall$AsyncCall.run(RealCall.kt:519)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+2025-06-08 19:41:55 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-08 19:41:56 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-08 19:42:05 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 26988 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-08 19:42:05 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-08 19:42:06 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-08 19:42:06 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-08 19:42:06 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-08 19:42:06 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-08 19:42:06 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-08 19:42:06 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1704 ms
+2025-06-08 19:42:07 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-08 19:42:07 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-08 19:42:07 INFO  c.example.huayeloltool.Application - Started Application in 3.417 seconds (process running for 7.065)
+2025-06-08 19:42:08 INFO  com.example.huayeloltool.Main - 客户端连接成功

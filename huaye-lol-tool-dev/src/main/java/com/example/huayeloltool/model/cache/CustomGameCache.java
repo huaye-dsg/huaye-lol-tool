@@ -1,7 +1,9 @@
 package com.example.huayeloltool.model.cache;
 
 import com.example.huayeloltool.model.score.UserScore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +33,11 @@ public class CustomGameCache {
     private List<Item> enemyList = new ArrayList<>();
 
     @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class Item {
         private String horse;
-        private Double score;
+        private Integer score;
         private String rank;
         private String summonerName;
         List<String> currKDA;

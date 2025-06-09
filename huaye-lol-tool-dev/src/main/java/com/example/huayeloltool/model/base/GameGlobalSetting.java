@@ -1,25 +1,29 @@
 package com.example.huayeloltool.model.base;
 
 import com.example.huayeloltool.enums.Heros;
+import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 
-@Getter
+@Data
 public class GameGlobalSetting {
 
     /**
      * 是否自动接受对局
      */
-    private final Boolean autoAcceptGame = true;
+    private Boolean autoAcceptGame = true;
 
     /**
      * 自动选择的英雄ID
      */
-    private final Integer autoPickChampID = 0;
+    private Integer autoPickChampID = 0;
 
     /**
      * 自动禁用的英雄ID
      */
-    private final Integer autoBanChampID = Heros.OUTLAW.getId();
+    private Integer autoBanChampID = Heros.OUTLAW.getId();
+
+    private Boolean autoBanChamp = true;
 
     private static GameGlobalSetting instance;
 

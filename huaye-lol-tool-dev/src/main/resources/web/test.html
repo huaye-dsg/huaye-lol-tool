@@ -3,288 +3,293 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web 静态配置页面</title>
-    <link href="bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="bootstrap-icons.css">
+    <title>游戏助手配置面板</title>
+    <!-- 引入 Bootstrap CSS -->
+    <link href="./bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="./toastify.min.css">
     <style>
-        /* 自定义样式，提升页面美感 */
-        body {
-            background-color: #f8f9fa;
-            padding-top: 2rem;
-            padding-bottom: 2rem;
-        }
-        #app {
-            max-width: 1200px;
-            margin: auto;
-            background: #ffffff;
-            padding: 2.5rem;
-            border-radius: 15px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-        }
-        .section-header {
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #dee2e6;
-            display: flex;
-            align-items: center;
-        }
-        .section-header i {
-            font-size: 1.5rem;
-            margin-right: 0.75rem;
-        }
-        .form-check-label {
-            cursor: pointer;
-        }
-        .table-container {
-            margin-top: 2rem;
-        }
-        .btn-query {
-            margin-bottom: 1rem;
-        }
-        .form-check-input:checked {
-            background-color: #0d6efd;
-            border-color: #0d6efd;
-        }
+        /* CSS */
+        body { background-color: #f8f9fa; padding-top: 2rem; padding-bottom: 2rem; }
+        #app { max-width: 2000px; width: 90vw; margin: auto; background: #ffffff; padding: 2rem; border-radius: 15px; box-shadow: 0 8px 30px rgba(0,0,0,0.1); }
+        .section-header { margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid #dee2e6; }
+        .form-check-label { cursor: pointer; }
+        .table-container { margin-top: 1.5rem; }
+        .btn-query { margin-bottom: 1rem; }
+        .form-check-input:checked { background-color: #0d6efd; border-color: #0d6efd; }
+        .config-container { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; padding: 0.5rem 0; }
+        .searchable-select-container { position: relative; min-width: 220px; transition: all 0.3s ease-in-out; }
+        .search-results { position: absolute; top: 100%; left: 0; right: 0; z-index: 1000; max-height: 200px; overflow-y: auto; background-color: #fff; border: 1px solid #ced4da; border-radius: 0.375rem; box-shadow: 0 .5rem 1rem rgba(0,0,0,.15); list-style: none; padding: 0; margin-top: 0.25rem; }
+        .search-results li { padding: 0.5rem 1rem; cursor: pointer; transition: background-color 0.2s; }
+        .search-results li:hover { background-color: #e9ecef; }
+        .search-results .hero-details { font-size: 0.8em; color: #6c757d; margin-left: 8px; }
+
+        /* --- 修正后的样式 --- */
+        .kda-win { background-color: rgba(0, 255, 62, 0.8) !important; color: rgba(28, 224, 72, 0.85); }
+        .kda-loss { background-color: rgba(227, 17, 34, 0.89) !important; color: rgba(222, 23, 42, 0.82); }
     </style>
 </head>
 <body>
 
 <div id="app" class="container">
-    <h1 class="mb-4 text-center">系统控制面板 🖥️</h1>
+    <h1 class="mb-4 text-center">游戏助手配置面板</h1>
 
+    <!-- ======================= 配置部分 (已重构) ======================= -->
     <section>
         <div class="section-header">
-            <i class="bi bi-gear-fill"></i>
-            <h2 class="h4 mb-0">配置部分</h2>
+            <h2 class="h4 mb-0">功能配置</h2>
         </div>
-        <div class="row align-items-center g-4">
-            <div class="col-md-3">
-                <div class="form-check form-switch fs-5">
-                    <input class="form-check-input" type="checkbox" role="switch" id="switch1" v-model="switches.switch1" @change="handleSwitchChange('switch1')">
-                    <label class="form-check-label" for="switch1">功能开关一</label>
-                </div>
+        <div class="config-container">
+            <!-- 开关1: 自动接受游戏 -->
+            <div class="form-check form-switch fs-5">
+                <input class="form-check-input" type="checkbox" role="switch" id="autoAcceptSwitch" v-model="config.autoAcceptGame" @change="handleAutoAcceptChange">
+                <label class="form-check-label" for="autoAcceptSwitch">自动接受游戏</label>
             </div>
 
-            <div class="col-md-3">
-                <div class="form-check form-switch fs-5">
-                    <input class="form-check-input" type="checkbox" role="switch" id="switch2" v-model="switches.switch2" @change="handleSwitchChange('switch2')">
-                    <label class="form-check-label" for="switch2">功能开关二</label>
-                </div>
+            <!-- 开关2: 自动禁用英雄 -->
+            <div class="form-check form-switch fs-5">
+                <input class="form-check-input" type="checkbox" role="switch" id="autoBanSwitch" v-model="config.autoBanChamp" @change="onBanSwitchChange">
+                <label class="form-check-label" for="autoBanSwitch">自动禁用英雄</label>
             </div>
 
-            <div class="col-md-3">
-                <select class="form-select" v-model="dropdowns.select1">
-                    <option value="option1">配置选项A</option>
-                    <option value="option2">配置选项B</option>
-                    <option value="option3">配置选项C</option>
-                </select>
-            </div>
-
-            <div class="col-md-3">
-                <select class="form-select" v-model="dropdowns.select2">
-                    <option value="mode1">运行模式一</option>
-                    <option value="mode2">运行模式二</option>
-                </select>
+            <!-- 可搜索下拉框: v-if 使用 config.autoBanChamp -->
+            <div class="searchable-select-container" v-if="config.autoBanChamp">
+                <input
+                        type="text"
+                        class="form-control"
+                        v-model="searchQuery"
+                        :placeholder="selectedHeroDisplayName || '-- 搜索英雄名/昵称/ID --'"
+                        @focus="isDropdownVisible = true"
+                        @blur="hideDropdown"
+                        autocomplete="off">
+                <ul class="search-results" v-if="isDropdownVisible && filteredHeroes.length > 0">
+                    <li v-for="hero in filteredHeroes" :key="hero.id" @mousedown="selectHero(hero)">
+                        {{ hero.name }} <span class="hero-details"> ({{ hero.nickname }}, ID: {{ hero.id }})</span>
+                    </li>
+                </ul>
             </div>
         </div>
     </section>
 
-    <hr class="my-5">
+    <hr class="my-4">
 
+    <!-- ======================= 表格部分 (已恢复) ======================= -->
     <section>
         <div class="section-header">
-            <i class="bi bi-table"></i>
-            <h2 class="h4 mb-0">数据表格部分</h2>
+            <h2 class="h4 mb-0">对局详情查询</h2>
         </div>
-        <div class="row g-5">
+        <div class="row g-4">
+            <!-- 我方队友 -->
             <div class="col-lg-6 table-container">
-                <button class="btn btn-primary btn-query" @click="fetchTableData(1)">
-                    <i class="bi bi-search"></i> 查询表格 1 数据
-                </button>
-                <table class="table table-hover table-bordered">
+                <h3 class="h5">我方队友</h3>
+                <button class="btn btn-primary btn-query" @click="fetchTableData(1)">查询我方战绩</button>
+                <table class="table table-hover table-bordered table-sm">
                     <thead class="table-light">
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">列标题 1</th>
-                        <th scope="col">列标题 2</th>
-                        <th scope="col">列标题 3</th>
-                        <th scope="col">列标题 4</th>
-                        <th scope="col">列标题 5</th>
+                        <th scope="col">#</th><th scope="col">马匹</th><th scope="col">分数</th><th scope="col">段位</th><th scope="col">名字</th><th scope="col" colspan="5">最近5场战绩</th>
                     </tr>
                     </thead>
                     <tbody>
+                    <tr v-if="tables.table1.data.length === 0"><td colspan="10" class="text-center text-muted">请点击查询按钮加载数据</td></tr>
                     <tr v-for="(item, index) in tables.table1.data" :key="index">
-                        <th scope="row">{{ index + 1 }}</th>
-                        <td>{{ item.col1 }}</td>
-                        <td>{{ item.col2 }}</td>
-                        <td>{{ item.col3 }}</td>
-                        <td>{{ item.col4 }}</td>
-                        <td>{{ item.col5 }}</td>
+                        <th scope="row">{{ index + 1 }}</th><td>{{ item.horse }}</td><td>{{ item.score }}</td><td>{{ item.rank }}</td><td>{{ item.summonerName }}</td>
+                        <td v-for="(kdaItem, kdaIndex) in (item.currKDA || []).slice(0,5)" :key="kdaIndex" :class="{'kda-win': kdaItem.includes('胜'), 'kda-loss': kdaItem.includes('败')}">{{ kdaItem }}</td>
                     </tr>
                     </tbody>
                 </table>
             </div>
-
+            <!-- 敌方队伍 -->
             <div class="col-lg-6 table-container">
-                <button class="btn btn-success btn-query" @click="fetchTableData(2)">
-                    <i class="bi bi-search"></i> 查询表格 2 数据
-                </button>
-                <table class="table table-hover table-bordered">
+                <h3 class="h5">敌方队伍</h3>
+                <button class="btn btn-danger btn-query" @click="fetchTableData(2)">查询敌方战绩</button>
+                <table class="table table-hover table-bordered table-sm">
                     <thead class="table-light">
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">列标题 1</th>
-                        <th scope="col">列标题 2</th>
-                        <th scope="col">列标题 3</th>
-                        <th scope="col">列标题 4</th>
-                        <th scope="col">列标题 5</th>
+                        <th scope="col">#</th><th scope="col">马匹</th><th scope="col">分数</th><th scope="col">段位</th><th scope="col">名字</th><th scope="col" colspan="5">最近5场战绩</th>
                     </tr>
                     </thead>
                     <tbody>
+                    <tr v-if="tables.table2.data.length === 0"><td colspan="10" class="text-center text-muted">请点击查询按钮加载数据</td></tr>
                     <tr v-for="(item, index) in tables.table2.data" :key="index">
-                        <th scope="row">{{ index + 1 }}</th>
-                        <td>{{ item.col1 }}</td>
-                        <td>{{ item.col2 }}</td>
-                        <td>{{ item.col3 }}</td>
-                        <td>{{ item.col4 }}</td>
-                        <td>{{ item.col5 }}</td>
+                        <th scope="row">{{ index + 1 }}</th><td>{{ item.horse }}</td><td>{{ item.score }}</td><td>{{ item.rank }}</td><td>{{ item.summonerName }}</td>
+                        <td v-for="(kdaItem, kdaIndex) in (item.currKDA || []).slice(0,5)" :key="kdaIndex" :class="{'kda-win': kdaItem.includes('胜'), 'kda-loss': kdaItem.includes('败')}">{{ kdaItem }}</td>
                     </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </section>
-
 </div>
 
-<script src="vue.global.js"></script>
-<script src="axios.min.js"></script>
+<script src="./toastify-js.js"></script>
+<script src="./vue.global.js"></script>
+<script src="./axios.min.js"></script>
 
 <script>
-    // 创建 Vue 应用
-    const { createApp, ref, onMounted } = Vue;
+    const { createApp, ref, onMounted, computed } = Vue;
 
     createApp({
         setup() {
-            // --- 响应式数据定义 ---
+            const API_BASE_URL = 'http://127.0.0.1:9527';
 
-            // 配置部分的数据
-            const switches = ref({
-                switch1: false, // 开关1的默认状态
-                switch2: true,  // 开关2的默认状态
+            // --- 重构后的 config 状态，以匹配后端属性 ---
+            const config = ref({
+                autoAcceptGame: false,
+                autoBanChamp: false,
+                autoBanChampID: 0,
+            });
+            const tables = ref({ table1: { data: [] }, table2: { data: [] } });
+            const heroList = ref([]);
+            const searchQuery = ref('');
+            const isDropdownVisible = ref(false);
+
+            const showToast = (text, isSuccess = true) => { Toastify({ text, duration: 3000, gravity: "top", position: "right", backgroundColor: isSuccess ? "#4CAF50" : "#F44336", stopOnFocus: true }).showToast(); };
+
+            // --- 从后端获取初始配置 ---
+            const fetchInitialConfig = async () => {
+                try {
+                    const response = await axios.get(`${API_BASE_URL}/global/config`);
+                    // 使用获取的数据更新本地状态
+                    config.value.autoAcceptGame = response.data.autoAcceptGame;
+                    config.value.autoBanChamp = response.data.autoBanChamp;
+                    config.value.autoBanChampID = response.data.autoBanChampID;
+                    showToast('配置已从服务器同步');
+                } catch (error) {
+                    console.error('获取初始配置失败:', error);
+                    showToast('获取初始配置失败，请检查后端服务。', false);
+                }
+            };
+
+            const loadHeroData = async () => {
+                try {
+                    const response = await axios.get('./hero-data.json');
+                    heroList.value = response.data;
+                } catch (error) {
+                    console.error('加载英雄数据失败:', error);
+                    showToast('加载英雄列表失败', false);
+                }
+            };
+
+            // --- 计算属性，用于显示已选英雄的名称 ---
+            const selectedHeroDisplayName = computed(() => {
+                if (!config.value.autoBanChampID || heroList.value.length === 0) return '';
+                const selected = heroList.value.find(h => h.id === config.value.autoBanChampID);
+                return selected ? `${selected.name} (${selected.nickname})` : '';
             });
 
-            const dropdowns = ref({
-                select1: 'option1', // 下拉框1的默认值
-                select2: 'mode1',   // 下拉框2的默认值
+            const filteredHeroes = computed(() => {
+                if (!searchQuery.value) return heroList.value;
+                const query = searchQuery.value.toLowerCase();
+                return heroList.value.filter(hero =>
+                    hero.name.toLowerCase().includes(query) ||
+                    hero.nickname.toLowerCase().includes(query) ||
+                    hero.id.toString().includes(query)
+                );
             });
 
-            // 表格数据
-            const tables = ref({
-                table1: { data: [] },
-                table2: { data: [] },
-            });
-
-            // --- 方法定义 ---
-
-            /**
-             * 处理开关状态变化，并发送POST请求
-             * @param {string} switchName - 开关的名称 ('switch1' 或 'switch2')
-             */
-            const handleSwitchChange = (switchName) => {
-                const state = switches.value[switchName];
-                console.log(`开关 ${switchName} 状态变更为: ${state}，准备发送请求...`);
-
-                // 使用 Axios 发送 POST 请求
-                axios.post('http://127.0.0.1:9527/hello', {
-                    [switchName]: state // 动态参数名
-                })
-                    .then(response => {
-                        // 请求成功处理
-                        console.log(`开关 ${switchName} 请求成功`, response.data);
-                        alert(`开关 ${switchName} 状态更新成功！`);
-                    })
-                    .catch(error => {
-                        // 请求失败处理
-                        console.error(`开关 ${switchName} 请求失败`, error);
-                        alert(`错误：无法连接到服务器。请检查API (http://127.0.0.1:9527) 是否正在运行。`);
-                        // 出错时，将开关恢复到之前的状态
-                        switches.value[switchName] = !state;
+            // --- “自动接受”开关的API调用 ---
+            const handleAutoAcceptChange = () => {
+                const state = config.value.autoAcceptGame;
+                axios.post(`${API_BASE_URL}/set/auto/accept/game`, { autoAcceptGame: state })
+                    .then(() => showToast(`自动接受游戏已${state ? '开启' : '关闭'}`))
+                    .catch(() => {
+                        showToast('自动接受游戏状态更新失败', false);
+                        config.value.autoAcceptGame = !state; // 失败时回滚状态
                     });
             };
 
-            /**
-             * 获取表格数据
-             * @param {number} type - 表格类型 (1 或 2)
-             */
-            const fetchTableData = (type) => {
-                console.log(`请求表格 ${type} 的数据...`);
-
-                // 使用 Axios 发送 GET 请求
-                axios.get('http://127.0.0.1:9527/xxx', {
-                    params: { type: type }
+            // --- 集中处理禁用设置的更新函数 ---
+            const updateBanSetting = (payload) => {
+                axios.post(`${API_BASE_URL}/set/ban/champion`, payload,  {
+                    headers: {
+                        'Content-Type': 'application/json' // 明确告知后端这是一个JSON请求
+                    }
                 })
-                    .then(response => {
-                        // 请求成功处理
-                        console.log(`表格 ${type} 数据获取成功`, response.data);
-                        // 假设返回的数据格式为 { data: [...] }
-                        const responseData = response.data.data || generateMockData(type); // 如果后端没返回数据，则使用模拟数据
-                        if (type === 1) {
-                            tables.value.table1.data = responseData;
+                    .then(() => {
+                        if (payload.autoBanChamp) {
+                            const heroName = selectedHeroDisplayName.value;
+                            showToast(`禁用英雄成功设置为: ${heroName}`);
                         } else {
-                            tables.value.table2.data = responseData;
+                            showToast('已取消自动禁用英雄');
                         }
                     })
-                    .catch(error => {
-                        // 请求失败处理
-                        console.error(`表格 ${type} 数据获取失败`, error);
-                        alert(`错误：无法获取表格数据。将加载模拟数据以供演示。`);
-                        // 加载模拟数据作为备用方案
-                        const mockData = generateMockData(type);
-                        if (type === 1) {
-                            tables.value.table1.data = mockData;
-                        } else {
-                            tables.value.table2.data = mockData;
-                        }
+                    .catch(() => showToast("错误：设置禁用英雄失败。", false));
+            };
+
+            // --- 从下拉框选择英雄时的逻辑 ---
+            const selectHero = (hero) => {
+                config.value.autoBanChampID = hero.id;
+                searchQuery.value = hero.name;
+                isDropdownVisible.value = false;
+                // 发送“启用并设置ID”的请求
+                updateBanSetting({
+                    autoBanChamp: true,
+                    championId: hero.id
+                });
+            };
+
+            // --- “自动禁用”开关的逻辑 ---
+            const onBanSwitchChange = () => {
+                // 此函数在 v-model 更新 config.autoBanChamp 之后触发
+                if (!config.value.autoBanChamp) { // 如果开关刚刚被关闭
+                    config.value.autoBanChampID = 0;
+                    searchQuery.value = '';
+                    // 发送“禁用”请求
+                    updateBanSetting({ autoBanChamp: false });
+                }
+                // 如果开关被打开，则不执行任何操作，等待用户选择英雄
+            };
+
+            const hideDropdown = () => { setTimeout(() => { isDropdownVisible.value = false; }, 200); };
+
+            const fetchTableData = (type) => { /* 表格查询逻辑不变 */
+                const tableKey = `table${type}`;
+                const teamName = type === 1 ? '我方' : '敌方';
+                tables.value[tableKey].data = [];
+                axios.get(`${API_BASE_URL}/game/overview`, { params: { type } })
+                    .then(response => {
+                        const responseData = Array.isArray(response.data) ? response.data : (response.data.data || []);
+                        if (responseData.length > 0) { tables.value[tableKey].data = responseData; showToast(`${teamName}数据加载成功！`); }
+                        else { showToast(`未从服务器获取到有效${teamName}数据，加载模拟数据。`, false); tables.value[tableKey].data = generateMockData(type); }
+                    })
+                    .catch(() => {
+                        showToast(`无法从服务器获取${teamName}数据，加载模拟数据。`, false);
+                        tables.value[tableKey].data = generateMockData(type);
                     });
             };
 
-            /**
-             * 生成模拟表格数据，用于前端演示
-             * @param {number} type - 表格类型
-             * @returns {Array} - 生成的数据数组
-             */
-            const generateMockData = (type) => {
+            const generateMockData = (type) => { /* 模拟数据逻辑修改，以包含“胜”和“负” */
                 const data = [];
-                for (let i = 1; i <= 5; i++) {
-                    data.push({
-                        col1: `类型${type}-数据${i}-A`,
-                        col2: `类型${type}-数据${i}-B`,
-                        col3: Math.floor(Math.random() * 100),
-                        col4: (Math.random() > 0.5) ? '是' : '否',
-                        col5: new Date().toLocaleTimeString(),
+                const sampleNames = { 1: ['温柔一刀', '峡谷钢琴家', '打野万花筒', '辅助的神', '我ADC贼溜'], 2: ['对面丶都是菜', '中路杀神', '野区入侵者', '脚本AD', '意识流辅助'] };
+                const ranks = ['黑铁 IV', '白银 II', '黄金 I', '铂金 III', '钻石 V', '超凡大师'];
+                for (let i = 0; i < 5; i++) {
+                    const kdaHistory = Array.from({ length: 5 }, () => {
+                        const kda = `${Math.floor(Math.random()*15)}/${Math.floor(Math.random()*10)}/${Math.floor(Math.random()*20)}`;
+                        return Math.random() < 0.6 ? `${kda} 胜` : `${kda} 负`; // 60%概率为胜
                     });
+                    data.push({ horse: ['上等马', '中等马', '下等马'][Math.floor(Math.random() * 3)], score: Math.floor(Math.random() * 60) + 40, rank: ranks[Math.floor(Math.random() * ranks.length)], summonerName: sampleNames[type][i], currKDA: kdaHistory });
                 }
                 return data;
-            }
+            };
 
-            // --- 生命周期函数 ---
-
-            // onMounted 会在组件挂载后执行，这里我们预先加载一些模拟数据让页面不为空
-            onMounted(() => {
+            // --- onMounted: 页面加载时加载所有必要数据 ---
+            onMounted(async () => {
                 console.log('页面已加载，Vue 应用已挂载。');
-                tables.value.table1.data = generateMockData(1);
-                tables.value.table2.data = generateMockData(2);
+                // 并行加载英雄列表和初始配置
+                await Promise.all([loadHeroData(), fetchInitialConfig()]);
+
+                // 所有数据加载完毕后，同步UI
+                // 如果有预选的英雄，将其名称填入搜索框
+                if (config.value.autoBanChampID > 0) {
+                    searchQuery.value = selectedHeroDisplayName.value;
+                }
             });
 
-
-            // 返回需要在模板中使用的数据和方法
             return {
-                switches,
-                dropdowns,
-                tables,
-                handleSwitchChange,
-                fetchTableData,
+                config, heroList, tables,
+                handleAutoAcceptChange,
+                searchQuery, isDropdownVisible, filteredHeroes, selectedHeroDisplayName,
+                selectHero, hideDropdown, onBanSwitchChange,
+                fetchTableData
             };
         }
     }).mount('#app');
@@ -292,4 +297,3 @@
 
 </body>
 </html>
-
