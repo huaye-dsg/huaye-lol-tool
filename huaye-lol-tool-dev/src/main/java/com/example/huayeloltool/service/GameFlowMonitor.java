@@ -93,9 +93,9 @@ public class GameFlowMonitor {
      * @param data 包含游戏模式信息的数据字符串
      */
     private static void handleGameMode(String data) {
+        CustomGameSession.getInstance().reset();
         // 如果传入的数据为空，则直接返回
         if (data == null) return;
-
         try {
             // 将JSON格式的数据解析成Matchmaking对象
             Matchmaking matchmaking = JSON.parseObject(data, Matchmaking.class);

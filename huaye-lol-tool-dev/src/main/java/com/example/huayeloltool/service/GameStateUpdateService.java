@@ -63,7 +63,7 @@ public class GameStateUpdateService extends CommonRequest {
             case CHAMPION_SELECT -> new Thread(this::championSelectStart).start();
             case IN_PROGRESS -> new Thread(this::calcEnemyTeamScore).start();
 //            case END_OF_GAME -> new Thread(this::autoStartNextGame).start();
-            case LOBBY -> CustomGameSession.getInstance().reset();
+//            case LOBBY -> CustomGameSession.getInstance().reset();
 
         }
     }
