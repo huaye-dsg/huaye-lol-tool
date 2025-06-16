@@ -272,8 +272,8 @@ public class LcuApiService extends CommonRequest {
         try (Response response = client.newCall(request).execute()) {
             boolean successful = response.isSuccessful();
             if (!successful) {
-                log.error("champSelectPatchActionError，championId: {}, actionId: {}, patchType: {}, completed: {}, response: {}",
-                        championId, actionId, patchType, completed, response);
+//                log.error("champSelectPatchActionError，championId: {}, actionId: {}, patchType: {}, completed: {}, response: {}",
+//                        championId, actionId, patchType, completed, response);
                 return false;
             }
             return true;
