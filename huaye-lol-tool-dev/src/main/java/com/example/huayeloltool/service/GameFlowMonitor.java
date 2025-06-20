@@ -25,8 +25,14 @@ public class GameFlowMonitor {
     static GameStateUpdateService gameStateUpdateService = GameStateUpdateService.getInstance();
     static GameSessionUpdateService gameSessionUpdateService = GameSessionUpdateService.getInstance();
 
+    private static volatile boolean isWebSocketConnected = false;
+
     @SneakyThrows
     public static void startGameFlowMonitor() {
+        if (isWebSocketConnected) {
+            log.warn("上一个 WebSocket 连接可能尚未关闭，请稍后再试");
+            return;
+        }
         BaseUrlClient baseUrlClient = BaseUrlClient.getInstance();
         int port = baseUrlClient.getPort();
         String token = baseUrlClient.getToken();
@@ -41,6 +47,7 @@ public class GameFlowMonitor {
             @SneakyThrows
             @Override
             public void onOpen(WebSocket webSocket, Response response) {
+                isWebSocketConnected = true;
                 webSocket.send("[5, \"OnJsonApiEvent\"]");
             }
 
@@ -52,6 +59,10 @@ public class GameFlowMonitor {
             @Override
             public void onFailure(WebSocket webSocket, Throwable t, Response response) {
                 log.error("客户端通信连接失败", t);
+                if (webSocket != null) {
+                    webSocket.cancel(); // 关闭连接
+                }
+                isWebSocketConnected = false;
             }
         });
 

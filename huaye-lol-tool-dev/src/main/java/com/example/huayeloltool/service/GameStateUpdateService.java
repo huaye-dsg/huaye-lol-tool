@@ -58,7 +58,7 @@ public class GameStateUpdateService extends CommonRequest {
     @SneakyThrows
     public void onGameFlowUpdate(String gameState) {
         switch (GameEnums.GameFlow.getByValue(gameState)) {
-            case MATCHMAKING -> log.info("开始匹配");
+//            case MATCHMAKING -> log.info("开始匹配");
             case READY_CHECK -> this.acceptGame();
             case CHAMPION_SELECT -> new Thread(this::championSelectStart).start();
             case IN_PROGRESS -> new Thread(this::calcEnemyTeamScore).start();
@@ -93,10 +93,10 @@ public class GameStateUpdateService extends CommonRequest {
      */
     @SneakyThrows
     public void championSelectStart() {
-        if (!GameEnums.GameQueueID.isNormalGameMode(CustomGameSession.getInstance().getQueueId())) {
-            // 不存在选人界面的模式，直接返回
-            return;
-        }
+//        if (!GameEnums.GameQueueID.isNormalGameMode(CustomGameSession.getInstance().getQueueId())) {
+//            // 不存在选人界面的模式，直接返回
+//            return;
+//        }
 
         Thread.sleep(1500);
         List<Long> summonerIdList = fetchTeamSummonerIds();
@@ -295,8 +295,11 @@ public class GameStateUpdateService extends CommonRequest {
                         CustomGameCache.getInstance().getEnemyList().add(item);
                     }
                 });
-        log.info("【信息缓存成功】我方：{}", CustomGameCache.getInstance().getTeamList());
-        log.info("【信息缓存成功】敌方：{}", CustomGameCache.getInstance().getEnemyList());
+        if (isSelf){
+            log.info("【信息缓存成功】我方：{}", CustomGameCache.getInstance().getTeamList());
+        }else {
+            log.info("【信息缓存成功】敌方：{}", CustomGameCache.getInstance().getEnemyList());
+        }
     }
 
 

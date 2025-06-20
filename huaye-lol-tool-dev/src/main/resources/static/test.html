@@ -23,9 +23,12 @@
         .search-results li:hover { background-color: #e9ecef; }
         .search-results .hero-details { font-size: 0.8em; color: #6c757d; margin-left: 8px; }
 
-        /* --- 修正后的样式 --- */
-        .kda-win { background-color: rgba(0, 255, 62, 0.8) !important; color: rgba(28, 224, 72, 0.85); }
-        .kda-loss { background-color: rgba(227, 17, 34, 0.89) !important; color: rgba(222, 23, 42, 0.82); }
+        /* --- KDA 样式 --- */
+        .kda-win { background-color: rgba(39, 217, 71, 0.8) !important; color: #0f5132; }
+        .kda-loss { background-color: rgba(239, 65, 81, 0.89) !important; color: #e73e4b; }
+
+        /* --- 新增样式 --- */
+        .btn-reconnect { display: flex; align-items: center; gap: 0.5rem; }
     </style>
 </head>
 <body>
@@ -33,10 +36,15 @@
 <div id="app" class="container">
     <h1 class="mb-4 text-center">游戏助手配置面板</h1>
 
-    <!-- ======================= 配置部分 (已重构) ======================= -->
+    <!-- ======================= 配置部分 (重连按钮已移动) ======================= -->
     <section>
-        <div class="section-header">
+        <div class="section-header d-flex justify-content-between align-items-center">
             <h2 class="h4 mb-0">功能配置</h2>
+            <!-- 重连按钮新位置 -->
+            <button class="btn btn-outline-secondary btn-reconnect" @click="handleReconnect">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/><path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/></svg>
+                重连
+            </button>
         </div>
         <div class="config-container">
             <!-- 开关1: 自动接受游戏 -->
@@ -51,7 +59,7 @@
                 <label class="form-check-label" for="autoBanSwitch">自动禁用英雄</label>
             </div>
 
-            <!-- 可搜索下拉框: v-if 使用 config.autoBanChamp -->
+            <!-- 可搜索下拉框 -->
             <div class="searchable-select-container" v-if="config.autoBanChamp">
                 <input
                         type="text"
@@ -72,7 +80,7 @@
 
     <hr class="my-4">
 
-    <!-- ======================= 表格部分 (已恢复) ======================= -->
+    <!-- ======================= 对局详情查询 ======================= -->
     <section>
         <div class="section-header">
             <h2 class="h4 mb-0">对局详情查询</h2>
@@ -118,6 +126,57 @@
             </div>
         </div>
     </section>
+
+    <hr class="my-4">
+
+    <!-- ======================= 召唤师战绩查询 (已修改) ======================= -->
+    <section>
+        <div class="section-header">
+            <h2 class="h4 mb-0">召唤师信息查询</h2>
+        </div>
+        <!-- 搜索输入框和按钮 -->
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="请输入要查询的召唤师名称..." v-model="summonerSearchQuery" @keyup.enter="fetchSummonerData">
+            <button class="btn btn-success" type="button" @click="fetchSummonerData" :disabled="searchResultTable.loading">
+                {{ searchResultTable.loading ? '查询中...' : '搜索' }}
+            </button>
+        </div>
+
+        <!-- 结果表格 (结构已修改) -->
+        <div class="table-container">
+            <table class="table table-hover table-bordered table-sm">
+                <thead class="table-light">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">模式</th>
+                    <th scope="col">胜负</th>
+                    <th scope="col">英雄</th>
+                    <th scope="col">kda</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-if="searchResultTable.loading">
+                    <td colspan="4" class="text-center text-muted">
+                        <div class="spinner-border spinner-border-sm" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        正在查询中...
+                    </td>
+                </tr>
+                <tr v-else-if="searchResultTable.message">
+                    <td colspan="4" class="text-center text-muted">{{ searchResultTable.message }}</td>
+                </tr>
+                <tr v-for="(item, index) in searchResultTable.data" :key="index">
+                    <th scope="row">{{ index + 1 }}</th>
+                    <td>{{ item.queueGame }}</td>
+                    <td :class="{'kda-win': item.win === '胜', 'kda-loss': item.win === '败'}">{{ item.win }}</td>
+                    <td>{{ item.championName }}</td>
+                    <td>{{item.kda}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
 </div>
 
 <script src="./toastify-js.js"></script>
@@ -131,24 +190,26 @@
         setup() {
             const API_BASE_URL = 'http://127.0.0.1:9527';
 
-            // --- 重构后的 config 状态，以匹配后端属性 ---
-            const config = ref({
-                autoAcceptGame: false,
-                autoBanChamp: false,
-                autoBanChampID: 0,
-            });
+            // --- 状态管理 ---
+            const config = ref({ autoAcceptGame: false, autoBanChamp: false, autoBanChampID: 0, });
             const tables = ref({ table1: { data: [] }, table2: { data: [] } });
             const heroList = ref([]);
             const searchQuery = ref('');
             const isDropdownVisible = ref(false);
 
+            // --- 召唤师搜索状态 (已修改) ---
+            const summonerSearchQuery = ref('');
+            const searchResultTable = ref({
+                loading: false,
+                data: [],
+                message: '请输入召唤师名称并点击搜索' // 初始/空状态/错误信息
+            });
+
             const showToast = (text, isSuccess = true) => { Toastify({ text, duration: 3000, gravity: "top", position: "right", backgroundColor: isSuccess ? "#4CAF50" : "#F44336", stopOnFocus: true }).showToast(); };
 
-            // --- 从后端获取初始配置 ---
-            const fetchInitialConfig = async () => {
+            const fetchInitialConfig = async () => { /* ... 此函数不变 ... */
                 try {
                     const response = await axios.get(`${API_BASE_URL}/global/config`);
-                    // 使用获取的数据更新本地状态
                     config.value.autoAcceptGame = response.data.autoAcceptGame;
                     config.value.autoBanChamp = response.data.autoBanChamp;
                     config.value.autoBanChampID = response.data.autoBanChampID;
@@ -159,7 +220,7 @@
                 }
             };
 
-            const loadHeroData = async () => {
+            const loadHeroData = async () => { /* ... 此函数不变 ... */
                 try {
                     const response = await axios.get('./hero-data.json');
                     heroList.value = response.data;
@@ -169,14 +230,13 @@
                 }
             };
 
-            // --- 计算属性，用于显示已选英雄的名称 ---
-            const selectedHeroDisplayName = computed(() => {
+            const selectedHeroDisplayName = computed(() => { /* ... 此函数不变 ... */
                 if (!config.value.autoBanChampID || heroList.value.length === 0) return '';
                 const selected = heroList.value.find(h => h.id === config.value.autoBanChampID);
                 return selected ? `${selected.name} (${selected.nickname})` : '';
             });
 
-            const filteredHeroes = computed(() => {
+            const filteredHeroes = computed(() => { /* ... 此函数不变 ... */
                 if (!searchQuery.value) return heroList.value;
                 const query = searchQuery.value.toLowerCase();
                 return heroList.value.filter(hero =>
@@ -186,24 +246,18 @@
                 );
             });
 
-            // --- “自动接受”开关的API调用 ---
-            const handleAutoAcceptChange = () => {
+            const handleAutoAcceptChange = () => { /* ... 此函数不变 ... */
                 const state = config.value.autoAcceptGame;
                 axios.post(`${API_BASE_URL}/set/auto/accept/game`, { autoAcceptGame: state })
                     .then(() => showToast(`自动接受游戏已${state ? '开启' : '关闭'}`))
                     .catch(() => {
                         showToast('自动接受游戏状态更新失败', false);
-                        config.value.autoAcceptGame = !state; // 失败时回滚状态
+                        config.value.autoAcceptGame = !state;
                     });
             };
 
-            // --- 集中处理禁用设置的更新函数 ---
-            const updateBanSetting = (payload) => {
-                axios.post(`${API_BASE_URL}/set/ban/champion`, payload,  {
-                    headers: {
-                        'Content-Type': 'application/json' // 明确告知后端这是一个JSON请求
-                    }
-                })
+            const updateBanSetting = (payload) => { /* ... 此函数不变 ... */
+                axios.post(`${API_BASE_URL}/set/ban/champion`, payload,  { headers: { 'Content-Type': 'application/json' } })
                     .then(() => {
                         if (payload.autoBanChamp) {
                             const heroName = selectedHeroDisplayName.value;
@@ -215,33 +269,24 @@
                     .catch(() => showToast("错误：设置禁用英雄失败。", false));
             };
 
-            // --- 从下拉框选择英雄时的逻辑 ---
-            const selectHero = (hero) => {
+            const selectHero = (hero) => { /* ... 此函数不变 ... */
                 config.value.autoBanChampID = hero.id;
                 searchQuery.value = hero.name;
                 isDropdownVisible.value = false;
-                // 发送“启用并设置ID”的请求
-                updateBanSetting({
-                    autoBanChamp: true,
-                    championId: hero.id
-                });
+                updateBanSetting({ autoBanChamp: true, championId: hero.id });
             };
 
-            // --- “自动禁用”开关的逻辑 ---
-            const onBanSwitchChange = () => {
-                // 此函数在 v-model 更新 config.autoBanChamp 之后触发
-                if (!config.value.autoBanChamp) { // 如果开关刚刚被关闭
+            const onBanSwitchChange = () => { /* ... 此函数不变 ... */
+                if (!config.value.autoBanChamp) {
                     config.value.autoBanChampID = 0;
                     searchQuery.value = '';
-                    // 发送“禁用”请求
                     updateBanSetting({ autoBanChamp: false });
                 }
-                // 如果开关被打开，则不执行任何操作，等待用户选择英雄
             };
 
             const hideDropdown = () => { setTimeout(() => { isDropdownVisible.value = false; }, 200); };
 
-            const fetchTableData = (type) => { /* 表格查询逻辑不变 */
+            const fetchTableData = (type) => { /* ... 此函数不变 ... */
                 const tableKey = `table${type}`;
                 const teamName = type === 1 ? '我方' : '敌方';
                 tables.value[tableKey].data = [];
@@ -249,36 +294,65 @@
                     .then(response => {
                         const responseData = Array.isArray(response.data) ? response.data : (response.data.data || []);
                         if (responseData.length > 0) { tables.value[tableKey].data = responseData; showToast(`${teamName}数据加载成功！`); }
-                        else { showToast(`未从服务器获取到有效${teamName}数据，加载模拟数据。`, false); tables.value[tableKey].data = generateMockData(type); }
+                        else { showToast(`未从服务器获取到有效${teamName}数据。`, false); }
                     })
                     .catch(() => {
-                        showToast(`无法从服务器获取${teamName}数据，加载模拟数据。`, false);
-                        tables.value[tableKey].data = generateMockData(type);
+                        showToast(`无法从服务器获取${teamName}数据。`, false);
                     });
             };
 
-            const generateMockData = (type) => { /* 模拟数据逻辑修改，以包含“胜”和“负” */
-                const data = [];
-                const sampleNames = { 1: ['温柔一刀', '峡谷钢琴家', '打野万花筒', '辅助的神', '我ADC贼溜'], 2: ['对面丶都是菜', '中路杀神', '野区入侵者', '脚本AD', '意识流辅助'] };
-                const ranks = ['黑铁 IV', '白银 II', '黄金 I', '铂金 III', '钻石 V', '超凡大师'];
-                for (let i = 0; i < 5; i++) {
-                    const kdaHistory = Array.from({ length: 5 }, () => {
-                        const kda = `${Math.floor(Math.random()*15)}/${Math.floor(Math.random()*10)}/${Math.floor(Math.random()*20)}`;
-                        return Math.random() < 0.6 ? `${kda} 胜` : `${kda} 负`; // 60%概率为胜
-                    });
-                    data.push({ horse: ['上等马', '中等马', '下等马'][Math.floor(Math.random() * 3)], score: Math.floor(Math.random() * 60) + 40, rank: ranks[Math.floor(Math.random() * ranks.length)], summonerName: sampleNames[type][i], currKDA: kdaHistory });
+            // --- 重连函数 ---
+            const handleReconnect = async () => { /* ... 此函数不变 ... */
+                showToast('正在尝试重连...');
+                try {
+                    const response = await axios.post(`${API_BASE_URL}/reconnect`);
+                    const isSuccess = typeof response.data === 'boolean' ? response.data : response.data.success;
+
+                    if (isSuccess) {
+                        showToast('重连成功！', true);
+                    } else {
+                        showToast('重连失败，请检查客户端或后端服务。', false);
+                    }
+                } catch (error) {
+                    console.error('重连请求失败:', error);
+                    showToast('重连请求失败，无法连接到后端。', false);
                 }
-                return data;
             };
 
-            // --- onMounted: 页面加载时加载所有必要数据 ---
+            // --- 独立查询召唤师函数 (已修改, 移除mock数据) ---
+            const fetchSummonerData = async () => {
+                if (!summonerSearchQuery.value.trim()) {
+                    showToast('请输入要查询的召唤师名称。', false);
+                    return;
+                }
+                searchResultTable.value.loading = true;
+                searchResultTable.value.data = [];
+                searchResultTable.value.message = ''; // 清除旧消息
+
+                try {
+                    const response = await axios.get(`${API_BASE_URL}/summoner/game/history`, {
+                        params: { name: summonerSearchQuery.value }
+                    });
+                    const responseData = Array.isArray(response.data) ? response.data : (response.data.data || []);
+                    if (responseData.length > 0) {
+                        searchResultTable.value.data = responseData;
+                        showToast('召唤师信息查询成功！');
+                    } else {
+                        searchResultTable.value.message = '未找到该召唤师的数据。';
+                        showToast('未找到该召唤师的数据。', false);
+                    }
+                } catch (error) {
+                    console.error('查询召唤师数据失败:', error);
+                    searchResultTable.value.message = '查询失败，无法连接后端服务。';
+                    showToast('查询失败，无法连接后端服务。', false);
+                } finally {
+                    searchResultTable.value.loading = false;
+                }
+            };
+
             onMounted(async () => {
                 console.log('页面已加载，Vue 应用已挂载。');
-                // 并行加载英雄列表和初始配置
                 await Promise.all([loadHeroData(), fetchInitialConfig()]);
-
-                // 所有数据加载完毕后，同步UI
-                // 如果有预选的英雄，将其名称填入搜索框
                 if (config.value.autoBanChampID > 0) {
                     searchQuery.value = selectedHeroDisplayName.value;
                 }
@@ -289,7 +363,11 @@
                 handleAutoAcceptChange,
                 searchQuery, isDropdownVisible, filteredHeroes, selectedHeroDisplayName,
                 selectHero, hideDropdown, onBanSwitchChange,
-                fetchTableData
+                fetchTableData,
+                summonerSearchQuery,
+                searchResultTable,
+                handleReconnect,
+                fetchSummonerData
             };
         }
     }).mount('#app');
