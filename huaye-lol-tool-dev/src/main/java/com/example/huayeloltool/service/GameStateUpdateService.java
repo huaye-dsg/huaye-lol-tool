@@ -18,6 +18,7 @@ import com.example.huayeloltool.model.summoner.RankedInfo;
 import com.example.huayeloltool.model.score.ScoreService;
 import com.example.huayeloltool.model.score.ScoreWithReason;
 import com.example.huayeloltool.model.score.UserScore;
+import javazoom.jl.player.Player;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -25,6 +26,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Component;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -63,7 +66,7 @@ public class GameStateUpdateService extends CommonRequest {
             case CHAMPION_SELECT -> new Thread(this::championSelectStart).start();
             case IN_PROGRESS -> new Thread(this::calcEnemyTeamScore).start();
 //            case END_OF_GAME -> new Thread(this::autoStartNextGame).start();
-//            case LOBBY -> CustomGameSession.getInstance().reset();
+            case LOBBY -> Mp3PlayerUtil.inputLobby();
 
         }
     }
@@ -85,6 +88,7 @@ public class GameStateUpdateService extends CommonRequest {
     @SneakyThrows
     private void acceptGame() {
         Thread.sleep(1500);
+        Mp3PlayerUtil.findGame();
         lcuApiService.acceptGame();
     }
 
@@ -97,6 +101,7 @@ public class GameStateUpdateService extends CommonRequest {
 //            // 不存在选人界面的模式，直接返回
 //            return;
 //        }
+        Mp3PlayerUtil.championSelectStart();
 
         Thread.sleep(1500);
         List<Long> summonerIdList = fetchTeamSummonerIds();

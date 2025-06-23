@@ -11,12 +11,16 @@ import com.example.huayeloltool.model.score.UserScore;
 import com.example.huayeloltool.model.summoner.Summoner;
 import com.example.huayeloltool.service.GameStateUpdateService;
 import com.example.huayeloltool.service.LcuApiService;
+import javazoom.jl.decoder.JavaLayerException;
+import javazoom.jl.player.Player;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.sound.sampled.*;
+import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -24,11 +28,13 @@ import java.util.List;
  */
 @Slf4j
 @RestController
+@RequestMapping("/api")
 public class LcuController {
 
     static LcuApiService lcuApiService = LcuApiService.getInstance();
 
     static GameStateUpdateService gameStateUpdateService = GameStateUpdateService.getInstance();
+
 
     public record GameBriefInfo(String queueGame, String championName, String win, String kda) {
     }
@@ -56,8 +62,13 @@ public class LcuController {
 
     @PostMapping("/set/ban/champion")
     public void setBanChampion(@RequestBody BanChampionRequest request) {
-        GameGlobalSetting.getInstance().setAutoBanChampID(request.getChampionId());
-        GameGlobalSetting.getInstance().setAutoBanChamp(request.getAutoBanChamp());
+        if (!request.getAutoBanChamp()) {
+            GameGlobalSetting.getInstance().setAutoBanChamp(request.getAutoBanChamp());
+        }
+        if (request.getAutoBanChamp() && request.getChampionId() != null && request.getChampionId() > 0) {
+            GameGlobalSetting.getInstance().setAutoBanChampID(request.getChampionId());
+            GameGlobalSetting.getInstance().setAutoBanChamp(request.getAutoBanChamp());
+        }
 
         log.info("set ban champion id: {}", request.getChampionId());
     }
@@ -76,7 +87,7 @@ public class LcuController {
     }
 
     @GetMapping("/game/overview")
-    public List<CustomGameCache.Item> getSummonerGameHistory(@RequestParam("type") Integer type) {
+    public List<CustomGameCache.Item> gameOverview(@RequestParam("type") Integer type) {
         if (type == 1) {
             return CustomGameCache.getInstance().getTeamList();
         } else {
@@ -99,5 +110,4 @@ public class LcuController {
         Main.main(null);
         return true;
     }
-
 }
