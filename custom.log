@@ -5429,7 +5429,7 @@ java.io.FileNotFoundException: src\main\resources\audio\进入大厅.mp3 (系统
 	at java.base/java.io.FileInputStream.open(FileInputStream.java:216)
 	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:157)
 	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:111)
-	at com.example.huayeloltool.service.Mp3PlayerUtil.lambda$player$0(Mp3PlayerUtil.java:29)
+	at com.example.huayeloltool.service.AudioPlayer.lambda$player$0(Mp3PlayerUtil.java:29)
 	at java.base/java.lang.Thread.run(Thread.java:840)
 2025-06-23 20:54:00 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
 2025-06-23 20:54:00 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
@@ -5497,7 +5497,7 @@ java.io.FileNotFoundException: audio\进入大厅.mp3 (系统找不到指定的�
 	at java.base/java.io.FileInputStream.open(FileInputStream.java:216)
 	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:157)
 	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:111)
-	at com.example.huayeloltool.service.Mp3PlayerUtil.lambda$player$0(Mp3PlayerUtil.java:29)
+	at com.example.huayeloltool.service.AudioPlayer.lambda$player$0(Mp3PlayerUtil.java:29)
 	at java.base/java.lang.Thread.run(Thread.java:840)
 2025-06-23 21:05:34 ERROR c.e.h.service.Mp3PlayerUtil - 音频播放失败！
 java.io.FileNotFoundException: classpath*:audio\已找到对局.mp3 (文件名、目录名或卷标语法不正确。)
@@ -5505,7 +5505,7 @@ java.io.FileNotFoundException: classpath*:audio\已找到对局.mp3 (文件名�
 	at java.base/java.io.FileInputStream.open(FileInputStream.java:216)
 	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:157)
 	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:111)
-	at com.example.huayeloltool.service.Mp3PlayerUtil.lambda$player$0(Mp3PlayerUtil.java:47)
+	at com.example.huayeloltool.service.AudioPlayer.lambda$player$0(Mp3PlayerUtil.java:47)
 	at java.base/java.lang.Thread.run(Thread.java:840)
 2025-06-23 21:05:47 ERROR c.e.h.service.Mp3PlayerUtil - 音频播放失败！
 java.io.FileNotFoundException: classpath*:audio\已找到对局.mp3 (文件名、目录名或卷标语法不正确。)
@@ -5513,7 +5513,7 @@ java.io.FileNotFoundException: classpath*:audio\已找到对局.mp3 (文件名�
 	at java.base/java.io.FileInputStream.open(FileInputStream.java:216)
 	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:157)
 	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:111)
-	at com.example.huayeloltool.service.Mp3PlayerUtil.lambda$player$0(Mp3PlayerUtil.java:47)
+	at com.example.huayeloltool.service.AudioPlayer.lambda$player$0(Mp3PlayerUtil.java:47)
 	at java.base/java.lang.Thread.run(Thread.java:840)
 2025-06-23 21:05:58 ERROR c.e.h.service.Mp3PlayerUtil - 音频播放失败！
 java.io.FileNotFoundException: audio\已找到对局.mp3 (系统找不到指定的路径。)
@@ -5521,7 +5521,7 @@ java.io.FileNotFoundException: audio\已找到对局.mp3 (系统找不到指定�
 	at java.base/java.io.FileInputStream.open(FileInputStream.java:216)
 	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:157)
 	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:111)
-	at com.example.huayeloltool.service.Mp3PlayerUtil.lambda$player$0(Mp3PlayerUtil.java:47)
+	at com.example.huayeloltool.service.AudioPlayer.lambda$player$0(Mp3PlayerUtil.java:47)
 	at java.base/java.lang.Thread.run(Thread.java:840)
 2025-06-23 21:08:41 ERROR c.e.h.service.Mp3PlayerUtil - 音频播放失败！
 java.io.FileNotFoundException: audio\findGame.mp3 (系统找不到指定的路径。)
@@ -5529,7 +5529,7 @@ java.io.FileNotFoundException: audio\findGame.mp3 (系统找不到指定的路�
 	at java.base/java.io.FileInputStream.open(FileInputStream.java:216)
 	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:157)
 	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:111)
-	at com.example.huayeloltool.service.Mp3PlayerUtil.lambda$player$0(Mp3PlayerUtil.java:41)
+	at com.example.huayeloltool.service.AudioPlayer.lambda$player$0(Mp3PlayerUtil.java:41)
 	at java.base/java.lang.Thread.run(Thread.java:840)
 2025-06-23 21:08:59 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
 2025-06-23 21:09:00 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
@@ -5552,7 +5552,111 @@ java.io.FileNotFoundException: audio\findGame.mp3 (系统找不到指定的路�
 	at java.base/java.io.FileInputStream.open(FileInputStream.java:216)
 	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:157)
 	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:111)
-	at com.example.huayeloltool.service.Mp3PlayerUtil.lambda$player$0(Mp3PlayerUtil.java:34)
+	at com.example.huayeloltool.service.AudioPlayer.lambda$player$0(Mp3PlayerUtil.java:34)
 	at java.base/java.lang.Thread.run(Thread.java:840)
 2025-06-23 21:10:46 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
 2025-06-23 21:10:46 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-23 21:10:51 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 19360 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-23 21:10:51 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-23 21:10:52 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-23 21:10:52 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-23 21:10:52 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-23 21:10:52 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-23 21:10:52 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-23 21:10:52 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1117 ms
+2025-06-23 21:10:52 INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2025-06-23 21:10:53 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-23 21:10:53 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-23 21:10:53 INFO  c.example.huayeloltool.Application - Started Application in 2.238 seconds (process running for 3.3)
+2025-06-23 21:10:53 INFO  com.example.huayeloltool.Main - 客户端连接成功
+2025-06-23 21:10:56 ERROR c.e.h.service.Mp3PlayerUtil - 音频播放失败！
+java.io.FileNotFoundException: \audio\findGame.mp3 (系统找不到指定的路径。)
+	at java.base/java.io.FileInputStream.open0(Native Method)
+	at java.base/java.io.FileInputStream.open(FileInputStream.java:216)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:157)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:111)
+	at com.example.huayeloltool.service.AudioPlayer.lambda$player$0(Mp3PlayerUtil.java:34)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+2025-06-24 19:51:19 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 27296 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-24 19:51:19 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-24 19:51:20 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-24 19:51:20 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-24 19:51:20 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-24 19:51:20 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-24 19:51:20 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-24 19:51:20 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1089 ms
+2025-06-24 19:51:21 INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2025-06-24 19:51:21 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-24 19:51:21 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-24 19:51:21 INFO  c.example.huayeloltool.Application - Started Application in 2.335 seconds (process running for 4.189)
+2025-06-24 19:51:22 INFO  com.example.huayeloltool.Main - 客户端连接成功
+2025-06-24 19:51:33 ERROR c.e.huayeloltool.service.AudioPlayer - 播放失败
+java.io.FileNotFoundException: class path resource [audio/audio/进入大厅.mp3] cannot be opened because it does not exist
+	at org.springframework.core.io.ClassPathResource.getInputStream(ClassPathResource.java:215)
+	at com.example.huayeloltool.service.AudioPlayer.lambda$player$0(AudioPlayer.java:29)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+2025-06-24 19:51:48 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-24 19:51:48 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-24 19:51:53 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 18196 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-24 19:51:53 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-24 19:51:54 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-24 19:51:54 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-24 19:51:54 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-24 19:51:54 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-24 19:51:54 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-24 19:51:54 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1009 ms
+2025-06-24 19:51:55 INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2025-06-24 19:51:55 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-24 19:51:55 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-24 19:51:55 INFO  c.example.huayeloltool.Application - Started Application in 2.089 seconds (process running for 3.066)
+2025-06-24 19:51:55 INFO  com.example.huayeloltool.Main - 客户端连接成功
+2025-06-24 19:52:13 INFO  c.e.h.service.GameFlowMonitor - 当前模式：无限火力，queueId：900
+2025-06-24 19:52:34 ERROR c.e.h.service.GameStateUpdateService - 【满城樱花不及她】战绩查询为空！
+2025-06-24 19:52:35 ERROR c.e.h.service.GameStateUpdateService - 【nothing聊】战绩查询为空！
+2025-06-24 19:52:36 ERROR c.e.h.service.GameStateUpdateService - 【少年仍在醉梦江湖】战绩查询为空！
+2025-06-24 19:52:37 ERROR c.e.h.service.GameStateUpdateService - 【三三三三三】战绩查询为空！
+2025-06-24 19:52:37 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】我方：[CustomGameCache.Item(horse=中等马, score=112, rank=【黄金-I-69】, summonerName=中国第一深情#92429, currKDA=[[单排排位-胜-维克托-6/2/13], [单排排位-胜-维克托-4/4/16], [单排排位-胜-塔莉垭-2/4/15], [单排排位-胜-维克托-11/0/6], [单排排位-胜-小火龙-5/3/8]])]
+2025-06-24 19:53:45 ERROR c.e.h.service.GameStateUpdateService - 【回眸丶一笑倾人城】战绩查询为空！
+2025-06-24 19:53:46 ERROR c.e.h.service.GameStateUpdateService - 【尼姑家门每晚被敲】战绩查询为空！
+2025-06-24 19:53:47 ERROR c.e.h.service.GameStateUpdateService - 【寞小帅】战绩查询为空！
+2025-06-24 19:53:48 ERROR c.e.h.service.GameStateUpdateService - 【爱在西元前】战绩查询为空！
+2025-06-24 19:53:48 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】敌方：[CustomGameCache.Item(horse=中等马, score=114, rank=【白金-IV-87】, summonerName=明日香#76369, currKDA=[[大乱斗-败-稻草人-18/21/27], [大乱斗-败-炸弹人-4/13/37], [大乱斗-胜-宝石-5/7/30], [大乱斗-败-米利欧-5/8/45], [大乱斗-败-劫-11/14/36]])]
+2025-06-24 20:05:18 ERROR c.e.h.common.CommonRequest - Request failed: https://riot:o483Ni7kGDT-mCYYVtbjIA@127.0.0.1:5616/lol-champion-mastery/v1//champion-mastery
+2025-06-24 20:05:18 ERROR c.e.h.common.CommonRequest - Request failed: https://riot:o483Ni7kGDT-mCYYVtbjIA@127.0.0.1:5616/lol-champion-mastery/v1//champion-mastery
+2025-06-24 20:05:18 ERROR c.e.h.common.CommonRequest - Request failed: https://riot:o483Ni7kGDT-mCYYVtbjIA@127.0.0.1:5616/lol-champion-mastery/v1//champion-mastery
+2025-06-24 20:05:18 ERROR c.e.h.service.LcuApiService - 查询英雄熟练度失败！
+2025-06-24 20:05:18 INFO  c.e.h.s.GameSessionUpdateService - 【我方】动作: 选择（锁定）英雄, 英雄: 奶妈
+2025-06-24 20:05:22 INFO  c.e.h.s.GameSessionUpdateService - 【我方】动作: 选择（锁定）英雄, 英雄: 黄鸡, 等级: 4, 积分: 16129，最后游玩: 2025-06-14
+2025-06-24 20:05:24 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】我方：[CustomGameCache.Item(horse=中等马, score=111, rank=【黄金-I-69】, summonerName=中国第一深情#92429, currKDA=[[单排排位-胜-维克托-6/2/13], [单排排位-胜-维克托-4/4/16], [单排排位-胜-塔莉垭-2/4/15], [单排排位-胜-维克托-11/0/6], [单排排位-胜-小火龙-5/3/8]])]
+2025-06-24 20:05:36 ERROR c.e.h.service.GameStateUpdateService - 计算敌方队伍得分时发生错误
+java.lang.NullPointerException: Cannot invoke "java.lang.Long.longValue()" because the return value of "com.example.huayeloltool.model.game.GameFlowSession$GameFlowSessionTeamUser.getSummonerId()" is null
+	at com.example.huayeloltool.service.GameStateUpdateService.findSelfTeamID(GameStateUpdateService.java:208)
+	at com.example.huayeloltool.service.GameStateUpdateService.getAllUsersSummonerIdFromSession(GameStateUpdateService.java:188)
+	at com.example.huayeloltool.service.GameStateUpdateService.calcEnemyTeamScore(GameStateUpdateService.java:162)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+2025-06-24 20:18:39 INFO  c.e.h.service.GameFlowMonitor - 当前模式：神木之门，queueId：2300
+2025-06-24 20:19:46 INFO  c.e.h.service.LcuApiService - 当前未查询到会话信息：[]
+2025-06-24 20:19:46 ERROR c.e.h.service.GameStateUpdateService - 当前不在英雄选择阶段
+2025-06-24 20:19:46 ERROR c.e.h.service.GameStateUpdateService - 【犹为离人现落花】战绩查询为空！
+2025-06-24 20:19:47 INFO  c.e.h.service.LcuApiService - 当前未查询到会话信息：[]
+2025-06-24 20:19:47 ERROR c.e.h.service.GameStateUpdateService - 当前不在英雄选择阶段
+2025-06-24 20:19:48 INFO  c.e.h.service.LcuApiService - 当前未查询到会话信息：[]
+2025-06-24 20:19:48 ERROR c.e.h.service.GameStateUpdateService - 当前不在英雄选择阶段
+2025-06-24 20:19:48 ERROR c.e.h.service.GameStateUpdateService - 队友召唤师ID查询失败！
+2025-06-24 20:19:55 ERROR c.e.h.service.GameStateUpdateService - 【1他全家】战绩查询为空！
+2025-06-24 20:19:59 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】敌方：[CustomGameCache.Item(horse=上等马, score=135, rank=【白金-IV-0】, summonerName=Creasar#41429, currKDA=[[大乱斗-胜-金克丝-10/9/23], [大乱斗-败-猪妹-7/15/16], [大乱斗-胜-黄鸡-11/12/35], [大乱斗-胜-金克丝-6/5/15], [匹配盲选-败-女枪-2/12/5]]), CustomGameCache.Item(horse=中等马, score=120, rank=【白银-IV-10】, summonerName=夜宴的伯爵#85397, currKDA=[[大乱斗-败-维克托-13/13/37], [大乱斗-胜-寒冰射手-12/9/30], [大乱斗-胜-布隆-8/5/50], [大乱斗-胜-发条-4/4/31], [大乱斗-胜-塞纳-13/9/40]]), CustomGameCache.Item(horse=中等马, score=108, rank=【未知-NA-0】, summonerName=回复额外#26243, currKDA=[[大乱斗-败-大嘴-11/15/19], [大乱斗-胜-狐狸-4/17/32], [大乱斗-败-吸血鬼-9/12/14], [大乱斗-败-泰坦-7/15/12], [大乱斗-败-机器人-19/23/52]])]
+2025-06-24 20:24:28 INFO  c.e.h.service.GameFlowMonitor - 当前模式：神木之门，queueId：2300
+2025-06-24 20:26:36 ERROR c.e.h.service.GameStateUpdateService - 【犹为离人现落花】战绩查询为空！
+2025-06-24 20:26:36 ERROR c.e.h.service.LcuApiService - 【风险警告】查询用户SOS团五号团员战绩为空！
+2025-06-24 20:26:36 ERROR c.e.h.service.GameStateUpdateService - 【SOS团五号团员】战绩查询为空！
+2025-06-24 20:26:36 INFO  c.e.h.service.LcuApiService - 当前未查询到会话信息：[]
+2025-06-24 20:26:36 ERROR c.e.h.service.GameStateUpdateService - 当前不在英雄选择阶段
+2025-06-24 20:26:37 INFO  c.e.h.service.LcuApiService - 当前未查询到会话信息：[]
+2025-06-24 20:26:37 ERROR c.e.h.service.GameStateUpdateService - 当前不在英雄选择阶段
+2025-06-24 20:26:38 INFO  c.e.h.service.LcuApiService - 当前未查询到会话信息：[]
+2025-06-24 20:26:38 ERROR c.e.h.service.GameStateUpdateService - 当前不在英雄选择阶段
+2025-06-24 20:26:38 ERROR c.e.h.service.GameStateUpdateService - 队友召唤师ID查询失败！
+2025-06-24 20:26:42 ERROR c.e.h.service.GameStateUpdateService - 【1他全家】战绩查询为空！
+2025-06-24 20:26:47 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】敌方：[CustomGameCache.Item(horse=中等马, score=119, rank=【黄金-III-58】, summonerName=Ragnarok#83077, currKDA=[[大乱斗-胜-奇亚娜-25/20/21], [大乱斗-败-EZ-10/11/17], [大乱斗-败-塞拉斯-6/11/19], [大乱斗-败-烬-10/10/27], [大乱斗-胜-奥恩-3/10/40]]), CustomGameCache.Item(horse=下等马, score=97, rank=【未知-NA-0】, summonerName=奥你别恩了的叫#56267, currKDA=[[大乱斗-败-扎克-6/13/24], [大乱斗-败-塞拉斯-3/4/4]])]
+2025-06-24 20:37:24 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-24 20:37:24 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
