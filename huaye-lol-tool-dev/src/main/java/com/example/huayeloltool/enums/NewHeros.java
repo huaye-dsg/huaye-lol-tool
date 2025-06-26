@@ -374,7 +374,7 @@ public enum NewHeros {
 
     static {
         for (NewHeros option : NewHeros.values()) {
-            heroAliasMap.put(option.getHeroId(), option.getAlias());
+            heroAliasMap.put(option.getHeroId(), option.getName());
         }
     }
 

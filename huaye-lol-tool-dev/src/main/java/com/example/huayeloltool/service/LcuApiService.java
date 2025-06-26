@@ -118,6 +118,12 @@ public class LcuApiService extends CommonRequest {
         });
     }
 
+    // 游戏详情
+    public GameSummary getGameDetail(long gameID) throws IOException {
+        Request request = OkHttpUtil.createOkHttpGetRequest(String.format("/lol-match-history/v1/game-timelines/%d", gameID));
+        return sendRequest(request, GameSummary.class);
+    }
+
     /**
      * 查询段位信息
      */

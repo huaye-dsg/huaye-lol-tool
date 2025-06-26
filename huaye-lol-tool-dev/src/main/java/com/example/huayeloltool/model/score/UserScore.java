@@ -37,5 +37,7 @@ public class UserScore {
         private String championName;
         private String queueGame;
         private Integer championId;
+        private String  position;
     }
+
 }

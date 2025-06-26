@@ -111,6 +111,10 @@ public class GameSessionUpdateService {
         log.info(logMsg);
     }
 
+
+
+
+
     // 自动 ban / pick
     private void handleSelfAction(ChampSelectSessionInfo.Action action, String actionKey) {
         String type = action.getType();

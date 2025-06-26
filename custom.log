@@ -5660,3 +5660,326 @@ java.lang.NullPointerException: Cannot invoke "java.lang.Long.longValue()" becau
 2025-06-24 20:26:47 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】敌方：[CustomGameCache.Item(horse=中等马, score=119, rank=【黄金-III-58】, summonerName=Ragnarok#83077, currKDA=[[大乱斗-胜-奇亚娜-25/20/21], [大乱斗-败-EZ-10/11/17], [大乱斗-败-塞拉斯-6/11/19], [大乱斗-败-烬-10/10/27], [大乱斗-胜-奥恩-3/10/40]]), CustomGameCache.Item(horse=下等马, score=97, rank=【未知-NA-0】, summonerName=奥你别恩了的叫#56267, currKDA=[[大乱斗-败-扎克-6/13/24], [大乱斗-败-塞拉斯-3/4/4]])]
 2025-06-24 20:37:24 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
 2025-06-24 20:37:24 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-26 21:36:14 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 10092 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-26 21:36:14 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-26 21:36:14 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-26 21:36:14 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-26 21:36:14 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-26 21:36:14 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-26 21:36:14 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-26 21:36:14 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 809 ms
+2025-06-26 21:36:15 INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2025-06-26 21:36:15 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-26 21:36:15 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-26 21:36:15 INFO  c.example.huayeloltool.Application - Started Application in 1.615 seconds (process running for 2.294)
+2025-06-26 21:36:15 ERROR com.example.huayeloltool.Main - 客户端进程不存在！
+2025-06-26 21:36:19 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-26 21:36:19 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-26 21:36:19 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-06-26 21:37:08 WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'POST' is not supported]
+2025-06-26 21:37:47 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-26 21:37:47 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-26 21:37:50 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 31136 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-26 21:37:50 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-26 21:37:51 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-26 21:37:51 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-26 21:37:51 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-26 21:37:51 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-26 21:37:51 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-26 21:37:51 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 807 ms
+2025-06-26 21:37:51 INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2025-06-26 21:37:51 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-26 21:37:51 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-26 21:37:51 INFO  c.example.huayeloltool.Application - Started Application in 1.709 seconds (process running for 2.486)
+2025-06-26 21:37:52 INFO  com.example.huayeloltool.Main - 客户端连接成功
+2025-06-26 21:38:52 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-26 21:38:52 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-26 21:38:52 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2025-06-26 21:39:50 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-26 21:39:50 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-26 21:39:56 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 35016 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-26 21:39:56 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-26 21:39:57 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-26 21:39:57 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-26 21:39:57 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-26 21:39:57 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-26 21:39:57 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-26 21:39:57 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 835 ms
+2025-06-26 21:39:57 INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2025-06-26 21:39:57 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-26 21:39:57 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-26 21:39:57 INFO  c.example.huayeloltool.Application - Started Application in 1.696 seconds (process running for 2.434)
+2025-06-26 21:39:57 INFO  com.example.huayeloltool.Main - 客户端连接成功
+2025-06-26 21:40:05 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-26 21:40:05 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-26 21:40:05 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-06-26 21:50:18 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-26 21:50:18 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-26 21:50:25 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 26312 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-26 21:50:25 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-26 21:50:26 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-26 21:50:26 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-26 21:50:26 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-26 21:50:26 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-26 21:50:26 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-26 21:50:26 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1346 ms
+2025-06-26 21:50:26 INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2025-06-26 21:50:27 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-26 21:50:27 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-26 21:50:27 INFO  c.example.huayeloltool.Application - Started Application in 2.546 seconds (process running for 3.918)
+2025-06-26 21:50:27 INFO  com.example.huayeloltool.Main - 客户端连接成功
+2025-06-26 21:50:47 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-26 21:50:47 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-26 21:50:47 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-06-26 21:51:48 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-26 21:51:48 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-26 21:51:53 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 20284 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-26 21:51:53 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-26 21:51:54 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-26 21:51:54 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-26 21:51:54 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-26 21:51:54 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-26 21:51:54 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-26 21:51:54 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 976 ms
+2025-06-26 21:51:54 INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2025-06-26 21:51:54 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-26 21:51:54 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-26 21:51:54 INFO  c.example.huayeloltool.Application - Started Application in 2.089 seconds (process running for 3.486)
+2025-06-26 21:51:55 INFO  com.example.huayeloltool.Main - 客户端连接成功
+2025-06-26 21:57:25 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-26 21:57:25 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-26 21:57:25 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-06-26 21:59:33 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-26 21:59:33 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-26 21:59:40 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 764 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-26 21:59:40 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-26 21:59:40 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-26 21:59:41 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-26 21:59:41 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-26 21:59:41 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-26 21:59:41 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-26 21:59:41 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 859 ms
+2025-06-26 21:59:41 INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2025-06-26 21:59:41 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-26 21:59:41 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-26 21:59:41 INFO  c.example.huayeloltool.Application - Started Application in 1.846 seconds (process running for 2.793)
+2025-06-26 21:59:42 INFO  com.example.huayeloltool.Main - 客户端连接成功
+2025-06-26 21:59:45 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-26 21:59:45 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-26 21:59:45 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-06-26 22:00:17 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-26 22:00:17 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-26 22:00:23 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 9592 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-26 22:00:23 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-26 22:00:24 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-26 22:00:24 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-26 22:00:24 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-26 22:00:24 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-26 22:00:24 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-26 22:00:24 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1020 ms
+2025-06-26 22:00:24 INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2025-06-26 22:00:25 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-26 22:00:25 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-26 22:00:25 INFO  c.example.huayeloltool.Application - Started Application in 2.071 seconds (process running for 2.973)
+2025-06-26 22:00:25 INFO  com.example.huayeloltool.Main - 客户端连接成功
+2025-06-26 22:00:29 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-26 22:00:29 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-26 22:00:29 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-06-26 22:09:13 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-26 22:09:14 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-26 22:09:18 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 28368 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-26 22:09:18 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-26 22:09:19 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-26 22:09:19 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-26 22:09:19 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-26 22:09:19 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-26 22:09:19 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-26 22:09:19 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 843 ms
+2025-06-26 22:09:19 INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2025-06-26 22:09:19 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-26 22:09:19 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-26 22:09:19 INFO  c.example.huayeloltool.Application - Started Application in 1.719 seconds (process running for 2.617)
+2025-06-26 22:09:20 INFO  com.example.huayeloltool.Main - 客户端连接成功
+2025-06-26 22:09:22 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-26 22:09:22 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-26 22:09:22 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2025-06-26 22:16:05 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-26 22:16:05 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-26 22:16:34 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 7988 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-26 22:16:34 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-26 22:16:35 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-26 22:16:35 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-26 22:16:35 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-26 22:16:35 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-26 22:16:35 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-26 22:16:35 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 878 ms
+2025-06-26 22:16:36 INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2025-06-26 22:16:36 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-26 22:16:36 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-26 22:16:36 INFO  c.example.huayeloltool.Application - Started Application in 1.777 seconds (process running for 2.717)
+2025-06-26 22:16:36 INFO  com.example.huayeloltool.Main - 客户端连接成功
+2025-06-26 22:17:02 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-26 22:17:02 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-26 22:17:02 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2025-06-26 22:17:02 INFO  c.e.h.common.CommonRequest - Request failed: URL= https://riot:HLW88vLbtTd6FoDNSCEEyg@127.0.0.1:2318/lol-match-history/v1/game-details/400549408495
+2025-06-26 22:17:02 ERROR o.a.c.c.C.[.[.[.[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
+java.io.IOException: Request failed
+	at com.example.huayeloltool.common.CommonRequest.sendRequest(CommonRequest.java:24)
+	at com.example.huayeloltool.service.LcuApiService.getGameDetail(LcuApiService.java:124)
+	at com.example.huayeloltool.controller.LcuController.getSummonerInfo(LcuController.java:51)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:986)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:891)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+2025-06-26 22:18:55 INFO  c.e.h.common.CommonRequest - Request failed: URL= https://riot:HLW88vLbtTd6FoDNSCEEyg@127.0.0.1:2318/lol-match-history/v1/game-details/400549408495
+2025-06-26 22:18:55 ERROR o.a.c.c.C.[.[.[.[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
+java.io.IOException: Request failed
+	at com.example.huayeloltool.common.CommonRequest.sendRequest(CommonRequest.java:24)
+	at com.example.huayeloltool.service.LcuApiService.getGameDetail(LcuApiService.java:124)
+	at com.example.huayeloltool.controller.LcuController.getSummonerInfo(LcuController.java:51)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:986)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:891)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+2025-06-26 22:24:48 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-26 22:24:48 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-26 22:24:53 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 21268 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-26 22:24:53 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-26 22:24:54 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-26 22:24:54 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-26 22:24:54 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-26 22:24:54 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-26 22:24:54 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-26 22:24:54 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 919 ms
+2025-06-26 22:24:55 INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2025-06-26 22:24:55 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-26 22:24:55 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-26 22:24:55 INFO  c.example.huayeloltool.Application - Started Application in 1.879 seconds (process running for 2.74)
+2025-06-26 22:24:55 INFO  com.example.huayeloltool.Main - 客户端连接成功
+2025-06-26 22:24:59 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-26 22:24:59 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-26 22:24:59 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-06-26 22:30:03 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-26 22:30:03 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-26 22:34:58 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 23120 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-26 22:34:58 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-26 22:35:00 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-26 22:35:01 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2073 ms
+2025-06-26 22:35:07 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 23044 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-26 22:35:07 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-26 22:35:08 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-26 22:35:08 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-26 22:35:08 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-26 22:35:08 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-26 22:35:09 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-26 22:35:09 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1839 ms
+2025-06-26 22:35:09 INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2025-06-26 22:35:09 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-26 22:35:09 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-26 22:35:09 INFO  c.example.huayeloltool.Application - Started Application in 3.389 seconds (process running for 5.507)
+2025-06-26 22:35:10 INFO  com.example.huayeloltool.Main - 客户端连接成功
+2025-06-26 22:35:16 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-06-26 22:35:16 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-06-26 22:35:16 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-06-26 22:36:51 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-26 22:36:52 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete

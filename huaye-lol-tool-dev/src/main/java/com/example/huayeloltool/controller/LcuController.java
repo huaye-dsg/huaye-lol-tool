@@ -8,6 +8,7 @@ import com.example.huayeloltool.enums.NewHeros;
 import com.example.huayeloltool.model.base.GameGlobalSetting;
 import com.example.huayeloltool.model.cache.CustomGameCache;
 import com.example.huayeloltool.model.game.GameHistory;
+import com.example.huayeloltool.model.game.GameSummary;
 import com.example.huayeloltool.model.score.UserScore;
 import com.example.huayeloltool.model.summoner.Summoner;
 import com.example.huayeloltool.service.GameStateUpdateService;
@@ -37,7 +38,7 @@ public class LcuController {
     static GameStateUpdateService gameStateUpdateService = GameStateUpdateService.getInstance();
 
 
-    public record GameBriefInfo(String queueGame, String championImage, String win, String kda) {
+    public record GameBriefInfo(String queueGame, String championImage, String win, String kda, String position) {
     }
 
     @GetMapping("/summoner/info")
@@ -45,11 +46,16 @@ public class LcuController {
         return lcuApiService.getSummonerByNickName(name, tagLine);
     }
 
+    @GetMapping("/game/info/detail")
+    public GameSummary getSummonerInfo(@RequestParam("gameId") Long gameId) throws IOException {
+        return lcuApiService.getGameDetail(gameId);
+    }
+
     @GetMapping("/summoner/game/history")
     public List<GameBriefInfo> getSummonerGameHistory(@RequestParam("name") String name) {
         String[] split = name.split("#");
         Summoner summoner = lcuApiService.getSummonerByNickName(split[0], split[1]);
-        List<GameHistory.GameInfo> gameInfos = lcuApiService.listGameHistory(summoner, 0, 5);
+        List<GameHistory.GameInfo> gameInfos = lcuApiService.listGameHistory(summoner, 0, 2);
         if (CollectionUtils.isEmpty(gameInfos)) {
             return new ArrayList<>();
         }
@@ -100,7 +106,12 @@ public class LcuController {
     private static List<GameBriefInfo> getGameBriefInfos(List<UserScore.Kda> kdas) {
         List<GameBriefInfo> gameBriefInfos = new ArrayList<>();
         for (UserScore.Kda kda : kdas) {
-            GameBriefInfo gameBriefInfo = new GameBriefInfo(kda.getQueueGame(), NewHeros.getImageById(kda.getChampionId()), kda.getWin() ? Constant.WIN_STR : Constant.LOSE_STR, String.format("%s/%s/%s", kda.getKills(), kda.getDeaths(), kda.getAssists()));
+            GameBriefInfo gameBriefInfo = new GameBriefInfo(kda.getQueueGame(),
+                    NewHeros.getImageById(kda.getChampionId()),
+                    kda.getWin() ? Constant.WIN_STR : Constant.LOSE_STR,
+                    String.format("%s/%s/%s", kda.getKills(), kda.getDeaths(), kda.getAssists()),
+                    kda.getPosition()
+            );
             gameBriefInfos.add(gameBriefInfo);
         }
         return gameBriefInfos;

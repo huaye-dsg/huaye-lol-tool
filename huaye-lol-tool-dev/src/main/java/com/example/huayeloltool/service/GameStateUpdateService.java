@@ -397,9 +397,29 @@ public class GameStateUpdateService extends CommonRequest {
             kda.setQueueGame(GameEnums.GameQueueID.getGameNameMap(gameInfo.getQueueId()));
             kda.setChampionName(Heros.getNameById(participant.getChampionId()));
             kda.setChampionId(participant.getChampionId());
+            kda.setPosition(guessPosition(participant.getTimeline().getLane(), participant.getTimeline().getRole()));
             return kda;
         }).toList();
     }
+
+    public static String guessPosition(String lane, String role) {
+        if ("JUNGLE".equalsIgnoreCase(lane)) {
+            return "打野";
+        } else if ("TOP".equalsIgnoreCase(lane)) {
+            return "上单";
+        } else if ("MIDDLE".equalsIgnoreCase(lane) || "MID".equalsIgnoreCase(lane)) {
+            return "中单";
+        } else if ("BOTTOM".equalsIgnoreCase(lane)) {
+            if ("CARRY".equalsIgnoreCase(role)) {
+                return "ADC";
+            } else if ("SUPPORT".equalsIgnoreCase(role)) {
+                return "辅助";
+            }
+        }
+        return "未知";
+    }
+
+
 
 
     private String findHorseName(double score, CalcScoreConf.HorseScoreConf[] horseArr) {
