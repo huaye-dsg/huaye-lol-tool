@@ -4,6 +4,7 @@ import com.example.huayeloltool.Main;
 import com.example.huayeloltool.common.AutoAcceptGameRequest;
 import com.example.huayeloltool.common.BanChampionRequest;
 import com.example.huayeloltool.enums.Constant;
+import com.example.huayeloltool.enums.NewHeros;
 import com.example.huayeloltool.model.base.GameGlobalSetting;
 import com.example.huayeloltool.model.cache.CustomGameCache;
 import com.example.huayeloltool.model.game.GameHistory;
@@ -36,7 +37,7 @@ public class LcuController {
     static GameStateUpdateService gameStateUpdateService = GameStateUpdateService.getInstance();
 
 
-    public record GameBriefInfo(String queueGame, String championName, String win, String kda) {
+    public record GameBriefInfo(String queueGame, String championImage, String win, String kda) {
     }
 
     @GetMapping("/summoner/info")
@@ -99,7 +100,7 @@ public class LcuController {
     private static List<GameBriefInfo> getGameBriefInfos(List<UserScore.Kda> kdas) {
         List<GameBriefInfo> gameBriefInfos = new ArrayList<>();
         for (UserScore.Kda kda : kdas) {
-            GameBriefInfo gameBriefInfo = new GameBriefInfo(kda.getQueueGame(), kda.getChampionName(), kda.getWin() ? Constant.WIN_STR : Constant.LOSE_STR, String.format("%s/%s/%s", kda.getKills(), kda.getDeaths(), kda.getAssists()));
+            GameBriefInfo gameBriefInfo = new GameBriefInfo(kda.getQueueGame(), NewHeros.getImageById(kda.getChampionId()), kda.getWin() ? Constant.WIN_STR : Constant.LOSE_STR, String.format("%s/%s/%s", kda.getKills(), kda.getDeaths(), kda.getAssists()));
             gameBriefInfos.add(gameBriefInfo);
         }
         return gameBriefInfos;

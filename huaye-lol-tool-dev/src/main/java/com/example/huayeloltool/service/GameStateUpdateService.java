@@ -4,6 +4,7 @@ import com.example.huayeloltool.common.CommonRequest;
 import com.example.huayeloltool.enums.Constant;
 import com.example.huayeloltool.enums.GameEnums;
 import com.example.huayeloltool.enums.Heros;
+import com.example.huayeloltool.enums.NewHeros;
 import com.example.huayeloltool.model.Conversation.ConversationMsg;
 import com.example.huayeloltool.model.cache.CustomGameCache;
 import com.example.huayeloltool.model.game.CustomGameSession;
@@ -285,20 +286,20 @@ public class GameStateUpdateService extends CommonRequest {
                     List<String> collect = currKDA.stream().limit(5).map(kda -> String.format(KDA_FORMAT,
                             kda.getQueueGame(),
                             kda.getWin() ? Constant.WIN_STR : Constant.LOSE_STR,
-                            kda.getChampionName(),
+                            "http://game.gtimg.cn/images/lol/act/img/champion/" + NewHeros.getAliasById(kda.getChampionId()) + ".png",
                             kda.getKills(),
                             kda.getDeaths(),
                             kda.getAssists())).toList();
                     item.setCurrKDA(collect);
                     if (isSelf) {
                         CustomGameCache.getInstance().getTeamList().add(item);
-                    }else {
+                    } else {
                         CustomGameCache.getInstance().getEnemyList().add(item);
                     }
                 });
-        if (isSelf){
+        if (isSelf) {
             log.info("【信息缓存成功】我方：{}", CustomGameCache.getInstance().getTeamList());
-        }else {
+        } else {
             log.info("【信息缓存成功】敌方：{}", CustomGameCache.getInstance().getEnemyList());
         }
     }
@@ -395,6 +396,7 @@ public class GameStateUpdateService extends CommonRequest {
             kda.setWin(stats.getWin());
             kda.setQueueGame(GameEnums.GameQueueID.getGameNameMap(gameInfo.getQueueId()));
             kda.setChampionName(Heros.getNameById(participant.getChampionId()));
+            kda.setChampionId(participant.getChampionId());
             return kda;
         }).toList();
     }

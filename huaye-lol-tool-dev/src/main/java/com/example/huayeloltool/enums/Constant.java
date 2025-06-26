@@ -37,5 +37,19 @@ public class Constant {
     public static final String[] HORSE_NAME_CONF = {"通天代", "小代", "上等马", "中等马", "下等马", "牛 马"};
 
 
+    /**
+     * 腾讯官方英雄信息
+     */
+   public static final String TENCENT_HERO_LIST = "http://game.gtimg.cn/images/lol/act/img/js/heroList/hero_list.js";
+
+    /**
+     * 腾讯官方英雄图标
+     */
+    public static final String TENCENT_HERO_IMAGE = "http://game.gtimg.cn/images/lol/act/img/champion/Annie.png";
+
+    /**
+     * 拳头官方英雄信息
+     */
+    public static final String RIOT_HERO_LIST = "https://ddragon.leagueoflegends.com/cdn/14.12.1/data/zh_CN/champion.json";
 
 }
