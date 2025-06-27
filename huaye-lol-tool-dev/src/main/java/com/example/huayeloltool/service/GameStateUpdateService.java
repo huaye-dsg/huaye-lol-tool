@@ -4,26 +4,22 @@ import com.example.huayeloltool.common.CommonRequest;
 import com.example.huayeloltool.enums.Constant;
 import com.example.huayeloltool.enums.GameEnums;
 import com.example.huayeloltool.enums.Heros;
-import com.example.huayeloltool.enums.NewHeros;
-import com.example.huayeloltool.model.Conversation.ConversationMsg;
-import com.example.huayeloltool.model.cache.CustomGameCache;
-import com.example.huayeloltool.model.game.CustomGameSession;
-import com.example.huayeloltool.model.summoner.Summoner;
+import com.example.huayeloltool.model.conversation.ConversationMsg;
 import com.example.huayeloltool.model.base.CalcScoreConf;
-import com.example.huayeloltool.model.base.GameGlobalSetting;
-import com.example.huayeloltool.model.game.GameFlowSession;
-import com.example.huayeloltool.model.game.GameHistory;
-import com.example.huayeloltool.model.game.GameSummary;
-import com.example.huayeloltool.model.game.Participant;
-import com.example.huayeloltool.model.summoner.RankedInfo;
+import com.example.huayeloltool.model.cache.CustomGameCache;
+import com.example.huayeloltool.model.game.*;
 import com.example.huayeloltool.model.score.ScoreService;
 import com.example.huayeloltool.model.score.ScoreWithReason;
 import com.example.huayeloltool.model.score.UserScore;
+import com.example.huayeloltool.model.summoner.RankedInfo;
+import com.example.huayeloltool.model.summoner.Summoner;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -34,26 +30,13 @@ import static com.example.huayeloltool.enums.GameEnums.GameFlow.IN_PROGRESS;
 
 
 @Slf4j
+@Service
 public class GameStateUpdateService extends CommonRequest {
 
-    private final GameGlobalSetting clientCfg = GameGlobalSetting.getInstance();
-
-    private final LcuApiService lcuApiService = LcuApiService.getInstance();
-    private final ScoreService scoreService = ScoreService.getInstance();
-
-    private static final String SCORE_RESULT = "【%s】【%d分】%s: %s %s ";
-    private static final String KDA_FORMAT = "[%s-%s-%s-%d/%d/%d]";
-    private static final Double defaultScore = 100.0;
-
-    private static GameStateUpdateService instance;
-
-    public static GameStateUpdateService getInstance() {
-        if (instance == null) {
-            instance = new GameStateUpdateService();
-        }
-        return instance;
-    }
-
+    @Autowired
+    private LcuApiService lcuApiService;
+    @Autowired
+    private ScoreService scoreService;
 
     @SneakyThrows
     public void onGameFlowUpdate(String gameState) {
@@ -68,19 +51,6 @@ public class GameStateUpdateService extends CommonRequest {
         }
     }
 
-    /**
-     * 自动开启下一场对局
-     */
-    @SneakyThrows
-    private void autoStartNextGame() {
-        Thread.sleep(1500);
-        boolean result = lcuApiService.playAgain();
-        // TODO 扩展，检查自己是不是房主
-        if (result) {
-            Thread.sleep(1500);
-            lcuApiService.autoStartMatch();
-        }
-    }
 
     @SneakyThrows
     private void acceptGame() {
@@ -254,22 +224,6 @@ public class GameStateUpdateService extends CommonRequest {
         }
 
         CalcScoreConf.HorseScoreConf[] horseArr = CalcScoreConf.getInstance().getHorse();
-        // 打印日志
-        //summonerList.stream()
-        //        .map(summoner -> calculateUserScore(summoner, isSelf))
-        //        .filter(Objects::nonNull) // 过滤无效值
-        //        .sorted(Comparator.comparingDouble(UserScore::getScore).reversed()) // 先按照分数排序
-        //        .forEach(scoreInfo -> {
-        //            double score = scoreInfo.getScore();
-        //            String msg = String.format(SCORE_RESULT,
-        //                    findHorseName(score, horseArr),  // 马匹信息
-        //                    (int) score, // 分数
-        //                    rankData(scoreInfo.getPuuid()), // 段位
-        //                    scoreInfo.getSummonerName(), // 召唤师名称
-        //                    formatKDAInfo(scoreInfo.getCurrKDA(), 5));  // 前几局KDA
-        //            log.info("{}\n{}", msg, scoreInfo.getExtMsg());
-        //        });
-
         // 存储到缓存
         summonerList.stream()
                 .map(summoner -> calculateUserScore(summoner, isSelf))
@@ -283,10 +237,10 @@ public class GameStateUpdateService extends CommonRequest {
                     item.setSummonerName(scoreInfo.getSummonerName());
                     List<UserScore.Kda> currKDA = scoreInfo.getCurrKDA();
 
-                    List<String> collect = currKDA.stream().limit(5).map(kda -> String.format(KDA_FORMAT,
+                    List<String> collect = currKDA.stream().limit(5).map(kda -> String.format(Constant.KDA_FORMAT,
                             kda.getQueueGame(),
                             kda.getWin() ? Constant.WIN_STR : Constant.LOSE_STR,
-                            "http://game.gtimg.cn/images/lol/act/img/champion/" + NewHeros.getAliasById(kda.getChampionId()) + ".png",
+                            Heros.getImageById(kda.getChampionId()),
                             kda.getKills(),
                             kda.getDeaths(),
                             kda.getAssists())).toList();
@@ -310,13 +264,13 @@ public class GameStateUpdateService extends CommonRequest {
             Thread.sleep(200); // 延迟避免请求过载
 
             long summonerID = summoner.getSummonerId();
-            UserScore userScoreInfo = new UserScore(summonerID, defaultScore); // 创建用户评分对象，默认分数
+            UserScore userScoreInfo = new UserScore(summonerID, Constant.DEFAULT_SCORE); // 创建用户评分对象，默认分数
             userScoreInfo.setSummonerName(String.format("%s#%s", summoner.getGameName(), summoner.getTagLine()));
             userScoreInfo.setPuuid(summoner.getPuuid()); // 设置用户唯一标识
 
             List<GameHistory.GameInfo> gameList;
             try {
-                gameList = lcuApiService.listGameHistory(summoner, 0, 19); // 获取最近20场游戏记录
+                gameList = lcuApiService.listGameHistory(summoner, 0, 19); // 获取最近20场对局记录
                 // 过滤指定的对局模式
                 gameList = gameList.stream().filter(game -> GameEnums.GameQueueID.isNormalGameMode(game.getQueueId())).toList();
                 if (CollectionUtils.isEmpty(gameList)) {
@@ -360,30 +314,30 @@ public class GameStateUpdateService extends CommonRequest {
 
         // 计算加权总分
         LocalDateTime nowTime = LocalDateTime.now();
-        // 近期游戏分数
+        // 近期对局分数
         List<Double> currTimeScores = new ArrayList<>(validScores.size());
-        // 其他时段游戏分数
+        // 其他时段对局分数
         List<Double> otherTimeScores = new ArrayList<>(validScores.size());
 
         double totalScore = 0;
-        int totalGameCount = validScores.size(); // 直接使用有效游戏数
+        int totalGameCount = validScores.size(); // 直接使用有效对局数
         for (AbstractMap.SimpleEntry<Double, LocalDateTime> entry : validScores) {
             double score = entry.getKey();
             totalScore += score;
-            if (nowTime.isBefore(entry.getValue().plusHours(24))) { // 24小时内游戏为当前时段
+            if (nowTime.isBefore(entry.getValue().plusHours(24))) { // 24小时内对局为当前时段
                 currTimeScores.add(score);
             } else {
                 otherTimeScores.add(score);
             }
         }
 
-        // 计算加权分数（若有效游戏数为0则使用默认分）
+        // 计算加权分数（若有效对局数为0则使用默认分）
         return totalGameCount > 0 ?
-                calculateWeightedScore(currTimeScores, otherTimeScores, totalGameCount, totalScore) : defaultScore;
+                calculateWeightedScore(currTimeScores, otherTimeScores, totalGameCount, totalScore) : Constant.DEFAULT_SCORE;
     }
 
     /**
-     * 分析每一场游戏的KDA和使用英雄
+     * 分析每一场对局的KDA和使用英雄
      */
     public List<UserScore.Kda> getKdas(List<GameHistory.GameInfo> gameList) {
         return gameList.stream().map(gameInfo -> {
@@ -397,30 +351,37 @@ public class GameStateUpdateService extends CommonRequest {
             kda.setQueueGame(GameEnums.GameQueueID.getGameNameMap(gameInfo.getQueueId()));
             kda.setChampionName(Heros.getNameById(participant.getChampionId()));
             kda.setChampionId(participant.getChampionId());
-            kda.setPosition(guessPosition(participant.getTimeline().getLane(), participant.getTimeline().getRole()));
+            kda.setPosition(getPositionFromLaneAndRole(participant.getTimeline().getLane(), participant.getTimeline().getRole()));
             return kda;
         }).toList();
     }
 
-    public static String guessPosition(String lane, String role) {
-        if ("JUNGLE".equalsIgnoreCase(lane)) {
-            return "打野";
-        } else if ("TOP".equalsIgnoreCase(lane)) {
-            return "上单";
-        } else if ("MIDDLE".equalsIgnoreCase(lane) || "MID".equalsIgnoreCase(lane)) {
-            return "中单";
-        } else if ("BOTTOM".equalsIgnoreCase(lane)) {
-            if ("CARRY".equalsIgnoreCase(role)) {
-                return "ADC";
-            } else if ("SUPPORT".equalsIgnoreCase(role)) {
-                return "辅助";
-            }
+    public static String getPositionFromLaneAndRole(String lane, String role) {
+        if (lane == null || role == null) return "";
+        lane = lane.toUpperCase();
+        role = role.toUpperCase();
+
+        switch (lane) {
+            case "TOP":
+                if ("SOLO".equals(role)) return "上单";
+                break;
+            case "JUNGLE":
+                // role字段通常为"NONE"或空
+                return "打野";
+            case "MIDDLE":
+                if ("SOLO".equals(role)) return "中单";
+                break;
+            case "BOTTOM":
+                if ("DUO_CARRY".equals(role) || "SOLO".equals(role)) return "ADC";
+                if ("DUO_SUPPORT".equals(role)) return "辅助";
+                break;
+            case "NONE":
+                // 兼容部分对局，通常不能断定，返回UNKNOWN
+                return "";
         }
-        return "未知";
+        // 未匹配到的组合，返回UNKNOWN
+        return "";
     }
-
-
-
 
     private String findHorseName(double score, CalcScoreConf.HorseScoreConf[] horseArr) {
         for (int i = 0; i < horseArr.length; i++) {
@@ -431,13 +392,28 @@ public class GameStateUpdateService extends CommonRequest {
         return "";
     }
 
+
+    /**
+     * 自动开启下一场对局
+     */
+    @SneakyThrows
+    private void autoStartNextGame() {
+        Thread.sleep(1500);
+        boolean result = lcuApiService.playAgain();
+        // TODO 扩展，检查自己是不是房主
+        if (result) {
+            Thread.sleep(1500);
+            lcuApiService.autoStartMatch();
+        }
+    }
+
     /**
      * 格式化对局kda详情
      */
     public String formatKDAInfo(List<UserScore.Kda> kdaList, int limit) {
         return kdaList.stream()
                 .limit(limit)
-                .map(kda -> String.format(KDA_FORMAT,
+                .map(kda -> String.format(Constant.KDA_FORMAT,
                         kda.getQueueGame(),
                         kda.getWin() ? Constant.WIN_STR : Constant.LOSE_STR,
                         kda.getChampionName(),
@@ -453,28 +429,28 @@ public class GameStateUpdateService extends CommonRequest {
      * 计算加权后的总得分。
      *
      * @param currTimeScoreList  当前时间内的得分列表
-     * @param otherGameScoreList 其他游戏的得分列表
-     * @param totalGameCount     总的游戏场次数量
-     * @param totalScore         所有游戏的总得分
+     * @param otherGameScoreList 其他对局的得分列表
+     * @param totalGameCount     总的对局场次数量
+     * @param totalScore         所有对局的总得分
      * @return 加权后的总得分
      */
     private double calculateWeightedScore(List<Double> currTimeScoreList, List<Double> otherGameScoreList, int totalGameCount, double totalScore) {
         // 计算当前时间内所有得分之和
         double totalTimeScore = currTimeScoreList.stream().mapToDouble(Double::doubleValue).sum();
-        // 计算其他游戏中所有得分之和
+        // 计算其他对局中所有得分之和
         double totalOtherGameScore = otherGameScoreList.stream().mapToDouble(Double::doubleValue).sum();
 
-        // 如果游戏场次大于零，计算平均得分；否则设为0
+        // 如果对局场次大于零，计算平均得分；否则设为0
         double totalGameAvgScore = totalGameCount > 0 ? totalScore / totalGameCount : 0.0;
 
         // 初始化加权总分
         double weightTotalScore = 0.0;
         // 计算当前时间内得分的平均值；如果列表为空，则设为0
         double avgTimeScore = !currTimeScoreList.isEmpty() ? totalTimeScore / currTimeScoreList.size() : 0;
-        // 计算其他游戏中得分的平均值；如果列表为空，则设为0
+        // 计算其他对局中得分的平均值；如果列表为空，则设为0
         double avgOtherGameScore = !otherGameScoreList.isEmpty() ? totalOtherGameScore / otherGameScoreList.size() : 0;
 
-        // 将当前时间和其他游戏中的得分按比例加入到加权总分中
+        // 将当前时间和其他对局中的得分按比例加入到加权总分中
         weightTotalScore += !currTimeScoreList.isEmpty() ? 0.7 * avgTimeScore : 0.7 * totalGameAvgScore;
         weightTotalScore += !otherGameScoreList.isEmpty() ? 0.3 * avgOtherGameScore : 0.3 * totalGameAvgScore;
 

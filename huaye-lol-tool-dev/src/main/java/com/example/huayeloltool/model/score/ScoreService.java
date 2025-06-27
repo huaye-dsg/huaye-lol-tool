@@ -6,9 +6,11 @@ import com.example.huayeloltool.model.game.GameSummary;
 import com.example.huayeloltool.model.game.Participant;
 import com.example.huayeloltool.model.score.calc.CommonScoreService;
 import lombok.Getter;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+@Component
 public class ScoreService extends CommonScoreService {
 
     static final CalcScoreConf calcScoreConf = CalcScoreConf.getInstance();

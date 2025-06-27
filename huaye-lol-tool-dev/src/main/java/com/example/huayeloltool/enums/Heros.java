@@ -9,193 +9,378 @@ import java.util.Map;
 @Getter
 @AllArgsConstructor
 public enum Heros {
-    ALL("全部", 0, "", ""),
-    DARK_CHILD("黑暗之女", 1, "安妮", "安妮"),
-    BERSERKER("狂战士", 2, "奥拉夫", "大头"),
-    JUSTICE_COLOSSUS("正义巨像", 3, "加里奥", "加里奥"),
-    CARD_MASTER("卡牌大师", 4, "崔斯特", "卡牌"),
-    DE_MA_CHIEF("德邦总管", 5, "赵信", "赵信"),
-    DREADNOUGHT("无畏战车", 6, "厄加特", "螃蟹"),
-    TRICKSTER_FAIRY("诡术妖姬", 7, "乐芙兰", "诡术妖姬"),
-    SCARLET_HARVESTER("猩红收割者", 8, "弗拉基米尔", "吸血鬼"),
-    ANCIENT_TERROR("远古恐惧", 9, "费德提克", "稻草人"),
-    JUSTICE_ANGEL("正义天使", 10, "凯尔", "天使"),
-    WI_JI_SWORD_SAGE("无极剑圣", 11, "易", "剑圣"),
-    BULL_HORN_CHIEF("牛头酋长", 12, "阿利斯塔", "牛头"),
-    RUNE_MAGE("符文法师", 13, "瑞兹", "瑞兹"),
-    UNDEAD_WARRIOR("亡灵战神", 14, "赛恩", "赛恩"),
-    WAR_GODDESS("战争女神", 15, "希维尔", "轮子妈"),
-    STAR_CHILD("众星之子", 16, "索拉卡", "奶妈"),
-    SWIFT_SCOUT("迅捷斥候", 17, "提莫", "提莫"),
-    MAZEL_CANNONEER("麦林炮手", 18, "崔丝塔娜", "小炮"),
-    ZAUN_ANGRY_BEAST("祖安怒兽", 19, "沃里克", "狼人"),
-    SNOWFIELD_TWINS("雪原双子", 20, "努努和威朗普", "雪人"),
-    BOUNTY_HUNTER("赏金猎人", 21, "厄运小姐", "女枪"),
-    ICE_ARCHER("寒冰射手", 22, "艾希", "寒冰射手"),
-    VANUATU_KING("蛮族之王", 23, "泰达米尔", "蛮王"),
-    WEAPON_MASTER("武器大师", 24, "贾克斯", "武器"),
-    FALLEN_ANGEL("堕落天使", 25, "莫甘娜", "莫甘娜"),
-    TIME_KEEPER("时光守护者", 26, "基兰", "时光老头"),
-    ALCHEMIST("炼金术士", 27, "辛吉德", "炼金"),
-    EMBRACE_OF_SORROW("痛苦之拥", 28, "伊芙琳", "寡妇"),
-    PLAGUE_SHOW_SOURCE("瘟疫之源", 29, "图奇", "老鼠"),
-    DEATH_SINGER("死亡颂唱者", 30, "卡尔萨斯", "死歌"),
-    VOID_TERROR("虚空恐惧", 31, "科加斯", "大虫子"),
-    WOUNDED_MUMMY("殇之木乃伊", 32, "阿木木", "阿木木"),
-    ARMOR_DRAKON("披甲龙龟", 33, "拉莫斯", "龙龟"),
-    ICY_PHOENIX("冰晶凤凰", 34, "艾尼维亚", "冰晶凤凰"),
-    DEMON_CLOWN("恶魔小丑", 35, "萨科", "小丑"),
-    ZAUN_MADMAN("祖安狂人", 36, "蒙多医生", "蒙多"),
-    STRING_FAIRY("琴瑟仙女", 37, "娑娜", "琴女"),
-    VOID_WALKER("虚空行者", 38, "卡萨丁", "电耗子"),
-    BLADE_DANCER("刀锋舞者", 39, "艾瑞利亚", "刀妹"),
-    STORM_OF_ANGER("风暴之怒", 40, "杰娜", "风女"),
-    OCEAN_PLAGUE("海洋之灾", 41, "普朗克", "船长"),
-    HEROIC_BOMBER("英勇投弹手", 42, "库奇", "飞机"),
-    AWAKENED("天启者", 43, "卡尔玛", "扇子妈"),
-    VALORAN_SHIELD("瓦洛兰之盾", 44, "塔里克", "宝石"),
-    EVIL_LITTLE_MAGICIAN("邪恶小法师", 45, "维迦", "小法"),
-    TROLL_KING("巨魔之王", 48, "特朗德尔", "巨魔"),
-    NOXIA_SUMMONER("诺克萨斯统领", 50, "斯维因", "乌鸦"),
-    PILTOVER_POLICE("皮城女警", 51, "凯特琳", "女警"),
-    STEAM_ROBOT("蒸汽机器人", 53, "布里茨", "机器人"),
-    LAVA_MONSTER("熔岩巨兽", 54, "墨菲特", "石头人"),
-    BLADE_OF_OMENS("不祥之刃", 55, "卡特琳娜", "卡特"),
-    NIGHTMARE("永恒梦魇", 56, "魔腾", "梦魇"),
-    TWISTED_TREE("扭曲树精", 57, "茂凯", "大树"),
-    DESERT_SLAYER("荒漠屠夫", 58, "雷克顿", "鳄鱼"),
-    DEMACIA_PRINCE("德玛西亚皇子", 59, "嘉文四世", "皇子"),
-    SPIDER_QUEEN("蜘蛛女皇", 60, "伊莉丝", "蜘蛛"),
-    ORBIT_DEVIL("发条魔灵", 61, "奥莉安娜", "发条"),
-    MONKEY_KING("齐天大圣", 62, "孙悟空", "猴子"),
-    REVENGE_OF_SOMETHING("复仇焰魂", 63, "布兰德", "火男"),
-    BLIND_MONK("盲僧", 64, "李青", "盲僧"),
-    NIGHT_HUNTER("暗夜猎手", 67, "薇恩", "薇恩"),
-    MACHINE_ENEMY("机械公敌", 68, "兰博", "机器人"),
-    SNAKE_MAN("魔蛇之拥", 69, "卡西奥佩娅", "蛇女"),
-    ANCIENT_LORD("上古领主", 72, "斯卡纳", "蝎子"),
-    GREAT_INVENTOR("大发明家", 74, "海默丁格", "大头"),
-    SAND_DEAD_NOS("沙漠死神", 75, "内瑟斯", "狗头"),
-    WILD_HUNTRESS("狂野女猎手", 76, "奈德丽", "豹女"),
-    BEAST_SPIRIT_WALKER("兽灵行者", 77, "乌迪尔", "乌迪尔"),
-    SAINT_HAMMER_WILL("圣锤之毅", 78, "波比", "锤石"),
-    WINE_BARREL("酒桶", 79, "古拉加斯", "酒桶"),
-    UNYIELDING_LANCE("不屈之枪", 80, "潘森", "潘森"),
-    EXPLORER("探险家", 81, "伊泽瑞尔", "EZ"),
-    IRON_ARMOR("铁铠冥魂", 82, "莫德凯撒", "铁男"),
-    SHEPHERD_OF_THE_SOUL("牧魂人", 83, "约里克", "掘墓者"),
-    ABANDONED_TO_THORNS("离群之刺", 84, "阿卡丽", "阿卡丽"),
-    WILD_TENSION("狂暴之心", 85, "凯南", "凯南"),
-    DEMACIA_POWER("德玛西亚之力", 86, "盖伦", "盖伦"),
-    DAWN_GODDESS("曙光女神", 89, "蕾欧娜", "日女"),
-    EMPTY_VOID_MASTER("虚空先知", 90, "玛尔扎哈", "蚂蚱"),
-    BLADE_OF_THE_SHADOW("刀锋之影", 91, "泰隆", "男刀"),
-    EXILED_EDGE("放逐之刃", 92, "锐雯", "锐雯"),
-    ABYSSAL_OGRE("深渊巨口", 96, "克格莫", "大嘴"),
-    TWILIGHT_EYE("暮光之眼", 98, "慎", "慎"),
-    LIGHT_GIRL("光辉女郎", 99, "拉克丝", "光辉"),
-    ANCIENT_WIZARD("远古巫灵", 101, "泽拉斯", "泽拉斯"),
-    DRAGON_BLOOD("龙血武姬", 102, "希瓦娜", "龙女"),
-    NINE_TAIL_YAOHOU("九尾妖狐", 103, "阿狸", "狐狸"),
-    OUTLAW("法外狂徒", 104, "格雷福斯", "男枪"),
-    TIDES_SPIRIT("潮汐海灵", 105, "菲兹", "小鱼人"),
-    UNEXTINGUISHED_THUNDER("不灭狂雷", 106, "沃利贝尔", "狗熊"),
-    AMBITIOUS_TRACK_HUNTER("傲之追猎者", 107, "雷恩加尔", "狮子狗"),
-    PUNISHMENT_ARROW("惩戒之箭", 110, "韦鲁斯", "维鲁斯"),
-    DEEP_SEA_TITAN("深海泰坦", 111, "诺提勒斯", "泰坦"),
-    ARK_HEIR("奥术先驱", 112, "维克托", "维克托"),
-    FROZEN_FURY("北地之怒", 113, "瑟庄妮", "猪妹"),
-    DOUBLE_SWORDS_FIGHTER("无双剑姬", 114, "菲奥娜", "剑姬"),
-    BOMB_ZANY("爆破鬼才", 115, "吉格斯", "炸弹人"),
-    ELFWITCH("仙灵女巫", 117, "璐璐", "露露"),
-    JUDGEMENT_EXECUTIONER("荣耀行刑官", 119, "德莱文", "德莱文"),
-    WAR_SHADOW("战争之影", 120, "赫卡里姆", "人马"),
-    VOID_RAIDER("虚空掠夺者", 121, "卡兹克", "螳螂"),
-    NOXIAN_HAND("诺克萨斯之手", 122, "德莱厄斯", "诺手"),
-    GUARDIAN_OF_THE_FUTURE("未来守护者", 126, "杰斯", "杰斯"),
-    FROST_WITCH("冰霜女巫", 127, "丽桑卓", "冰女"),
-    AURORA_GODDESS("皎月女神", 131, "戴安娜", "皎月"),
-    DEMACIA_WINGS("德玛西亚之翼", 133, "奎因", "奎因"),
-    DARK_HEIR("暗黑元首", 134, "辛德拉", "球女"),
-    STARMELT_DRAGON_KING("铸星龙王", 136, "奥瑞利安·索尔", "龙王"),
-    SHADOW_STREAM_SICKLE("影流之镰", 141, "凯隐&拉亚斯特", "凯隐"),
-    TWILIGHT_STAR_SPIRIT("暮光星灵", 142, "佐伊", "佐伊"),
-    THICKET_OF_THORNS("荆棘之兴", 143, "婕拉", "婕拉"),
-    VOID_WOMAN("虚空之女", 145, "卡莎", "卡莎"),
-    STAR_MELODY_SINGER("星籁歌姬", 147, "萨勒芬妮", "萨勒芬妮"),
-    LOST_TEETH("迷失之牙", 150, "纳尔", "纳尔"),
-    BIOCHEMICAL_DEVIL("生化魔人", 154, "扎克", "扎克"),
-    WIND_SWORD("疾风剑豪", 157, "亚索", "亚索"),
-    VOID_EYE("虚空之眼", 161, "维克兹", "大眼"),
-    STONE_SLIDER("岩雀", 163, "塔莉垭", "塔莉垭"),
-    STEEL_BEAM("青钢影", 164, "卡米尔", "卡米尔"),
-    SHADOW_SCOUT("影哨", 166, "阿克尚", "阿克尚"),
-    VOID_QUEEN("虚空女皇", 200, "卑尔维斯", "虚空女皇"),
-    FRELJORD_HEART("弗雷尔卓德之心", 201, "布隆", "布隆"),
-    KILLMAKER("戏命师", 202, "烬", "烬"),
-    DOUBLE_HUNTRESSION("永猎双子", 203, "千珏", "千珏"),
-    ZAUN_FIREFOX("祖安花火", 221, "泽丽", "泽丽"),
-    CRAZY_GIRL("暴走萝莉", 222, "金克丝", "金克丝"),
-    RIVER_KING("河流之王", 223, "塔姆", "塔姆"),
-    CRAZED_ROSE("狂厄蔷薇", 233, "狂厄蔷薇", "狂厄蔷薇"),
-    WAISE_OF_DEFEAT("破败之王", 234, "佛耶戈", "佛耶戈"),
-    SOUL_CATHARSIS("涤魂圣枪", 235, "塞纳", "塞纳"),
-    GUN_OF_THE_SAINT("圣枪游侠", 236, "卢锡安", "卢锡安"),
-    SHADOW_FLOW_MASTER("影流之主", 238, "劫", "劫"),
-    ANGRY_RIDER("暴怒骑士", 240, "克烈", "克烈"),
-    TIME_ASSASSIN("时间刺客", 245, "艾克", "艾克"),
-    QUEEN_OF_ELEMENTS("元素女皇", 246, "奇亚娜", "奇亚娜"),
-    PILTOVER_VMIS("皮城执法官", 254, "蔚", "蔚"),
-    DARKEDGE_SWORD_DEMON("暗裔剑魔", 266, "亚托克斯", "剑魔"),
-    CALLER_OF_THE_TIDE("唤潮鲛姬", 267, "娜美", "娜美"),
-    DESERT_EMPEROR("沙漠皇帝", 268, "阿兹尔", "黄鸡"),
-    MAGIC_CAT("魔法猫咪", 350, "悠米", "悠米"),
-    SAND_OF_THE_ROSE("沙漠玫瑰", 360, "莎米拉", "莎米拉"),
-    SOUL_LOCK_JAILOR("魂锁典狱长", 412, "锤石", "锤石"),
-    BEAST_PRIESTESS("海兽祭司", 420, "俄洛伊", "俄洛伊"),
-    VOID_BURROWER_BEAST("虚空遁地兽", 421, "雷克赛", "挖掘机"),
-    EMERALD_DEITY("翠神", 427, "艾翁", "小树"),
-    REVENGE_OF_THE_SPEAR("复仇之矛", 429, "卡莉丝塔", "卡莉丝塔"),
-    STAR_GOD("星界游神", 432, "巴德", "巴德"),
-    MAGIC_MONARCH("幻翎", 497, "洛", "洛"),
-    COUNTERFEIT_EYE("逆羽", 498, "霞", "霞"),
-    FIRE_HIDDEN("山隐之焰", 516, "奥恩", "奥恩"),
-    SOLITAIRE("解脱者", 517, "塞拉斯", "塞拉斯"),
-    MINI_UNIVERSE("万花通灵", 518, "妮蔻", "妮蔻"),
-    RESTRAINEDEYE_OF_LUMEN("残月之肃", 523, "厄斐琉斯", "厄斐琉斯"),
-    IRON_MODA("镕铁少女", 526, "芮尔", "芮尔"),
-    LURKING_GHOST("血港鬼影", 555, "派克", "派克"),
-    CLOUD_OF_SORROW("愁云使者", 711, "薇古斯", "薇古斯"),
-    SEAL_SWORD_SOUL("封魔剑魂", 777, "永恩", "永恩"),
-    BLOOD_TRAIL_ALFA("铁血狼母", 799, "安蓓萨", "安蓓萨"),
-    LIGHT_MIRROR_OF_SPARK("流光镜影", 800, "梅尔", "梅尔"),
-    ARM_FLAME("腕豪", 875, "瑟提", "瑟提"),
-    SHAMEFUL_BLOOM("含羞蓓蕾", 876, "莉莉娅", "莉莉娅"),
-    SPIRIT_DOLL("灵罗娃娃", 887, "格温", "格温"),
-    ALCHEMIST_BARON("炼金男爵", 888, "烈娜塔・戈拉斯克", "烈娜塔"),
-    DOUBLE_RABBITS("双界灵兔", 893, "阿萝拉", "兔子"),
-    RECKLESSLY_JOYFUL("不羁之悦", 895, "尼菈", "尼菈"),
-    LASER_GLORY("纳祖芒荣耀", 897, "奎桑提", "奎桑提"),
-    FIERY_CHICK("炽炎雏龙", 901, "斯莫德", "小火龙"),
-    CANDLE_OF_LIFE("明烛", 902, "米利欧", "米利欧"),
-    PAINTER_OF_THE_SWEET_BROWS("异画师", 910, "慧", "异画师"),
-    HUNDREDKILLS_GHOSTHOUND("百裂冥犬", 950, "纳亚菲利", "狼狗"),
-    BULUMU("布鲁姆", 957, "布鲁姆", "布鲁姆"),
-    KASHA("虚空之女",999,"卡莎","卡莎");
 
-    private final String label;
-    private final Integer id;
-    private final String realName;
-    private final String nickname;
+    ANNIE(1, "Annie", "安妮", "黑暗之女"),
+
+    OLAF(2, "Olaf", "奥拉夫", "狂战士"),
+
+    GALIO(3, "Galio", "加里奥", "正义巨像"),
+
+    TWISTED_FATE(4, "TwistedFate", "崔斯特", "卡牌大师"),
+
+    XIN_ZHAO(5, "XinZhao", "赵信", "德邦总管"),
+
+    URGOT(6, "Urgot", "厄加特", "无畏战车"),
+
+    LEBLANC(7, "Leblanc", "乐芙兰", "诡术妖姬"),
+
+    VLADIMIR(8, "Vladimir", "弗拉基米尔", "猩红收割者"),
+
+    FIDDLESTICKS(9, "FiddleSticks", "费德提克", "远古恐惧"),
+
+    KAYLE(10, "Kayle", "凯尔", "正义天使"),
+
+    MASTER_YI(11, "MasterYi", "易", "无极剑圣"),
+
+    ALISTAR(12, "Alistar", "阿利斯塔", "牛头酋长"),
+
+    RYZE(13, "Ryze", "瑞兹", "符文法师"),
+
+    SION(14, "Sion", "赛恩", "亡灵战神"),
+
+    SIVIR(15, "Sivir", "希维尔", "战争女神"),
+
+    SORAKA(16, "Soraka", "索拉卡", "众星之子"),
+
+    TEEMO(17, "Teemo", "提莫", "迅捷斥候"),
+
+    TRISTANA(18, "Tristana", "崔丝塔娜", "麦林炮手"),
+
+    WARWICK(19, "Warwick", "沃里克", "祖安怒兽"),
+
+    NUNU(20, "Nunu", "努努", "雪原双子"),
+
+    MISS_FORTUNE(21, "MissFortune", "厄运小姐", "赏金猎人"),
+
+    ASHE(22, "Ashe", "艾希", "寒冰射手"),
+
+    TRYNDAMERE(23, "Tryndamere", "泰达米尔", "蛮族之王"),
+
+    JAX(24, "Jax", "贾克斯", "武器大师"),
+
+    MORIGANA(25, "Morgana", "莫甘娜", "堕落天使"),
+
+    ZILEAN(26, "Zilean", "基兰", "时光守护者"),
+
+    SINGED(27, "Singed", "辛吉德", "炼金术士"),
+
+    EVELYNN(28, "Evelynn", "伊芙琳", "痛苦之拥"),
+
+    TWITCH(29, "Twitch", "图奇", "瘟疫之源"),
+
+    KARTHUS(30, "Karthus", "卡尔萨斯", "死亡颂唱者"),
+
+    CHOGATH(31, "Chogath", "科加斯", "虚空恐惧"),
+
+    AMUMU(32, "Amumu", "阿木木", "殇之木乃伊"),
+
+    RAMMUS(33, "Rammus", "拉莫斯", "披甲龙龟"),
+
+    ANIVIA(34, "Anivia", "艾尼维亚", "冰晶凤凰"),
+
+    SHACO(35, "Shaco", "萨科", "恶魔小丑"),
+
+    DR_MUNDO(36, "DrMundo", "蒙多医生", "祖安狂人"),
+
+    SONA(37, "Sona", "娑娜", "琴瑟仙女"),
+
+    KASSADIN(38, "Kassadin", "卡萨丁", "虚空行者"),
+
+    IRELIA(39, "Irelia", "艾瑞莉娅", "刀锋舞者"),
+
+    JANNA(40, "Janna", "迦娜", "风暴之怒"),
+
+    GANGPLANK(41, "Gangplank", "普朗克", "海洋之灾"),
+
+    CORKI(42, "Corki", "库奇", "英勇投弹手"),
+
+    KARMA(43, "Karma", "卡尔玛", "天启者"),
+
+    TARIC(44, "Taric", "塔里克", "瓦洛兰之盾"),
+
+    VEIGAR(45, "Veigar", "维迦", "邪恶小法师"),
+
+    TRUNDLE(48, "Trundle", "特朗德尔", "巨魔之王"),
+
+    SWAIN(50, "Swain", "斯维因", "诺克萨斯统领"),
+
+    CAITLYN(51, "Caitlyn", "凯特琳", "皮城女警"),
+
+    BLITZCRANK(53, "Blitzcrank", "布里茨", "蒸汽机器人"),
+
+    MALPHITE(54, "Malphite", "墨菲特", "熔岩巨兽"),
+
+    KATARINA(55, "Katarina", "卡特琳娜", "不祥之刃"),
+
+    NOCTURNE(56, "Nocturne", "魔腾", "永恒梦魇"),
+
+    MAOKAI(57, "Maokai", "茂凯", "扭曲树精"),
+
+    RENEKTON(58, "Renekton", "雷克顿", "荒漠屠夫"),
+
+    JARVAN_IV(59, "JarvanIV", "嘉文四世", "德玛西亚皇子"),
+
+    ELISE(60, "Elise", "伊莉丝", "蜘蛛女皇"),
+
+    ORIANNA(61, "Orianna", "奥莉安娜", "发条魔灵"),
+
+    WUKONG(62, "MonkeyKing", "孙悟空", "齐天大圣"),
+
+    BRAND(63, "Brand", "布兰德", "复仇焰魂"),
+
+    LEE_SIN(64, "LeeSin", "李青", "盲僧"),
+
+    VAYNE(67, "Vayne", "薇恩", "暗夜猎手"),
+
+    RUMBLE(68, "Rumble", "兰博", "机械公敌"),
+
+    CASSIOPEIA(69, "Cassiopeia", "卡西奥佩娅", "魔蛇之拥"),
+
+    SKARNER(72, "Skarner", "斯卡纳", "上古领主"),
+
+    HEIMERDINGER(74, "Heimerdinger", "黑默丁格", "大发明家"),
+
+    NASUS(75, "Nasus", "内瑟斯", "沙漠死神"),
+
+    NIDALEE(76, "Nidalee", "奈德丽", "狂野女猎手"),
+
+    UDYR(77, "Udyr", "乌迪尔", "兽灵行者"),
+
+    POPPY(78, "Poppy", "波比", "圣锤之毅"),
+
+    GRAGAS(79, "Gragas", "古拉加斯", "酒桶"),
+
+    PANTHEON(80, "Pantheon", "潘森", "不屈之枪"),
+
+    EZREAL(81, "Ezreal", "伊泽瑞尔", "探险家"),
+
+    MORDEKAISER(82, "Mordekaiser", "莫德凯撒", "铁铠冥魂"),
+
+    YORICK(83, "Yorick", "约里克", "牧魂人"),
+
+    AKALI(84, "Akali", "阿卡丽", "离群之刺"),
+
+    KENNEN(85, "Kennen", "凯南", "狂暴之心"),
+
+    GAREN(86, "Garen", "盖伦", "德玛西亚之力"),
+
+    LEONA(89, "Leona", "蕾欧娜", "曙光女神"),
+
+    MALZAHAR(90, "Malzahar", "玛尔扎哈", "虚空先知"),
+
+    TALON(91, "Talon", "泰隆", "刀锋之影"),
+
+    RIVEN(92, "Riven", "锐雯", "放逐之刃"),
+
+    KOG_MAW(96, "KogMaw", "克格莫", "深渊巨口"),
+
+    SHEN(98, "Shen", "慎", "暮光之眼"),
+
+    LUX(99, "Lux", "拉克丝", "光辉女郎"),
+
+    XERATH(101, "Xerath", "泽拉斯", "远古巫灵"),
+
+    SHYVANA(102, "Shyvana", "希瓦娜", "龙血武姬"),
+
+    AHRI(103, "Ahri", "阿狸", "九尾妖狐"),
+
+    GRAVES(104, "Graves", "格雷福斯", "法外狂徒"),
+
+    FIZZ(105, "Fizz", "菲兹", "潮汐海灵"),
+
+    VOLIBEAR(106, "Volibear", "沃利贝尔", "不灭狂雷"),
+
+    RENGAR(107, "Rengar", "雷恩加尔", "傲之追猎者"),
+
+    VARUS(110, "Varus", "韦鲁斯", "惩戒之箭"),
+
+    NAUTILUS(111, "Nautilus", "诺提勒斯", "深海泰坦"),
+
+    VIKTOR(112, "Viktor", "维克托", "奥术先驱"),
+
+    SEJUANI(113, "Sejuani", "瑟庄妮", "北地之怒"),
+
+    FIORA(114, "Fiora", "菲奥娜", "无双剑姬"),
+
+    ZIGGS(115, "Ziggs", "吉格斯", "爆破鬼才"),
+
+    LULU(117, "Lulu", "璐璐", "仙灵女巫"),
+
+    DRAVEN(119, "Draven", "德莱文", "荣耀行刑官"),
+
+    HECARIM(120, "Hecarim", "赫卡里姆", "战争之影"),
+
+    KHAZIX(121, "Khazix", "卡兹克", "虚空掠夺者"),
+
+    DARIUS(122, "Darius", "德莱厄斯", "诺克萨斯之手"),
+
+    JAYCE(126, "Jayce", "杰斯", "未来守护者"),
+
+    LISSANDRA(127, "Lissandra", "丽桑卓", "冰霜女巫"),
+
+    DIANA(131, "Diana", "黛安娜", "皎月女神"),
+
+    QUINN(133, "Quinn", "奎因", "德玛西亚之翼"),
+
+    SYNDRA(134, "Syndra", "辛德拉", "暗黑元首"),
+
+    AURELION_SOL(136, "AurelionSol", "奥瑞利安索尔", "铸星龙王"),
+
+    KAYN(141, "Kayn", "凯隐", "影流之镰"),
+
+    ZOE(142, "Zoe", "佐伊", "暮光星灵"),
+
+    ZYRA(143, "Zyra", "婕拉", "荆棘之兴"),
+
+    KAISA(145, "Kaisa", "卡莎", "虚空之女"),
+
+    SERAPHINE(147, "Seraphine", "萨勒芬妮", "星籁歌姬"),
+
+    GNAR(150, "Gnar", "纳尔", "迷失之牙"),
+
+    ZAC(154, "Zac", "扎克", "生化魔人"),
+
+    YASUO(157, "Yasuo", "亚索", "疾风剑豪"),
+
+    VELKOZ(161, "Velkoz", "维克兹", "虚空之眼"),
+
+    TALIYAH(163, "Taliyah", "塔莉垭", "岩雀"),
+
+    CAMILLE(164, "Camille", "卡蜜尔", "青钢影"),
+
+    AKSHAN(166, "Akshan", "阿克尚", "影哨"),
+
+    BELVETH(200, "Belveth", "卑尔维斯", "虚空女皇"),
+
+    BRAUM(201, "Braum", "布隆", "弗雷尔卓德之心"),
+
+    JHIN(202, "Jhin", "烬", "戏命师"),
+
+    KINDRED(203, "Kindred", "千珏", "永猎双子"),
+
+    ZERI(221, "Zeri", "泽丽", "祖安花火"),
+
+    JINX(222, "Jinx", "金克丝", "暴走萝莉"),
+
+    TAHM_KENCH(223, "TahmKench", "塔姆", "河流之王"),
+
+    BRIAR(233, "Briar", "贝蕾亚", "狂厄蔷薇"),
+
+    VIEGO(234, "Viego", "佛耶戈", "破败之王"),
+
+    SENNA(235, "Senna", "赛娜", "涤魂圣枪"),
+
+    LUCIAN(236, "Lucian", "卢锡安", "圣枪游侠"),
+
+    ZED(238, "Zed", "劫", "影流之主"),
+
+    KLED(240, "Kled", "克烈", "暴怒骑士"),
+
+    EKKO(245, "Ekko", "艾克", "时间刺客"),
+
+    QIYANA(246, "Qiyana", "奇亚娜", "元素女皇"),
+
+    VI(254, "Vi", "蔚", "皮城执法官"),
+
+    AATROX(266, "Aatrox", "亚托克斯", "暗裔剑魔"),
+
+    NAMI(267, "Nami", "娜美", "唤潮鲛姬"),
+
+    AZIR(268, "Azir", "阿兹尔", "沙漠皇帝"),
+
+    YUUMI(350, "Yuumi", "悠米", "魔法猫咪"),
+
+    SAMIRA(360, "Samira", "莎弥拉", "沙漠玫瑰"),
+
+    THRESH(412, "Thresh", "锤石", "魂锁典狱长"),
+
+    ILLAOI(420, "Illaoi", "俄洛伊", "海兽祭司"),
+
+    REK_SAI(421, "RekSai", "雷克塞", "虚空遁地兽"),
+
+    IVERN(427, "Ivern", "艾翁", "翠神"),
+
+    KALISTA(429, "Kalista", "卡莉丝塔", "复仇之矛"),
+
+    BARD(432, "Bard", "巴德", "星界游神"),
+
+    RAKAN(497, "Rakan", "洛", "幻翎"),
+
+    XAYAH(498, "Xayah", "霞", "逆羽"),
+
+    ORNN(516, "Ornn", "奥恩", "山隐之焰"),
+
+    SYLAS(517, "Sylas", "塞拉斯", "解脱者"),
+
+    NEEKO(518, "Neeko", "妮蔻", "万花通灵"),
+
+    APHELIOS(523, "Aphelios", "厄斐琉斯", "残月之肃"),
+
+    RELL(526, "Rell", "芮尔", "镕铁少女"),
+
+    PYKE(555, "Pyke", "派克", "血港鬼影"),
+
+    VEX(711, "Vex", "薇古丝", "愁云使者"),
+
+    YONE(777, "Yone", "永恩", "封魔剑魂"),
+
+    AMBESSA(799, "Ambessa", "安蓓萨", "铁血狼母"),
+
+    MEL(800, "Mel", "梅尔", "流光镜影"),
+
+    SETT(875, "Sett", "瑟提", "腕豪"),
+
+    LILLIA(876, "Lillia", "莉莉娅", "含羞蓓蕾"),
+
+    GWEN(887, "Gwen", "格温", "灵罗娃娃"),
+
+    RENATA(888, "Renata", "烈娜塔·戈拉斯克", "炼金男爵"),
+
+    AURORA(893, "Aurora", "阿萝拉", "双界灵兔"),
+
+    NILAH(895, "Nilah", "尼菈", "不羁之悦"),
+
+    KSANTE(897, "KSante", "奎桑提", "纳祖芒荣耀"),
+
+    SMOLDER(901, "Smolder", "斯莫德", "炽炎雏龙"),
+
+    MILIO(902, "Milio", "米利欧", "明烛"),
+
+    HWEI(910, "Hwei", "彗", "异画师"),
+
+    NAAFIRI(950, "Naafiri", "纳亚菲利", "百裂冥犬");
+
+
+    private final Integer heroId;
+    private final String name;
+    private final String alias;
+    private final String title;
 
     private static final Map<Integer, String> valueToNicknameMap = new HashMap<>();
+
     static {
         for (Heros option : Heros.values()) {
-            valueToNicknameMap.put(option.getId(), option.getNickname());
+            valueToNicknameMap.put(option.getHeroId(), option.getTitle());
         }
     }
 
     public static String getNameById(int id) {
         return valueToNicknameMap.get(id);
+    }
+
+    private static final Map<Integer, String> heroAliasMap = new HashMap<>();
+
+    static {
+        for (Heros option : Heros.values()) {
+            heroAliasMap.put(option.getHeroId(), option.getName());
+        }
+    }
+
+    public static String getAliasById(int id) {
+        return heroAliasMap.get(id);
+    }
+
+    public static String getImageById(int id) {
+        return "http://game.gtimg.cn/images/lol/act/img/champion/" + heroAliasMap.get(id) + ".png";
     }
 }

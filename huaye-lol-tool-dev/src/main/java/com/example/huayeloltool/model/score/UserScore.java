@@ -12,12 +12,8 @@ public class UserScore {
     private String summonerName;
     private Double score;
     private List<Kda> currKDA;
-
-    // 扩展字段。后加的
     private String puuid;
-    // 扩展字段。后加的
     private String extMsg;
-
 
 
     public UserScore(Long summonerID, Double score) {
@@ -32,12 +28,11 @@ public class UserScore {
         private Integer deaths;
         private Integer assists;
 
-        // 扩展字段。后加的
         private Boolean win;
         private String championName;
         private String queueGame;
         private Integer championId;
-        private String  position;
+        private String position;
     }
 
 }

@@ -1,6 +1,5 @@
 package com.example.huayeloltool.model.cache;
 
-import com.example.huayeloltool.model.score.UserScore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

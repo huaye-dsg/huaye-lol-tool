@@ -2,10 +2,10 @@ package com.example.huayeloltool.model.base;
 
 import com.example.huayeloltool.enums.Heros;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import org.springframework.stereotype.Component;
 
 @Data
+@Component
 public class GameGlobalSetting {
 
     /**
@@ -21,17 +21,7 @@ public class GameGlobalSetting {
     /**
      * 自动禁用的英雄ID
      */
-    private Integer autoBanChampID = Heros.OUTLAW.getId();
+    private Integer autoBanChampID = Heros.GRAVES.getHeroId();
 
     private Boolean autoBanChamp = true;
-
-    private static GameGlobalSetting instance;
-
-    public static GameGlobalSetting getInstance() {
-        if (instance == null) {
-            instance = new GameGlobalSetting();
-        }
-        return instance;
-    }
-
 }

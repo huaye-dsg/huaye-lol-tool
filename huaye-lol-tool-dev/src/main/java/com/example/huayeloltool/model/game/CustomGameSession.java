@@ -4,7 +4,7 @@ import com.example.huayeloltool.enums.GameEnums;
 import com.example.huayeloltool.model.cache.CustomGameCache;
 import com.example.huayeloltool.model.champion.ChampSelectSessionInfo;
 import lombok.Data;
-import lombok.Getter;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
@@ -17,6 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * 当前本局游戏信息
  */
 @Data
+@Component
 public class CustomGameSession {
 
     // 游戏模式

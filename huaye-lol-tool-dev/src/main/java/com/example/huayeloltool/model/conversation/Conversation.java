@@ -1,4 +1,4 @@
-package com.example.huayeloltool.model.Conversation;
+package com.example.huayeloltool.model.conversation;
 
 import com.example.huayeloltool.enums.GameEnums;
 import lombok.Data;

@@ -30,6 +30,11 @@ public class Constant {
      */
     public static final String AVAILABILITY_OFFLINE = "offline";
 
+    public static final Double DEFAULT_SCORE = 100.0;
+
+    public static final String SCORE_RESULT = "【%s】【%d分】%s: %s %s ";
+    public static final String KDA_FORMAT = "[%s-%s-%s-%d/%d/%d]";
+
 
     public static final String WIN_STR = "胜";
     public static final String LOSE_STR = "败";
@@ -52,4 +57,9 @@ public class Constant {
      */
     public static final String RIOT_HERO_LIST = "https://ddragon.leagueoflegends.com/cdn/14.12.1/data/zh_CN/champion.json";
 
+    // OPGGapi
+    public static final String OPGG_API = "https://lol-api-champion.op.gg/api/KR/champions/ranked/${championId}/${position}";
+
+    // LCUAPIswagger
+    public static final String LCU_API_SWAGGER = "https://lcu.kebs.dev/swagger.html";
 }

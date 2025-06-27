@@ -1,4 +1,4 @@
-package com.example.huayeloltool.common;
+package com.example.huayeloltool.model.request;
 
 import lombok.Data;
 

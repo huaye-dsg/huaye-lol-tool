@@ -5983,3 +5983,43 @@ java.io.IOException: Request failed
 2025-06-26 22:35:16 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
 2025-06-26 22:36:51 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
 2025-06-26 22:36:52 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-27 16:07:32 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 59187 (/Users/zhangshuai/Desktop/huaye-lol-tool/huaye-lol-tool-dev/target/classes started by zhangshuai in /Users/zhangshuai/Desktop/huaye-lol-tool)
+2025-06-27 16:07:32 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-27 16:07:32 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-27 16:07:32 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-27 16:07:32 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-27 16:07:32 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-27 16:07:32 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-27 16:07:32 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 321 ms
+2025-06-27 16:07:33 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-27 16:07:33 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-27 16:07:33 INFO  c.example.huayeloltool.Application - Started Application in 0.684 seconds (process running for 1.009)
+2025-06-27 16:07:33 ERROR com.example.huayeloltool.Main - 客户端进程不存在！
+2025-06-27 16:07:39 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-27 16:07:41 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-27 16:07:42 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 59194 (/Users/zhangshuai/Desktop/huaye-lol-tool/huaye-lol-tool-dev/target/classes started by zhangshuai in /Users/zhangshuai/Desktop/huaye-lol-tool)
+2025-06-27 16:07:42 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-27 16:07:42 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-27 16:07:42 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-27 16:07:42 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-27 16:07:42 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-27 16:07:42 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-27 16:07:42 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 395 ms
+2025-06-27 16:07:42 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-27 16:07:42 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-27 16:07:42 INFO  c.example.huayeloltool.Application - Started Application in 0.7 seconds (process running for 0.975)
+2025-06-27 16:07:43 ERROR com.example.huayeloltool.Main - 客户端进程不存在！
+2025-06-27 16:34:14 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-27 16:34:16 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-27 16:34:17 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 62248 (/Users/zhangshuai/Desktop/huaye-lol-tool/huaye-lol-tool-dev/target/classes started by zhangshuai in /Users/zhangshuai/Desktop/huaye-lol-tool)
+2025-06-27 16:34:17 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-27 16:34:18 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-27 16:34:18 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-27 16:34:18 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-27 16:34:18 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-27 16:34:18 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-27 16:34:18 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 374 ms
+2025-06-27 16:34:18 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-27 16:34:18 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-27 16:34:18 INFO  c.example.huayeloltool.Application - Started Application in 0.761 seconds (process running for 1.071)
+2025-06-27 16:34:18 ERROR c.example.huayeloltool.StartLauncher - 客户端进程不存在！

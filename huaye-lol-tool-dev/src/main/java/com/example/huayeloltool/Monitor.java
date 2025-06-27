@@ -1,34 +1,41 @@
-package com.example.huayeloltool.service;
+package com.example.huayeloltool;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
-import com.example.huayeloltool.common.OkHttpClientCommonBean;
+import com.example.huayeloltool.common.OkHttpUtil;
 import com.example.huayeloltool.enums.GameEnums;
 import com.example.huayeloltool.model.base.BaseUrlClient;
 import com.example.huayeloltool.model.game.CustomGameSession;
 import com.example.huayeloltool.model.game.Matchmaking;
-import com.example.huayeloltool.model.score.ScoreService;
+import com.example.huayeloltool.service.GameSessionUpdateService;
+import com.example.huayeloltool.service.GameStateUpdateService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Base64;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
-public class GameFlowMonitor {
+@Component
+public class Monitor {
 
-    static OkHttpClient client = OkHttpClientCommonBean.getInstance();
-    static GameStateUpdateService gameStateUpdateService = GameStateUpdateService.getInstance();
-    static GameSessionUpdateService gameSessionUpdateService = GameSessionUpdateService.getInstance();
+    @Autowired
+    private GameStateUpdateService gameStateUpdateService;
+    @Autowired
+    private GameSessionUpdateService gameSessionUpdateService;
+
+    static OkHttpClient client = OkHttpUtil.getInstance();
 
     private static volatile boolean isWebSocketConnected = false;
 
     @SneakyThrows
-    public static void startGameFlowMonitor() {
+    public void startGameFlowMonitor() {
         if (isWebSocketConnected) {
             log.warn("上一个 WebSocket 连接可能尚未关闭，请稍后再试");
             return;
@@ -71,7 +78,7 @@ public class GameFlowMonitor {
     }
 
 
-    private static void handleWebSocketMessage(String message) {
+    private void handleWebSocketMessage(String message) {
         try {
             if (StringUtils.isEmpty(message)) {
                 return;
@@ -87,10 +94,13 @@ public class GameFlowMonitor {
             String data = event.getString("data");
 
             switch (uri) {
+                // 开始匹配、开始选人、进入对局
                 case "/lol-gameflow/v1/gameflow-phase" ->
                         new Thread(() -> gameStateUpdateService.onGameFlowUpdate(data)).start();
+                // 选人、禁用事件
                 case "/lol-champ-select/v1/session" ->
                         new Thread(() -> gameSessionUpdateService.onChampSelectSessionUpdate(data)).start();
+                // 开始匹配
                 case "/lol-lobby-team-builder/v1/matchmaking" -> handleGameMode(data);
             }
         } catch (Exception e) {

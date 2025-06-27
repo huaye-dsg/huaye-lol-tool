@@ -2,15 +2,16 @@ package com.example.huayeloltool.service;
 
 import com.alibaba.fastjson2.JSON;
 
+import com.example.huayeloltool.enums.Heros;
 import lombok.extern.slf4j.Slf4j;
 import com.example.huayeloltool.enums.GameEnums;
-import com.example.huayeloltool.enums.Heros;
 import com.example.huayeloltool.model.game.CustomGameSession;
 import com.example.huayeloltool.model.base.GameGlobalSetting;
 import com.example.huayeloltool.model.champion.ChampSelectSessionInfo;
 import com.example.huayeloltool.model.champion.ChampionMastery;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -20,26 +21,15 @@ import java.util.concurrent.TimeUnit;
  * 解析游戏会话、英雄选择或禁用等消息
  */
 @Slf4j
+@Service
 public class GameSessionUpdateService {
 
-    private final static GameGlobalSetting clientCfg = GameGlobalSetting.getInstance();
-
-    private final static CustomGameSession details = CustomGameSession.getInstance();
-
-    private final static LcuApiService lcuApiService = LcuApiService.getInstance();
-
-    public GameSessionUpdateService() {
-
-    }
-
-    private static GameSessionUpdateService instance;
-
-    public static GameSessionUpdateService getInstance() {
-        if (instance == null) {
-            instance = new GameSessionUpdateService();
-        }
-        return instance;
-    }
+    @Autowired
+    GameGlobalSetting clientCfg;
+    @Autowired
+    LcuApiService lcuApiService;
+    @Autowired
+    CustomGameSession customGameSession;
 
     public void onChampSelectSessionUpdate(String sessionStr) {
         ChampSelectSessionInfo sessionInfo = JSON.parseObject(sessionStr, ChampSelectSessionInfo.class);
@@ -48,11 +38,11 @@ public class GameSessionUpdateService {
 
 
     public void analyzeSession(ChampSelectSessionInfo session) {
-        Map<Integer, ChampSelectSessionInfo.Player> positionMap = details.getPositionMap();
+        Map<Integer, ChampSelectSessionInfo.Player> positionMap = customGameSession.getPositionMap();
         List<ChampSelectSessionInfo.Player> myTeam = session.getMyTeam();
 
         // 懒初始化队友映射
-        details.initPositionMapIfEmpty(myTeam);
+        //details.initPositionMapIfEmpty(myTeam);
 
         int localCellId = session.getLocalPlayerCellId();
 
@@ -62,7 +52,7 @@ public class GameSessionUpdateService {
                 // 处理队友和对手锁定英雄的操作
                 if (completed && action.getChampionId() > 0) {
                     String actionKey = buildActionKey(action);
-                    if (details.markActionProcessed(actionKey)) {
+                    if (customGameSession.markActionProcessed(actionKey)) {
                         handleCompletedAction(action, positionMap);
                     }
                     continue;
@@ -71,7 +61,7 @@ public class GameSessionUpdateService {
                 // 只处理自己、且未完成的操作。选择或禁用英雄
                 if (!completed && action.getActorCellId() == localCellId && action.getIsInProgress()) {
                     String actionKey = buildActionKey(action);
-                    if (details.markActionProcessed(actionKey)) {
+                    if (customGameSession.markActionProcessed(actionKey)) {
                         handleSelfAction(action, actionKey);
                     }
                 }
@@ -112,9 +102,6 @@ public class GameSessionUpdateService {
     }
 
 
-
-
-
     // 自动 ban / pick
     private void handleSelfAction(ChampSelectSessionInfo.Action action, String actionKey) {
         String type = action.getType();
@@ -122,26 +109,26 @@ public class GameSessionUpdateService {
 
         switch (type) {
             case "ban":
-                if (clientCfg.getAutoBanChampID() > 0 && !GameSessionUpdateService.details.getIsBanned()) {
+                if (clientCfg.getAutoBanChampID() > 0 && !customGameSession.getIsBanned()) {
                     sleepSeconds();
 //                    log.info("本人禁用英雄，key：{}", buildActionKey(action));
                     if (lcuApiService.banChampion(clientCfg.getAutoBanChampID(), id)) {
 //                        log.info("禁用成功");
-                        GameSessionUpdateService.details.setIsBanned(true);
+                        customGameSession.setIsBanned(true);
                         //action.setCompleted(true);
                     } else {
 //                        log.info("禁用失败: {}", JSON.toJSONString(action));
-                        GameSessionUpdateService.details.setIsBanned(false);
+                        customGameSession.setIsBanned(false);
                         // 没成功就把key删了
-                        GameSessionUpdateService.details.markActionUnProcessed(actionKey);
+                        customGameSession.markActionUnProcessed(actionKey);
                     }
                 }
                 break;
             case "pick":
-                if (clientCfg.getAutoPickChampID() > 0 && !GameSessionUpdateService.details.getIsSelected()) {
+                if (clientCfg.getAutoPickChampID() > 0 && !customGameSession.getIsSelected()) {
 //                    log.info("本人选择英雄，key：{}", buildActionKey(action));
                     lcuApiService.pickChampion(clientCfg.getAutoPickChampID(), id);
-                    GameSessionUpdateService.details.setIsSelected(true);
+                    customGameSession.setIsSelected(true);
                     //action.setCompleted(true);
                 }
                 break;

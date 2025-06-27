@@ -10,12 +10,5 @@ public class Application {
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
-        new Thread(() -> {
-            try {
-                Main.main(args);
-            } catch (Exception e) {
-                log.error("Error in Main.main", e);
-            }
-        }).start();
     }
 }
