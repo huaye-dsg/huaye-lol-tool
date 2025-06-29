@@ -6023,3 +6023,209 @@ java.io.IOException: Request failed
 2025-06-27 16:34:18 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
 2025-06-27 16:34:18 INFO  c.example.huayeloltool.Application - Started Application in 0.761 seconds (process running for 1.071)
 2025-06-27 16:34:18 ERROR c.example.huayeloltool.StartLauncher - 客户端进程不存在！
+2025-06-27 19:48:45 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 9716 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-27 19:48:45 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-27 19:48:46 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-27 19:48:46 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-27 19:48:46 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-27 19:48:46 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-27 19:48:46 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-27 19:48:46 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1065 ms
+2025-06-27 19:48:46 INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2025-06-27 19:48:46 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-27 19:48:46 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-27 19:48:46 INFO  c.example.huayeloltool.Application - Started Application in 2.307 seconds (process running for 3.964)
+2025-06-27 19:48:47 INFO  c.example.huayeloltool.StartLauncher - 客户端连接成功
+2025-06-27 19:49:40 INFO  com.example.huayeloltool.Monitor - 当前模式：神木之门，queueId：2300
+2025-06-27 19:50:35 ERROR c.e.h.service.GameStateUpdateService - 计算敌方队伍得分时发生错误
+java.lang.ClassCastException: class com.alibaba.fastjson2.JSONObject cannot be cast to class com.example.huayeloltool.model.summoner.Summoner (com.alibaba.fastjson2.JSONObject and com.example.huayeloltool.model.summoner.Summoner are in unnamed module of loader 'app')
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1625)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:150)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:173)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at com.example.huayeloltool.service.GameStateUpdateService.calculateScore(GameStateUpdateService.java:232)
+	at com.example.huayeloltool.service.GameStateUpdateService.calcEnemyTeamScore(GameStateUpdateService.java:147)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+2025-06-27 19:50:37 INFO  c.e.h.service.LcuApiService - 当前未查询到会话信息
+2025-06-27 19:50:37 ERROR c.e.h.service.GameStateUpdateService - 当前不在英雄选择阶段
+2025-06-27 19:50:38 INFO  c.e.h.service.LcuApiService - 当前未查询到会话信息
+2025-06-27 19:50:38 ERROR c.e.h.service.GameStateUpdateService - 当前不在英雄选择阶段
+2025-06-27 19:50:39 INFO  c.e.h.service.LcuApiService - 当前未查询到会话信息
+2025-06-27 19:50:39 ERROR c.e.h.service.GameStateUpdateService - 当前不在英雄选择阶段
+2025-06-27 19:50:39 ERROR c.e.h.service.GameStateUpdateService - 队友召唤师ID查询失败！
+2025-06-27 20:05:01 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-27 20:05:02 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-27 20:05:07 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 13084 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-27 20:05:07 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-27 20:05:08 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-27 20:05:08 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-27 20:05:08 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-27 20:05:08 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-27 20:05:08 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-27 20:05:08 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1017 ms
+2025-06-27 20:05:09 INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2025-06-27 20:05:09 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-27 20:05:09 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-27 20:05:09 INFO  c.example.huayeloltool.Application - Started Application in 2.094 seconds (process running for 3.372)
+2025-06-27 20:05:09 INFO  c.example.huayeloltool.StartLauncher - 客户端连接成功
+2025-06-27 20:05:10 INFO  c.example.huayeloltool.StartLauncher - 战绩隐藏情况为: PRIVATE
+2025-06-27 20:06:44 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-27 20:06:45 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-27 20:06:51 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 7972 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-27 20:06:51 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-27 20:06:52 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-27 20:06:52 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-27 20:06:52 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-27 20:06:52 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-27 20:06:52 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-27 20:06:52 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 882 ms
+2025-06-27 20:06:53 INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2025-06-27 20:06:53 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-27 20:06:53 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-27 20:06:53 INFO  c.example.huayeloltool.Application - Started Application in 1.966 seconds (process running for 2.978)
+2025-06-27 20:06:53 INFO  c.example.huayeloltool.StartLauncher - 客户端连接成功
+2025-06-27 20:06:54 INFO  c.example.huayeloltool.StartLauncher - 战绩隐藏情况为: PRIVATE
+2025-06-27 20:07:37 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-27 20:07:38 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-27 20:07:44 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 8968 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-27 20:07:44 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-27 20:07:45 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-27 20:07:45 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-27 20:07:45 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-27 20:07:45 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-27 20:07:45 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-27 20:07:45 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 994 ms
+2025-06-27 20:07:46 INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2025-06-27 20:07:46 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-27 20:07:46 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-27 20:07:46 INFO  c.example.huayeloltool.Application - Started Application in 2.012 seconds (process running for 3.015)
+2025-06-27 20:07:46 INFO  c.example.huayeloltool.StartLauncher - 客户端连接成功
+2025-06-27 20:07:47 INFO  c.example.huayeloltool.StartLauncher - 战绩隐藏情况为: PRIVATE
+2025-06-27 20:08:29 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-27 20:08:29 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-27 20:08:34 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 2780 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-27 20:08:34 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-27 20:08:35 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-27 20:08:35 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-27 20:08:35 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-27 20:08:35 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-27 20:08:35 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-27 20:08:35 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1005 ms
+2025-06-27 20:08:35 INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2025-06-27 20:08:35 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-27 20:08:35 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-27 20:08:35 INFO  c.example.huayeloltool.Application - Started Application in 2.092 seconds (process running for 3.347)
+2025-06-27 20:08:36 INFO  c.example.huayeloltool.StartLauncher - 客户端连接成功
+2025-06-27 20:08:36 INFO  c.example.huayeloltool.StartLauncher - 战绩隐藏情况为: PRIVATE
+2025-06-27 20:09:05 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-27 20:09:05 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-27 20:10:02 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 23576 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-27 20:10:02 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-27 20:10:03 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-27 20:10:03 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-27 20:10:03 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-27 20:10:03 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-27 20:10:03 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-27 20:10:03 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 983 ms
+2025-06-27 20:10:04 INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2025-06-27 20:10:04 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-27 20:10:04 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-27 20:10:04 INFO  c.example.huayeloltool.Application - Started Application in 2.103 seconds (process running for 3.255)
+2025-06-27 20:10:04 INFO  c.example.huayeloltool.StartLauncher - 客户端连接成功
+2025-06-27 20:10:05 INFO  c.example.huayeloltool.StartLauncher - 战绩隐藏情况为: PRIVATE
+2025-06-27 20:10:24 ERROR c.e.h.service.GameStateUpdateService - 查询队友战绩异常
+java.lang.ClassCastException: class com.alibaba.fastjson2.JSONObject cannot be cast to class com.example.huayeloltool.model.conversation.Conversation (com.alibaba.fastjson2.JSONObject and com.example.huayeloltool.model.conversation.Conversation are in unnamed module of loader 'app')
+	at com.example.huayeloltool.service.LcuApiService.getCurrConversationID(LcuApiService.java:179)
+	at com.example.huayeloltool.service.GameStateUpdateService.getTeamSummonerIdList(GameStateUpdateService.java:468)
+	at com.example.huayeloltool.service.GameStateUpdateService.fetchTeamSummonerIds(GameStateUpdateService.java:111)
+	at com.example.huayeloltool.service.GameStateUpdateService.championSelectStart(GameStateUpdateService.java:74)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+2025-06-27 20:12:00 ERROR c.e.h.service.GameStateUpdateService - 查询队友战绩异常
+java.lang.ClassCastException: class com.alibaba.fastjson2.JSONObject cannot be cast to class com.example.huayeloltool.model.conversation.Conversation (com.alibaba.fastjson2.JSONObject and com.example.huayeloltool.model.conversation.Conversation are in unnamed module of loader 'app')
+	at com.example.huayeloltool.service.LcuApiService.getCurrConversationID(LcuApiService.java:179)
+	at com.example.huayeloltool.service.GameStateUpdateService.getTeamSummonerIdList(GameStateUpdateService.java:468)
+	at com.example.huayeloltool.service.GameStateUpdateService.fetchTeamSummonerIds(GameStateUpdateService.java:111)
+	at com.example.huayeloltool.service.GameStateUpdateService.championSelectStart(GameStateUpdateService.java:74)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+2025-06-27 20:12:00 ERROR com.example.huayeloltool.Monitor - 客户端通信连接失败
+java.net.SocketTimeoutException: timeout
+	at okio.SocketAsyncTimeout.newTimeoutException(JvmOkio.kt:146)
+	at okio.AsyncTimeout.access$newTimeoutException(AsyncTimeout.kt:161)
+	at okio.AsyncTimeout$source$1.read(AsyncTimeout.kt:342)
+	at okio.RealBufferedSource.request(RealBufferedSource.kt:209)
+	at okio.RealBufferedSource.require(RealBufferedSource.kt:202)
+	at okio.RealBufferedSource.readFully(RealBufferedSource.kt:276)
+	at okhttp3.internal.ws.WebSocketReader.readMessage(WebSocketReader.kt:274)
+	at okhttp3.internal.ws.WebSocketReader.readMessageFrame(WebSocketReader.kt:236)
+	at okhttp3.internal.ws.WebSocketReader.processNextFrame(WebSocketReader.kt:106)
+	at okhttp3.internal.ws.RealWebSocket.loopReader(RealWebSocket.kt:293)
+	at okhttp3.internal.ws.RealWebSocket$connect$1.onResponse(RealWebSocket.kt:195)
+	at okhttp3.internal.connection.RealCall$AsyncCall.run(RealCall.kt:519)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+2025-06-27 20:14:33 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-27 20:14:33 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-27 20:14:40 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 17656 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-27 20:14:40 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-27 20:14:41 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-27 20:14:41 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-27 20:14:41 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-27 20:14:41 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-27 20:14:41 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-27 20:14:41 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 999 ms
+2025-06-27 20:14:41 INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2025-06-27 20:14:41 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-27 20:14:41 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-27 20:14:41 INFO  c.example.huayeloltool.Application - Started Application in 2.089 seconds (process running for 3.164)
+2025-06-27 20:14:42 INFO  c.example.huayeloltool.StartLauncher - 客户端连接成功
+2025-06-27 20:14:42 INFO  c.example.huayeloltool.StartLauncher - 战绩隐藏情况为: PRIVATE
+2025-06-27 20:15:03 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】我方：[CustomGameCache.Item(horse=中等马, score=110, rank=【黄金-I-69】, summonerName=中国第一深情#92429, currKDA=[[单排排位-胜-http://game.gtimg.cn/images/lol/act/img/champion/Viktor.png-6/2/13], [单排排位-胜-http://game.gtimg.cn/images/lol/act/img/champion/Viktor.png-4/4/16], [单排排位-胜-http://game.gtimg.cn/images/lol/act/img/champion/Taliyah.png-2/4/15], [单排排位-胜-http://game.gtimg.cn/images/lol/act/img/champion/Viktor.png-11/0/6], [单排排位-胜-http://game.gtimg.cn/images/lol/act/img/champion/Smolder.png-5/3/8]])]
+2025-06-27 20:16:06 INFO  com.example.huayeloltool.Monitor - 当前模式：大乱斗，queueId：450
+2025-06-27 20:16:43 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】我方：[CustomGameCache.Item(horse=中等马, score=124, rank=【未知-NA-0】, summonerName=西城灬傲世凌云#20434, currKDA=[[大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Gragas.png-8/15/36], [大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Udyr.png-19/17/25], [大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Samira.png-13/17/13], [大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Zed.png-15/9/18], [大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Xerath.png-16/13/30]]), CustomGameCache.Item(horse=中等马, score=119, rank=【未知-NA-0】, summonerName=丨火云#23109, currKDA=[[大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Sett.png-28/14/17], [大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Morgana.png-9/9/36], [大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Maokai.png-3/9/30], [大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/Singed.png-3/13/31], [大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Singed.png-4/13/32]]), CustomGameCache.Item(horse=中等马, score=115, rank=【未知-NA-0】, summonerName=王子灬逊雯#69521, currKDA=[[大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Gnar.png-15/18/33], [大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Blitzcrank.png-6/16/24], [大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Seraphine.png-8/15/19], [大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/Karthus.png-10/20/57], [大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Pyke.png-8/6/7]]), CustomGameCache.Item(horse=中等马, score=112, rank=【未知-NA-0】, summonerName=Oo逍o遥oO#54890, currKDA=[[大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/XinZhao.png-13/28/26], [大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Fizz.png-9/13/10], [大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Talon.png-20/20/14], [大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/DrMundo.png-8/15/25], [大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/Talon.png-8/9/29]]), CustomGameCache.Item(horse=中等马, score=110, rank=【黄金-I-69】, summonerName=中国第一深情#92429, currKDA=[[单排排位-胜-http://game.gtimg.cn/images/lol/act/img/champion/Viktor.png-6/2/13], [单排排位-胜-http://game.gtimg.cn/images/lol/act/img/champion/Viktor.png-4/4/16], [单排排位-胜-http://game.gtimg.cn/images/lol/act/img/champion/Taliyah.png-2/4/15], [单排排位-胜-http://game.gtimg.cn/images/lol/act/img/champion/Viktor.png-11/0/6], [单排排位-胜-http://game.gtimg.cn/images/lol/act/img/champion/Smolder.png-5/3/8]])]
+2025-06-27 20:17:45 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】敌方：[CustomGameCache.Item(horse=上等马, score=125, rank=【黑铁-III-47】, summonerName=别烦了我随便#29133, currKDA=[[大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Lucian.png-12/15/13], [大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/MissFortune.png-13/8/19], [大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Renekton.png-9/19/13], [大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/Kennen.png-3/13/19], [大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/Yone.png-11/12/18]]), CustomGameCache.Item(horse=中等马, score=120, rank=【黑铁-II-69】, summonerName=财米油盐才是生活#50709, currKDA=[[大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Chogath.png-12/11/28], [单排排位-败-http://game.gtimg.cn/images/lol/act/img/champion/Morgana.png-2/5/6], [单排排位-胜-http://game.gtimg.cn/images/lol/act/img/champion/Morgana.png-5/3/12], [单排排位-败-http://game.gtimg.cn/images/lol/act/img/champion/Morgana.png-0/1/3], [单排排位-败-http://game.gtimg.cn/images/lol/act/img/champion/Graves.png-2/4/4]]), CustomGameCache.Item(horse=中等马, score=120, rank=【未知-NA-0】, summonerName=小破烂王#26286, currKDA=[[大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Jayce.png-10/10/25], [大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/Smolder.png-11/8/42], [大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Smolder.png-5/8/6], [大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Smolder.png-7/11/25], [大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Caitlyn.png-9/12/20]]), CustomGameCache.Item(horse=中等马, score=113, rank=【未知-NA-0】, summonerName=薪贫气和#83991, currKDA=[[大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/Zac.png-3/8/35], [大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/Shen.png-7/11/35], [大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Swain.png-9/13/30], [大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Bard.png-7/7/13], [大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/KogMaw.png-6/11/6]]), CustomGameCache.Item(horse=中等马, score=113, rank=【未知-NA-0】, summonerName=猎魔新手#78705, currKDA=[[大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Trundle.png-5/14/19], [大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/Tristana.png-5/12/24], [大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/Senna.png-8/12/43], [大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/Sion.png-5/9/36], [大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Xayah.png-5/9/19]])]
+2025-06-27 20:18:17 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-27 20:18:17 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-06-27 20:18:26 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 23844 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-27 20:18:26 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-27 20:18:27 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-27 20:18:27 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-27 20:18:27 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-27 20:18:27 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-27 20:18:27 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-27 20:18:27 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1323 ms
+2025-06-27 20:18:28 INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2025-06-27 20:18:28 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-27 20:18:28 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-27 20:18:28 INFO  c.example.huayeloltool.Application - Started Application in 2.979 seconds (process running for 4.594)
+2025-06-27 20:18:29 INFO  c.example.huayeloltool.StartLauncher - 客户端连接成功
+2025-06-27 20:18:29 INFO  c.example.huayeloltool.StartLauncher - 战绩隐藏情况为: PRIVATE
+2025-06-27 20:33:08 INFO  com.example.huayeloltool.Monitor - 当前模式：大乱斗，queueId：450
+2025-06-27 20:33:31 INFO  c.e.h.s.GameSessionUpdateService - 【我方】动作: 选择（锁定）英雄, 英雄: 赏金猎人, 等级: 4, 积分: 18307，最后游玩: 2025-05-06
+2025-06-27 20:33:33 INFO  c.e.h.s.GameSessionUpdateService - 【我方】动作: 选择（锁定）英雄, 英雄: 冰霜女巫, 等级: 1, 积分: 690，最后游玩: 2019-12-31
+2025-06-27 20:33:34 INFO  c.e.h.s.GameSessionUpdateService - 【我方】动作: 选择（锁定）英雄, 英雄: 扭曲树精, 等级: 6, 积分: 34331，最后游玩: 2025-06-01
+2025-06-27 20:33:37 INFO  c.e.h.s.GameSessionUpdateService - 【我方】动作: 选择（锁定）英雄, 英雄: 武器大师, 等级: 9, 积分: 64815，最后游玩: 2025-05-24
+2025-06-27 20:33:38 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】我方：[CustomGameCache.Item(horse=上等马, score=135, rank=【黄金-I-69】, summonerName=中国第一深情#92429, currKDA=[[大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Neeko.png-8/9/24], [单排排位-胜-http://game.gtimg.cn/images/lol/act/img/champion/Viktor.png-6/2/13], [单排排位-胜-http://game.gtimg.cn/images/lol/act/img/champion/Viktor.png-4/4/16], [单排排位-胜-http://game.gtimg.cn/images/lol/act/img/champion/Taliyah.png-2/4/15], [单排排位-胜-http://game.gtimg.cn/images/lol/act/img/champion/Viktor.png-11/0/6]]), CustomGameCache.Item(horse=上等马, score=128, rank=【未知-NA-0】, summonerName=恕瑞玛飞升者TShy#17947, currKDA=[[大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/Zilean.png-2/3/37], [大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Taliyah.png-12/14/37], [大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Diana.png-8/14/24], [大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Sylas.png-10/16/13], [大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Leblanc.png-20/13/22]]), CustomGameCache.Item(horse=中等马, score=115, rank=【未知-NA-0】, summonerName=巴洛特1994#86133, currKDA=[[大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/Ezreal.png-12/13/24], [大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/LeeSin.png-22/17/41], [大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/Jax.png-12/11/21], [大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/LeeSin.png-4/21/33], [大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/Illaoi.png-12/16/32]]), CustomGameCache.Item(horse=中等马, score=113, rank=【未知-NA-0】, summonerName=很欧克很ok#35616, currKDA=[[大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Pantheon.png-19/16/28], [大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/Lux.png-5/4/29], [大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/Garen.png-11/11/24], [大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/MissFortune.png-9/8/12], [大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Mordekaiser.png-13/17/30]]), CustomGameCache.Item(horse=中等马, score=112, rank=【未知-NA-0】, summonerName=Master丶丨森少丨#49874, currKDA=[[大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Seraphine.png-7/16/22], [大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/Sejuani.png-7/10/15], [大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/Skarner.png-2/10/26], [大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/XinZhao.png-5/4/10], [大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Riven.png-9/12/29]])]
+2025-06-27 20:33:41 INFO  c.e.h.s.GameSessionUpdateService - 【我方】动作: 选择（锁定）英雄, 英雄: 披甲龙龟, 等级: 4, 积分: 14430，最后游玩: 2020-09-15
+2025-06-27 20:34:36 INFO  c.e.h.service.GameStateUpdateService - 【信息缓存成功】敌方：[CustomGameCache.Item(horse=上等马, score=129, rank=【白银-III-11】, summonerName=丿孤独成瘾灬#42439, currKDA=[[大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/Rell.png-7/16/42], [大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/Corki.png-17/5/23], [大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/Chogath.png-13/7/27], [大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Teemo.png-8/11/34], [大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/Twitch.png-10/4/34]]), CustomGameCache.Item(horse=上等马, score=125, rank=【未知-NA-0】, summonerName=凌波微步飘然若神#48741, currKDA=[[大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Neeko.png-3/6/8], [大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Lucian.png-15/11/11], [大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/MissFortune.png-3/4/16], [大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/Ashe.png-21/6/24], [大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Smolder.png-15/19/16]]), CustomGameCache.Item(horse=中等马, score=122, rank=【黑铁-III-54】, summonerName=联盟不需要你回归#61660, currKDA=[[匹配盲选-胜-http://game.gtimg.cn/images/lol/act/img/champion/Zed.png-9/7/8], [大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Swain.png-6/10/33], [大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/Volibear.png-5/4/18], [大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/Sett.png-21/17/27], [大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/Camille.png-9/12/19]]), CustomGameCache.Item(horse=中等马, score=107, rank=【黑铁-III-67】, summonerName=流木星雨君莫笑丶#22872, currKDA=[[大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/MonkeyKing.png-4/3/17], [大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/Sett.png-8/18/24], [大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/Ahri.png-12/6/31], [大乱斗-胜-http://game.gtimg.cn/images/lol/act/img/champion/Senna.png-5/4/51], [大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Gwen.png-7/12/16]]), CustomGameCache.Item(horse=下等马, score=101, rank=【未知-NA-0】, summonerName=引以为傲的伤感#85082, currKDA=[[大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Ahri.png-9/13/18], [匹配盲选-胜-http://game.gtimg.cn/images/lol/act/img/champion/Jinx.png-3/4/13], [匹配盲选-胜-http://game.gtimg.cn/images/lol/act/img/champion/MissFortune.png-2/8/7], [匹配盲选-败-http://game.gtimg.cn/images/lol/act/img/champion/Tristana.png-7/13/7], [大乱斗-败-http://game.gtimg.cn/images/lol/act/img/champion/Zed.png-9/9/5]])]
+2025-06-27 20:53:07 INFO  com.example.huayeloltool.Monitor - 当前模式：神木之门，queueId：2300
+2025-06-27 20:53:57 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-29 10:10:04 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 26736 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-06-29 10:10:04 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-06-29 10:10:05 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-06-29 10:10:05 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-06-29 10:10:05 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-06-29 10:10:05 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-06-29 10:10:05 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-06-29 10:10:05 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1396 ms
+2025-06-29 10:10:06 INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [static/index.html]
+2025-06-29 10:10:06 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-06-29 10:10:06 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-06-29 10:10:06 INFO  c.example.huayeloltool.Application - Started Application in 2.57 seconds (process running for 4.394)
+2025-06-29 10:10:06 ERROR c.example.huayeloltool.StartLauncher - 客户端进程不存在！
+2025-06-29 10:11:09 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-06-29 10:11:09 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete

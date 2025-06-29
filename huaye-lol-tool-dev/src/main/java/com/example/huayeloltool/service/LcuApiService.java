@@ -2,6 +2,7 @@ package com.example.huayeloltool.service;
 
 
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.TypeReference;
 import com.example.huayeloltool.common.CommonRequest;
 import com.example.huayeloltool.enums.Constant;
 import com.example.huayeloltool.model.conversation.Conversation;
@@ -119,7 +120,8 @@ public class LcuApiService extends CommonRequest {
      * 查询英雄池熟练度列表
      */
     public List<ChampionMastery> searchChampionMasteryData(String puuid) {
-        List<ChampionMastery> championMasteryList = sendTypeGetRequest(String.format("/lol-champion-mastery/v1/" + puuid + "/champion-mastery"));
+        List<ChampionMastery> championMasteryList = sendTypeGetRequest(String.format("/lol-champion-mastery/v1/" + puuid + "/champion-mastery"), new TypeReference<>() {
+        });
         if (CollectionUtils.isEmpty(championMasteryList)) {
             log.error("查询英雄熟练度失败！");
             return new ArrayList<>();
@@ -134,14 +136,15 @@ public class LcuApiService extends CommonRequest {
      */
     public List<Summoner> listSummoner(List<Long> summonerIDList) {
         List<String> idStrList = summonerIDList.stream().map(String::valueOf).collect(Collectors.toList());
-        return sendTypeGetRequest(String.format("/lol-summoner/v2/summoners?ids=[%s]", String.join(",", idStrList)));
+        return sendTypeGetRequest(String.format("/lol-summoner/v2/summoners?ids=[%s]", String.join(",", idStrList)), new TypeReference<>() {
+        });
     }
 
     /**
      * 根据会话ID获取会话组消息记录
      */
     public List<ConversationMsg> listConversationMsg(String conversationID) {
-        return sendTypeGetRequest(String.format("/lol-chat/v1/conversations/%s/messages", conversationID));
+        return sendTypeGetRequest(String.format("/lol-chat/v1/conversations/%s/messages", conversationID), new TypeReference<>() {});
     }
 
 
@@ -170,7 +173,7 @@ public class LcuApiService extends CommonRequest {
      * 获取本人当前会话ID
      */
     public String getCurrConversationID() {
-        List<Conversation> conversations = sendTypeGetRequest("/lol-chat/v1/conversations");
+        List<Conversation> conversations = sendTypeGetRequest("/lol-chat/v1/conversations", new TypeReference<>() {});
         if (CollectionUtils.isEmpty(conversations)) {
             log.info("当前未查询到会话信息");
             return StringUtils.EMPTY;

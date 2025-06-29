@@ -30,10 +30,9 @@ public class CommonRequest {
         return sendRequest(request, responseClass);
     }
 
-    public static <T> T sendTypeGetRequest(String url) {
+    public static <T> T sendTypeGetRequest(String url, TypeReference<T> typeRef) {
         Request request = OkHttpUtil.createOkHttpGetRequest(url);
-        return sendTypeRequest(request, new TypeReference<>() {
-        });
+        return sendTypeRequest(request, typeRef);
     }
 
     public static Boolean sendPostRequest(String url) {

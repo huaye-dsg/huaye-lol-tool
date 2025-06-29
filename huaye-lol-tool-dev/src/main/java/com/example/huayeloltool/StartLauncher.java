@@ -74,7 +74,7 @@ public class StartLauncher implements ApplicationRunner {
     public boolean initializeSummonerInfo() {
         Summoner summoner = Summoner.setInstance(lcuApiService.getCurrSummoner());
         String privacy = summoner.getPrivacy();
-//        log.info("战绩隐藏情况为: {}", privacy);
+        log.info("战绩隐藏情况为: {}", privacy);
         return Objects.nonNull(summoner);
     }
 

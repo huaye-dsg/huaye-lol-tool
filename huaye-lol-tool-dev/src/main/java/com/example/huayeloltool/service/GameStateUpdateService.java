@@ -62,37 +62,40 @@ public class GameStateUpdateService extends CommonRequest {
     /**
      * 查询队友战绩
      */
-    @SneakyThrows
     public void championSelectStart() {
+        try {
 //        if (!GameEnums.GameQueueID.isNormalGameMode(CustomGameSession.getInstance().getQueueId())) {
 //            // 不存在选人界面的模式，直接返回
 //            return;
 //        }
-        AudioPlayer.championSelectStart();
+            AudioPlayer.championSelectStart();
 
-        Thread.sleep(1500);
-        List<Long> summonerIdList = fetchTeamSummonerIds();
-        if (CollectionUtils.isEmpty(summonerIdList)) {
-            log.error("队友召唤师ID查询失败！");
-            return;
+            Thread.sleep(1500);
+            List<Long> summonerIdList = fetchTeamSummonerIds();
+            if (CollectionUtils.isEmpty(summonerIdList)) {
+                log.error("队友召唤师ID查询失败！");
+                return;
+            }
+
+            if (CustomGameSession.isSoloRank() && summonerIdList.size() < 5) {
+                log.error("队伍人数不为5，size：{}:", summonerIdList.size());
+            }
+
+            // 不计算本人
+            //summonerIdList.remove(Summoner.getInstance().getSummonerId());
+
+            // 获取队友mate信息
+            List<Summoner> summonerList = lcuApiService.listSummoner(summonerIdList);
+            if (CollectionUtils.isEmpty(summonerList)) {
+                log.info("查询召唤师信息失败, summonerList为空！ ");
+                return;
+            }
+
+            // 分析战绩并打印
+            calculateScore(summonerList, true);
+        } catch (Exception e) {
+            log.error("查询队友战绩异常", e);
         }
-
-        if (CustomGameSession.isSoloRank() && summonerIdList.size() < 5) {
-            log.error("队伍人数不为5，size：{}:", summonerIdList.size());
-        }
-
-        // 不计算本人
-        //summonerIdList.remove(Summoner.getInstance().getSummonerId());
-
-        // 获取队友mate信息
-        List<Summoner> summonerList = lcuApiService.listSummoner(summonerIdList);
-        if (CollectionUtils.isEmpty(summonerList)) {
-            log.info("查询召唤师信息失败, summonerList为空！ ");
-            return;
-        }
-
-        // 分析战绩并打印
-        calculateScore(summonerList, true);
     }
 
 

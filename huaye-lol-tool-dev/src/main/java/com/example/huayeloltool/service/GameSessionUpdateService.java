@@ -28,8 +28,7 @@ public class GameSessionUpdateService {
     GameGlobalSetting clientCfg;
     @Autowired
     LcuApiService lcuApiService;
-    @Autowired
-    CustomGameSession customGameSession;
+    CustomGameSession customGameSession = CustomGameSession.getInstance();
 
     public void onChampSelectSessionUpdate(String sessionStr) {
         ChampSelectSessionInfo sessionInfo = JSON.parseObject(sessionStr, ChampSelectSessionInfo.class);
@@ -42,7 +41,7 @@ public class GameSessionUpdateService {
         List<ChampSelectSessionInfo.Player> myTeam = session.getMyTeam();
 
         // 懒初始化队友映射
-        //details.initPositionMapIfEmpty(myTeam);
+        customGameSession.initPositionMapIfEmpty(myTeam);
 
         int localCellId = session.getLocalPlayerCellId();
 
