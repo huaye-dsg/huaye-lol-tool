@@ -46,15 +46,23 @@ public class LcuController {
         return lcuApiService.getSummonerByNickName(name, tagLine);
     }
 
+    @GetMapping("/custom/info")
+    public Summoner getCustomSummonerInfo() {
+        return lcuApiService.getCurrSummoner();
+    }
+
 
     /**
      * 根据名字获取召唤师对局记录
      */
     @GetMapping("/summoner/game/history")
-    public List<GameBriefInfo> getSummonerGameHistory(@RequestParam("name") String name, @RequestParam(value = "size", required = false, defaultValue = "5") Integer size) {
+    public List<GameBriefInfo> getSummonerGameHistory(@RequestParam("name") String name,
+                                                      @RequestParam(value = "pageNum", required = false, defaultValue = "1") Integer pageNum,
+                                                      @RequestParam(value = "pageSize", required = false, defaultValue = "10") Integer pageSize
+                                                      ) {
         String[] split = name.split("#");
         Summoner summoner = lcuApiService.getSummonerByNickName(split[0], split[1]);
-        List<GameHistory.GameInfo> gameInfos = lcuApiService.listGameHistory(summoner, 0, size);
+        List<GameHistory.GameInfo> gameInfos = lcuApiService.listGameHistory(summoner, (pageNum-1)*pageSize, pageSize);
         if (CollectionUtils.isEmpty(gameInfos)) {
             return new ArrayList<>();
         }
