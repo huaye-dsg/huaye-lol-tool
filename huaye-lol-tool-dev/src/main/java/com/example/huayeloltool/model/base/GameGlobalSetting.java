@@ -23,5 +23,8 @@ public class GameGlobalSetting {
      */
     private Integer autoBanChampID = Heros.GRAVES.getHeroId();
 
+    /**
+     * 是否自动禁英雄
+     */
     private Boolean autoBanChamp = true;
 }

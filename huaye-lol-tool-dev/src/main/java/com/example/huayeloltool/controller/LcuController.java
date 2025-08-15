@@ -62,7 +62,7 @@ public class LcuController {
                                                       ) {
         String[] split = name.split("#");
         Summoner summoner = lcuApiService.getSummonerByNickName(split[0], split[1]);
-        List<GameHistory.GameInfo> gameInfos = lcuApiService.listGameHistory(summoner, (pageNum-1)*pageSize, pageSize);
+        List<GameHistory.GameInfo> gameInfos = lcuApiService.listGameHistory(summoner, (pageNum - 1) * pageSize, pageSize);
         if (CollectionUtils.isEmpty(gameInfos)) {
             return new ArrayList<>();
         }
