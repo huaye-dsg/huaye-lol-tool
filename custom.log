@@ -6229,3 +6229,271 @@ java.net.SocketTimeoutException: timeout
 2025-06-29 10:10:06 ERROR c.example.huayeloltool.StartLauncher - 客户端进程不存在！
 2025-06-29 10:11:09 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
 2025-06-29 10:11:09 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-08-11 20:52:23 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 6280 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-08-11 20:52:23 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-08-11 20:52:24 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-08-11 20:52:24 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-08-11 20:52:24 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-08-11 20:52:24 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-08-11 20:52:24 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-08-11 20:52:24 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1116 ms
+2025-08-11 20:52:24 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-08-11 20:52:24 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-08-11 20:52:24 INFO  c.example.huayeloltool.Application - Started Application in 2.306 seconds (process running for 4.815)
+2025-08-11 20:52:25 INFO  c.example.huayeloltool.StartLauncher - 客户端连接成功
+2025-08-11 20:52:25 INFO  c.example.huayeloltool.StartLauncher - 战绩隐藏情况为: PRIVATE
+2025-08-11 20:55:56 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-08-11 20:55:56 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-08-11 20:55:56 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-08-11 20:55:56 WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'name' for method parameter type String is not present]
+2025-08-11 20:56:56 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-08-11 20:56:56 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-08-11 20:57:05 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 34228 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-08-11 20:57:05 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-08-11 20:57:06 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-08-11 20:57:06 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-08-11 20:57:06 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-08-11 20:57:06 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-08-11 20:57:06 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-08-11 20:57:06 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1159 ms
+2025-08-11 20:57:07 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-08-11 20:57:07 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-08-11 20:57:07 INFO  c.example.huayeloltool.Application - Started Application in 2.414 seconds (process running for 3.976)
+2025-08-11 20:57:08 INFO  c.example.huayeloltool.StartLauncher - 客户端连接成功
+2025-08-11 20:57:08 INFO  c.example.huayeloltool.StartLauncher - 战绩隐藏情况为: PRIVATE
+2025-08-11 20:57:17 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-08-11 20:57:17 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-08-11 20:57:17 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2025-08-11 21:10:56 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-08-11 21:10:57 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-08-11 21:11:01 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 12892 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-08-11 21:11:01 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-08-11 21:11:02 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-08-11 21:11:02 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-08-11 21:11:02 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-08-11 21:11:02 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-08-11 21:11:02 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-08-11 21:11:02 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 783 ms
+2025-08-11 21:11:03 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-08-11 21:11:03 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-08-11 21:11:03 INFO  c.example.huayeloltool.Application - Started Application in 1.624 seconds (process running for 2.443)
+2025-08-11 21:11:03 INFO  c.example.huayeloltool.StartLauncher - 客户端连接成功
+2025-08-11 21:11:03 INFO  c.example.huayeloltool.StartLauncher - 战绩隐藏情况为: PRIVATE
+2025-08-11 21:12:10 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-08-11 21:12:10 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-08-11 21:12:15 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 33452 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-08-11 21:12:15 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-08-11 21:12:15 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-08-11 21:12:15 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-08-11 21:12:15 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-08-11 21:12:15 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-08-11 21:12:16 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-08-11 21:12:16 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 851 ms
+2025-08-11 21:12:16 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-08-11 21:12:16 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-08-11 21:12:16 INFO  c.example.huayeloltool.Application - Started Application in 1.752 seconds (process running for 3.225)
+2025-08-11 21:12:16 INFO  c.example.huayeloltool.StartLauncher - 客户端连接成功
+2025-08-11 21:12:17 INFO  c.example.huayeloltool.StartLauncher - 战绩隐藏情况为: PRIVATE
+2025-08-11 21:13:03 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-08-11 21:13:03 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-08-11 21:13:03 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-08-11 21:23:00 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-08-11 21:23:01 INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-08-15 16:41:12 INFO  c.example.huayeloltool.Application - Starting Application using Java 17.0.15 with PID 24256 (E:\huaye-lol-tool\huaye-lol-tool-dev\target\classes started by 77646 in E:\huaye-lol-tool)
+2025-08-15 16:41:12 INFO  c.example.huayeloltool.Application - No active profile set, falling back to 1 default profile: "default"
+2025-08-15 16:41:14 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9527 (http)
+2025-08-15 16:41:14 INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9527"]
+2025-08-15 16:41:14 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-08-15 16:41:14 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2025-08-15 16:41:14 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-08-15 16:41:14 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1338 ms
+2025-08-15 16:41:15 INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9527"]
+2025-08-15 16:41:15 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9527 (http) with context path '/'
+2025-08-15 16:41:15 INFO  c.example.huayeloltool.Application - Started Application in 2.786 seconds (process running for 4.842)
+2025-08-15 16:41:15 INFO  c.example.huayeloltool.StartLauncher - 客户端连接成功
+2025-08-15 16:41:16 INFO  c.example.huayeloltool.StartLauncher - 战绩隐藏情况为: PRIVATE
+2025-08-15 16:45:44 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-08-15 16:45:44 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-08-15 16:45:44 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-08-15 16:46:52 WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'POST' is not supported]
+2025-08-15 16:46:53 WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'POST' is not supported]
+2025-08-15 16:48:10 WARN  c.e.h.common.CommonRequest - 请求失败: URL= https://riot:Z1EzTK3Q-4Ley2NBm8EnzA@127.0.0.1:5934/lol-summoner/v1/summoners/?name=G%2Bm%2391787, code= 404, resp= Response{protocol=h2, code=404, message=, url=https://riot:Z1EzTK3Q-4Ley2NBm8EnzA@127.0.0.1:5934/lol-summoner/v1/summoners/?name=G%2Bm%2391787}
+2025-08-15 16:48:11 WARN  c.e.h.common.CommonRequest - 请求失败: URL= https://riot:Z1EzTK3Q-4Ley2NBm8EnzA@127.0.0.1:5934/lol-match-history/v1/products/lol/null/matches?begIndex=0&endIndex=10, code= 400, resp= Response{protocol=h2, code=400, message=, url=https://riot:Z1EzTK3Q-4Ley2NBm8EnzA@127.0.0.1:5934/lol-match-history/v1/products/lol/null/matches?begIndex=0&endIndex=10}
+2025-08-15 16:48:11 ERROR o.a.c.c.C.[.[.[.[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: java.lang.NullPointerException: Cannot invoke "com.example.huayeloltool.model.game.GameHistory$Games.getGames()" because the return value of "com.example.huayeloltool.model.game.GameHistory.getGames()" is null] with root cause
+java.lang.NullPointerException: Cannot invoke "com.example.huayeloltool.model.game.GameHistory$Games.getGames()" because the return value of "com.example.huayeloltool.model.game.GameHistory.getGames()" is null
+	at com.example.huayeloltool.service.LcuApiService.listGameHistory(LcuApiService.java:78)
+	at com.example.huayeloltool.controller.LcuController.getSummonerGameHistory(LcuController.java:65)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:986)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:891)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+2025-08-15 16:48:39 WARN  c.e.h.common.CommonRequest - 请求失败: URL= https://riot:Z1EzTK3Q-4Ley2NBm8EnzA@127.0.0.1:5934/lol-summoner/v1/summoners/?name=G%2Bm%2391787, code= 404, resp= Response{protocol=h2, code=404, message=, url=https://riot:Z1EzTK3Q-4Ley2NBm8EnzA@127.0.0.1:5934/lol-summoner/v1/summoners/?name=G%2Bm%2391787}
+2025-08-15 16:48:39 WARN  c.e.h.common.CommonRequest - 请求失败: URL= https://riot:Z1EzTK3Q-4Ley2NBm8EnzA@127.0.0.1:5934/lol-match-history/v1/products/lol/null/matches?begIndex=0&endIndex=10, code= 400, resp= Response{protocol=h2, code=400, message=, url=https://riot:Z1EzTK3Q-4Ley2NBm8EnzA@127.0.0.1:5934/lol-match-history/v1/products/lol/null/matches?begIndex=0&endIndex=10}
+2025-08-15 16:49:07 ERROR o.a.c.c.C.[.[.[.[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: java.lang.NullPointerException: Cannot invoke "com.example.huayeloltool.model.game.GameHistory$Games.getGames()" because the return value of "com.example.huayeloltool.model.game.GameHistory.getGames()" is null] with root cause
+java.lang.NullPointerException: Cannot invoke "com.example.huayeloltool.model.game.GameHistory$Games.getGames()" because the return value of "com.example.huayeloltool.model.game.GameHistory.getGames()" is null
+	at com.example.huayeloltool.service.LcuApiService.listGameHistory(LcuApiService.java:78)
+	at com.example.huayeloltool.controller.LcuController.getSummonerGameHistory(LcuController.java:65)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:986)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:891)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+2025-08-15 16:49:09 WARN  c.e.h.common.CommonRequest - 请求失败: URL= https://riot:Z1EzTK3Q-4Ley2NBm8EnzA@127.0.0.1:5934/lol-summoner/v1/summoners/?name=G%2Bm%2391787, code= 404, resp= Response{protocol=h2, code=404, message=, url=https://riot:Z1EzTK3Q-4Ley2NBm8EnzA@127.0.0.1:5934/lol-summoner/v1/summoners/?name=G%2Bm%2391787}
+2025-08-15 16:49:09 WARN  c.e.h.common.CommonRequest - 请求失败: URL= https://riot:Z1EzTK3Q-4Ley2NBm8EnzA@127.0.0.1:5934/lol-match-history/v1/products/lol/null/matches?begIndex=0&endIndex=10, code= 400, resp= Response{protocol=h2, code=400, message=, url=https://riot:Z1EzTK3Q-4Ley2NBm8EnzA@127.0.0.1:5934/lol-match-history/v1/products/lol/null/matches?begIndex=0&endIndex=10}
+2025-08-15 16:49:32 ERROR o.a.c.c.C.[.[.[.[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: java.lang.NullPointerException: Cannot invoke "com.example.huayeloltool.model.game.GameHistory$Games.getGames()" because the return value of "com.example.huayeloltool.model.game.GameHistory.getGames()" is null] with root cause
+java.lang.NullPointerException: Cannot invoke "com.example.huayeloltool.model.game.GameHistory$Games.getGames()" because the return value of "com.example.huayeloltool.model.game.GameHistory.getGames()" is null
+	at com.example.huayeloltool.service.LcuApiService.listGameHistory(LcuApiService.java:78)
+	at com.example.huayeloltool.controller.LcuController.getSummonerGameHistory(LcuController.java:65)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:258)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:191)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:986)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:891)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:840)
