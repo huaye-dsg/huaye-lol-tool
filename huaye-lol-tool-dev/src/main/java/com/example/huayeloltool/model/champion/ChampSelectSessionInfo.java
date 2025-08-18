@@ -1,6 +1,6 @@
 package com.example.huayeloltool.model.champion;
 
-import com.example.huayeloltool.common.CommonResp;
+import com.example.huayeloltool.common.LcuApiCommonResp;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -10,7 +10,7 @@ import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class ChampSelectSessionInfo extends CommonResp {
+public class ChampSelectSessionInfo extends LcuApiCommonResp {
 
     /**
      * 分组动作数据，二维数组：

@@ -1,5 +1,6 @@
 package com.example.huayeloltool;
 
+import com.example.huayeloltool.common.BusinessException;
 import com.example.huayeloltool.enums.Constant;
 import com.example.huayeloltool.model.base.BaseUrlClient;
 import com.example.huayeloltool.model.summoner.Summoner;
@@ -31,6 +32,7 @@ public class StartLauncher implements ApplicationRunner {
         // 检查LOL客户端API连接状态
         if (!checkLolClientConnection()) {
             log.error("客户端进程不存在！");
+            // 不再抛出异常，而是记录日志并返回
             return;
         }
         log.info("客户端连接成功");
@@ -65,7 +67,6 @@ public class StartLauncher implements ApplicationRunner {
         return true;
     }
 
-
     /**
      * 初始化当前召唤师信息
      *
@@ -73,11 +74,8 @@ public class StartLauncher implements ApplicationRunner {
      */
     public boolean initializeSummonerInfo() {
         Summoner summoner = Summoner.setInstance(lcuApiService.getCurrSummoner());
-        String privacy = summoner.getPrivacy();
-        log.info("战绩隐藏情况为: {}", privacy);
         return Objects.nonNull(summoner);
     }
-
 
     /**
      * 找到LOL进程并解析端口和token

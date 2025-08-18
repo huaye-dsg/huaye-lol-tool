@@ -1,6 +1,7 @@
 package com.example.huayeloltool.controller;
 
 import com.example.huayeloltool.StartLauncher;
+import com.example.huayeloltool.common.BusinessException;
 import com.example.huayeloltool.model.request.AutoAcceptGameRequest;
 import com.example.huayeloltool.model.request.BanChampionRequest;
 import com.example.huayeloltool.enums.Constant;
@@ -59,7 +60,7 @@ public class LcuController {
     public List<GameBriefInfo> getSummonerGameHistory(@RequestParam("name") String name,
                                                       @RequestParam(value = "pageNum", required = false, defaultValue = "1") Integer pageNum,
                                                       @RequestParam(value = "pageSize", required = false, defaultValue = "10") Integer pageSize
-                                                      ) {
+    ) {
         String[] split = name.split("#");
         Summoner summoner = lcuApiService.getSummonerByNickName(split[0], split[1]);
         List<GameHistory.GameInfo> gameInfos = lcuApiService.listGameHistory(summoner, (pageNum - 1) * pageSize, pageSize);

@@ -1,6 +1,6 @@
 package com.example.huayeloltool.model.game;
 
-import com.example.huayeloltool.common.CommonResp;
+import com.example.huayeloltool.common.LcuApiCommonResp;
 import com.example.huayeloltool.enums.GameEnums;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,7 +13,7 @@ import java.util.List;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class GameFlowSession extends CommonResp {
+public class GameFlowSession extends LcuApiCommonResp {
     private GameData gameData;
     //private GameDodge gameDodge;
     //private Map map;
