@@ -1,6 +1,5 @@
 package com.example.huayeloltool;
 
-import com.example.huayeloltool.common.BusinessException;
 import com.example.huayeloltool.enums.Constant;
 import com.example.huayeloltool.model.base.BaseUrlClient;
 import com.example.huayeloltool.model.summoner.Summoner;

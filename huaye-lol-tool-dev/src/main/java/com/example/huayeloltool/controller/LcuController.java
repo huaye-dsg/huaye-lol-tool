@@ -88,7 +88,7 @@ public class LcuController {
      * 设置自动ban英雄
      */
     @PostMapping("/set/ban/champion")
-    public void setBanChampion(@RequestBody BanChampionRequest request) {
+    public CommonResponse<Boolean> setBanChampion(@RequestBody BanChampionRequest request) {
         if (!request.getAutoBanChamp()) {
             gameGlobalSetting.setAutoBanChamp(false);
         }
@@ -98,16 +98,17 @@ public class LcuController {
         }
 
         log.info("set ban champion id: {}", request.getChampionId());
+        return CommonResponse.success(true);
     }
 
     /**
      * 设置自动接受对局
      */
     @PostMapping("/set/auto/accept/game")
-    public void autoAcceptGame(@RequestBody AutoAcceptGameRequest request) {
+    public CommonResponse<Boolean> autoAcceptGame(@RequestBody AutoAcceptGameRequest request) {
         gameGlobalSetting.setAutoAcceptGame(request.getAutoAcceptGame());
-
         log.info("auto accept game id: {}", request.getAutoAcceptGame());
+        return CommonResponse.success(true);
     }
 
     /**
