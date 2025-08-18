@@ -19,6 +19,11 @@ public class GameGlobalSetting {
     private Integer autoPickChampID = 0;
 
     /**
+     * 是否自动选择英雄
+     */
+    private Boolean autoPickChamp = false;
+
+    /**
      * 自动禁用的英雄ID
      */
     private Integer autoBanChampID = Heros.GRAVES.getHeroId();

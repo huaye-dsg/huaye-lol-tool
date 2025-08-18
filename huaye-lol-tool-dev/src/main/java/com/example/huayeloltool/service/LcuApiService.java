@@ -75,13 +75,21 @@ public class LcuApiService extends CommonRequest {
             log.error("查询用户战绩失败: {}", summoner.getGameName());
             return new ArrayList<>();
         }
-        List<GameHistory.GameInfo> games = gameHistory.getGames().getGames();
-        if (CollectionUtils.isEmpty(games)) {
+
+        GameHistory.Games games = gameHistory.getGames();
+        if (Objects.isNull(games)) {
             log.error("【风险警告】查询用户{}战绩为空！", summoner.getGameName());
             return new ArrayList<>();
         }
 
-        for (GameHistory.GameInfo gameItem : games) {
+        List<GameHistory.GameInfo> gameList = games.getGames();
+
+        if (CollectionUtils.isEmpty(gameList)) {
+            log.error("【风险警告】查询用户{}战绩为空！", summoner.getGameName());
+            return new ArrayList<>();
+        }
+
+        for (GameHistory.GameInfo gameItem : gameList) {
             // 过滤时长短的无效对局
             if (gameItem.getGameDuration() > 300) {
                 fmtList.add(gameItem);
@@ -144,7 +152,8 @@ public class LcuApiService extends CommonRequest {
      * 根据会话ID获取会话组消息记录
      */
     public List<ConversationMsg> listConversationMsg(String conversationID) {
-        return sendTypeGetRequest(String.format("/lol-chat/v1/conversations/%s/messages", conversationID), new TypeReference<>() {});
+        return sendTypeGetRequest(String.format("/lol-chat/v1/conversations/%s/messages", conversationID), new TypeReference<>() {
+        });
     }
 
 
@@ -173,7 +182,8 @@ public class LcuApiService extends CommonRequest {
      * 获取本人当前会话ID
      */
     public String getCurrConversationID() {
-        List<Conversation> conversations = sendTypeGetRequest("/lol-chat/v1/conversations", new TypeReference<>() {});
+        List<Conversation> conversations = sendTypeGetRequest("/lol-chat/v1/conversations", new TypeReference<>() {
+        });
         if (CollectionUtils.isEmpty(conversations)) {
             log.info("当前未查询到会话信息");
             return StringUtils.EMPTY;

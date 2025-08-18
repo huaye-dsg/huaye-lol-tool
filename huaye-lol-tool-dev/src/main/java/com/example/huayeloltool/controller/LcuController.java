@@ -1,6 +1,8 @@
 package com.example.huayeloltool.controller;
 
 import com.example.huayeloltool.StartLauncher;
+import com.example.huayeloltool.common.BusinessException;
+import com.example.huayeloltool.common.CommonResponse;
 import com.example.huayeloltool.model.request.AutoAcceptGameRequest;
 import com.example.huayeloltool.model.request.BanChampionRequest;
 import com.example.huayeloltool.enums.Constant;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @RestController
@@ -42,13 +45,21 @@ public class LcuController {
      * 根据名字获取召唤师信息
      */
     @GetMapping("/summoner/info")
-    public Summoner getSummonerInfo(@RequestParam("name") String name, @RequestParam("tagLine") String tagLine) {
-        return lcuApiService.getSummonerByNickName(name, tagLine);
+    public CommonResponse<Summoner> getSummonerInfo(@RequestParam("name") String name, @RequestParam("tagLine") String tagLine) {
+        return CommonResponse.success(lcuApiService.getSummonerByNickName(name, tagLine));
     }
 
     @GetMapping("/custom/info")
-    public Summoner getCustomSummonerInfo() {
-        return lcuApiService.getCurrSummoner();
+    public CommonResponse<Summoner> getCustomSummonerInfo() {
+        Summoner currSummoner = lcuApiService.getCurrSummoner();
+        if (Objects.nonNull(currSummoner)) {
+            return CommonResponse.success(currSummoner);
+        }
+        Summoner customSummoner = new Summoner();
+        customSummoner.setPrivacy("private");
+        customSummoner.setPuuid("123456");
+        customSummoner.setGameName("Demo数据");
+        return CommonResponse.success(customSummoner);
     }
 
 
@@ -56,28 +67,28 @@ public class LcuController {
      * 根据名字获取召唤师对局记录
      */
     @GetMapping("/summoner/game/history")
-    public List<GameBriefInfo> getSummonerGameHistory(@RequestParam("name") String name,
-                                                      @RequestParam(value = "pageNum", required = false, defaultValue = "1") Integer pageNum,
-                                                      @RequestParam(value = "pageSize", required = false, defaultValue = "10") Integer pageSize
-                                                      ) {
+    public CommonResponse<List<GameBriefInfo>> getSummonerGameHistory(@RequestParam("name") String name,
+                                                                      @RequestParam(value = "pageNum", required = false, defaultValue = "1") Integer pageNum,
+                                                                      @RequestParam(value = "pageSize", required = false, defaultValue = "10") Integer pageSize
+    ) {
         String[] split = name.split("#");
         Summoner summoner = lcuApiService.getSummonerByNickName(split[0], split[1]);
         List<GameHistory.GameInfo> gameInfos = lcuApiService.listGameHistory(summoner, (pageNum - 1) * pageSize, pageSize);
         if (CollectionUtils.isEmpty(gameInfos)) {
-            return new ArrayList<>();
+            return CommonResponse.success(new ArrayList<>());
         }
         List<UserScore.Kda> kdas = gameStateUpdateService.getKdas(gameInfos);
         if (CollectionUtils.isEmpty(kdas)) {
-            return new ArrayList<>();
+            return CommonResponse.success(new ArrayList<>());
         }
-        return getGameBriefInfos(kdas);
+        return CommonResponse.success(getGameBriefInfos(kdas));
     }
 
     /**
      * 设置自动ban英雄
      */
     @PostMapping("/set/ban/champion")
-    public void setBanChampion(@RequestBody BanChampionRequest request) {
+    public CommonResponse<Boolean> setBanChampion(@RequestBody BanChampionRequest request) {
         if (!request.getAutoBanChamp()) {
             gameGlobalSetting.setAutoBanChamp(false);
         }
@@ -87,35 +98,36 @@ public class LcuController {
         }
 
         log.info("set ban champion id: {}", request.getChampionId());
+        return CommonResponse.success(true);
     }
 
     /**
      * 设置自动接受对局
      */
     @PostMapping("/set/auto/accept/game")
-    public void autoAcceptGame(@RequestBody AutoAcceptGameRequest request) {
+    public CommonResponse<Boolean> autoAcceptGame(@RequestBody AutoAcceptGameRequest request) {
         gameGlobalSetting.setAutoAcceptGame(request.getAutoAcceptGame());
-
         log.info("auto accept game id: {}", request.getAutoAcceptGame());
+        return CommonResponse.success(true);
     }
 
     /**
      * 获取全局配置
      */
     @GetMapping("/global/config")
-    public GameGlobalSetting getConfig() {
-        return gameGlobalSetting;
+    public CommonResponse<GameGlobalSetting> getConfig() {
+        return CommonResponse.success(gameGlobalSetting);
     }
 
     /**
      * 获取我方/敌方战绩情况
      */
     @GetMapping("/game/overview")
-    public List<CustomGameCache.Item> gameOverview(@RequestParam("type") Integer type) {
+    public CommonResponse<List<CustomGameCache.Item>> gameOverview(@RequestParam("type") Integer type) {
         if (type == 1) {
-            return CustomGameCache.getInstance().getTeamList();
+            return CommonResponse.success(CustomGameCache.getInstance().getTeamList());
         } else {
-            return CustomGameCache.getInstance().getEnemyList();
+            return CommonResponse.success(CustomGameCache.getInstance().getEnemyList());
         }
     }
 

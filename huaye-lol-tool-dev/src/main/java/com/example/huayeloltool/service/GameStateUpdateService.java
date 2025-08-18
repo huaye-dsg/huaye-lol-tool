@@ -28,7 +28,6 @@ import java.util.stream.Collectors;
 
 import static com.example.huayeloltool.enums.GameEnums.GameFlow.IN_PROGRESS;
 
-
 @Slf4j
 @Service
 public class GameStateUpdateService extends CommonRequest {
@@ -46,16 +45,16 @@ public class GameStateUpdateService extends CommonRequest {
             case CHAMPION_SELECT -> new Thread(this::championSelectStart).start();
             case IN_PROGRESS -> new Thread(this::calcEnemyTeamScore).start();
 //            case END_OF_GAME -> new Thread(this::autoStartNextGame).start();
-            case LOBBY -> AudioPlayer.inputLobby();
+//            case LOBBY -> AudioPlayer.inputLobby();
 
         }
     }
 
-
     @SneakyThrows
     private void acceptGame() {
+        CustomGameSession.getInstance().reset();
         Thread.sleep(1500);
-        AudioPlayer.findGame();
+        //AudioPlayer.findGame();
         lcuApiService.acceptGame();
     }
 
@@ -68,8 +67,8 @@ public class GameStateUpdateService extends CommonRequest {
 //            // 不存在选人界面的模式，直接返回
 //            return;
 //        }
-            AudioPlayer.championSelectStart();
-
+//            AudioPlayer.championSelectStart();
+            CustomGameSession.getInstance().reset();
             Thread.sleep(1500);
             List<Long> summonerIdList = fetchTeamSummonerIds();
             if (CollectionUtils.isEmpty(summonerIdList)) {
@@ -97,7 +96,6 @@ public class GameStateUpdateService extends CommonRequest {
             log.error("查询队友战绩异常", e);
         }
     }
-
 
     /**
      * 尝试获取当前团队中的召唤师ID列表（最多尝试3次）
@@ -153,7 +151,6 @@ public class GameStateUpdateService extends CommonRequest {
         }
     }
 
-
     public Pair<List<Long>, List<Long>> getAllUsersSummonerIdFromSession(long selfID, GameFlowSession session) {
         List<Long> selfTeamUsers = new ArrayList<>(5);
         List<Long> enemyTeamUsers = new ArrayList<>(5);
@@ -176,7 +173,6 @@ public class GameStateUpdateService extends CommonRequest {
         return Pair.of(selfTeamUsers, enemyTeamUsers);
     }
 
-
     private GameEnums.TeamID findSelfTeamID(long selfID, GameFlowSession session) {
         for (GameFlowSession.GameFlowSessionTeamUser teamUser : session.getGameData().getTeamOne()) {
             if (selfID == teamUser.getSummonerId()) {
@@ -193,7 +189,6 @@ public class GameStateUpdateService extends CommonRequest {
         return GameEnums.TeamID.NONE;
     }
 
-
     private void fillUserIds(List<GameFlowSession.GameFlowSessionTeamUser> teamUsers, List<Long> targetList) {
         teamUsers.stream()
                 .map(GameFlowSession.GameFlowSessionTeamUser::getSummonerId)
@@ -201,7 +196,6 @@ public class GameStateUpdateService extends CommonRequest {
                 .filter(userId -> userId > 0)
                 .forEach(targetList::add);
     }
-
 
     private String rankData(String puuid) {
         try {
@@ -255,12 +249,41 @@ public class GameStateUpdateService extends CommonRequest {
                     }
                 });
         if (isSelf) {
-            log.info("【信息缓存成功】我方：{}", CustomGameCache.getInstance().getTeamList());
+            log.info(formatTeamInfo("【我方队友】", CustomGameCache.getInstance().getTeamList()));
         } else {
-            log.info("【信息缓存成功】敌方：{}", CustomGameCache.getInstance().getEnemyList());
+            log.info(formatTeamInfo("【敌方对手】", CustomGameCache.getInstance().getEnemyList()));
         }
     }
 
+
+    /**
+     * 格式化队伍信息输出
+     */
+    private static String formatTeamInfo(String title, List<CustomGameCache.Item> teamList) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n").append("=".repeat(100)).append("\n");
+        sb.append(String.format("【%s 队伍信息】", title)).append("\n");
+        sb.append("=".repeat(100)).append("\n");
+
+        for (int i = 0; i < teamList.size(); i++) {
+            CustomGameCache.Item item = teamList.get(i);
+            sb.append(String.format("%d. %s [%s] %s分 %s\n",
+                    i + 1,
+                    item.getSummonerName(),
+                    item.getHorse(),
+                    item.getScore(),
+                    item.getRank()));
+
+            // 输出KDA信息
+            List<String> kdaList = item.getCurrKDA();
+            for (int j = 0; j < Math.min(kdaList.size(), 3); j++) { // 只显示前3场
+                sb.append(String.format("   %s\n", kdaList.get(j)));
+            }
+            sb.append("\n");
+        }
+        sb.append("=".repeat(100)).append("\n");
+        return sb.toString();
+    }
 
     private UserScore calculateUserScore(Summoner summoner, boolean isSelf) {
         try {
@@ -300,7 +323,6 @@ public class GameStateUpdateService extends CommonRequest {
             return null; // 顶层异常返回null（上层需处理）
         }
     }
-
 
     private double getFinalScore(List<Long> gameIdList, long summonerID) {
         List<AbstractMap.SimpleEntry<Double, LocalDateTime>> validScores = gameIdList.stream()
@@ -395,7 +417,6 @@ public class GameStateUpdateService extends CommonRequest {
         return "";
     }
 
-
     /**
      * 自动开启下一场对局
      */
@@ -426,7 +447,6 @@ public class GameStateUpdateService extends CommonRequest {
                 .collect(Collectors.joining())
                 .trim();
     }
-
 
     /**
      * 计算加权后的总得分。
@@ -527,6 +547,5 @@ public class GameStateUpdateService extends CommonRequest {
         }
         return "";
     }
-
 
 }
