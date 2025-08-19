@@ -3,6 +3,7 @@ package com.example.huayeloltool.controller;
 import com.example.huayeloltool.StartLauncher;
 import com.example.huayeloltool.common.BusinessException;
 import com.example.huayeloltool.common.CommonResponse;
+import com.example.huayeloltool.model.base.BaseUrlClient;
 import com.example.huayeloltool.model.request.AutoAcceptGameRequest;
 import com.example.huayeloltool.model.request.BanChampionRequest;
 import com.example.huayeloltool.enums.Constant;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -38,7 +40,8 @@ public class LcuController {
     @Autowired
     StartLauncher startLauncher;
 
-    public record GameBriefInfo(String queueGame, String championImage, String win, String kda, String position) {
+    public record GameBriefInfo(String queueGame, String imageUrl, Boolean win, Integer kills,
+                                Integer deaths, Integer assists) {
     }
 
     /**
@@ -68,10 +71,24 @@ public class LcuController {
      */
     @GetMapping("/summoner/game/history")
     public CommonResponse<List<GameBriefInfo>> getSummonerGameHistory(@RequestParam("name") String name,
-                                                                      @RequestParam(value = "pageNum", required = false, defaultValue = "1") Integer pageNum,
-                                                                      @RequestParam(value = "pageSize", required = false, defaultValue = "10") Integer pageSize
+                                                                      @RequestParam(value = "page", required = false, defaultValue = "1") Integer pageNum,
+                                                                      @RequestParam(value = "size", required = false, defaultValue = "10") Integer pageSize
     ) {
         String[] split = name.split("#");
+        if (split.length != 2) {
+            throw new BusinessException(500, "召唤师名称不符合规范");
+        }
+        if (BaseUrlClient.getInstance().getPort() <= 0) {
+            // mock数据
+            List<GameBriefInfo> gameBriefInfos = new ArrayList<>();
+            gameBriefInfos.add(new GameBriefInfo("单排排位", Heros.getImageById(1), true, 4, 0, 17));
+            gameBriefInfos.add(new GameBriefInfo("单排排位", Heros.getImageById(2), false, 4, 0, 17));
+            gameBriefInfos.add(new GameBriefInfo("灵活排位", Heros.getImageById(3), true, 4, 0, 17));
+            gameBriefInfos.add(new GameBriefInfo("单排排位", Heros.getImageById(4), true, 4, 0, 17));
+            gameBriefInfos.add(new GameBriefInfo("灵活排位", Heros.getImageById(5), false, 4, 0, 17));
+            return CommonResponse.success(gameBriefInfos);
+        }
+
         Summoner summoner = lcuApiService.getSummonerByNickName(split[0], split[1]);
         List<GameHistory.GameInfo> gameInfos = lcuApiService.listGameHistory(summoner, (pageNum - 1) * pageSize, pageSize);
         if (CollectionUtils.isEmpty(gameInfos)) {
@@ -82,6 +99,14 @@ public class LcuController {
             return CommonResponse.success(new ArrayList<>());
         }
         return CommonResponse.success(getGameBriefInfos(kdas));
+    }
+
+    private List<GameBriefInfo> getGameBriefInfos(List<UserScore.Kda> kdas) {
+        List<GameBriefInfo> gameBriefInfos = new ArrayList<>();
+        for (UserScore.Kda kda : kdas) {
+            gameBriefInfos.add(new GameBriefInfo(kda.getQueueGame(), Heros.getImageById(kda.getChampionId()), kda.getWin(), kda.getKills(), kda.getDeaths(), kda.getAssists()));
+        }
+        return gameBriefInfos;
     }
 
     /**
@@ -124,28 +149,55 @@ public class LcuController {
      */
     @GetMapping("/game/overview")
     public CommonResponse<List<CustomGameCache.Item>> gameOverview(@RequestParam("type") Integer type) {
+        List<CustomGameCache.Item> response;
         if (type == 1) {
-            return CommonResponse.success(CustomGameCache.getInstance().getTeamList());
+            response = CustomGameCache.getInstance().getTeamList();
         } else {
-            return CommonResponse.success(CustomGameCache.getInstance().getEnemyList());
+            response = CustomGameCache.getInstance().getEnemyList();
         }
-    }
+        if (CollectionUtils.isNotEmpty(response)) {
+            return CommonResponse.success(response);
+        }
 
-    /**
-     * 格式化对局kda
-     */
-    private static List<GameBriefInfo> getGameBriefInfos(List<UserScore.Kda> kdas) {
-        List<GameBriefInfo> gameBriefInfos = new ArrayList<>();
-        for (UserScore.Kda kda : kdas) {
-            GameBriefInfo gameBriefInfo = new GameBriefInfo(kda.getQueueGame(),
-                    Heros.getImageById(kda.getChampionId()),
-                    kda.getWin() ? Constant.WIN_STR : Constant.LOSE_STR,
-                    String.format("%s/%s/%s", kda.getKills(), kda.getDeaths(), kda.getAssists()),
-                    kda.getPosition()
-            );
-            gameBriefInfos.add(gameBriefInfo);
-        }
-        return gameBriefInfos;
+        // mock数据
+        response = new ArrayList<>();
+        // 创建5个对手的数据
+// 对手1：钻石选手，高分数
+        List<CustomGameCache.KdaDetail> kda1 = Arrays.asList(
+                new CustomGameCache.KdaDetail("单排排位", true, Heros.getImageById(1), 15, 3, 8),
+                new CustomGameCache.KdaDetail("单排排位", true, Heros.getImageById(2), 12, 4, 6)
+        );
+        response.add(new CustomGameCache.Item("钻石", 95, "S+", "影流之主#32423", kda1));
+
+// 对手2：铂金选手，中等分数
+        List<CustomGameCache.KdaDetail> kda2 = Arrays.asList(
+                new CustomGameCache.KdaDetail("单排排位", false, Heros.getImageById(3), 2, 5, 12),
+                new CustomGameCache.KdaDetail("灵活排位", true, Heros.getImageById(4), 8, 4, 10)
+        );
+        response.add(new CustomGameCache.Item("铂金", 75, "A", "光辉女郎#32423", kda2));
+
+// 对手3：黄金选手，一般分数
+        List<CustomGameCache.KdaDetail> kda3 = Arrays.asList(
+                new CustomGameCache.KdaDetail("单排排位", true, Heros.getImageById(4), 6, 6, 8),
+                new CustomGameCache.KdaDetail("单排排位", false, Heros.getImageById(5), 4, 7, 5)
+        );
+        response.add(new CustomGameCache.Item("黄金", 65, "B+", "盲僧大师#32423", kda3));
+
+// 对手4：白银选手，较低分数
+        List<CustomGameCache.KdaDetail> kda4 = Arrays.asList(
+                new CustomGameCache.KdaDetail("灵活排位", false, Heros.getImageById(6), 3, 8, 4),
+                new CustomGameCache.KdaDetail("单排排位", false, Heros.getImageById(7), 2, 6, 3)
+        );
+        response.add(new CustomGameCache.Item("白银", 45, "C", "提莫队长#32423", kda4));
+
+// 对手5：青铜选手，低分数
+        List<CustomGameCache.KdaDetail> kda5 = Arrays.asList(
+                new CustomGameCache.KdaDetail("单排排位", false, Heros.getImageById(8), 1, 10, 2),
+                new CustomGameCache.KdaDetail("灵活排位", false, Heros.getImageById(9), 3, 9, 4)
+        );
+        response.add(new CustomGameCache.Item("青铜", 35, "D", "寒冰射手#32423", kda5));
+
+        return CommonResponse.success(response);
     }
 
     /**

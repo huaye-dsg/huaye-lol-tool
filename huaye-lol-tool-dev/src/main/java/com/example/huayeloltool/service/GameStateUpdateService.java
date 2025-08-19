@@ -234,20 +234,26 @@ public class GameStateUpdateService extends CommonRequest {
                     item.setSummonerName(scoreInfo.getSummonerName());
                     List<UserScore.Kda> currKDA = scoreInfo.getCurrKDA();
 
-                    List<String> collect = currKDA.stream().limit(5).map(kda -> String.format(Constant.KDA_FORMAT,
-                            kda.getQueueGame(),
-                            kda.getWin() ? Constant.WIN_STR : Constant.LOSE_STR,
-                            Heros.getImageById(kda.getChampionId()),
-                            kda.getKills(),
-                            kda.getDeaths(),
-                            kda.getAssists())).toList();
-                    item.setCurrKDA(collect);
+                    List<CustomGameCache.KdaDetail> kdaDetails = currKDA.stream().limit(5).map(kda -> {
+                        CustomGameCache.KdaDetail kdaDetail = new CustomGameCache.KdaDetail();
+                        kdaDetail.setQueueGame(kda.getQueueGame());
+                        kdaDetail.setWin(kda.getWin());
+                        kdaDetail.setImageUrl(Heros.getImageById(kda.getChampionId()));
+                        kdaDetail.setKills(kda.getKills());
+                        kdaDetail.setDeaths(kda.getDeaths());
+                        kdaDetail.setAssists(kda.getAssists());
+                        return kdaDetail;
+                    }).toList();
+
+                    item.setCurrKDA(kdaDetails);
+                    // 存储到缓存
                     if (isSelf) {
                         CustomGameCache.getInstance().getTeamList().add(item);
                     } else {
                         CustomGameCache.getInstance().getEnemyList().add(item);
                     }
                 });
+        // 格式化控制台输出
         if (isSelf) {
             log.info(formatTeamInfo("【我方队友】", CustomGameCache.getInstance().getTeamList()));
         } else {
@@ -275,7 +281,7 @@ public class GameStateUpdateService extends CommonRequest {
                     item.getRank()));
 
             // 输出KDA信息
-            List<String> kdaList = item.getCurrKDA();
+            List<CustomGameCache.KdaDetail> kdaList = item.getCurrKDA();
             for (int j = 0; j < Math.min(kdaList.size(), 3); j++) { // 只显示前3场
                 sb.append(String.format("   %s\n", kdaList.get(j)));
             }

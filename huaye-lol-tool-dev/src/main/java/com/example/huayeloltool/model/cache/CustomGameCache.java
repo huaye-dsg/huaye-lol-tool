@@ -39,7 +39,19 @@ public class CustomGameCache {
         private Integer score;
         private String rank;
         private String summonerName;
-        List<String> currKDA;
+        List<KdaDetail> currKDA;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class KdaDetail {
+        private String queueGame;
+        private Boolean win;
+        private String imageUrl;
+        private Integer kills;
+        private Integer deaths;
+        private Integer assists;
     }
 
 }
