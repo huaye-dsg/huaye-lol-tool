@@ -1,4 +1,4 @@
-package com.example.huayeloltool.service;
+package com.example.huayeloltool.common;
 
 import javazoom.jl.player.Player;
 import lombok.extern.slf4j.Slf4j;

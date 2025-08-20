@@ -37,7 +37,6 @@ public class GameStateUpdateService extends CommonRequest {
     @Autowired
     private ScoreService scoreService;
 
-    @SneakyThrows
     public void onGameFlowUpdate(String gameState) {
         switch (GameEnums.GameFlow.getByValue(gameState)) {
 //            case MATCHMAKING -> log.info("开始匹配");
@@ -50,10 +49,12 @@ public class GameStateUpdateService extends CommonRequest {
         }
     }
 
-    @SneakyThrows
     private void acceptGame() {
         CustomGameSession.getInstance().reset();
-        Thread.sleep(1500);
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException ignored) {
+        }
         //AudioPlayer.findGame();
         lcuApiService.acceptGame();
     }
@@ -426,13 +427,19 @@ public class GameStateUpdateService extends CommonRequest {
     /**
      * 自动开启下一场对局
      */
-    @SneakyThrows
     private void autoStartNextGame() {
-        Thread.sleep(1500);
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException ignored) {
+        }
         boolean result = lcuApiService.playAgain();
         // TODO 扩展，检查自己是不是房主
         if (result) {
-            Thread.sleep(1500);
+            try {
+                Thread.sleep(1500);
+            } catch (InterruptedException ignored) {
+
+            }
             lcuApiService.autoStartMatch();
         }
     }

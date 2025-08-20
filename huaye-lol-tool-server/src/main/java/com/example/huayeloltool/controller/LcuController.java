@@ -1,12 +1,10 @@
 package com.example.huayeloltool.controller;
 
-import com.example.huayeloltool.StartLauncher;
 import com.example.huayeloltool.common.BusinessException;
 import com.example.huayeloltool.common.CommonResponse;
 import com.example.huayeloltool.model.base.BaseUrlClient;
 import com.example.huayeloltool.model.request.AutoAcceptGameRequest;
 import com.example.huayeloltool.model.request.BanChampionRequest;
-import com.example.huayeloltool.enums.Constant;
 import com.example.huayeloltool.enums.Heros;
 import com.example.huayeloltool.model.base.GameGlobalSetting;
 import com.example.huayeloltool.model.cache.CustomGameCache;
@@ -14,6 +12,7 @@ import com.example.huayeloltool.model.game.GameHistory;
 import com.example.huayeloltool.model.game.GameTimeLine;
 import com.example.huayeloltool.model.score.UserScore;
 import com.example.huayeloltool.model.summoner.Summoner;
+import com.example.huayeloltool.service.ClientMonitorService;
 import com.example.huayeloltool.service.GameStateUpdateService;
 import com.example.huayeloltool.service.LcuApiService;
 import lombok.extern.slf4j.Slf4j;
@@ -37,8 +36,9 @@ public class LcuController {
     GameStateUpdateService gameStateUpdateService;
     @Autowired
     GameGlobalSetting gameGlobalSetting;
+
     @Autowired
-    StartLauncher startLauncher;
+    ClientMonitorService clientMonitorService;
 
     public record GameBriefInfo(String queueGame, String imageUrl, Boolean win, Integer kills,
                                 Integer deaths, Integer assists) {
@@ -68,6 +68,40 @@ public class LcuController {
         return CommonResponse.success(customSummoner);
     }
 
+    /**
+     * 重新连接客户端
+     */
+    @PostMapping("/reconnect")
+    public CommonResponse<String> reconnect() {
+        log.info("收到手动重连请求");
+
+        boolean success = clientMonitorService.manualReconnect();
+        String message = clientMonitorService.getConnectionInfo();
+
+        if (success) {
+            return CommonResponse.success(message);
+        } else {
+            return CommonResponse.fail(500, "重连失败: " + message);
+        }
+    }
+
+    /**
+     * 获取连接状态
+     */
+    @GetMapping("/connection/status")
+    public CommonResponse<ConnectionStatus> getConnectionStatus() {
+        boolean clientConnected = clientMonitorService.isClientConnected();
+        boolean webSocketConnected = clientMonitorService.isWebSocketConnected();
+        String info = clientMonitorService.getConnectionInfo();
+
+        return CommonResponse.success(new ConnectionStatus(clientConnected, webSocketConnected, info));
+    }
+
+    /**
+     * 连接状态响应对象
+     */
+    public record ConnectionStatus(boolean clientConnected, boolean webSocketConnected, String info) {
+    }
 
     /**
      * 根据名字获取召唤师对局记录
@@ -202,16 +236,6 @@ public class LcuController {
 
         return CommonResponse.success(response);
     }
-
-    /**
-     * 重新连接客户端
-     */
-    @PostMapping("/reconnect")
-    public boolean reconnect() {
-        startLauncher.run(null);
-        return true;
-    }
-
 
     /**
      * 对局时间线详情

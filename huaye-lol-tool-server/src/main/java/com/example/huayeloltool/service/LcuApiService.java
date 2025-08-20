@@ -246,7 +246,6 @@ public class LcuApiService extends CommonRequest {
     /**
      * 通用英雄选择操作
      */
-    @SneakyThrows
     public Boolean champSelectPatchAction(int championId, int actionId, String patchType, Boolean completed) {
         if (championId <= 0) {
             log.error("通用英雄选择操作, championId 为空！");
@@ -285,7 +284,6 @@ public class LcuApiService extends CommonRequest {
     /**
      * 根据名字获取召唤师信息
      */
-    @SneakyThrows
     public Summoner getSummonerByNickName(String name, String tagLine) {
         String encodedParam = URLEncoder.encode(name + "#" + tagLine, StandardCharsets.UTF_8);
         return sendSingleObjectGetRequest(String.format("/lol-summoner/v1/summoners/?name=%s", encodedParam), Summoner.class);

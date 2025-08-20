@@ -2,7 +2,6 @@ package com.example.huayeloltool.model.summoner;
 
 import lombok.Data;
 
-
 /**
  * 召唤师信息
  */
@@ -18,7 +17,6 @@ public class Summoner {
      * "PRIVATE" | "PUBLIC"
      */
     private String privacy;
-
 
     /**
      * 显示名称
@@ -90,20 +88,43 @@ public class Summoner {
      */
     //private Integer xpUntilNextLevel;
 
-    private static Summoner instance;
+    // 使用volatile关键字确保多线程环境下的可见性
+    private static volatile Summoner instance;
 
-
-    public static synchronized Summoner setInstance(Summoner summoner) {
-        instance = summoner;
+    /**
+     * 设置单例实例（线程安全）
+     * 只有在实例为null时才允许设置，避免破坏单例模式
+     */
+    public static Summoner setInstance(Summoner summoner) {
+        if (instance == null) {
+            synchronized (Summoner.class) {
+                if (instance == null) {
+                    instance = summoner;
+                }
+            }
+        }
         return instance;
     }
 
-
-    public static synchronized Summoner getInstance() {
+    /**
+     * 获取单例实例（双重检查锁定模式）
+     */
+    public static Summoner getInstance() {
         if (instance == null) {
-            instance = new Summoner();
+            synchronized (Summoner.class) {
+                if (instance == null) {
+                    instance = new Summoner();
+                }
+            }
         }
         return instance;
+    }
+
+    /**
+     * 清除单例实例（用于测试或重置）
+     */
+    public static synchronized void clearInstance() {
+        instance = null;
     }
 
     @Data

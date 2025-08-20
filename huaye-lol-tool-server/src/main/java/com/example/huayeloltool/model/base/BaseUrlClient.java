@@ -3,7 +3,6 @@ package com.example.huayeloltool.model.base;
 import lombok.Getter;
 import lombok.Setter;
 
-
 @Setter
 @Getter
 public class BaseUrlClient {
@@ -24,26 +23,30 @@ public class BaseUrlClient {
     private String baseUrl;
 
     /**
-     * 单例
+     * 单例实例，使用volatile关键字确保多线程环境下的可见性
      */
-    private static BaseUrlClient instance;
+    private static volatile BaseUrlClient instance;
 
-
-    public static synchronized BaseUrlClient getInstance() {
+    /**
+     * 获取单例实例（双重检查锁定模式）
+     */
+    public static BaseUrlClient getInstance() {
         if (instance == null) {
-            instance = new BaseUrlClient();
+            synchronized (BaseUrlClient.class) {
+                if (instance == null) {
+                    instance = new BaseUrlClient();
+                }
+            }
         }
         return instance;
     }
 
     public static String assembleUrl(String uri) {
-        return instance.fmtClientApiUrl() + uri;
+        return getInstance().fmtClientApiUrl() + uri;
     }
-
 
     private BaseUrlClient() {
     }
-
 
     /**
      * 格式化客户端 API URL

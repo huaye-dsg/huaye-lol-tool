@@ -10,7 +10,6 @@ import com.example.huayeloltool.model.game.CustomGameSession;
 import com.example.huayeloltool.model.game.Matchmaking;
 import com.example.huayeloltool.service.GameSessionUpdateService;
 import com.example.huayeloltool.service.GameStateUpdateService;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import org.apache.commons.lang3.BooleanUtils;
@@ -18,8 +17,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import jakarta.annotation.PreDestroy;
 import java.util.Base64;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Slf4j
 @Component
@@ -30,54 +30,152 @@ public class Monitor {
     @Autowired
     private GameSessionUpdateService gameSessionUpdateService;
 
-    static OkHttpClient client = OkHttpUtil.getInstance();
+    private static final OkHttpClient client = OkHttpUtil.getInstance();
 
-    private static volatile boolean isWebSocketConnected = false;
+    // 使用AtomicBoolean确保线程安全
+    private final AtomicBoolean isWebSocketConnected = new AtomicBoolean(false);
+    private final AtomicBoolean isShutdown = new AtomicBoolean(false);
 
-    @SneakyThrows
+    // WebSocket实例引用，用于管理连接
+    private volatile WebSocket webSocket;
+
+    /**
+     * 启动游戏流程监控
+     */
     public void startGameFlowMonitor() {
-        if (isWebSocketConnected) {
-            log.warn("上一个 WebSocket 连接可能尚未关闭，请稍后再试");
+        if (isShutdown.get()) {
+            log.warn("Monitor已关闭，无法启动新连接");
             return;
         }
-        BaseUrlClient baseUrlClient = BaseUrlClient.getInstance();
-        int port = baseUrlClient.getPort();
-        String token = baseUrlClient.getToken();
-        String auth = Base64.getEncoder().encodeToString(("riot:" + token).getBytes());
 
-        Request request = new Request.Builder()
-                .url("wss://127.0.0.1:" + port + "/")
-                .addHeader("Authorization", "Basic " + auth)
-                .build();
+        if (isWebSocketConnected.get()) {
+            log.warn("WebSocket连接已存在，请先关闭现有连接");
+            return;
+        }
 
-        client.newWebSocket(request, new WebSocketListener() {
-            @SneakyThrows
-            @Override
-            public void onOpen(WebSocket webSocket, Response response) {
-                isWebSocketConnected = true;
-                webSocket.send("[5, \"OnJsonApiEvent\"]");
+        try {
+            BaseUrlClient baseUrlClient = BaseUrlClient.getInstance();
+            int port = baseUrlClient.getPort();
+            String token = baseUrlClient.getToken();
+
+            if (port <= 0 || StringUtils.isBlank(token)) {
+                log.error("无效的连接参数: port={}, token={}", port, token != null ? "***" : "null");
+                return;
             }
 
-            @Override
-            public void onMessage(WebSocket webSocket, String text) {
-                handleWebSocketMessage(text);
-            }
+            String auth = Base64.getEncoder().encodeToString(("riot:" + token).getBytes());
 
-            @Override
-            public void onFailure(WebSocket webSocket, Throwable t, Response response) {
-                log.error("客户端通信连接失败", t);
-                if (webSocket != null) {
-                    webSocket.cancel(); // 关闭连接
+            Request request = new Request.Builder()
+                    .url("wss://127.0.0.1:" + port + "/")
+                    .addHeader("Authorization", "Basic " + auth)
+                    .build();
+
+            webSocket = client.newWebSocket(request, new WebSocketListener() {
+                @Override
+                public void onOpen(WebSocket webSocket, Response response) {
+                    log.info("WebSocket连接已建立");
+                    isWebSocketConnected.set(true);
+                    webSocket.send("[5, \"OnJsonApiEvent\"]");
                 }
-                isWebSocketConnected = false;
-            }
-        });
 
-        // 保持连接
-        boolean b = client.dispatcher().executorService().awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+                @Override
+                public void onMessage(WebSocket webSocket, String text) {
+                    handleWebSocketMessage(text);
+                }
+
+                @Override
+                public void onClosing(WebSocket webSocket, int code, String reason) {
+                    log.info("WebSocket连接正在关闭: code={}, reason={}", code, reason);
+                    isWebSocketConnected.set(false);
+                }
+
+                @Override
+                public void onClosed(WebSocket webSocket, int code, String reason) {
+                    log.info("WebSocket连接已关闭: code={}, reason={}", code, reason);
+                    isWebSocketConnected.set(false);
+                    Monitor.this.webSocket = null;
+                }
+
+                @Override
+                public void onFailure(WebSocket webSocket, Throwable t, Response response) {
+                    log.error("WebSocket连接失败", t);
+                    isWebSocketConnected.set(false);
+                    Monitor.this.webSocket = null;
+
+                    // 如果不是主动关闭且未shutdown，可以考虑重连
+                    if (!isShutdown.get()) {
+                        log.info("连接失败，5秒后尝试重连...");
+                        scheduleReconnect();
+                    }
+                }
+            });
+
+        } catch (Exception e) {
+            log.error("启动WebSocket监控失败", e);
+            isWebSocketConnected.set(false);
+        }
     }
 
+    /**
+     * 安排重连（简单的延迟重连，避免频繁重连）
+     */
+    private void scheduleReconnect() {
+        new Thread(() -> {
+            try {
+                Thread.sleep(5000); // 等待5秒
+                if (!isShutdown.get() && !isWebSocketConnected.get()) {
+                    log.info("尝试重新连接WebSocket...");
+                    startGameFlowMonitor();
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                log.debug("重连线程被中断");
+            }
+        }).start();
+    }
 
+    /**
+     * 关闭WebSocket连接
+     */
+    public void closeWebSocket() {
+        log.info("正在关闭WebSocket连接...");
+        isWebSocketConnected.set(false);
+
+        if (webSocket != null) {
+            // 正常关闭连接
+            webSocket.close(1000, "正常关闭");
+            webSocket = null;
+        }
+    }
+
+    /**
+     * 检查连接状态
+     */
+    public boolean isConnected() {
+        return isWebSocketConnected.get() && webSocket != null;
+    }
+
+    /**
+     * 应用关闭时的资源清理
+     */
+    @PreDestroy
+    public void shutdown() {
+        log.info("Monitor正在关闭...");
+        isShutdown.set(true);
+        closeWebSocket();
+
+        // 关闭OkHttp客户端的连接池（如果需要的话）
+        // 注意：由于client是静态的，这里要谨慎处理
+        try {
+            client.dispatcher().executorService().shutdown();
+        } catch (Exception e) {
+            log.warn("关闭OkHttp线程池时出现异常", e);
+        }
+    }
+
+    /**
+     * 处理WebSocket消息
+     */
     private void handleWebSocketMessage(String message) {
         try {
             if (StringUtils.isEmpty(message)) {
@@ -104,7 +202,7 @@ public class Monitor {
                 case "/lol-lobby-team-builder/v1/matchmaking" -> handleGameMode(data);
             }
         } catch (Exception e) {
-            log.error("handleWebSocketMessage error", e);
+            log.error("处理WebSocket消息时发生错误", e);
         }
     }
 
@@ -144,5 +242,4 @@ public class Monitor {
             log.error("处理游戏模式时发生错误", e);
         }
     }
-
 }

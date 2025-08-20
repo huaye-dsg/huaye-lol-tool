@@ -4,7 +4,7 @@
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
-        <option value="$PROJECT_DIR$/huaye-lol-tool-dev/pom.xml" />
+        <option value="$PROJECT_DIR$/huaye-lol-tool-server/pom.xml" />
       </list>
     </option>
   </component>

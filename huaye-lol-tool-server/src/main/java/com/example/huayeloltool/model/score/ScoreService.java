@@ -15,11 +15,7 @@ public class ScoreService extends CommonScoreService {
 
     static final CalcScoreConf calcScoreConf = CalcScoreConf.getInstance();
     static final double defaultScore = 100.0;
-    // 单例模式
-    @Getter
-    public static final ScoreService instance = new ScoreService();
-    private ScoreService() {
-    }
+
 
     /**
      * 计算用户游戏得分
