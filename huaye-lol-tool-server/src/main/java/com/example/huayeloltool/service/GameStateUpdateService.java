@@ -304,7 +304,7 @@ public class GameStateUpdateService extends CommonRequest {
             try {
                 gameList = lcuApiService.listGameHistory(summoner, 0, 19); // 获取最近20场对局记录
                 // 过滤指定的对局模式
-                gameList = gameList.stream().filter(game -> GameEnums.GameQueueID.isNormalGameMode(game.getQueueId())).toList();
+                //gameList = gameList.stream().filter(game -> GameEnums.GameQueueID.isNormalGameMode(game.getQueueId())).toList();
                 if (CollectionUtils.isEmpty(gameList)) {
                     log.error("【{}】战绩查询为空！", summoner.getGameName());
                     return null;
