@@ -1,12 +1,17 @@
 import type { RouteRecordRaw } from 'vue-router';
 
-import { LOGIN_PATH } from '@vben/constants';
-import { preferences } from '@vben/preferences';
+import { mergeRouteModules } from '@vben/utils';
 
-import { $t } from '#/locales';
 
 const BasicLayout = () => import('#/layouts/basic.vue');
-const AuthPageLayout = () => import('#/layouts/auth.vue');
+
+// 导入动态路由
+const dynamicRouteFiles = import.meta.glob('./modules/**/*.ts', {
+  eager: true,
+});
+
+const dynamicRoutes: RouteRecordRaw[] = mergeRouteModules(dynamicRouteFiles);
+
 /** 全局404页面 */
 const fallbackNotFoundRoute: RouteRecordRaw = {
   component: () => import('#/views/_core/fallback/not-found.vue'),
@@ -35,62 +40,8 @@ const coreRoutes: RouteRecordRaw[] = [
     },
     name: 'Root',
     path: '/',
-    redirect: preferences.app.defaultHomePath,
-    children: [],
-  },
-  {
-    component: AuthPageLayout,
-    meta: {
-      hideInTab: true,
-      title: 'Authentication',
-    },
-    name: 'Authentication',
-    path: '/auth',
-    redirect: LOGIN_PATH,
-    children: [
-      {
-        name: 'Login',
-        path: 'login',
-        component: () => import('#/views/_core/authentication/login.vue'),
-        meta: {
-          title: $t('page.auth.login'),
-        },
-      },
-      {
-        name: 'CodeLogin',
-        path: 'code-login',
-        component: () => import('#/views/_core/authentication/code-login.vue'),
-        meta: {
-          title: $t('page.auth.codeLogin'),
-        },
-      },
-      {
-        name: 'QrCodeLogin',
-        path: 'qrcode-login',
-        component: () =>
-          import('#/views/_core/authentication/qrcode-login.vue'),
-        meta: {
-          title: $t('page.auth.qrcodeLogin'),
-        },
-      },
-      {
-        name: 'ForgetPassword',
-        path: 'forget-password',
-        component: () =>
-          import('#/views/_core/authentication/forget-password.vue'),
-        meta: {
-          title: $t('page.auth.forgetPassword'),
-        },
-      },
-      {
-        name: 'Register',
-        path: 'register',
-        component: () => import('#/views/_core/authentication/register.vue'),
-        meta: {
-          title: $t('page.auth.register'),
-        },
-      },
-    ],
+    redirect: '/dashboard/analytics', // 直接重定向到主页
+    children: dynamicRoutes, // 添加动态路由作为子路由
   },
 ];
 

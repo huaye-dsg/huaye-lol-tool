@@ -1,42 +1,59 @@
 import type {
-  ComponentRecordType,
   GenerateMenuAndRoutesOptions,
 } from '@vben/types';
 
-import { generateAccessible } from '@vben/access';
-import { preferences } from '@vben/preferences';
-
-import { ElMessage } from 'element-plus';
-
-import { getAllMenusApi } from '#/api';
-import { BasicLayout, IFrameView } from '#/layouts';
-import { $t } from '#/locales';
-
-const forbiddenComponent = () => import('#/views/_core/fallback/forbidden.vue');
-
 async function generateAccess(options: GenerateMenuAndRoutesOptions) {
-  const pageMap: ComponentRecordType = import.meta.glob('../views/**/*.vue');
-
-  const layoutMap: ComponentRecordType = {
-    BasicLayout,
-    IFrameView,
-  };
-
-  return await generateAccessible(preferences.app.accessMode, {
-    ...options,
-    fetchMenuListAsync: async () => {
-      ElMessage({
-        duration: 1500,
-        message: `${$t('common.loadingMenu')}...`,
-      });
-      return await getAllMenusApi();
+  // 直接返回静态的菜单和路由配置，不再调用API
+  const staticMenus = [
+    {
+      id: 'dashboard',
+      name: '概览',
+      path: '/dashboard',
+      meta: {
+        icon: 'lucide:layout-dashboard',
+        order: -1,
+        title: '概览',
+      },
+      children: [
+        {
+          id: 'analytics',
+          name: '主页',
+          path: '/dashboard/analytics',
+          component: 'views/dashboard/analytics/index.vue',
+          meta: {
+            affixTab: true,
+            icon: 'lucide:area-chart',
+            title: '主页',
+          },
+        },
+        {
+          id: 'workspace',
+          name: '实时对局',
+          path: '/dashboard/workspace',
+          component: 'views/dashboard/workspace/index.vue',
+          meta: {
+            icon: 'carbon:workspace',
+            title: '实时对局',
+          },
+        },
+        {
+          id: 'match-history',
+          name: '战绩查询',
+          path: '/dashboard/match-history',
+          component: 'views/dashboard/match-history/index.vue',
+          meta: {
+            icon: 'lucide:history',
+            title: '战绩查询',
+          },
+        },
+      ],
     },
-    // 可以指定没有权限跳转403页面
-    forbiddenComponent,
-    // 如果 route.meta.menuVisibleWithForbidden = true
-    layoutMap,
-    pageMap,
-  });
+  ];
+
+  return {
+    accessibleMenus: staticMenus,
+    accessibleRoutes: options.routes || [],
+  };
 }
 
 export { generateAccess };

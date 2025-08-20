@@ -11,10 +11,11 @@ const routes: RouteRecordRaw[] = [
     },
     name: 'Dashboard',
     path: '/dashboard',
+    redirect: '/dashboard/analytics',
     children: [
       {
         name: 'Analytics',
-        path: '/analytics',
+        path: 'analytics',
         component: () => import('#/views/dashboard/analytics/index.vue'),
         meta: {
           affixTab: true,
@@ -24,7 +25,7 @@ const routes: RouteRecordRaw[] = [
       },
       {
         name: 'Workspace',
-        path: '/workspace',
+        path: 'workspace',
         component: () => import('#/views/dashboard/workspace/index.vue'),
         meta: {
           icon: 'carbon:workspace',
@@ -33,7 +34,7 @@ const routes: RouteRecordRaw[] = [
       },
       {
         name: 'MatchHistory',
-        path: '/match-history',
+        path: 'match-history',
         component: () => import('#/views/dashboard/match-history/index.vue'),
         meta: {
           icon: 'lucide:history',

@@ -1,1 +1,1 @@
-export * from './auth';
+// 移除 export * from './auth'; 这一行，因为auth.ts已被删除

@@ -4,6 +4,7 @@ import { registerAccessDirective } from '@vben/access';
 import { registerLoadingDirective } from '@vben/common-ui';
 import { preferences } from '@vben/preferences';
 import { initStores } from '@vben/stores';
+import { useAccessStore } from '@vben/stores';
 import '@vben/styles';
 import '@vben/styles/ele';
 
@@ -16,6 +17,7 @@ import { initComponentAdapter } from './adapter/component';
 import { initSetupVbenForm } from './adapter/form';
 import App from './app.vue';
 import { router } from './router';
+import { generateAccess } from './router/access';
 
 async function bootstrap(namespace: string) {
   // 初始化组件适配器
@@ -48,6 +50,11 @@ async function bootstrap(namespace: string) {
 
   // 配置 pinia-tore
   await initStores(app, { namespace });
+
+  // 初始化菜单数据
+  const accessStore = useAccessStore();
+  const { accessibleMenus } = await generateAccess({ router, routes: [] });
+  accessStore.setAccessMenus(accessibleMenus);
 
   // 安装权限指令
   registerAccessDirective(app);
