@@ -11,7 +11,7 @@ import '@vben/styles/ele';
 import { useTitle } from '@vueuse/core';
 import { ElLoading } from 'element-plus';
 
-import { $t, setupI18n } from '#/locales';
+import { setupI18n } from '@vben/locales';
 
 import { initComponentAdapter } from './adapter/component';
 import { initSetupVbenForm } from './adapter/form';
@@ -26,14 +26,6 @@ async function bootstrap(namespace: string) {
   // 初始化表单组件
   await initSetupVbenForm();
 
-  // // 设置弹窗的默认配置
-  // setDefaultModalProps({
-  //   fullscreenButton: false,
-  // });
-  // // 设置抽屉的默认配置
-  // setDefaultDrawerProps({
-  //   zIndex: 2000,
-  // });
   const app = createApp(App);
 
   // 注册Element Plus提供的v-loading指令
@@ -41,12 +33,15 @@ async function bootstrap(namespace: string) {
 
   // 注册Vben提供的v-loading和v-spinning指令
   registerLoadingDirective(app, {
-    loading: false, // Vben提供的v-loading指令和Element Plus提供的v-loading指令二选一即可，此处false表示不注册Vben提供的v-loading指令
+    loading: false,
     spinning: 'spinning',
   });
 
-  // 国际化 i18n 配置
-  await setupI18n(app);
+  // 国际化配置 - 只支持中文
+  await setupI18n(app, {
+    defaultLocale: 'zh-CN',
+    loadMessages: async () => ({}), // 使用空的消息加载器，依赖框架默认的中文
+  });
 
   // 配置 pinia-tore
   await initStores(app, { namespace });
@@ -74,8 +69,7 @@ async function bootstrap(namespace: string) {
   watchEffect(() => {
     if (preferences.app.dynamicTitle) {
       const routeTitle = router.currentRoute.value.meta?.title;
-      const pageTitle =
-        (routeTitle ? `${$t(routeTitle)} - ` : '') + preferences.app.name;
+      const pageTitle = (routeTitle || '') + (routeTitle ? ' - ' : '') + preferences.app.name;
       useTitle(pageTitle);
     }
   });
