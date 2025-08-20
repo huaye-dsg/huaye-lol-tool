@@ -11,13 +11,14 @@ import {
   ElTableColumn,
 } from 'element-plus';
 
-// 表格数据类型定义，根据后端GameBriefInfo修改
+// 表格数据类型定义，匹配后端 GameBriefInfo
 interface TableRow {
-  queueGame: string;
-  championImage: string;
-  win: string;
-  kda: string;
-  position: string;
+  queueGame: string;    // 游戏模式
+  imageUrl: string;     // 英雄图片URL
+  win: boolean;         // 胜负
+  kills: number;        // 击杀
+  deaths: number;       // 死亡
+  assists: number;      // 助攻
 }
 
 // 默认的召唤师名称
@@ -48,7 +49,7 @@ const loadData = async (name: string, page = 1, pageSize = 10) => {
   loading.value = true;
   try {
     const response = await fetch(
-        `http://127.0.0.1:9527/api/summoner/game/history?name=${encodeURIComponent(name)}&pageNum=${page}&pageSize=${pageSize}`,
+      `http://127.0.0.1:9527/api/summoner/game/history?name=${encodeURIComponent(name)}&pageNum=${page}&pageSize=${pageSize}`,
     );
 
     // 检查HTTP响应状态
@@ -64,26 +65,9 @@ const loadData = async (name: string, page = 1, pageSize = 10) => {
       throw new Error(result.message || `请求失败，状态码: ${result.code}`);
     }
 
-    // 检查数据是否存在
-    if (!result.data) {
-      tableData.value = [];
-      pagination.value.total = 0;
-      ElMessage.warning('未找到相关数据');
-      return;
-    }
-
-    // 设置表格数据和分页信息
-    if (Array.isArray(result.data)) {
-      tableData.value = result.data;
-      pagination.value.total = result.data.length;
-    } else if (result.data.list) {
-      tableData.value = result.data.list;
-      pagination.value.total = result.data.total || 0;
-    } else {
-      tableData.value = [];
-      pagination.value.total = 0;
-      ElMessage.warning('数据格式不正确');
-    }
+    // 设置表格数据
+    tableData.value = result.data || [];
+    pagination.value.total = result.data?.length || 0;
   } catch (error: any) {
     ElMessage.error(`请求失败: ${error.message}`);
     console.error('获取召唤师游戏历史失败:', error);
@@ -98,9 +82,9 @@ const loadData = async (name: string, page = 1, pageSize = 10) => {
 const handleSearch = () => {
   pagination.value.currentPage = 1; // 搜索时重置到第一页
   loadData(
-      summonerNameInput.value,
-      pagination.value.currentPage,
-      pagination.value.pageSize,
+    summonerNameInput.value,
+    pagination.value.currentPage,
+    pagination.value.pageSize,
   );
 };
 
@@ -117,11 +101,15 @@ const handleSizeChange = (pageSize: number) => {
   loadData(summonerNameInput.value, 1, pageSize);
 };
 
-// 页面加载时初始化数据（可选，如果想一加载就显示数据，需要提供默认召唤师名称）
+// 格式化KDA
+const formatKDA = (row: TableRow) => {
+  return `${row.kills}/${row.deaths}/${row.assists}`;
+};
+
+// 页面加载时初始化数据
 onMounted(() => {
-  // 可以在这里设置一个默认的召唤师名称进行初次加载
-  // summonerNameInput.value = 'DefaultSummoner';
-  // loadData(summonerNameInput.value, pagination.value.currentPage, pagination.value.pageSize);
+  summonerNameInput.value = DEFAULT_SUMMONER_NAME;
+  loadData(summonerNameInput.value, pagination.value.currentPage, pagination.value.pageSize);
 });
 </script>
 
@@ -130,51 +118,60 @@ onMounted(() => {
     <ElCard title="召唤师游戏历史">
       <div class="search-section mb-4 flex items-center gap-4">
         <ElInput
-            v-model="summonerNameInput"
-            placeholder="请输入召唤师名称"
-            style="width: 250px"
-            clearable
-            @keyup.enter="handleSearch"
+          v-model="summonerNameInput"
+          placeholder="请输入召唤师名称"
+          style="width: 250px"
+          clearable
+          @keyup.enter="handleSearch"
         />
         <ElButton type="primary" @click="handleSearch">搜索</ElButton>
       </div>
 
       <ElTable
-          v-loading="loading"
-          :data="tableData"
-          style="width: 100%"
-          border
-          stripe
+        v-loading="loading"
+        :data="tableData"
+        style="width: 100%"
+        border
+        stripe
       >
         <ElTableColumn
-            prop="queueGame"
-            label="游戏模式"
-            align="center"
-            width="200"
+          prop="queueGame"
+          label="游戏模式"
+          align="center"
+          width="200"
         />
         <ElTableColumn label="英雄" align="center" width="120">
           <template #default="{ row }">
             <img
-                :src="row.championImage"
-                alt="英雄"
-                style="width: 50px; height: 50px; border-radius: 50%"
+              :src="row.imageUrl"
+              alt="英雄"
+              style="width: 50px; height: 50px; border-radius: 50%"
             />
           </template>
         </ElTableColumn>
-        <ElTableColumn prop="win" label="胜负" align="center" width="200" />
-        <ElTableColumn prop="kda" label="KDA" align="center"  width="300"/>
-        <ElTableColumn prop="position" label="位置" align="center" />
+        <ElTableColumn label="胜负" align="center" width="120">
+          <template #default="{ row }">
+            <span :style="{ color: row.win ? '#67C23A' : '#F56C6C' }">
+              {{ row.win ? '胜利' : '失败' }}
+            </span>
+          </template>
+        </ElTableColumn>
+        <ElTableColumn label="KDA" align="center" width="200">
+          <template #default="{ row }">
+            {{ formatKDA(row) }}
+          </template>
+        </ElTableColumn>
       </ElTable>
 
       <div class="mt-4 flex justify-end">
         <ElPagination
-            v-model:current-page="pagination.currentPage"
-            v-model:page-size="pagination.pageSize"
-            :total="pagination.total"
-            :page-sizes="[10, 20, 30, 50]"
-            layout="total, sizes, prev, pager, next, jumper"
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
+          v-model:current-page="pagination.currentPage"
+          v-model:page-size="pagination.pageSize"
+          :total="pagination.total"
+          :page-sizes="[10, 20, 30, 50]"
+          layout="total, sizes, prev, pager, next, jumper"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
         />
       </div>
     </ElCard>
