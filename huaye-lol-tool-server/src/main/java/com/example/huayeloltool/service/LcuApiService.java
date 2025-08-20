@@ -5,6 +5,7 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.TypeReference;
 import com.example.huayeloltool.common.CommonRequest;
 import com.example.huayeloltool.enums.Constant;
+import com.example.huayeloltool.model.base.BaseUrlClient;
 import com.example.huayeloltool.model.conversation.Conversation;
 import com.example.huayeloltool.model.conversation.ConversationMsg;
 import com.example.huayeloltool.model.champion.ChampionMastery;
@@ -36,6 +37,9 @@ public class LcuApiService extends CommonRequest {
      */
     public Summoner getCurrSummoner() {
         try {
+            if (BaseUrlClient.getInstance().getPort() <= 0) {
+                return null;
+            }
             return sendSingleObjectGetRequest("/lol-summoner/v1/current-summoner", Summoner.class);
         } catch (Exception e) {
             log.error("getCurrSummoner请求错误", e);

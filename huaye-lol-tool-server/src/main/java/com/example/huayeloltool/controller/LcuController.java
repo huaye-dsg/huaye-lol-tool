@@ -52,6 +52,9 @@ public class LcuController {
         return CommonResponse.success(lcuApiService.getSummonerByNickName(name, tagLine));
     }
 
+    /**
+     * 获取当前召唤师信息
+     */
     @GetMapping("/custom/info")
     public CommonResponse<Summoner> getCustomSummonerInfo() {
         Summoner currSummoner = lcuApiService.getCurrSummoner();

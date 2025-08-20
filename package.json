@@ -1,0 +1,11 @@
+{
+  "name": "huaye-lol-tool",
+  "private": true,
+  "scripts": {
+    "start": "start.bat",
+    "start:backend": "cd huaye-lol-tool-dev && mvn spring-boot:run",
+    "start:frontend": "cd huaye-lol-tool-web && pnpm dev",
+    "install:all": "cd huaye-lol-tool-web && pnpm install",
+    "build:all": "cd huaye-lol-tool-dev && mvn clean package && cd ../huaye-lol-tool-web && pnpm build"
+  }
+}

@@ -15,18 +15,6 @@
     </properties>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/com.alibaba/easyexcel -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>easyexcel</artifactId>
-            <version>4.0.3</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>slf4j-api</artifactId>
-                    <groupId>org.slf4j</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
@@ -103,30 +91,6 @@
                         <goals>
                             <goal>repackage</goal>
                         </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- 关键：复制前端文件的插件 -->
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.3.1</version> <!-- 版本号可能不同，但没关系 -->
-                <executions>
-                    <execution>
-                        <id>copy-vue-files</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.outputDirectory}/static</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <!-- 确认这个路径是正确的前端 dist 目录 -->
-                                    <directory>E:\vue-project\dist</directory>
-                                </resource>
-                            </resources>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
