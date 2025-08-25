@@ -60,8 +60,8 @@ public class ClientMonitorService {
     private volatile String currentToken = "";
 
     // 优化：智能检查频率
-    private volatile long normalCheckInterval = 15; // 正常情况下15秒检查一次（降低频率）
-    private volatile long fastCheckInterval = 5;    // 连接异常时5秒检查一次
+    private final long normalCheckInterval = 15; // 正常情况下15秒检查一次（降低频率）
+    private final long fastCheckInterval = 5;    // 连接异常时5秒检查一次
     private volatile long currentCheckInterval = fastCheckInterval;
 
     // 优化：缓存和计数器
@@ -78,7 +78,7 @@ public class ClientMonitorService {
     @PostConstruct
     public void startMonitoring() {
         if (isMonitoring.compareAndSet(false, true)) {
-            log.info("启动LOL客户端监控服务（优化版）...");
+            log.info("启动LOL客户端监控服务...");
 
             // 初始化SystemInfo（一次性创建，避免重复创建）
             systemInfo = new SystemInfo();
@@ -151,6 +151,7 @@ public class ClientMonitorService {
 
             if (port <= 0 || token.isEmpty()) {
                 // LOL客户端不存在
+                log.info("LOL客户端不存在");
                 handleClientDisconnection();
                 return;
             }
