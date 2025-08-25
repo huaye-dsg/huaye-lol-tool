@@ -107,8 +107,8 @@ public class Application {
                 setField(championSelectHandler, "clientCfg", gameGlobalSetting);
 
                 monitor = new Monitor();
-                setField(monitor, "gameStateUpdateService", gameFlowHandler);
-                setField(monitor, "gameSessionUpdateService", championSelectHandler);
+                setField(monitor, "gameFlowHandler", gameFlowHandler);
+                setField(monitor, "championSelectHandler", championSelectHandler);
 
                 // 创建并启动客户端监控服务（复用现有实现）
                 clientMonitorService = new ClientMonitorService();
