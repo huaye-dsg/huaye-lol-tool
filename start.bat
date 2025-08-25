@@ -1,7 +1,7 @@
 @echo off
 :: 启动后端服务
 echo Starting backend server...
-cd huaye-lol-tool-dev
+cd huaye-lol-tool-server
 start /B mvn spring-boot:run
 
 :: 等待后端启动完成（等待9527端口可用）
