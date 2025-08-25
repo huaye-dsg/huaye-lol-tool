@@ -239,6 +239,7 @@ public class GameStateUpdateService extends CommonRequest {
                         CustomGameCache.KdaDetail kdaDetail = new CustomGameCache.KdaDetail();
                         kdaDetail.setQueueGame(kda.getQueueGame());
                         kdaDetail.setWin(kda.getWin());
+                        kdaDetail.setChampionId(kda.getChampionId());
                         kdaDetail.setImageUrl(Heros.getImageById(kda.getChampionId()));
                         kdaDetail.setKills(kda.getKills());
                         kdaDetail.setDeaths(kda.getDeaths());
@@ -262,15 +263,13 @@ public class GameStateUpdateService extends CommonRequest {
         }
     }
 
-
     /**
-     * 格式化队伍信息输出
+     * 格式化控制台队伍信息输出
      */
     private static String formatTeamInfo(String title, List<CustomGameCache.Item> teamList) {
         StringBuilder sb = new StringBuilder();
-        sb.append("\n").append("=".repeat(100)).append("\n");
+        sb.append("\n").append("=".repeat(60)).append("\n");
         sb.append(String.format("【%s 队伍信息】", title)).append("\n");
-        sb.append("=".repeat(100)).append("\n");
 
         for (int i = 0; i < teamList.size(); i++) {
             CustomGameCache.Item item = teamList.get(i);
@@ -283,12 +282,19 @@ public class GameStateUpdateService extends CommonRequest {
 
             // 输出KDA信息
             List<CustomGameCache.KdaDetail> kdaList = item.getCurrKDA();
-            for (int j = 0; j < Math.min(kdaList.size(), 3); j++) { // 只显示前3场
-                sb.append(String.format("   %s\n", kdaList.get(j)));
+            int size = Math.min(kdaList.size(), 3);
+            List<CustomGameCache.KdaDetail> kdaDetails = kdaList.subList(0, size);
+            for (CustomGameCache.KdaDetail kdaDetail : kdaDetails) {
+                sb.append(String.format("%s-%s-%s-%s  ",
+                        kdaDetail.getQueueGame(),
+                        kdaDetail.getWin() ? "胜" : "负",
+                        Heros.getNameById(kdaDetail.getChampionId()),
+                        kdaDetail.getKills() + "/" + kdaDetail.getDeaths() + "/" + kdaDetail.getAssists()
+                ));
             }
             sb.append("\n");
         }
-        sb.append("=".repeat(100)).append("\n");
+        sb.append("=".repeat(60)).append("\n");
         return sb.toString();
     }
 

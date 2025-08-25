@@ -48,6 +48,7 @@ public class CustomGameCache {
     public static class KdaDetail {
         private String queueGame;
         private Boolean win;
+        private Integer championId;
         private String imageUrl;
         private Integer kills;
         private Integer deaths;

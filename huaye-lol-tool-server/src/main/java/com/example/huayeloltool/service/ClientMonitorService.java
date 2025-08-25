@@ -14,6 +14,7 @@ import oshi.software.os.OperatingSystem;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Executors;
@@ -25,7 +26,7 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * LOL客户端监控服务（优化版）
  * 负责持续监控LOL客户端状态，自动重连和初始化
- *
+ * <p>
  * 优化特性：
  * - 智能检查频率调整
  * - 进程查找缓存
@@ -398,13 +399,13 @@ public class ClientMonitorService {
         if (isClientConnected.get()) {
             long timeSinceLastCheck = System.currentTimeMillis() - lastSuccessfulCheck.get();
             return String.format("LOL客户端已连接 (端口: %d, WebSocket: %s, 检查间隔: %ds, 上次成功: %ds前)",
-                currentPort,
-                isWebSocketConnected() ? "已连接" : "未连接",
-                currentCheckInterval,
-                timeSinceLastCheck / 1000);
+                    currentPort,
+                    isWebSocketConnected() ? "已连接" : "未连接",
+                    currentCheckInterval,
+                    timeSinceLastCheck / 1000);
         } else {
             return String.format("LOL客户端未连接 (连续失败: %d次, 检查间隔: %ds)",
-                consecutiveFailures.get(), currentCheckInterval);
+                    consecutiveFailures.get(), currentCheckInterval);
         }
     }
 }
