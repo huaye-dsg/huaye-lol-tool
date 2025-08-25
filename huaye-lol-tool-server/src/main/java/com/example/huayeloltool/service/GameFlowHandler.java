@@ -4,16 +4,15 @@ import com.example.huayeloltool.common.CommonRequest;
 import com.example.huayeloltool.enums.Constant;
 import com.example.huayeloltool.enums.GameEnums;
 import com.example.huayeloltool.enums.Heros;
-import com.example.huayeloltool.model.conversation.ConversationMsg;
 import com.example.huayeloltool.model.base.CalcScoreConf;
 import com.example.huayeloltool.model.cache.CustomGameCache;
+import com.example.huayeloltool.model.conversation.ConversationMsg;
 import com.example.huayeloltool.model.game.*;
 import com.example.huayeloltool.model.score.ScoreService;
 import com.example.huayeloltool.model.score.ScoreWithReason;
 import com.example.huayeloltool.model.score.UserScore;
 import com.example.huayeloltool.model.summoner.RankedInfo;
 import com.example.huayeloltool.model.summoner.Summoner;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -30,7 +29,7 @@ import static com.example.huayeloltool.enums.GameEnums.GameFlow.IN_PROGRESS;
 
 @Slf4j
 @Service
-public class GameStateUpdateService extends CommonRequest {
+public class GameFlowHandler extends CommonRequest {
 
     @Autowired
     private LcuApiService lcuApiService;

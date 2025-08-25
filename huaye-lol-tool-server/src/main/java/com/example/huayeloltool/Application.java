@@ -3,8 +3,8 @@ package com.example.huayeloltool;
 import com.example.huayeloltool.model.base.GameGlobalSetting;
 import com.example.huayeloltool.model.score.ScoreService;
 import com.example.huayeloltool.service.ClientMonitorService;
-import com.example.huayeloltool.service.GameSessionUpdateService;
-import com.example.huayeloltool.service.GameStateUpdateService;
+import com.example.huayeloltool.service.ChampionSelectHandler;
+import com.example.huayeloltool.service.GameFlowHandler;
 import com.example.huayeloltool.service.LcuApiService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
@@ -96,19 +96,19 @@ public class Application {
                 ScoreService scoreService = new ScoreService();
                 GameGlobalSetting gameGlobalSetting = new GameGlobalSetting();
 
-                GameStateUpdateService gameStateUpdateService = new GameStateUpdateService();
-                GameSessionUpdateService gameSessionUpdateService = new GameSessionUpdateService();
+                GameFlowHandler gameFlowHandler = new GameFlowHandler();
+                ChampionSelectHandler championSelectHandler = new ChampionSelectHandler();
 
                 // 使用反射设置@Autowired字段
-                setField(gameStateUpdateService, "lcuApiService", lcuApiService);
-                setField(gameStateUpdateService, "scoreService", scoreService);
+                setField(gameFlowHandler, "lcuApiService", lcuApiService);
+                setField(gameFlowHandler, "scoreService", scoreService);
 
-                setField(gameSessionUpdateService, "lcuApiService", lcuApiService);
-                setField(gameSessionUpdateService, "clientCfg", gameGlobalSetting);
+                setField(championSelectHandler, "lcuApiService", lcuApiService);
+                setField(championSelectHandler, "clientCfg", gameGlobalSetting);
 
                 monitor = new Monitor();
-                setField(monitor, "gameStateUpdateService", gameStateUpdateService);
-                setField(monitor, "gameSessionUpdateService", gameSessionUpdateService);
+                setField(monitor, "gameStateUpdateService", gameFlowHandler);
+                setField(monitor, "gameSessionUpdateService", championSelectHandler);
 
                 // 创建并启动客户端监控服务（复用现有实现）
                 clientMonitorService = new ClientMonitorService();

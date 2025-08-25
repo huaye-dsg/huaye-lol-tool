@@ -13,7 +13,7 @@ import com.example.huayeloltool.model.game.GameTimeLine;
 import com.example.huayeloltool.model.score.UserScore;
 import com.example.huayeloltool.model.summoner.Summoner;
 import com.example.huayeloltool.service.ClientMonitorService;
-import com.example.huayeloltool.service.GameStateUpdateService;
+import com.example.huayeloltool.service.GameFlowHandler;
 import com.example.huayeloltool.service.LcuApiService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -33,7 +33,7 @@ public class LcuController {
     @Autowired
     LcuApiService lcuApiService;
     @Autowired
-    GameStateUpdateService gameStateUpdateService;
+    GameFlowHandler gameFlowHandler;
     @Autowired
     GameGlobalSetting gameGlobalSetting;
 
@@ -131,7 +131,7 @@ public class LcuController {
         if (CollectionUtils.isEmpty(gameInfos)) {
             return CommonResponse.success(new ArrayList<>());
         }
-        List<UserScore.Kda> kdas = gameStateUpdateService.getKdas(gameInfos);
+        List<UserScore.Kda> kdas = gameFlowHandler.getKdas(gameInfos);
         if (CollectionUtils.isEmpty(kdas)) {
             return CommonResponse.success(new ArrayList<>());
         }

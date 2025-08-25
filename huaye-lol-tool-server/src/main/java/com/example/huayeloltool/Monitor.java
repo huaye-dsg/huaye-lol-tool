@@ -8,8 +8,8 @@ import com.example.huayeloltool.enums.GameEnums;
 import com.example.huayeloltool.model.base.BaseUrlClient;
 import com.example.huayeloltool.model.game.CustomGameSession;
 import com.example.huayeloltool.model.game.Matchmaking;
-import com.example.huayeloltool.service.GameSessionUpdateService;
-import com.example.huayeloltool.service.GameStateUpdateService;
+import com.example.huayeloltool.service.ChampionSelectHandler;
+import com.example.huayeloltool.service.GameFlowHandler;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import org.apache.commons.lang3.BooleanUtils;
@@ -26,9 +26,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class Monitor {
 
     @Autowired
-    private GameStateUpdateService gameStateUpdateService;
+    private GameFlowHandler gameFlowHandler;
     @Autowired
-    private GameSessionUpdateService gameSessionUpdateService;
+    private ChampionSelectHandler championSelectHandler;
 
     private static final OkHttpClient client = OkHttpUtil.getInstance();
 
@@ -194,10 +194,10 @@ public class Monitor {
             switch (uri) {
                 // 开始匹配、开始选人、进入对局
                 case "/lol-gameflow/v1/gameflow-phase" ->
-                        new Thread(() -> gameStateUpdateService.onGameFlowUpdate(data)).start();
+                        new Thread(() -> gameFlowHandler.onGameFlowUpdate(data)).start();
                 // 选人、禁用事件
                 case "/lol-champ-select/v1/session" ->
-                        new Thread(() -> gameSessionUpdateService.onChampSelectSessionUpdate(data)).start();
+                        new Thread(() -> championSelectHandler.onChampSelectSessionUpdate(data)).start();
                 // 开始匹配
                 case "/lol-lobby-team-builder/v1/matchmaking" -> handleGameMode(data);
             }

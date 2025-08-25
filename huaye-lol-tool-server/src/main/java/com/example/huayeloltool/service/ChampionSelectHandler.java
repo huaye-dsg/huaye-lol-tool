@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 @Service
-public class GameSessionUpdateService {
+public class ChampionSelectHandler {
 
     @Autowired
     GameGlobalSetting clientCfg;
@@ -30,13 +30,11 @@ public class GameSessionUpdateService {
     LcuApiService lcuApiService;
     CustomGameSession customGameSession = CustomGameSession.getInstance();
 
+    /**
+     * 处理英雄选定/禁用事件
+     */
     public void onChampSelectSessionUpdate(String sessionStr) {
-        ChampSelectSessionInfo sessionInfo = JSON.parseObject(sessionStr, ChampSelectSessionInfo.class);
-        analyzeSession(sessionInfo);
-    }
-
-
-    public void analyzeSession(ChampSelectSessionInfo session) {
+        ChampSelectSessionInfo session = JSON.parseObject(sessionStr, ChampSelectSessionInfo.class);
         Map<Integer, ChampSelectSessionInfo.Player> positionMap = customGameSession.getPositionMap();
         List<ChampSelectSessionInfo.Player> myTeam = session.getMyTeam();
 
@@ -68,9 +66,7 @@ public class GameSessionUpdateService {
         }
     }
 
-    /**
-     * 处理英雄选定事件
-     */
+
     private void handleCompletedAction(ChampSelectSessionInfo.Action action, Map<Integer, ChampSelectSessionInfo.Player> posMap) {
         boolean isPick = "pick".equals(action.getType());
         boolean isAlly = action.getIsAllyAction();
