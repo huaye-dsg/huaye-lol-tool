@@ -1,6 +1,6 @@
 package com.example.huayeloltool;
 
-import com.example.huayeloltool.service.LolClientService;
+import com.example.huayeloltool.service.ClientMonitor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -19,7 +19,7 @@ public class Main {
         context.refresh();
 
         // 从Spring容器获取服务实例
-        LolClientService lolClientService = context.getBean(LolClientService.class);
+        ClientMonitor clientMonitor = context.getBean(ClientMonitor.class);
 
         // 添加关闭钩子
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {

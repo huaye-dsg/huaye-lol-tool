@@ -12,7 +12,7 @@ import com.example.huayeloltool.model.game.GameHistory;
 import com.example.huayeloltool.model.game.GameTimeLine;
 import com.example.huayeloltool.model.score.UserScore;
 import com.example.huayeloltool.model.summoner.Summoner;
-import com.example.huayeloltool.service.LolClientService;
+import com.example.huayeloltool.service.ClientMonitor;
 import com.example.huayeloltool.service.GameFlowHandler;
 import com.example.huayeloltool.service.LcuApiService;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +38,7 @@ public class LcuController {
     GameGlobalSetting gameGlobalSetting;
 
     @Autowired
-    LolClientService lolClientService;
+    ClientMonitor clientMonitor;
 
     public record GameBriefInfo(String queueGame, String imageUrl, Boolean win, Integer kills,
                                 Integer deaths, Integer assists) {
@@ -75,8 +75,8 @@ public class LcuController {
     public CommonResponse<String> reconnect() {
         log.info("收到手动重连请求");
 
-        boolean success = lolClientService.manualReconnect();
-        String message = lolClientService.getConnectionInfo();
+        boolean success = clientMonitor.manualReconnect();
+        String message = clientMonitor.getConnectionInfo();
 
         if (success) {
             return CommonResponse.success(message);
@@ -90,9 +90,9 @@ public class LcuController {
      */
     @GetMapping("/connection/status")
     public CommonResponse<ConnectionStatus> getConnectionStatus() {
-        boolean clientConnected = lolClientService.isClientConnected();
-        boolean webSocketConnected = lolClientService.isWebSocketConnected();
-        String info = lolClientService.getConnectionInfo();
+        boolean clientConnected = clientMonitor.isClientConnected();
+        boolean webSocketConnected = clientMonitor.isWebSocketConnected();
+        String info = clientMonitor.getConnectionInfo();
 
         return CommonResponse.success(new ConnectionStatus(clientConnected, webSocketConnected, info));
     }

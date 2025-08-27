@@ -1,6 +1,6 @@
 package com.example.huayeloltool.model.game;
 
-import com.example.huayeloltool.common.LcuApiCommonResp;
+import com.example.huayeloltool.model.api.LcuApiCommonResult;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -11,7 +11,7 @@ import java.util.List;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class GameSummary extends LcuApiCommonResp {
+public class GameSummary extends LcuApiCommonResult {
 
     ///*
     //  游戏创建时间戳

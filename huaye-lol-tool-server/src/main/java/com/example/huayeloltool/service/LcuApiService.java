@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 import static com.example.huayeloltool.enums.GameEnums.GameFlow.CHAMPION_SELECT;
@@ -48,29 +49,12 @@ public class LcuApiService extends CommonRequest {
 
 
     /**
-     * 有重试机制的查询对局详情方法
+     * 查询游戏摘要 - 简化版本，依赖OkHttpClient的重试机制
      */
-    public GameSummary queryGameSummaryWithRetry(long gameId) throws Exception {
-        int attempts = 5;
-        int delay = 10; // 毫秒
-        Exception lastException = null;
-
-        for (int i = 0; i < attempts; i++) {
-            try {
-                return queryGameSummary(gameId);
-            } catch (Exception e) {
-                lastException = e;
-                if (i < attempts - 1) { // 不是最后一次尝试才等待
-                    try {
-                        Thread.sleep(delay); // 这里保留同步sleep，因为在重试循环中需要阻塞等待
-                    } catch (InterruptedException ie) {
-                        Thread.currentThread().interrupt();
-                        break;
-                    }
-                }
-            }
-        }
-        throw lastException;
+    public GameSummary queryGameSummaryWithRetry(long gameId) {
+        // OkHttpClient已经有完善的重试机制（3次重试 + 智能重试策略）
+        // 不需要在业务层再次重试
+        return queryGameSummary(gameId);
     }
 
 
