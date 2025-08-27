@@ -129,15 +129,4 @@ public class ExecutorPoolConfig {
         return executor;
     }
 
-    /**
-     * 获取线程池状态信息
-     */
-    public static String getThreadPoolStatus(ThreadPoolExecutor executor, String poolName) {
-        return String.format("[%s] 活跃线程: %d, 池大小: %d, 队列大小: %d, 完成任务: %d",
-                poolName,
-                executor.getActiveCount(),
-                executor.getPoolSize(),
-                executor.getQueue().size(),
-                executor.getCompletedTaskCount());
-    }
 }
