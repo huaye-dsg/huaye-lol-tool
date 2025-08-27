@@ -104,7 +104,7 @@
                 <version>3.5.0</version>
                 <configuration>
                     <mainClass>com.example.huayeloltool.Main</mainClass>
-                    <finalName>简单版</finalName>
+<!--                    <finalName>简单版</finalName>-->
                 </configuration>
                 <executions>
                     <execution>

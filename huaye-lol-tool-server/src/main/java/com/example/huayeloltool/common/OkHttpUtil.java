@@ -100,9 +100,9 @@ public class OkHttpUtil {
                     // 优化：添加连接池配置
                     .connectionPool(new ConnectionPool(10, 5, TimeUnit.MINUTES))
                     // 优化：启用重试机制
-                    .retryOnConnectionFailure(true)
+//                    .retryOnConnectionFailure(true)
                     // 优化：添加拦截器用于请求重试和日志
-                    .addInterceptor(new RetryInterceptor())
+//                    .addInterceptor(new RetryInterceptor())
                     .build();
         } catch (Exception e) {
             log.error("创建OkHttpClient时发生错误", e);
