@@ -1,5 +1,6 @@
 package com.example.huayeloltool.service;
 
+import com.alibaba.fastjson2.JSON;
 import com.example.huayeloltool.common.CommonRequest;
 import com.example.huayeloltool.enums.Constant;
 import com.example.huayeloltool.enums.GameEnums;
@@ -13,8 +14,10 @@ import com.example.huayeloltool.model.score.ScoreWithReason;
 import com.example.huayeloltool.model.score.UserScore;
 import com.example.huayeloltool.model.summoner.RankedInfo;
 import com.example.huayeloltool.model.summoner.Summoner;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +25,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 import static com.example.huayeloltool.enums.GameEnums.GameFlow.IN_PROGRESS;
 
@@ -36,26 +40,28 @@ public class GameFlowHandler extends CommonRequest {
     @Autowired
     private ScoreService scoreService;
 
+    // 注入线程池
+    @Resource(name = "gameEventExecutor")
+    private ExecutorService gameEventExecutor;
+
+    @Resource(name = "scheduledExecutor")
+    private ScheduledExecutorService scheduledExecutor;
+
     public void onGameFlowUpdate(String gameState) {
         switch (GameEnums.GameFlow.getByValue(gameState)) {
-//            case MATCHMAKING -> log.info("开始匹配");
             case READY_CHECK -> this.acceptGame();
-            case CHAMPION_SELECT -> new Thread(this::championSelectStart).start();
-            case IN_PROGRESS -> new Thread(this::calcEnemyTeamScore).start();
-//            case END_OF_GAME -> new Thread(this::autoStartNextGame).start();
-//            case LOBBY -> AudioPlayer.inputLobby();
-
+            case CHAMPION_SELECT -> gameEventExecutor.submit(this::championSelectStart);
+            case IN_PROGRESS -> gameEventExecutor.submit(this::calcEnemyTeamScore);
+            case END_OF_GAME -> gameEventExecutor.submit(() -> CustomGameSession.getInstance().reset());
         }
     }
 
+
     private void acceptGame() {
-        CustomGameSession.getInstance().reset();
-        try {
-            Thread.sleep(1500);
-        } catch (InterruptedException ignored) {
-        }
-        //AudioPlayer.findGame();
-        lcuApiService.acceptGame();
+        // 使用线程池异步延迟执行，替代Thread.sleep
+        scheduledExecutor.schedule(() -> {
+            lcuApiService.acceptGame();
+        }, 1500, TimeUnit.MILLISECONDS);
     }
 
     /**
@@ -63,55 +69,66 @@ public class GameFlowHandler extends CommonRequest {
      */
     public void championSelectStart() {
         try {
-//        if (!GameEnums.GameQueueID.isNormalGameMode(CustomGameSession.getInstance().getQueueId())) {
-//            // 不存在选人界面的模式，直接返回
-//            return;
-//        }
-//            AudioPlayer.championSelectStart();
-            CustomGameSession.getInstance().reset();
-            Thread.sleep(1500);
-            List<Long> summonerIdList = fetchTeamSummonerIds();
-            if (CollectionUtils.isEmpty(summonerIdList)) {
-                log.error("队友召唤师ID查询失败！");
-                return;
-            }
+            // 使用异步延迟替代Thread.sleep
+            scheduledExecutor.schedule(() -> {
+                try {
+                    List<Long> summonerIdList = fetchTeamSummonerIdsWithRetry(3);
+                    if (CollectionUtils.isEmpty(summonerIdList)) {
+                        log.error("队友召唤师ID查询失败！");
+                        return;
+                    }
 
-            if (CustomGameSession.isSoloRank() && summonerIdList.size() < 5) {
-                log.error("队伍人数不为5，size：{}:", summonerIdList.size());
-            }
+                    if (CustomGameSession.isSoloRank() && summonerIdList.size() < 5) {
+                        log.error("队伍人数不为5，size：{}:", summonerIdList.size());
+                    }
 
-            // 不计算本人
-            //summonerIdList.remove(Summoner.getInstance().getSummonerId());
+                    // 获取队友mate信息
+                    List<Summoner> summonerList = lcuApiService.listSummoner(summonerIdList);
+                    if (CollectionUtils.isEmpty(summonerList)) {
+                        log.info("查询召唤师信息失败, summonerList为空！ ");
+                        return;
+                    }
 
-            // 获取队友mate信息
-            List<Summoner> summonerList = lcuApiService.listSummoner(summonerIdList);
-            if (CollectionUtils.isEmpty(summonerList)) {
-                log.info("查询召唤师信息失败, summonerList为空！ ");
-                return;
-            }
+                    // 分析战绩并打印
+                    calculateScore(summonerList, true);
+                } catch (Exception e) {
+                    log.error("查询队友战绩异常", e);
+                }
+            }, 1500, TimeUnit.MILLISECONDS);
 
-            // 分析战绩并打印
-            calculateScore(summonerList, true);
         } catch (Exception e) {
             log.error("查询队友战绩异常", e);
         }
     }
 
+
     /**
-     * 尝试获取当前团队中的召唤师ID列表（最多尝试3次）
+     * 尝试获取当前团队中的召唤师ID列表
      *
+     * @param attemptCount 当前尝试次数
      * @return 召唤师ID列表
      */
-    private List<Long> fetchTeamSummonerIds() throws InterruptedException {
-        List<Long> summonerIdList = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            TimeUnit.SECONDS.sleep(1);
-            summonerIdList = getTeamSummonerIdList();
-            if (CollectionUtils.isNotEmpty(summonerIdList) && summonerIdList.size() == 5) {
-                break;
-            }
+    private List<Long> fetchTeamSummonerIdsWithRetry(int attemptCount) {
+        List<Long> summonerIdList = getTeamSummonerIdList();
+
+        // 如果获取成功且数量为5，直接返回
+        if (CollectionUtils.isNotEmpty(summonerIdList) && summonerIdList.size() == 5) {
+            return summonerIdList;
         }
-        return summonerIdList;
+
+        // 如果已经尝试了3次，返回当前结果
+        if (attemptCount >= 2) {
+            return summonerIdList;
+        }
+
+        // 使用线程池延迟执行下一次尝试
+        try {
+            return scheduledExecutor.schedule(() -> fetchTeamSummonerIdsWithRetry(attemptCount + 1),
+                    200, TimeUnit.MILLISECONDS).get();
+        } catch (Exception e) {
+            log.error("获取召唤师ID列表时发生异常", e);
+            return summonerIdList;
+        }
     }
 
     /**
@@ -274,10 +291,11 @@ public class GameFlowHandler extends CommonRequest {
             CustomGameCache.Item item = teamList.get(i);
             sb.append(String.format("%d. %s [%s] %s分 %s\n",
                     i + 1,
-                    item.getSummonerName(),
                     item.getHorse(),
                     item.getScore(),
-                    item.getRank()));
+                    item.getRank(),
+                    item.getSummonerName()
+            ));
 
             // 输出KDA信息
             List<CustomGameCache.KdaDetail> kdaList = item.getCurrKDA();
@@ -291,7 +309,7 @@ public class GameFlowHandler extends CommonRequest {
                         kdaDetail.getKills() + "/" + kdaDetail.getDeaths() + "/" + kdaDetail.getAssists()
                 ));
             }
-            sb.append("\n");
+            sb.append("\n\n");
         }
         sb.append("=".repeat(60)).append("\n");
         return sb.toString();
@@ -299,7 +317,6 @@ public class GameFlowHandler extends CommonRequest {
 
     private UserScore calculateUserScore(Summoner summoner, boolean isSelf) {
         try {
-            Thread.sleep(200); // 延迟避免请求过载
 
             long summonerID = summoner.getSummonerId();
             UserScore userScoreInfo = new UserScore(summonerID, Constant.DEFAULT_SCORE); // 创建用户评分对象，默认分数
@@ -309,8 +326,6 @@ public class GameFlowHandler extends CommonRequest {
             List<GameHistory.GameInfo> gameList;
             try {
                 gameList = lcuApiService.listGameHistory(summoner, 0, 19); // 获取最近20场对局记录
-                // 过滤指定的对局模式
-                //gameList = gameList.stream().filter(game -> GameEnums.GameQueueID.isNormalGameMode(game.getQueueId())).toList();
                 if (CollectionUtils.isEmpty(gameList)) {
                     log.error("【{}】战绩查询为空！", summoner.getGameName());
                     return null;
@@ -433,38 +448,18 @@ public class GameFlowHandler extends CommonRequest {
      * 自动开启下一场对局
      */
     private void autoStartNextGame() {
-        try {
-            Thread.sleep(1500);
-        } catch (InterruptedException ignored) {
-        }
-        boolean result = lcuApiService.playAgain();
-        // TODO 扩展，检查自己是不是房主
-        if (result) {
-            try {
-                Thread.sleep(1500);
-            } catch (InterruptedException ignored) {
-
+        // 使用异步延迟替代Thread.sleep
+        scheduledExecutor.schedule(() -> {
+            boolean result = lcuApiService.playAgain();
+            // TODO 扩展，检查自己是不是房主
+            if (result) {
+                scheduledExecutor.schedule(() -> {
+                    lcuApiService.autoStartMatch();
+                }, 1500, TimeUnit.MILLISECONDS);
             }
-            lcuApiService.autoStartMatch();
-        }
+        }, 1500, TimeUnit.MILLISECONDS);
     }
 
-    /**
-     * 格式化对局kda详情
-     */
-    public String formatKDAInfo(List<UserScore.Kda> kdaList, int limit) {
-        return kdaList.stream()
-                .limit(limit)
-                .map(kda -> String.format(Constant.KDA_FORMAT,
-                        kda.getQueueGame(),
-                        kda.getWin() ? Constant.WIN_STR : Constant.LOSE_STR,
-                        kda.getChampionName(),
-                        kda.getKills(),
-                        kda.getDeaths(),
-                        kda.getAssists()))
-                .collect(Collectors.joining())
-                .trim();
-    }
 
     /**
      * 计算加权后的总得分。
@@ -566,4 +561,52 @@ public class GameFlowHandler extends CommonRequest {
         return "";
     }
 
+
+    /**
+     * 处理游戏模式数据（改为非静态方法，提供更好的错误处理）
+     *
+     * @param data 包含游戏模式信息的数据字符串
+     */
+    public void handleGameMode(String data) {
+        // 如果传入的数据为空，则直接返回
+        if (data == null) {
+            log.debug("游戏模式数据为空，跳过处理");
+            return;
+        }
+
+        try {
+            // 将JSON格式的数据解析成Matchmaking对象
+            Matchmaking matchmaking = JSON.parseObject(data, Matchmaking.class);
+            if (matchmaking == null) {
+                log.warn("无法解析游戏模式数据: {}", data);
+                return;
+            }
+
+            // 判断是否正在排队
+            boolean isInQueue = BooleanUtils.isTrue(matchmaking.getIsCurrentlyInQueue());
+
+            // 获取队列ID
+            Integer queueId = matchmaking.getQueueId();
+
+            // 如果正在排队并且队列ID有效（大于0）
+            if (isInQueue && queueId != null && queueId > 0) {
+                try {
+                    // 根据队列ID获取对应的游戏模式名称
+                    String modeName = GameEnums.GameQueueID.getGameNameMap(queueId);
+
+                    // 设置当前队列ID到自定义游戏会话实例中
+                    CustomGameSession.getInstance().setQueueId(queueId);
+
+                    // 记录日志，显示当前游戏模式
+                    log.info("当前模式：{}，queueId：{}", modeName, queueId);
+                } catch (Exception e) {
+                    log.error("处理队列ID {}时发生错误", queueId, e);
+                }
+            }
+
+        } catch (Exception e) {
+            // 更详细的异常处理
+            log.error("处理游戏模式数据时发生错误，数据: {}", data, e);
+        }
+    }
 }

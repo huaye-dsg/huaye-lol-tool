@@ -3,7 +3,6 @@ package com.example.huayeloltool.common;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.TypeReference;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -50,7 +49,6 @@ public class CommonRequest {
     /**
      * 返回布尔值
      */
-    @SneakyThrows
     private static Boolean sendRequestWithBoolean(Request request) {
         try (Response response = CLIENT.newCall(request).execute()) {
             boolean successful = response.isSuccessful();
@@ -58,8 +56,10 @@ public class CommonRequest {
                 return true;
             }
             logErr(request, response);
-            return false;
+        } catch (Exception e) {
+            log.error("sendRequestWithBooleanError, URL: {}", request.url(), e);
         }
+        return false;
     }
 
 

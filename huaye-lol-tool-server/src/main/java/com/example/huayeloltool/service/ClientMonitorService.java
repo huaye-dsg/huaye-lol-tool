@@ -4,6 +4,9 @@ import com.example.huayeloltool.Monitor;
 import com.example.huayeloltool.enums.Constant;
 import com.example.huayeloltool.model.base.BaseUrlClient;
 import com.example.huayeloltool.model.summoner.Summoner;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +15,9 @@ import oshi.SystemInfo;
 import oshi.software.os.OSProcess;
 import oshi.software.os.OperatingSystem;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
-
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.Executors;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -32,6 +32,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * - 进程查找缓存
  * - 减少不必要的API调用
  * - 资源消耗最小化
+ * - 完全异步化处理
  */
 @Slf4j
 @Service
@@ -43,12 +44,9 @@ public class ClientMonitorService {
     @Autowired
     private LcuApiService lcuApiService;
 
-    // 使用单线程池，减少资源消耗
-    private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor(r -> {
-        Thread t = new Thread(r, "LOL-Client-Monitor");
-        t.setDaemon(true); // 设置为守护线程
-        return t;
-    });
+    // 使用统一的线程池配置
+    @Resource(name = "scheduledExecutor")
+    private ScheduledExecutorService scheduler;
 
     private final AtomicBoolean isMonitoring = new AtomicBoolean(false);
     private final AtomicBoolean isClientConnected = new AtomicBoolean(false);
@@ -116,7 +114,7 @@ public class ClientMonitorService {
     }
 
     /**
-     * 停止监控服务
+     * 停止监控服务 - 优化资源清理
      */
     @PreDestroy
     public void stopMonitoring() {
@@ -124,14 +122,20 @@ public class ClientMonitorService {
         isShutdown.set(true);
         isMonitoring.set(false);
 
+        // 优化：确保所有资源都被正确清理
         try {
-            scheduler.shutdown();
-            if (!scheduler.awaitTermination(3, TimeUnit.SECONDS)) {
-                scheduler.shutdownNow();
+            // 关闭WebSocket连接
+            if (monitor != null) {
+                monitor.closeWebSocket();
             }
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            scheduler.shutdownNow();
+
+            // 清理状态
+            isClientConnected.set(false);
+            isWebSocketConnected.set(false);
+
+            log.info("LOL客户端监控服务已停止");
+        } catch (Exception e) {
+            log.warn("停止监控服务时发生错误", e);
         }
     }
 
@@ -145,13 +149,13 @@ public class ClientMonitorService {
 
         try {
             // 优化：快速检查LOL客户端进程
-            Pair<Integer, String> apiInfo = getLolClientApiInfoOptimized(Constant.LOL_UX_PROCESS_NAME);
+            Pair<Integer, String> apiInfo = getLolClientApiInfoOptimized();
             int port = apiInfo.getLeft();
             String token = apiInfo.getRight();
 
             if (port <= 0 || token.isEmpty()) {
                 // LOL客户端不存在
-                log.info("LOL客户端不存在");
+                log.error("LOL客户端不存在");
                 handleClientDisconnection();
                 return;
             }
@@ -171,22 +175,31 @@ public class ClientMonitorService {
                 instance.setPort(port);
                 instance.setToken(token);
 
-                // 优化：延迟初始化召唤师信息（避免客户端未完全启动）
-                scheduler.schedule(() -> {
-                    if (initializeSummonerInfoWithRetry()) {
-                        isClientConnected.set(true);
-                        consecutiveFailures.set(0);
-                        lastSuccessfulCheck.set(System.currentTimeMillis());
+                // 优化：使用异步初始化召唤师信息
+                initializeSummonerInfoWithRetryAsync()
+                    .thenAccept(success -> {
+                        if (success) {
+                            isClientConnected.set(true);
+                            consecutiveFailures.set(0);
+                            lastSuccessfulCheck.set(System.currentTimeMillis());
 
-                        // 连接成功后切换到正常检查频率
-                        currentCheckInterval = normalCheckInterval;
+                            // 连接成功后切换到正常检查频率
+                            currentCheckInterval = normalCheckInterval;
 
-                        log.info("LOL客户端连接成功，召唤师信息已初始化");
+                            log.info("LOL客户端连接成功，召唤师信息已初始化");
 
-                        // 启动WebSocket监控
-                        startWebSocketMonitoring();
-                    }
-                }, 2, TimeUnit.SECONDS);
+                            // 启动WebSocket监控
+                            startWebSocketMonitoring();
+                        } else {
+                            log.warn("召唤师信息初始化失败");
+                            handleCheckFailure();
+                        }
+                    })
+                    .exceptionally(throwable -> {
+                        log.error("异步初始化召唤师信息时发生错误", throwable);
+                        handleCheckFailure();
+                        return null;
+                    });
             } else {
                 // 连接正常，更新成功时间
                 lastSuccessfulCheck.set(System.currentTimeMillis());
@@ -230,7 +243,7 @@ public class ClientMonitorService {
     /**
      * 优化的进程查找方法
      */
-    private Pair<Integer, String> getLolClientApiInfoOptimized(String processName) {
+    private Pair<Integer, String> getLolClientApiInfoOptimized() {
         try {
             // 使用缓存的SystemInfo对象
             OperatingSystem os = systemInfo.getOperatingSystem();
@@ -238,7 +251,7 @@ public class ClientMonitorService {
 
             // 优化：提前退出循环
             for (OSProcess process : processes) {
-                if (processName.equalsIgnoreCase(process.getName())) {
+                if (Constant.LOL_UX_PROCESS_NAME.equalsIgnoreCase(process.getName())) {
                     List<String> arguments = process.getArguments();
                     int port = 0;
                     String token = "";
@@ -282,30 +295,34 @@ public class ClientMonitorService {
     }
 
     /**
-     * 带重试的召唤师信息初始化
+     * 完全异步化的召唤师信息初始化
      */
-    private boolean initializeSummonerInfoWithRetry() {
-        int maxRetries = 3;
-        for (int i = 0; i < maxRetries; i++) {
-            try {
-                Summoner summoner = lcuApiService.getCurrSummoner();
-                if (summoner != null) {
-                    Summoner.setInstance(summoner);
-                    return true;
+    private CompletableFuture<Boolean> initializeSummonerInfoWithRetryAsync() {
+        return CompletableFuture.supplyAsync(() -> {
+            int maxRetries = 3;
+            for (int i = 0; i < maxRetries; i++) {
+                try {
+                    Summoner summoner = lcuApiService.getCurrSummoner();
+                    if (summoner != null) {
+                        Summoner.setInstance(summoner);
+                        return true;
+                    }
+                } catch (Exception e) {
+                    log.debug("获取召唤师信息失败 (尝试 {}/{}): {}", i + 1, maxRetries, e.getMessage());
                 }
-            } catch (Exception e) {
-                log.debug("获取召唤师信息失败 (尝试 {}/{}): {}", i + 1, maxRetries, e.getMessage());
+
+                // 如果不是最后一次尝试，等待一段时间
                 if (i < maxRetries - 1) {
                     try {
-                        Thread.sleep(1000); // 等待1秒后重试
+                        Thread.sleep(500);
                     } catch (InterruptedException ie) {
                         Thread.currentThread().interrupt();
-                        break;
+                        return false;
                     }
                 }
             }
-        }
-        return false;
+            return false;
+        }, scheduler);
     }
 
     /**
@@ -317,13 +334,13 @@ public class ClientMonitorService {
                 // 关闭旧连接
                 monitor.closeWebSocket();
 
-                // 等待一下再启动新连接
-                Thread.sleep(1000);
-
-                // 启动新的WebSocket连接
-                monitor.startGameFlowMonitor();
-                isWebSocketConnected.set(true);
-                log.info("WebSocket监控已启动");
+                // 使用异步延迟替代Thread.sleep
+                scheduler.schedule(() -> {
+                    // 启动新的WebSocket连接
+                    monitor.startGameFlowMonitor();
+                    isWebSocketConnected.set(true);
+                    log.info("WebSocket监控已启动");
+                }, 1, TimeUnit.SECONDS);
 
             } catch (Exception e) {
                 log.error("启动WebSocket监控失败", e);
@@ -354,7 +371,7 @@ public class ClientMonitorService {
     /**
      * 手动触发重连
      */
-    public boolean manualReconnect() {
+    public Boolean manualReconnect() {
         log.info("手动触发重连...");
 
         // 重置状态
@@ -368,15 +385,10 @@ public class ClientMonitorService {
 
         // 立即检查并重连
         checkAndInitializeClient();
-
-        // 等待一下检查结果
-        try {
-            Thread.sleep(3000); // 增加等待时间，确保连接稳定
-            return isClientConnected.get();
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            return false;
-        }
+        scheduler.schedule(() -> {
+            isClientConnected.get();
+        }, 3, TimeUnit.SECONDS);
+        return Boolean.TRUE;
     }
 
     /**

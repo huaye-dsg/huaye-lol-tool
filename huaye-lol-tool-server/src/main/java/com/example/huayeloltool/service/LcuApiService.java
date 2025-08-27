@@ -15,7 +15,6 @@ import com.example.huayeloltool.model.game.GameSummary;
 import com.example.huayeloltool.model.game.GameTimeLine;
 import com.example.huayeloltool.model.summoner.RankedInfo;
 import com.example.huayeloltool.model.summoner.Summoner;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -61,7 +60,14 @@ public class LcuApiService extends CommonRequest {
                 return queryGameSummary(gameId);
             } catch (Exception e) {
                 lastException = e;
-                Thread.sleep(delay);
+                if (i < attempts - 1) { // 不是最后一次尝试才等待
+                    try {
+                        Thread.sleep(delay); // 这里保留同步sleep，因为在重试循环中需要阻塞等待
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                        break;
+                    }
+                }
             }
         }
         throw lastException;

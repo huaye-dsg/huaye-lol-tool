@@ -28,6 +28,7 @@ public class ChampionSelectHandler {
     GameGlobalSetting clientCfg;
     @Autowired
     LcuApiService lcuApiService;
+
     CustomGameSession customGameSession = CustomGameSession.getInstance();
 
     /**

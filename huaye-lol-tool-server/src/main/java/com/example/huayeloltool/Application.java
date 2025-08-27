@@ -2,8 +2,8 @@ package com.example.huayeloltool;
 
 import com.example.huayeloltool.model.base.GameGlobalSetting;
 import com.example.huayeloltool.model.score.ScoreService;
-import com.example.huayeloltool.service.ClientMonitorService;
 import com.example.huayeloltool.service.ChampionSelectHandler;
+import com.example.huayeloltool.service.ClientMonitorService;
 import com.example.huayeloltool.service.GameFlowHandler;
 import com.example.huayeloltool.service.LcuApiService;
 import lombok.extern.slf4j.Slf4j;
@@ -19,21 +19,23 @@ public class Application {
 
     public static void main(String[] args) {
         // 检查是否包含控制台模式参数
-        boolean consoleMode = false;
-        for (String arg : args) {
-            if ("--console".equals(arg) || "--console-mode".equals(arg)) {
-                consoleMode = true;
-                break;
-            }
-        }
+        runConsoleMode();
 
-        if (consoleMode) {
-            log.info("=== 控制台模式启动 ===");
-            runConsoleMode();
-        } else {
-            log.info("=== SpringBoot Web模式启动 ===");
-            runWebMode(args);
-        }
+        //boolean consoleMode = false;
+        //for (String arg : args) {
+        //    if ("--console".equals(arg) || "--console-mode".equals(arg)) {
+        //        consoleMode = true;
+        //        break;
+        //    }
+        //}
+        //
+        //if (consoleMode) {
+        //    log.info("=== 控制台模式启动 ===");
+        //    runConsoleMode();
+        //} else {
+        //    log.info("=== SpringBoot Web模式启动 ===");
+        //    runWebMode(args);
+        //}
     }
 
     /**
@@ -107,8 +109,8 @@ public class Application {
                 setField(championSelectHandler, "clientCfg", gameGlobalSetting);
 
                 monitor = new Monitor();
-                setField(monitor, "gameStateUpdateService", gameFlowHandler);
-                setField(monitor, "gameSessionUpdateService", championSelectHandler);
+                setField(monitor, "gameFlowHandler", gameFlowHandler);
+                setField(monitor, "championSelectHandler", championSelectHandler);
 
                 // 创建并启动客户端监控服务（复用现有实现）
                 clientMonitorService = new ClientMonitorService();
