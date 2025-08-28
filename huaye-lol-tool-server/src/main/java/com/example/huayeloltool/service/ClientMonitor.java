@@ -158,15 +158,14 @@ public class ClientMonitor {
             return;
         }
 
-        // 根据连接状态决定检查间隔
-        long interval = getCheckInterval();
-
         // 如果已连接，则不需要调度检查
         if (connectionState == ConnectionState.CONNECTED) {
             log.info("客户端已连接，停止周期性检查，等待断开事件");
             return;
         }
 
+        // 根据连接状态决定检查间隔
+        long interval = getCheckInterval();
         monitoringTask = scheduledExecutor.schedule(() -> {
             if (!isShutdown.get()) {
                 checkClientConnection();
