@@ -81,7 +81,7 @@ public class ClientMonitor {
 
     // 监控配置
     private static final long DISCONNECTED_CHECK_INTERVAL = 10; // 断开状态检查间隔（秒）
-    private static final long RECONNECTING_CHECK_INTERVAL = 3;  // 重连状态检查间隔（秒）
+    private static final long RECONNECTING_CHECK_INTERVAL = 5;  // 重连状态检查间隔（秒）
 
     // 系统信息
     private volatile SystemInfo systemInfo;
