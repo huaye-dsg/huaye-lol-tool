@@ -52,7 +52,7 @@ public class GameFlowHandler extends CommonRequest {
             case READY_CHECK -> this.acceptGame();
             case CHAMPION_SELECT -> gameEventExecutor.submit(this::championSelectStart);
             case IN_PROGRESS -> gameEventExecutor.submit(this::calcEnemyTeamScore);
-            case END_OF_GAME -> gameEventExecutor.submit(() -> CustomGameSession.getInstance().reset());
+            case END_OF_GAME, LOBBY -> gameEventExecutor.submit(() -> CustomGameSession.getInstance().reset());
         }
     }
 

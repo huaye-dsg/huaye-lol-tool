@@ -200,7 +200,9 @@ public class OkHttpUtil {
         }
 
         private void closeResponseSafely(Response response) {
-            // ... (这个方法保持不变) ...
+            if (response != null) {
+                response.close();
+            }
         }
     }
 }
