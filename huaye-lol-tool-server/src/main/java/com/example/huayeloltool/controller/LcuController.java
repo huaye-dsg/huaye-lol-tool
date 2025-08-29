@@ -68,34 +68,6 @@ public class LcuController {
         return CommonResponse.success(customSummoner);
     }
 
-    /**
-     * 重新连接客户端
-     */
-    @PostMapping("/reconnect")
-    public CommonResponse<String> reconnect() {
-        log.info("收到手动重连请求");
-
-        boolean success = clientMonitor.manualReconnect();
-        String message = clientMonitor.getConnectionInfo();
-
-        if (success) {
-            return CommonResponse.success(message);
-        } else {
-            return CommonResponse.fail(500, "重连失败: " + message);
-        }
-    }
-
-    /**
-     * 获取连接状态
-     */
-    @GetMapping("/connection/status")
-    public CommonResponse<ConnectionStatus> getConnectionStatus() {
-        boolean clientConnected = clientMonitor.isClientConnected();
-        boolean webSocketConnected = clientMonitor.isWebSocketConnected();
-        String info = clientMonitor.getConnectionInfo();
-
-        return CommonResponse.success(new ConnectionStatus(clientConnected, webSocketConnected, info));
-    }
 
     /**
      * 连接状态响应对象

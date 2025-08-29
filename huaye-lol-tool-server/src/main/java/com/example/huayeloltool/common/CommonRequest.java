@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
@@ -67,16 +68,26 @@ public class CommonRequest {
      * 字符串原生返回
      */
     public static String sendRequestWithStr(Request request) {
-        try {
-            try (Response response = CLIENT.newCall(request).execute()) {
-                if (!response.isSuccessful()) {
-                    logErr(request, response);
-                }
-                if (response.body() == null) {
-                    log.error("Response body is empty. URL: {}", request.url());
-                }
-                return response.body().string();
+        try (Response response = CLIENT.newCall(request).execute()) {
+            // 第一步：检查响应是否成功。如果不成功，直接记录日志并返回空，不继续处理。
+            if (!response.isSuccessful()) {
+                logErr(request, response);
+                return StringUtils.EMPTY; // 提前退出
             }
+
+            // 第二步：获取响应体
+            ResponseBody body = response.body();
+
+            // 第三步：检查响应体是否为空。如果为空，记录日志并返回空。
+            if (body == null) {
+                log.error("Response body is null. URL: {}", request.url());
+                return StringUtils.EMPTY; // 提前退出
+            }
+
+            // 第四步：一切正常，读取字符串并返回。
+            // .string() 会自动关闭 body 流。
+            return body.string();
+
         } catch (Exception e) {
             log.error("sendRequestError, URL: {}", request.url(), e);
             return StringUtils.EMPTY;
@@ -87,15 +98,14 @@ public class CommonRequest {
      * 用于解析复杂/嵌套的Java泛型类型，比如 List<Foo>、Map<String, Bar>、List<Result<Foo>> 等
      */
     private static <T> T sendTypeRequest(Request request, TypeReference<T> typeRef) {
-        for (int i = 0; i < DEFAULT_RETRY_COUNT; i++) {
-            try {
-                String responseData = sendRequestWithStr(request);
+        try {
+            String responseData = sendRequestWithStr(request);
+            if (StringUtils.isNotEmpty(responseData)) {
                 return JSON.parseObject(responseData, typeRef);
-            } catch (Exception e) {
-                log.error("sendTypeRequestError, URL: {}, retry: {}/{}", request.url(), i + 1, DEFAULT_RETRY_COUNT, e);
             }
+        } catch (Exception e) {
+            log.error("sendTypeRequestError, URL: {}", request.url(), e);
         }
-        log.error("sendTypeRequest failed after {} retries, URL: {}", DEFAULT_RETRY_COUNT, request.url());
         return null;
     }
 
