@@ -35,6 +35,9 @@
    - 定位分析
    - 个人对线打法建议
 
+<img width="1019" height="308" alt="image" src="https://github.com/user-attachments/assets/ad5f2bd9-1771-4326-bf00-8a39694bf25e" />
+
+
 ## 开发指南
 
 ### 后端开发
