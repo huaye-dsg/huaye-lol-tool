@@ -273,9 +273,9 @@ public class GameFlowHandler extends CommonRequest {
                 });
         // 格式化控制台输出
         if (isSelf) {
-            log.info(formatTeamInfo("【我方队友】", CustomGameCache.getInstance().getTeamList()));
+            log.info(formatTeamInfo("我方队友", CustomGameCache.getInstance().getTeamList()));
         } else {
-            log.info(formatTeamInfo("【敌方对手】", CustomGameCache.getInstance().getEnemyList()));
+            log.info(formatTeamInfo("敌方对手", CustomGameCache.getInstance().getEnemyList()));
         }
     }
 

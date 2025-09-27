@@ -58,7 +58,8 @@ public class CommonRequest {
             }
             logErr(request, response);
         } catch (Exception e) {
-            log.error("sendRequestWithBooleanError, URL: {}", request.url(), e);
+            // 这里会提前ban英雄导致会有问题。但是不影响使用。
+//            log.error("sendRequestWithBooleanError, URL: {}", request.url(), e);
         }
         return false;
     }

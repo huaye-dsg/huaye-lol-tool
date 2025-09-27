@@ -107,25 +107,29 @@ public class ChampionSelectHandler {
             case "ban":
                 if (clientCfg.getAutoBanChampID() > 0 && !customGameSession.getIsBanned()) {
                     sleepSeconds();
-//                    log.info("本人禁用英雄，key：{}", buildActionKey(action));
-                    if (lcuApiService.banChampion(clientCfg.getAutoBanChampID(), id)) {
+
+                    log.info("本人禁用英雄，key：{}", buildActionKey(action));
+                        if (lcuApiService.banChampion(clientCfg.getAutoBanChampID(), id)) {
 //                        log.info("禁用成功");
-                        customGameSession.setIsBanned(true);
-                        //action.setCompleted(true);
-                    } else {
-//                        log.info("禁用失败: {}", JSON.toJSONString(action));
-                        customGameSession.setIsBanned(false);
-                        // 没成功就把key删了
-                        customGameSession.markActionUnProcessed(actionKey);
-                    }
+                            customGameSession.setIsBanned(true);
+                            //action.setCompleted(true);
+                        } else {
+                        log.info("禁用失败: {}", JSON.toJSONString(action));
+                            customGameSession.setIsBanned(false);
+                            // 没成功就把key删了
+                            customGameSession.markActionUnProcessed(actionKey);
+                        }
+
+
                 }
                 break;
             case "pick":
                 if (clientCfg.getAutoPickChampID() > 0 && !customGameSession.getIsSelected()) {
 //                    log.info("本人选择英雄，key：{}", buildActionKey(action));
-                    lcuApiService.pickChampion(clientCfg.getAutoPickChampID(), id);
-                    customGameSession.setIsSelected(true);
-                    //action.setCompleted(true);
+                        lcuApiService.pickChampion(clientCfg.getAutoPickChampID(), id);
+                        customGameSession.setIsSelected(true);
+                        //action.setCompleted(true);
+
                 }
                 break;
             default:

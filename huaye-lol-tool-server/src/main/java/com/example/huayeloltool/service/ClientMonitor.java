@@ -130,7 +130,7 @@ public class ClientMonitor {
 
         ConnectionState oldState = connectionState;
         connectionState = newState;
-        log.info("状态切换: {} -> {}, 原因: {}", oldState, newState, reason);
+//        log.info("状态切换: {} -> {}, 原因: {}", oldState, newState, reason);
 
         // 停止任何正在运行的监控任务
         stopMonitoring();
@@ -139,7 +139,7 @@ public class ClientMonitor {
         switch (newState) {
             case CONNECTED:
                 // 已连接，不需要做任何事，等待事件触发
-                log.info("客户端已连接，停止周期性检查，等待断开事件");
+//                log.info("客户端已连接，停止周期性检查，等待断开事件");
                 break;
             case RECONNECTING:
             case DISCONNECTED:
@@ -214,7 +214,7 @@ public class ClientMonitor {
             }
 
             if (connectionChanged) {
-                log.info("检测到LOL客户端或其参数变化，尝试连接...");
+//                log.info("检测到LOL客户端或其参数变化，尝试连接...");
                 handleClientFound(clientInfo.getLeft(), clientInfo.getRight());
             } else {
                 log.debug("客户端参数未变，等待下一次检查");
