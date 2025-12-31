@@ -2,6 +2,7 @@ package com.example.huayeloltool.service;
 
 import com.alibaba.fastjson2.JSON;
 
+import com.example.huayeloltool.enums.Constant;
 import com.example.huayeloltool.enums.Heros;
 import lombok.extern.slf4j.Slf4j;
 import com.example.huayeloltool.enums.GameEnums;
@@ -12,20 +13,35 @@ import com.example.huayeloltool.model.champion.ChampionMastery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 /**
- * 解析游戏会话、英雄选择或禁用等消息
+ * 英雄选择阶段事件处理器
+ *
+ * <p>负责解析 WebSocket 推送的英雄选择/禁用事件，并执行自动 ban/pick 操作。
+ *
+ * <p>线程安全说明：
+ * LOL 客户端的 WebSocket 会频繁推送 ChampSelect 事件（每秒可能多次），
+ * 这些事件会被 {@link MessageRouter} 分发到虚拟线程中并发处理。
+ * 因此，自动 ban/pick 操作必须保证线程安全，避免重复执行。
+ *
+ * <p>解决方案：
+ * 使用 {@link CustomGameSession#tryMarkBanned()} 和 {@link CustomGameSession#tryMarkSelected()}
+ * 的 CAS 原子操作，确保只有一个线程能成功执行 ban/pick。
  */
 @Slf4j
 @Service
 public class ChampionSelectHandler {
 
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
     @Autowired
-    GameGlobalSetting clientCfg;
+    private GameGlobalSetting gameGlobalSetting;
     @Autowired
     LcuApiService lcuApiService;
 
@@ -98,43 +114,109 @@ public class ChampionSelectHandler {
     }
 
 
-    // 自动 ban / pick
+    /**
+     * 处理自己的 ban/pick 操作（自动禁用/选择英雄）
+     *
+     * <p>线程安全实现说明：
+     *
+     * <p>问题背景：
+     * WebSocket 事件可能在短时间内多次触发（LOL 客户端每秒推送多次状态更新），
+     * 如果使用简单的 if (!isBanned) { doBan(); isBanned = true; } 模式，
+     * 多个线程可能同时通过 if 检查，导致重复调用 ban 接口。
+     *
+     * <p>解决方案：
+     * 使用 {@link CustomGameSession#tryMarkBanned()} 的 CAS（Compare-And-Swap）操作：
+     * - 该方法内部调用 AtomicBoolean.compareAndSet(false, true)
+     * - 只有当前值为 false 时才能设置为 true 并返回 true
+     * - 如果当前值已经是 true（其他线程已设置），则返回 false
+     * - 这是一个原子操作，保证只有一个线程能成功
+     *
+     * <p>执行流程：
+     * 1. 线程 A 和线程 B 同时进入 handleSelfAction
+     * 2. 线程 A 调用 tryMarkBanned()，CAS 成功，返回 true，继续执行 ban 操作
+     * 3. 线程 B 调用 tryMarkBanned()，CAS 失败（值已是 true），返回 false，跳过执行
+     * 4. 如果线程 A 的 ban 操作失败，调用 resetBanned() 回滚状态，允许后续重试
+     *
+     * @param action    当前的选择/禁用动作信息
+     * @param actionKey 动作唯一标识，用于去重和日志追踪
+     */
     private void handleSelfAction(ChampSelectSessionInfo.Action action, String actionKey) {
         String type = action.getType();
-        int id = action.getId();
+        int actionId = action.getId();
 
         switch (type) {
             case "ban":
-                if (clientCfg.getAutoBanChampID() > 0 && !customGameSession.getIsBanned()) {
+                // 检查是否配置了自动 ban 英雄
+                if (gameGlobalSetting.getAutoBanChampID() <= 0) {
+                    return;
+                }
+
+                // 使用 CAS 原子操作尝试获取 ban 的执行权
+                // 只有第一个成功调用 tryMarkBanned() 的线程才能继续执行
+                // 其他并发线程会因为 CAS 失败而直接返回，避免重复 ban
+                if (!customGameSession.tryMarkBanned()) {
+                    log.debug("已有其他线程在执行 ban 操作，跳过本次执行，actionKey: {}", actionKey);
+                    return;
+                }
+
+                // 使用虚拟线程延迟执行，避免阻塞 WebSocket 事件处理线程
+                // 延迟是为了等待 LOL 客户端 UI 完全加载，提高操作成功率
+                Thread.startVirtualThread(() -> {
                     try {
-                        TimeUnit.SECONDS.sleep(2);
-                    } catch (InterruptedException ignored) {
-                    }
+                        Thread.sleep(Constant.BAN_DELAY_MS);
+                        log.info("执行自动禁用英雄，英雄ID: {}，actionKey: {}",
+                                gameGlobalSetting.getAutoBanChampID(), actionKey);
 
-                    log.info("本人禁用英雄，key：{}", buildActionKey(action));
-                        if (lcuApiService.banChampion(clientCfg.getAutoBanChampID(), id)) {
-//                        log.info("禁用成功");
-                            customGameSession.setIsBanned(true);
-                            //action.setCompleted(true);
-                        } else {
-                        log.info("禁用失败: {}", JSON.toJSONString(action));
-                            customGameSession.setIsBanned(false);
-                            // 没成功就把key删了
+                        boolean success = lcuApiService.banChampion(gameGlobalSetting.getAutoBanChampID(), actionId);
+                        if (!success) {
+                            // ban 失败，重置状态以允许后续重试
+                            // 同时将 actionKey 标记为未处理，使下次事件能重新触发
+                            log.warn("自动禁用英雄失败，已重置状态，action: {}", JSON.toJSONString(action));
+                            customGameSession.resetBanned();
                             customGameSession.markActionUnProcessed(actionKey);
+                        } else {
+                            log.info("自动禁用英雄成功");
                         }
-                }
+                    } catch (InterruptedException e) {
+                        // 线程被中断，重置状态
+                        customGameSession.resetBanned();
+                        Thread.currentThread().interrupt();
+                    } catch (Exception e) {
+                        // 其他异常，重置状态以允许重试
+                        log.error("自动禁用英雄时发生异常", e);
+                        customGameSession.resetBanned();
+                        customGameSession.markActionUnProcessed(actionKey);
+                    }
+                });
                 break;
-            case "pick":
-                if (clientCfg.getAutoPickChampID() > 0 && !customGameSession.getIsSelected()) {
-//                    log.info("本人选择英雄，key：{}", buildActionKey(action));
-                        lcuApiService.pickChampion(clientCfg.getAutoPickChampID(), id);
-                        customGameSession.setIsSelected(true);
-                        //action.setCompleted(true);
 
+            case "pick":
+                // 检查是否配置了自动选择英雄
+                if (gameGlobalSetting.getAutoPickChampID() <= 0) {
+                    return;
+                }
+
+                // 使用 CAS 原子操作尝试获取 pick 的执行权
+                // 原理同上，保证只有一个线程能执行选人操作
+                if (!customGameSession.tryMarkSelected()) {
+                    log.debug("已有其他线程在执行 pick 操作，跳过本次执行，actionKey: {}", actionKey);
+                    return;
+                }
+
+                try {
+                    log.info("执行自动选择英雄，英雄ID: {}", gameGlobalSetting.getAutoPickChampID());
+                    lcuApiService.pickChampion(gameGlobalSetting.getAutoPickChampID(), actionId);
+                    // 注意：pick 操作不需要延迟，因为选人阶段时间紧迫
+                } catch (Exception e) {
+                    // pick 失败，重置状态以允许重试
+                    log.error("自动选择英雄失败", e);
+                    customGameSession.resetSelected();
                 }
                 break;
+
             default:
-                // 其他类型忽略
+                // 其他类型（如 ten_bans_reveal）忽略
+                break;
         }
     }
 
@@ -173,12 +255,11 @@ public class ChampionSelectHandler {
     /**
      * 把毫秒时间戳转为年月日
      */
-    private static String convertTimestampToDate(long timestamp) {
-        // 1. 创建一个 Date 对象，传入时间戳
-        java.util.Date date = new java.util.Date(timestamp);
-        // 2. 使用 SimpleDateFormat 格式化日期
-        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
-        return sdf.format(date);
+    private String convertTimestampToDate(long timestamp) {
+        return Instant.ofEpochMilli(timestamp)
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate()
+                .format(DATE_FORMATTER);
     }
 
 

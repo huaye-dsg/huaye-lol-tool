@@ -21,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -155,47 +154,24 @@ public class LcuController {
 
     /**
      * 获取我方/敌方战绩情况
+     * @param type 1-我方队友, 2-敌方对手
      */
     @GetMapping("/game/overview")
     public CommonResponse<List<CustomGameCache.Item>> gameOverview(@RequestParam("type") Integer type) {
-        List<CustomGameCache.Item> response = new ArrayList<>();
-        // 创建5个对手的数据
-// 对手1：钻石选手，高分数
-        List<CustomGameCache.KdaDetail> kda1 = Arrays.asList(
-                new CustomGameCache.KdaDetail("单排排位", true, 1, Heros.getImageById(1), 15, 3, 8),
-                new CustomGameCache.KdaDetail("单排排位", true, 2, Heros.getImageById(2), 12, 4, 6)
-        );
-        response.add(new CustomGameCache.Item("钻石", 95, "S+", "影流之主#32423", kda1));
-
-// 对手2：铂金选手，中等分数
-        List<CustomGameCache.KdaDetail> kda2 = Arrays.asList(
-                new CustomGameCache.KdaDetail("单排排位", false, 3, Heros.getImageById(3), 2, 5, 12),
-                new CustomGameCache.KdaDetail("灵活排位", true, 4, Heros.getImageById(4), 8, 4, 10)
-        );
-        response.add(new CustomGameCache.Item("铂金", 75, "A", "光辉女郎#32423", kda2));
-
-// 对手3：黄金选手，一般分数
-        List<CustomGameCache.KdaDetail> kda3 = Arrays.asList(
-                new CustomGameCache.KdaDetail("单排排位", true, 4, Heros.getImageById(4), 6, 6, 8),
-                new CustomGameCache.KdaDetail("单排排位", false, 5, Heros.getImageById(5), 4, 7, 5)
-        );
-        response.add(new CustomGameCache.Item("黄金", 65, "B+", "盲僧大师#32423", kda3));
-
-// 对手4：白银选手，较低分数
-        List<CustomGameCache.KdaDetail> kda4 = Arrays.asList(
-                new CustomGameCache.KdaDetail("灵活排位", false, 6, Heros.getImageById(6), 3, 8, 4),
-                new CustomGameCache.KdaDetail("单排排位", false, 7, Heros.getImageById(7), 2, 6, 3)
-        );
-        response.add(new CustomGameCache.Item("白银", 45, "C", "提莫队长#32423", kda4));
-
-// 对手5：青铜选手，低分数
-        List<CustomGameCache.KdaDetail> kda5 = Arrays.asList(
-                new CustomGameCache.KdaDetail("单排排位", false, 8, Heros.getImageById(8), 1, 10, 2),
-                new CustomGameCache.KdaDetail("灵活排位", false, 9, Heros.getImageById(9), 3, 9, 4)
-        );
-        response.add(new CustomGameCache.Item("青铜", 35, "D", "寒冰射手#32423", kda5));
-
-        return CommonResponse.success(response);
+        if (type == null) {
+            return CommonResponse.success(new ArrayList<>());
+        }
+        
+        // type=1 返回我方队友，type=2 返回敌方对手
+        if (type == 1) {
+            List<CustomGameCache.Item> teamList = CustomGameCache.getInstance().getTeamList();
+            return CommonResponse.success(teamList != null ? teamList : new ArrayList<>());
+        } else if (type == 2) {
+            List<CustomGameCache.Item> enemyList = CustomGameCache.getInstance().getEnemyList();
+            return CommonResponse.success(enemyList != null ? enemyList : new ArrayList<>());
+        }
+        
+        return CommonResponse.success(new ArrayList<>());
     }
 
     /**

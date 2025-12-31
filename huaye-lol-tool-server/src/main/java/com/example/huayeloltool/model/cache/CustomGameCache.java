@@ -3,9 +3,12 @@ package com.example.huayeloltool.model.cache;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 
 @Data
@@ -14,9 +17,6 @@ public class CustomGameCache {
     private static final CustomGameCache INSTANCE = new CustomGameCache();
 
     public static CustomGameCache getInstance() {
-        if (INSTANCE == null) {
-            return new CustomGameCache();
-        }
         return INSTANCE;
     }
 
@@ -26,10 +26,9 @@ public class CustomGameCache {
         INSTANCE.teamList.clear();
     }
 
+    private final List<Item> teamList = new ArrayList<>();
 
-    private List<Item> teamList = new ArrayList<>();
-
-    private List<Item> enemyList = new ArrayList<>();
+    private final List<Item> enemyList = new ArrayList<>();
 
     @Data
     @AllArgsConstructor

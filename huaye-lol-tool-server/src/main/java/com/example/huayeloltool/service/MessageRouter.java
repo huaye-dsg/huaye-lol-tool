@@ -3,15 +3,10 @@ package com.example.huayeloltool.service;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
-import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * LOL事件路由器
@@ -57,7 +52,7 @@ public class MessageRouter {
                 return;
             }
 
-            // 路由事件到对应处理器
+            // 路由事件到对应处理器（统一使用虚拟线程）
             routeEvent(event.uri, event.data);
         } catch (Exception e) {
             log.error("处理WebSocket消息时发生错误: {}", message, e);
@@ -112,36 +107,35 @@ public class MessageRouter {
 
     /**
      * 根据URI路由事件到对应的处理器
+     * 统一使用 Thread.startVirtualThread() 方式创建虚拟线程
      */
     private void routeEvent(String uri, String data) {
         switch (uri) {
-            case GAMEFLOW_PHASE_URI -> {
+            case GAMEFLOW_PHASE_URI -> Thread.startVirtualThread(() -> {
                 try {
-                    Thread.startVirtualThread(() -> {
-                        gameFlowHandler.onGameFlowUpdate(data);
-                    });
+                    gameFlowHandler.onGameFlowUpdate(data);
                 } catch (Exception e) {
                     log.error("处理游戏流程事件失败", e);
                 }
-            }
-
-            case CHAMP_SELECT_URI -> {
-                Thread.startVirtualThread(() -> {
-                    try {
-                        championSelectHandler.onChampSelectSessionUpdate(data);
-                    } catch (Exception e) {
-                        log.error("处理英雄选择事件失败", e);
-                    }
-                });
-            }
-
-            case MATCHMAKING_URI -> Thread.ofVirtual().start(() -> {
-                gameFlowHandler.handleGameMode(data);
             });
 
-            default -> {
-                log.debug("未知事件URI，跳过处理: {}", uri);
-            }
+            case CHAMP_SELECT_URI -> Thread.startVirtualThread(() -> {
+                try {
+                    championSelectHandler.onChampSelectSessionUpdate(data);
+                } catch (Exception e) {
+                    log.error("处理英雄选择事件失败", e);
+                }
+            });
+
+            case MATCHMAKING_URI -> Thread.startVirtualThread(() -> {
+                try {
+                    gameFlowHandler.handleGameMode(data);
+                } catch (Exception e) {
+                    log.error("处理匹配事件失败", e);
+                }
+            });
+
+            default -> log.debug("未知事件URI，跳过处理: {}", uri);
         }
     }
 

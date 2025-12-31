@@ -92,8 +92,6 @@ public class ClientMonitor {
      */
     @PostConstruct
     public void startService() {
-        log.info("LOL客户端监控服务启动 - 事件驱动模式");
-
         // 初始化系统信息
         systemInfo = new SystemInfo();
 
@@ -106,14 +104,11 @@ public class ClientMonitor {
      */
     @PreDestroy
     public void stopService() {
-        log.info("正在停止LOL客户端服务...");
         isShutdown.set(true);
 
         stopMonitoring();
         closeWebSocket();
         clearConnectionState();
-
-        log.info("LOL客户端服务已成功停止");
     }
 
     /**
@@ -304,6 +299,8 @@ public class ClientMonitor {
             currentPort = 0;
             currentToken = "";
         }
+        // 清除召唤师信息，以便重新获取
+        Summoner.clearInstance();
     }
 
     /**
@@ -385,7 +382,6 @@ public class ClientMonitor {
 
                 @Override
                 public void onError(WebSocket webSocket, Throwable error) {
-                    // **关键修改**：使用 log.error(msg, t) 来打印完整的异常堆栈，这对于诊断SSL问题至关重要
                     log.error("WebSocket 连接失败", error);
                     if (!isShutdown.get()) {
                         transitionToState(ConnectionState.RECONNECTING, "WebSocket 连接失败");
@@ -394,11 +390,21 @@ public class ClientMonitor {
                 }
             };
 
-            // 创建新的WebSocket连接
-            webSocket = client.newWebSocketBuilder()
+            // 异步创建WebSocket连接，避免阻塞线程池
+            client.newWebSocketBuilder()
                     .header("Authorization", "Basic " + auth)
                     .buildAsync(uri, listener)
-                    .join(); // 等待连接建立完成
+                    .thenAccept(ws -> {
+                        webSocket = ws;
+                        log.debug("WebSocket 对象已创建");
+                    })
+                    .exceptionally(throwable -> {
+                        log.error("WebSocket 连接建立失败", throwable);
+                        if (!isShutdown.get()) {
+                            transitionToState(ConnectionState.RECONNECTING, "WebSocket 连接建立失败");
+                        }
+                        return null;
+                    });
 
         } catch (Exception e) {
             log.error("启动WebSocket连接时发生同步异常", e);
@@ -422,17 +428,6 @@ public class ClientMonitor {
             } catch (Exception e) {
                 log.warn("关闭WebSocket时发生错误，将强制取消: {}", e.getMessage());
             }
-        }
-    }
-
-    /**
-     * 处理WebSocket消息
-     */
-    private void handleWebSocketMessage(String message) {
-        try {
-            messageRouter.routeMessage(message);
-        } catch (Exception e) {
-            log.error("WebSocket消息路由失败", e);
         }
     }
 

@@ -1,11 +1,11 @@
 package com.example.huayeloltool.service;
 
 import com.alibaba.fastjson2.JSON;
-import com.example.huayeloltool.common.CommonRequest;
 import com.example.huayeloltool.enums.Constant;
 import com.example.huayeloltool.enums.GameEnums;
 import com.example.huayeloltool.enums.Heros;
 import com.example.huayeloltool.model.base.CalcScoreConf;
+import com.example.huayeloltool.model.base.GameGlobalSetting;
 import com.example.huayeloltool.model.cache.CustomGameCache;
 import com.example.huayeloltool.model.conversation.ConversationMsg;
 import com.example.huayeloltool.model.game.*;
@@ -25,7 +25,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
@@ -33,12 +32,14 @@ import static com.example.huayeloltool.enums.GameEnums.GameFlow.IN_PROGRESS;
 
 @Slf4j
 @Service
-public class GameFlowHandler extends CommonRequest {
+public class GameFlowHandler {
 
     @Autowired
     private LcuApiService lcuApiService;
     @Autowired
     private ScoreService scoreService;
+    @Autowired
+    private GameGlobalSetting gameGlobalSetting;
 
     @Resource(name = "scheduledExecutor")
     private ScheduledExecutorService scheduledExecutor;
@@ -54,9 +55,13 @@ public class GameFlowHandler extends CommonRequest {
 
 
     private void acceptGame() {
+        // 检查是否开启了自动接受对局
+        if (!Boolean.TRUE.equals(gameGlobalSetting.getAutoAcceptGame())) {
+            return;
+        }
         Thread.startVirtualThread(() -> {
             try {
-                Thread.sleep(1500); // 虚拟线程挂起，不占用 OS 线程
+                Thread.sleep(Constant.ACTION_DELAY_MS); // 虚拟线程挂起，不占用 OS 线程
                 lcuApiService.acceptGame();
             } catch (InterruptedException ignored) {
             }
@@ -68,7 +73,8 @@ public class GameFlowHandler extends CommonRequest {
      */
     public void championSelectStart() {
         try {
-            Thread.sleep(1500);
+            // 使用虚拟线程内的 sleep，不阻塞调度线程
+            Thread.sleep(Constant.ACTION_DELAY_MS);
             List<Long> summonerIdList = fetchTeamSummonerIdsWithRetry(3);
             if (CollectionUtils.isEmpty(summonerIdList)) {
                 log.error("队友召唤师ID查询失败！");
@@ -76,7 +82,7 @@ public class GameFlowHandler extends CommonRequest {
             }
 
             if (CustomGameSession.isSoloRank() && summonerIdList.size() < 5) {
-                log.error("队伍人数不为5，size：{}:", summonerIdList.size());
+                log.warn("队伍人数不为5，size：{}", summonerIdList.size());
             }
 
             // 获取队友mate信息
@@ -88,6 +94,9 @@ public class GameFlowHandler extends CommonRequest {
 
             // 分析战绩并打印
             calculateScore(summonerList, true);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            log.warn("查询队友战绩被中断");
         } catch (Exception e) {
             log.error("查询队友战绩异常", e);
         }
@@ -209,13 +218,19 @@ public class GameFlowHandler extends CommonRequest {
     private String rankData(String puuid) {
         try {
             RankedInfo rankData = lcuApiService.getRankData(puuid);
+            if (rankData == null || rankData.getQueueMap() == null) {
+                return "";
+            }
             RankedInfo.QueueMapDto.RANKEDSOLO5x5Dto rankedSoloInfo = rankData.getQueueMap().getRankedSolo5x5();
+            if (rankedSoloInfo == null) {
+                return "";
+            }
             String tier = rankedSoloInfo.getTier();
             String division = rankedSoloInfo.getDivision();
             Integer leaguePoints = rankedSoloInfo.getLeaguePoints();
             return String.format("【%s-%s-%d】", GameEnums.RankTier.getRankNameMap(tier), division, leaguePoints);
         } catch (Exception e) {
-            log.error("查询{}战绩失败！", puuid, e);
+            log.warn("查询{}段位失败", puuid, e);
         }
         return "";
     }
@@ -307,28 +322,42 @@ public class GameFlowHandler extends CommonRequest {
         return sb.toString();
     }
 
+    /**
+     * 计算用户得分
+     *
+     * @param summoner 召唤师信息
+     * @param isSelf   是否为队友
+     * @return 用户得分信息，如果计算失败返回 null
+     */
     private UserScore calculateUserScore(Summoner summoner, boolean isSelf) {
         try {
-
             long summonerID = summoner.getSummonerId();
-            UserScore userScoreInfo = new UserScore(summonerID, Constant.DEFAULT_SCORE); // 创建用户评分对象，默认分数
+            UserScore userScoreInfo = new UserScore(summonerID, Constant.DEFAULT_SCORE);
             userScoreInfo.setSummonerName(String.format("%s#%s", summoner.getGameName(), summoner.getTagLine()));
-            userScoreInfo.setPuuid(summoner.getPuuid()); // 设置用户唯一标识
+            userScoreInfo.setPuuid(summoner.getPuuid());
 
             List<GameHistory.GameInfo> gameList;
             try {
-                gameList = lcuApiService.listGameHistory(summoner, 0, 19); // 获取最近20场对局记录
+                gameList = lcuApiService.listGameHistory(summoner, 0, Constant.DEFAULT_GAME_HISTORY_LIMIT - 1);
                 if (CollectionUtils.isEmpty(gameList)) {
-                    log.error("【{}】战绩查询为空！", summoner.getGameName());
+                    log.warn("【{}】战绩查询为空，可能是新账号或隐私设置", summoner.getGameName());
                     return null;
                 }
             } catch (Exception e) {
-                log.error("【{}】战绩列表获取失败", summoner.getGameName(), e);
+                log.error("【{}】战绩列表获取失败，原因: {}", summoner.getGameName(), e.getMessage(), e);
                 return null;
             }
 
             // 计算分数
-            List<Long> gameIdList = gameList.stream().map(GameHistory.GameInfo::getGameId).toList();
+            List<Long> gameIdList = gameList.stream()
+                    .map(GameHistory.GameInfo::getGameId)
+                    .filter(Objects::nonNull)
+                    .toList();
+
+            if (gameIdList.isEmpty()) {
+                log.warn("【{}】有效游戏ID列表为空", summoner.getGameName());
+                return null;
+            }
 
             double finalScore = getFinalScore(gameIdList, summonerID);
 
@@ -338,46 +367,69 @@ public class GameFlowHandler extends CommonRequest {
 
             return userScoreInfo;
         } catch (Exception e) {
-            log.error("【{}】计算用户得分失败", summoner.getGameName(), e);
-            return null; // 顶层异常返回null（上层需处理）
+            log.error("【{}】计算用户得分失败，原因: {}", summoner.getGameName(), e.getMessage(), e);
+            return null;
         }
     }
 
+    /**
+     * 计算最终得分
+     *
+     * @param gameIdList 游戏ID列表
+     * @param summonerID 召唤师ID
+     * @return 加权后的最终得分
+     */
     private double getFinalScore(List<Long> gameIdList, long summonerID) {
+        if (CollectionUtils.isEmpty(gameIdList)) {
+            return Constant.DEFAULT_SCORE;
+        }
+
         List<AbstractMap.SimpleEntry<Double, LocalDateTime>> validScores = gameIdList.stream()
                 .map(gameId -> {
                     try {
-                        GameSummary gameSummary = lcuApiService.queryGameSummaryWithRetry(gameId);
+                        GameSummary gameSummary = lcuApiService.queryGameSummary(gameId);
+                        if (gameSummary == null) {
+                            return null;
+                        }
+
                         ScoreWithReason score = scoreService.calcUserGameScore(summonerID, gameSummary);
+                        if (score == null) {
+                            return null;
+                        }
+
                         return new AbstractMap.SimpleEntry<>(score.getScore(), gameSummary.getGameCreationDate());
                     } catch (Exception e) {
-                        log.error("获取或计算对局数据失败", e);
-                        return null; // 异常情况返回null，后续过滤
+                        log.warn("计算游戏得分失败: gameId={}", gameId);
+                        return null;
                     }
-                }).filter(Objects::nonNull).toList();
+                })
+                .filter(Objects::nonNull)
+                .toList();
+
+        if (validScores.isEmpty()) {
+            return Constant.DEFAULT_SCORE;
+        }
 
         // 计算加权总分
         LocalDateTime nowTime = LocalDateTime.now();
-        // 近期对局分数
         List<Double> currTimeScores = new ArrayList<>(validScores.size());
-        // 其他时段对局分数
         List<Double> otherTimeScores = new ArrayList<>(validScores.size());
 
         double totalScore = 0;
-        int totalGameCount = validScores.size(); // 直接使用有效对局数
+        int totalGameCount = validScores.size();
+
         for (AbstractMap.SimpleEntry<Double, LocalDateTime> entry : validScores) {
             double score = entry.getKey();
             totalScore += score;
-            if (nowTime.isBefore(entry.getValue().plusHours(24))) { // 24小时内对局为当前时段
+
+            if (nowTime.isBefore(entry.getValue().plusHours(Constant.RECENT_GAME_HOURS))) {
                 currTimeScores.add(score);
             } else {
                 otherTimeScores.add(score);
             }
         }
 
-        // 计算加权分数（若有效对局数为0则使用默认分）
-        return totalGameCount > 0 ?
-                calculateWeightedScore(currTimeScores, otherTimeScores, totalGameCount, totalScore) : Constant.DEFAULT_SCORE;
+        return calculateWeightedScore(currTimeScores, otherTimeScores, totalGameCount, totalScore);
     }
 
     /**
@@ -400,8 +452,19 @@ public class GameFlowHandler extends CommonRequest {
         }).toList();
     }
 
+    /**
+     * 根据路线和角色判断位置
+     *
+     * @param lane 路线（TOP, JUNGLE, MIDDLE, BOTTOM, NONE）
+     * @param role 角色（SOLO, DUO_CARRY, DUO_SUPPORT, NONE）
+     * @return 位置描述（上单、打野、中单、ADC、辅助）
+     */
     public static String getPositionFromLaneAndRole(String lane, String role) {
-        if (lane == null || role == null) return "";
+        // 修复边界条件：检查空字符串
+        if (StringUtils.isBlank(lane) || StringUtils.isBlank(role)) {
+            return "";
+        }
+
         lane = lane.toUpperCase();
         role = role.toUpperCase();
 
@@ -420,10 +483,10 @@ public class GameFlowHandler extends CommonRequest {
                 if ("DUO_SUPPORT".equals(role)) return "辅助";
                 break;
             case "NONE":
-                // 兼容部分对局，通常不能断定，返回UNKNOWN
+                // 兼容部分对局，通常不能断定，返回空字符串
                 return "";
         }
-        // 未匹配到的组合，返回UNKNOWN
+        // 未匹配到的组合，返回空字符串
         return "";
     }
 
@@ -437,8 +500,9 @@ public class GameFlowHandler extends CommonRequest {
     }
 
     /**
-     * 自动开启下一场对局
+     * 自动开启下一场对局（暂未启用）
      */
+    @SuppressWarnings("unused")
     private void autoStartNextGame() {
         // 使用异步延迟替代Thread.sleep
         scheduledExecutor.schedule(() -> {
@@ -447,42 +511,42 @@ public class GameFlowHandler extends CommonRequest {
             if (result) {
                 scheduledExecutor.schedule(() -> {
                     lcuApiService.autoStartMatch();
-                }, 1500, TimeUnit.MILLISECONDS);
+                }, Constant.ACTION_DELAY_MS, TimeUnit.MILLISECONDS);
             }
-        }, 1500, TimeUnit.MILLISECONDS);
+        }, Constant.ACTION_DELAY_MS, TimeUnit.MILLISECONDS);
     }
 
 
     /**
-     * 计算加权后的总得分。
+     * 计算加权后的总得分
      *
-     * @param currTimeScoreList  当前时间内的得分列表
+     * @param currTimeScoreList  近期对局的得分列表
      * @param otherGameScoreList 其他对局的得分列表
      * @param totalGameCount     总的对局场次数量
      * @param totalScore         所有对局的总得分
      * @return 加权后的总得分
      */
     private double calculateWeightedScore(List<Double> currTimeScoreList, List<Double> otherGameScoreList, int totalGameCount, double totalScore) {
-        // 计算当前时间内所有得分之和
+        // 计算各时间段得分总和
         double totalTimeScore = currTimeScoreList.stream().mapToDouble(Double::doubleValue).sum();
-        // 计算其他对局中所有得分之和
         double totalOtherGameScore = otherGameScoreList.stream().mapToDouble(Double::doubleValue).sum();
 
-        // 如果对局场次大于零，计算平均得分；否则设为0
+        // 计算总体平均得分（用于填充空时间段）
         double totalGameAvgScore = totalGameCount > 0 ? totalScore / totalGameCount : 0.0;
 
-        // 初始化加权总分
-        double weightTotalScore = 0.0;
-        // 计算当前时间内得分的平均值；如果列表为空，则设为0
+        // 计算各时间段平均得分
         double avgTimeScore = !currTimeScoreList.isEmpty() ? totalTimeScore / currTimeScoreList.size() : 0;
-        // 计算其他对局中得分的平均值；如果列表为空，则设为0
         double avgOtherGameScore = !otherGameScoreList.isEmpty() ? totalOtherGameScore / otherGameScoreList.size() : 0;
 
-        // 将当前时间和其他对局中的得分按比例加入到加权总分中
-        weightTotalScore += !currTimeScoreList.isEmpty() ? 0.7 * avgTimeScore : 0.7 * totalGameAvgScore;
-        weightTotalScore += !otherGameScoreList.isEmpty() ? 0.3 * avgOtherGameScore : 0.3 * totalGameAvgScore;
+        // 计算加权总分
+        double weightTotalScore = 0.0;
+        weightTotalScore += !currTimeScoreList.isEmpty() ?
+                Constant.RECENT_GAME_WEIGHT * avgTimeScore :
+                Constant.RECENT_GAME_WEIGHT * totalGameAvgScore;
+        weightTotalScore += !otherGameScoreList.isEmpty() ?
+                Constant.OTHER_GAME_WEIGHT * avgOtherGameScore :
+                Constant.OTHER_GAME_WEIGHT * totalGameAvgScore;
 
-        // 返回最终的加权总分
         return weightTotalScore;
     }
 
@@ -533,8 +597,14 @@ public class GameFlowHandler extends CommonRequest {
             return "";
         }
 
-        boolean allTrue = gameInfoList.stream().allMatch(item -> item.getParticipants().get(0).getStats().getWin());
-        boolean allFalse = gameInfoList.stream().noneMatch(item -> item.getParticipants().get(0).getStats().getWin());
+        // 修复空指针异常风险：检查 participants 是否为空
+        boolean allTrue = gameInfoList.stream()
+                .filter(item -> !CollectionUtils.isEmpty(item.getParticipants()))
+                .allMatch(item -> item.getParticipants().get(0).getStats().getWin());
+        boolean allFalse = gameInfoList.stream()
+                .filter(item -> !CollectionUtils.isEmpty(item.getParticipants()))
+                .noneMatch(item -> item.getParticipants().get(0).getStats().getWin());
+
         if (allTrue || allFalse) {
             if (isTeammate) {
                 if (allTrue) {

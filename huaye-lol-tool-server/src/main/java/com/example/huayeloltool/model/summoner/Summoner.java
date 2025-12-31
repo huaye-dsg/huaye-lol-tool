@@ -93,17 +93,12 @@ public class Summoner {
 
     /**
      * 设置单例实例（线程安全）
-     * 只有在实例为null时才允许设置，避免破坏单例模式
+     * 支持更新实例，用于切换账号场景
      */
-    public static Summoner setInstance(Summoner summoner) {
-        if (instance == null) {
-            synchronized (Summoner.class) {
-                if (instance == null) {
-                    instance = summoner;
-                }
-            }
+    public static void setInstance(Summoner summoner) {
+        synchronized (Summoner.class) {
+            instance = summoner;
         }
-        return instance;
     }
 
     /**

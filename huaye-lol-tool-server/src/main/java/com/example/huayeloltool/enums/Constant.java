@@ -41,6 +41,32 @@ public class Constant {
 
     public static final String[] HORSE_NAME_CONF = {"通天代", "小代", "上等马", "中等马", "下等马", "牛 马"};
 
+    /**
+     * 默认查询对局数量
+     */
+    public static final int DEFAULT_GAME_HISTORY_LIMIT = 20;
+
+    /**
+     * 最小有效对局时长（秒）- 过滤重开等无效对局
+     */
+    public static final int MIN_VALID_GAME_DURATION = 300;
+
+    /**
+     * 操作延迟时间（毫秒）- 用于自动接受、自动ban等操作
+     */
+    public static final long ACTION_DELAY_MS = 1500;
+
+    /**
+     * 自动ban英雄延迟时间（毫秒）
+     */
+    public static final long BAN_DELAY_MS = 2000;
+
+    /**
+     * 得分计算权重配置
+     */
+    public static final double RECENT_GAME_WEIGHT = 0.7;  // 近期对局权重（24小时内）
+    public static final double OTHER_GAME_WEIGHT = 0.3;   // 其他对局权重
+    public static final int RECENT_GAME_HOURS = 24;       // 近期对局时间范围（小时）
 
     /**
      * 腾讯官方英雄信息

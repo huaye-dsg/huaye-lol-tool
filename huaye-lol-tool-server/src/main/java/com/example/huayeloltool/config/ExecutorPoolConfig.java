@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.concurrent.*;
 
 /**
- * 公用线程池
+ * 线程池配置类
  */
 @Slf4j
 @Configuration
@@ -19,22 +19,20 @@ public class ExecutorPoolConfig {
     @Bean("scheduledExecutor")
     public ScheduledExecutorService scheduledExecutor() {
         ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(
-                2,                              // 核心线程数
-                new ThreadFactory() {           // 自定义线程工厂
+                2,                              // 2个线程足够了
+                new ThreadFactory() {           
                     private int count = 0;
 
                     @Override
                     public Thread newThread(Runnable r) {
-                        Thread t = new Thread(r, "Scheduled-Task-" + (++count));
-                        t.setDaemon(true);  // 设置为守护线程
+                        Thread t = new Thread(r, "LOL-Task-" + (++count));
+                        t.setDaemon(true);      // 守护线程
                         return t;
                     }
                 }
         );
 
-        // 设置拒绝策略
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         return executor;
     }
-
 }

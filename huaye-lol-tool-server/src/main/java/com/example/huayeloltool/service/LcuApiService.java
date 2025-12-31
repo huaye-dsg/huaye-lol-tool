@@ -3,7 +3,7 @@ package com.example.huayeloltool.service;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.TypeReference;
-import com.example.huayeloltool.common.CommonRequest;
+import com.example.huayeloltool.common.LcuHttpClient;
 import com.example.huayeloltool.enums.Constant;
 import com.example.huayeloltool.model.base.BaseUrlClient;
 import com.example.huayeloltool.model.conversation.Conversation;
@@ -23,13 +23,22 @@ import org.springframework.stereotype.Service;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import static com.example.huayeloltool.enums.GameEnums.GameFlow.CHAMPION_SELECT;
 
+/**
+ * LOL 客户端 LCU API 服务
+ * 
+ * <p>封装了与 LOL 客户端通信的所有 API 调用。
+ * 通过 {@link LcuHttpClient} 工具类发送 HTTP 请求。
+ *
+ */
 @Slf4j
 @Service
-public class LcuApiService extends CommonRequest {
+public class LcuApiService {
 
     /**
      * 当前用户信息
@@ -39,7 +48,7 @@ public class LcuApiService extends CommonRequest {
             if (BaseUrlClient.getInstance().getPort() <= 0) {
                 return null;
             }
-            return sendSingleObjectGetRequest("/lol-summoner/v1/current-summoner", Summoner.class);
+            return LcuHttpClient.get("/lol-summoner/v1/current-summoner", Summoner.class);
         } catch (Exception e) {
             log.error("getCurrSummoner请求错误", e);
             return null;
@@ -48,13 +57,17 @@ public class LcuApiService extends CommonRequest {
 
 
     /**
-     * 查询游戏摘要 - 简化版本，依赖OkHttpClient的重试机制
+     * 查询游戏摘要
      */
-    public GameSummary queryGameSummaryWithRetry(long gameId) {
-        // OkHttpClient已经有完善的重试机制（3次重试 + 智能重试策略）
-        // 不需要在业务层再次重试
-        return queryGameSummary(gameId);
+    public GameSummary queryGameSummary(long gameId) {
+        try {
+            return LcuHttpClient.get(String.format("/lol-match-history/v1/games/%d", gameId), GameSummary.class);
+        } catch (Exception e) {
+            log.error("查询游戏摘要失败, gameId: {}", gameId, e);
+            return null;
+        }
     }
+
 
 
     /**
@@ -84,7 +97,7 @@ public class LcuApiService extends CommonRequest {
 
         for (GameHistory.GameInfo gameItem : gameList) {
             // 过滤时长短的无效对局
-            if (gameItem.getGameDuration() > 300) {
+            if (gameItem.getGameDuration() > Constant.MIN_VALID_GAME_DURATION) {
                 fmtList.add(gameItem);
             }
         }
@@ -95,14 +108,14 @@ public class LcuApiService extends CommonRequest {
     // 对局历史列表
     public GameHistory listGamesByPUUID(String puuid, int begin, int limit) {
         String url = String.format("/lol-match-history/v1/products/lol/%s/matches?begIndex=%d&endIndex=%d", puuid, begin, begin + limit);
-        return sendSingleObjectGetRequest(url, GameHistory.class);
+        return LcuHttpClient.get(url, GameHistory.class);
     }
 
     /**
      * 对局时间线详情，数据较多
      */
     public GameTimeLine getGameTimelines(long gameID) {
-        return sendSingleObjectGetRequest(String.format("/lol-match-history/v1/game-timelines/%d", gameID), GameTimeLine.class);
+        return LcuHttpClient.get(String.format("/lol-match-history/v1/game-timelines/%d", gameID), GameTimeLine.class);
     }
 
     /**
@@ -110,7 +123,7 @@ public class LcuApiService extends CommonRequest {
      */
     public RankedInfo getRankData(String puuid) {
         try {
-            return sendSingleObjectGetRequest("/lol-ranked/v1/ranked-stats/" + puuid, RankedInfo.class);
+            return LcuHttpClient.get("/lol-ranked/v1/ranked-stats/" + puuid, RankedInfo.class);
         } catch (Exception e) {
             log.error("查询段位信息失败！", e);
         }
@@ -121,8 +134,10 @@ public class LcuApiService extends CommonRequest {
      * 查询英雄池熟练度列表
      */
     public List<ChampionMastery> searchChampionMasteryData(String puuid) {
-        List<ChampionMastery> championMasteryList = sendTypeGetRequest(String.format("/lol-champion-mastery/v1/" + puuid + "/champion-mastery"), new TypeReference<>() {
-        });
+        List<ChampionMastery> championMasteryList = LcuHttpClient.get(
+                String.format("/lol-champion-mastery/v1/%s/champion-mastery", puuid), 
+                new TypeReference<>() {}
+        );
         if (CollectionUtils.isEmpty(championMasteryList)) {
             log.error("查询英雄熟练度失败！");
             return new ArrayList<>();
@@ -137,24 +152,28 @@ public class LcuApiService extends CommonRequest {
      */
     public List<Summoner> listSummoner(List<Long> summonerIDList) {
         List<String> idStrList = summonerIDList.stream().map(String::valueOf).collect(Collectors.toList());
-        return sendTypeGetRequest(String.format("/lol-summoner/v2/summoners?ids=[%s]", String.join(",", idStrList)), new TypeReference<>() {
-        });
+        return LcuHttpClient.get(
+                String.format("/lol-summoner/v2/summoners?ids=[%s]", String.join(",", idStrList)), 
+                new TypeReference<>() {}
+        );
     }
 
     /**
      * 根据会话ID获取会话组消息记录
      */
     public List<ConversationMsg> listConversationMsg(String conversationID) {
-        return sendTypeGetRequest(String.format("/lol-chat/v1/conversations/%s/messages", conversationID), new TypeReference<>() {
-        });
+        return LcuHttpClient.get(
+                String.format("/lol-chat/v1/conversations/%s/messages", conversationID), 
+                new TypeReference<>() {}
+        );
     }
 
 
     /**
-     * 查询对局详情
+     * 查询对局详情（别名方法，保持兼容）
      */
-    public GameSummary queryGameSummary(long gameID) {
-        return sendSingleObjectGetRequest(String.format("/lol-match-history/v1/games/%d", gameID), GameSummary.class);
+    public GameSummary queryGameSummaryById(long gameID) {
+        return queryGameSummary(gameID);
     }
 
     /**
@@ -162,7 +181,7 @@ public class LcuApiService extends CommonRequest {
      */
     public void acceptGame() {
         try {
-            Boolean result = sendPostRequest("/lol-matchmaking/v1/ready-check/accept");
+            Boolean result = LcuHttpClient.post("/lol-matchmaking/v1/ready-check/accept");
             if (!result) {
                 log.info("自动接受对局失败: {}", false);
             }
@@ -175,8 +194,7 @@ public class LcuApiService extends CommonRequest {
      * 获取本人当前会话ID
      */
     public String getCurrConversationID() {
-        List<Conversation> conversations = sendTypeGetRequest("/lol-chat/v1/conversations", new TypeReference<>() {
-        });
+        List<Conversation> conversations = LcuHttpClient.get("/lol-chat/v1/conversations", new TypeReference<>() {});
         if (CollectionUtils.isEmpty(conversations)) {
             log.info("当前未查询到会话信息");
             return StringUtils.EMPTY;
@@ -196,13 +214,14 @@ public class LcuApiService extends CommonRequest {
      * 查询对局状态
      */
     public GameFlowSession queryGameFlowSession() {
-        return sendSingleObjectGetRequest("/lol-gameflow/v1/session", GameFlowSession.class);
+        return LcuHttpClient.get("/lol-gameflow/v1/session", GameFlowSession.class);
     }
 
 
     /**
-     * 预选英雄
+     * 预选英雄（暂未启用）
      */
+    @SuppressWarnings("unused")
     public void prePickChampion(int championId, int actionId) {
         champSelectPatchAction(championId, actionId, null, null);
     }
@@ -244,7 +263,7 @@ public class LcuApiService extends CommonRequest {
         body.put("championId", championId);
         body.put("completed", completed);
         body.put("type", patchType);
-        return sendPatchRequest("/lol-champ-select/v1/session/actions/" + actionId, body);
+        return LcuHttpClient.patch("/lol-champ-select/v1/session/actions/" + actionId, body);
     }
 
     /**
@@ -252,7 +271,7 @@ public class LcuApiService extends CommonRequest {
      */
     public boolean playAgain() {
         try {
-            return sendPostRequest("/lol-lobby/v2/play-again");
+            return LcuHttpClient.post("/lol-lobby/v2/play-again");
         } catch (Exception e) {
             log.error("回到大厅失败!", e);
             return false;
@@ -264,7 +283,7 @@ public class LcuApiService extends CommonRequest {
      */
     public void autoStartMatch() {
         try {
-            sendPostRequest("/lol-lobby/v2/lobby/matchmaking/search");
+            LcuHttpClient.post("/lol-lobby/v2/lobby/matchmaking/search");
         } catch (Exception e) {
             log.error("自动开始匹配失败!", e);
         }
@@ -275,6 +294,6 @@ public class LcuApiService extends CommonRequest {
      */
     public Summoner getSummonerByNickName(String name, String tagLine) {
         String encodedParam = URLEncoder.encode(name + "#" + tagLine, StandardCharsets.UTF_8);
-        return sendSingleObjectGetRequest(String.format("/lol-summoner/v1/summoners/?name=%s", encodedParam), Summoner.class);
+        return LcuHttpClient.get(String.format("/lol-summoner/v1/summoners/?name=%s", encodedParam), Summoner.class);
     }
 }

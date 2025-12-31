@@ -4,14 +4,13 @@ import com.example.huayeloltool.enums.ScoreOption;
 import com.example.huayeloltool.model.base.CalcScoreConf;
 import com.example.huayeloltool.model.game.GameSummary;
 import com.example.huayeloltool.model.game.Participant;
-import com.example.huayeloltool.model.score.calc.CommonScoreService;
-import lombok.Getter;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
-public class ScoreService extends CommonScoreService {
+public class ScoreService {
 
     static final CalcScoreConf calcScoreConf = CalcScoreConf.getInstance();
     static final double defaultScore = 100.0;
@@ -148,11 +147,13 @@ public class ScoreService extends CommonScoreService {
         {
             int totalMinionsKilled = userParticipantStats.getTotalMinionsKilled();
             int gameDurationMinute = gameSummary.getGameDuration() / 60;
-            int minuteMinionsKilled = totalMinionsKilled / gameDurationMinute;
-            for (double[] minionsKilledLimit : calcScoreConf.getMinionsKilled()) {
-                if (minuteMinionsKilled >= minionsKilledLimit[0]) {
-                    gameScore.add(minionsKilledLimit[1], ScoreOption.MINIONS_KILLED);
-                    break;
+            if (gameDurationMinute > 0) {
+                int minuteMinionsKilled = totalMinionsKilled / gameDurationMinute;
+                for (double[] minionsKilledLimit : calcScoreConf.getMinionsKilled()) {
+                    if (minuteMinionsKilled >= minionsKilledLimit[0]) {
+                        gameScore.add(minionsKilledLimit[1], ScoreOption.MINIONS_KILLED);
+                        break;
+                    }
                 }
             }
         }
@@ -183,6 +184,9 @@ public class ScoreService extends CommonScoreService {
     }
 
     private static double getAdjustVal(Participant.Stats userParticipantStats, int totalKill) {
+        if (totalKill <= 0) {
+            return 0;
+        }
         double userJoinTeamKillRate = (double) (userParticipantStats.getAssists() + userParticipantStats.getKills()) / totalKill;
         // 死亡次数
         int userDeathTimes = userParticipantStats.getDeaths() == 0 ? 1 : userParticipantStats.getDeaths();
