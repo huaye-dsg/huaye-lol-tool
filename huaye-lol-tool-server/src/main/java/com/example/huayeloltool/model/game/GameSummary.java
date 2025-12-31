@@ -31,7 +31,7 @@ public class GameSummary extends LcuApiCommonResult {
     ///*
     //  游戏ID
     // */
-    //private long gameId;
+    private long gameId;
     //
     ///*
     //  游戏模式

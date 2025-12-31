@@ -14,6 +14,7 @@ import com.example.huayeloltool.model.score.UserScore;
 import com.example.huayeloltool.model.summoner.Summoner;
 import com.example.huayeloltool.service.ClientMonitor;
 import com.example.huayeloltool.service.GameFlowHandler;
+import com.example.huayeloltool.service.GameHistoryAnalyzer;
 import com.example.huayeloltool.service.LcuApiService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -102,7 +103,7 @@ public class LcuController {
         if (CollectionUtils.isEmpty(gameInfos)) {
             return CommonResponse.success(new ArrayList<>());
         }
-        List<UserScore.Kda> kdas = gameFlowHandler.getKdas(gameInfos);
+        List<UserScore.Kda> kdas = GameHistoryAnalyzer.extractKdaList(gameInfos);
         if (CollectionUtils.isEmpty(kdas)) {
             return CommonResponse.success(new ArrayList<>());
         }

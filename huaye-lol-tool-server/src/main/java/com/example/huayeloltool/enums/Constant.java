@@ -69,6 +69,14 @@ public class Constant {
     public static final int RECENT_GAME_HOURS = 24;       // 近期对局时间范围（小时）
 
     /**
+     * 游戏分析相关常量
+     */
+    public static final int STANDARD_TEAM_SIZE = 5;       // 标准队伍人数
+    public static final int ANALYSIS_GAME_COUNT = 3;      // 分析连胜连败的游戏数量
+    public static final int MAX_KDA_DISPLAY = 5;          // 最多显示的KDA记录数
+    public static final int BRIEF_KDA_DISPLAY = 3;        // 简要显示的KDA记录数
+
+    /**
      * 腾讯官方英雄信息
      */
    public static final String TENCENT_HERO_LIST = "http://game.gtimg.cn/images/lol/act/img/js/heroList/hero_list.js";
