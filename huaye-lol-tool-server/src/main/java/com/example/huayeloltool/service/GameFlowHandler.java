@@ -40,28 +40,27 @@ public class GameFlowHandler extends CommonRequest {
     @Autowired
     private ScoreService scoreService;
 
-    // 注入线程池
-    @Resource(name = "gameEventExecutor")
-    private ExecutorService gameEventExecutor;
-
     @Resource(name = "scheduledExecutor")
     private ScheduledExecutorService scheduledExecutor;
 
     public void onGameFlowUpdate(String gameState) {
         switch (GameEnums.GameFlow.getByValue(gameState)) {
             case READY_CHECK -> this.acceptGame();
-            case CHAMPION_SELECT -> gameEventExecutor.submit(this::championSelectStart);
-            case IN_PROGRESS -> gameEventExecutor.submit(this::calcEnemyTeamScore);
-            case END_OF_GAME, LOBBY -> gameEventExecutor.submit(() -> CustomGameSession.getInstance().reset());
+            case CHAMPION_SELECT -> this.championSelectStart();
+            case IN_PROGRESS -> this.calcEnemyTeamScore();
+            case END_OF_GAME, LOBBY -> CustomGameSession.getInstance().reset();
         }
     }
 
 
     private void acceptGame() {
-        // 使用线程池异步延迟执行，替代Thread.sleep
-        scheduledExecutor.schedule(() -> {
-            lcuApiService.acceptGame();
-        }, 1500, TimeUnit.MILLISECONDS);
+        Thread.startVirtualThread(() -> {
+            try {
+                Thread.sleep(1500); // 虚拟线程挂起，不占用 OS 线程
+                lcuApiService.acceptGame();
+            } catch (InterruptedException ignored) {
+            }
+        });
     }
 
     /**
@@ -69,33 +68,26 @@ public class GameFlowHandler extends CommonRequest {
      */
     public void championSelectStart() {
         try {
-            // 使用异步延迟替代Thread.sleep
-            scheduledExecutor.schedule(() -> {
-                try {
-                    List<Long> summonerIdList = fetchTeamSummonerIdsWithRetry(3);
-                    if (CollectionUtils.isEmpty(summonerIdList)) {
-                        log.error("队友召唤师ID查询失败！");
-                        return;
-                    }
+            Thread.sleep(1500);
+            List<Long> summonerIdList = fetchTeamSummonerIdsWithRetry(3);
+            if (CollectionUtils.isEmpty(summonerIdList)) {
+                log.error("队友召唤师ID查询失败！");
+                return;
+            }
 
-                    if (CustomGameSession.isSoloRank() && summonerIdList.size() < 5) {
-                        log.error("队伍人数不为5，size：{}:", summonerIdList.size());
-                    }
+            if (CustomGameSession.isSoloRank() && summonerIdList.size() < 5) {
+                log.error("队伍人数不为5，size：{}:", summonerIdList.size());
+            }
 
-                    // 获取队友mate信息
-                    List<Summoner> summonerList = lcuApiService.listSummoner(summonerIdList);
-                    if (CollectionUtils.isEmpty(summonerList)) {
-                        log.info("查询召唤师信息失败, summonerList为空！ ");
-                        return;
-                    }
+            // 获取队友mate信息
+            List<Summoner> summonerList = lcuApiService.listSummoner(summonerIdList);
+            if (CollectionUtils.isEmpty(summonerList)) {
+                log.info("查询召唤师信息失败, summonerList为空！ ");
+                return;
+            }
 
-                    // 分析战绩并打印
-                    calculateScore(summonerList, true);
-                } catch (Exception e) {
-                    log.error("查询队友战绩异常", e);
-                }
-            }, 1500, TimeUnit.MILLISECONDS);
-
+            // 分析战绩并打印
+            calculateScore(summonerList, true);
         } catch (Exception e) {
             log.error("查询队友战绩异常", e);
         }

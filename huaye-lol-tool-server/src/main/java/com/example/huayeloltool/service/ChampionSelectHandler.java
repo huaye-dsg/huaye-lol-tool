@@ -106,7 +106,10 @@ public class ChampionSelectHandler {
         switch (type) {
             case "ban":
                 if (clientCfg.getAutoBanChampID() > 0 && !customGameSession.getIsBanned()) {
-                    sleepSeconds();
+                    try {
+                        TimeUnit.SECONDS.sleep(2);
+                    } catch (InterruptedException ignored) {
+                    }
 
                     log.info("本人禁用英雄，key：{}", buildActionKey(action));
                         if (lcuApiService.banChampion(clientCfg.getAutoBanChampID(), id)) {
@@ -119,8 +122,6 @@ public class ChampionSelectHandler {
                             // 没成功就把key删了
                             customGameSession.markActionUnProcessed(actionKey);
                         }
-
-
                 }
                 break;
             case "pick":
@@ -134,13 +135,6 @@ public class ChampionSelectHandler {
                 break;
             default:
                 // 其他类型忽略
-        }
-    }
-
-    private void sleepSeconds() {
-        try {
-            TimeUnit.SECONDS.sleep(2);
-        } catch (InterruptedException ignored) {
         }
     }
 

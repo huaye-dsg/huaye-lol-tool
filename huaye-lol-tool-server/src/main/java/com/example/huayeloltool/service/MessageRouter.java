@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -31,15 +32,6 @@ public class MessageRouter {
     @Autowired
     private ChampionSelectHandler championSelectHandler;
 
-    // 线程池配置
-    @Resource(name = "webSocketMessageExecutor")
-    private ExecutorService webSocketMessageExecutor;
-
-    // 消息统计
-    private final AtomicLong totalMessages = new AtomicLong(0);
-    private final AtomicLong validMessages = new AtomicLong(0);
-    private final AtomicLong invalidMessages = new AtomicLong(0);
-
     // 支持的事件URI常量
     private static final String GAMEFLOW_PHASE_URI = "/lol-gameflow/v1/gameflow-phase";
     private static final String CHAMP_SELECT_URI = "/lol-champ-select/v1/session";
@@ -52,29 +44,23 @@ public class MessageRouter {
      * @param message WebSocket接收到的原始消息
      */
     public void routeMessage(String message) {
-        totalMessages.incrementAndGet();
-
         try {
-            // 1. 基础验证
+            // 基础验证
             if (StringUtils.isEmpty(message)) {
                 log.debug("收到空消息，跳过处理");
                 return;
             }
 
-            // 2. 解析消息格式
+            // 解析消息格式
             LolEvent event = parseMessage(message);
             if (event == null) {
-                invalidMessages.incrementAndGet();
                 return;
             }
 
-            // 3. 路由事件到对应处理器
-            routeEvent(event);
-            validMessages.incrementAndGet();
-
+            // 路由事件到对应处理器
+            routeEvent(event.uri, event.data);
         } catch (Exception e) {
             log.error("处理WebSocket消息时发生错误: {}", message, e);
-            invalidMessages.incrementAndGet();
         }
     }
 
@@ -126,26 +112,21 @@ public class MessageRouter {
 
     /**
      * 根据URI路由事件到对应的处理器
-     *
-     * @param event 解析后的事件
      */
-    private void routeEvent(LolEvent event) {
-        String uri = event.uri();
-        String data = event.data();
-
+    private void routeEvent(String uri, String data) {
         switch (uri) {
             case GAMEFLOW_PHASE_URI -> {
-                webSocketMessageExecutor.submit(() -> {
-                    try {
+                try {
+                    Thread.startVirtualThread(() -> {
                         gameFlowHandler.onGameFlowUpdate(data);
-                    } catch (Exception e) {
-                        log.error("处理游戏流程事件失败", e);
-                    }
-                });
+                    });
+                } catch (Exception e) {
+                    log.error("处理游戏流程事件失败", e);
+                }
             }
 
             case CHAMP_SELECT_URI -> {
-                webSocketMessageExecutor.submit(() -> {
+                Thread.startVirtualThread(() -> {
                     try {
                         championSelectHandler.onChampSelectSessionUpdate(data);
                     } catch (Exception e) {
@@ -154,45 +135,14 @@ public class MessageRouter {
                 });
             }
 
-            case MATCHMAKING_URI -> {
-                webSocketMessageExecutor.submit(() -> {
-                    try {
-                        gameFlowHandler.handleGameMode(data);
-                    } catch (Exception e) {
-                        log.error("处理匹配事件失败", e);
-                    }
-                });
-            }
+            case MATCHMAKING_URI -> Thread.ofVirtual().start(() -> {
+                gameFlowHandler.handleGameMode(data);
+            });
 
             default -> {
                 log.debug("未知事件URI，跳过处理: {}", uri);
             }
         }
-    }
-
-    /**
-     * 获取消息处理统计信息
-     *
-     * @return 格式化的统计信息字符串
-     */
-    public String getStatistics() {
-        return String.format(
-                "消息统计 - 总计: %d, 有效: %d, 无效: %d, 成功率: %.2f%%",
-                totalMessages.get(),
-                validMessages.get(),
-                invalidMessages.get(),
-                totalMessages.get() > 0 ? (validMessages.get() * 100.0 / totalMessages.get()) : 0.0
-        );
-    }
-
-    /**
-     * 重置统计信息
-     */
-    public void resetStatistics() {
-        totalMessages.set(0);
-        validMessages.set(0);
-        invalidMessages.set(0);
-        log.info("消息统计信息已重置");
     }
 
 

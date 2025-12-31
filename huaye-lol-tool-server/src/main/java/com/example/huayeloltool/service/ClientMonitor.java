@@ -1,6 +1,6 @@
 package com.example.huayeloltool.service;
 
-import com.example.huayeloltool.common.OkHttpUtil;
+import com.example.huayeloltool.common.HttpUtil;
 import com.example.huayeloltool.enums.Constant;
 import com.example.huayeloltool.model.base.BaseUrlClient;
 import com.example.huayeloltool.model.summoner.Summoner;
@@ -8,7 +8,6 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +16,13 @@ import oshi.SystemInfo;
 import oshi.software.os.OSProcess;
 import oshi.software.os.OperatingSystem;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.WebSocket;
 import java.util.Base64;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -54,10 +53,10 @@ public class ClientMonitor {
     private ScheduledExecutorService scheduledExecutor;
 
     // WebSocket相关
-    // **重要提示**: OkHttpUtil.getInstance() 返回的OkHttpClient实例
+    // **重要提示**: HttpUtil.getInstance() 返回的HttpClient实例
     // 必须经过特殊配置以信任LOL客户端的自签名SSL证书。
     // 否则，所有HTTPS请求（包括WebSocket）都会失败。
-    private static final OkHttpClient client = OkHttpUtil.getInstance();
+    private static final HttpClient client = HttpUtil.getInstance();
     private volatile WebSocket webSocket;
 
     /**
@@ -355,49 +354,52 @@ public class ClientMonitor {
 
         try {
             String auth = Base64.getEncoder().encodeToString(("riot:" + localToken).getBytes());
-            Request request = new Request.Builder()
-                    .url("wss://127.0.0.1:" + localPort + "/")
-                    .addHeader("Authorization", "Basic " + auth)
-                    .build();
-
-            // 创建新的WebSocket连接
-            webSocket = client.newWebSocket(request, new WebSocketListener() {
+            URI uri = URI.create("wss://127.0.0.1:" + localPort + "/");
+            
+            // 创建WebSocket连接的监听器
+            WebSocket.Listener listener = new WebSocket.Listener() {
                 @Override
-                public void onOpen(WebSocket ws, Response response) {
+                public void onOpen(WebSocket webSocket) {
                     log.info("WebSocket 连接已成功建立！");
-                    ws.send("[5, \"OnJsonApiEvent\"]"); // 订阅所有事件
+                    webSocket.sendText("[5, \"OnJsonApiEvent\"]", true); // 订阅所有事件
                     // 只有在WebSocket成功打开后，才真正进入CONNECTED状态
                     transitionToState(ConnectionState.CONNECTED, "WebSocket 连接成功");
+                    WebSocket.Listener.super.onOpen(webSocket);
                 }
 
                 @Override
-                public void onMessage(WebSocket ws, String text) {
-                    messageRouter.routeMessage(text);
+                public CompletionStage<?> onText(WebSocket webSocket, CharSequence data, boolean last) {
+                    messageRouter.routeMessage(data.toString());
+                    return WebSocket.Listener.super.onText(webSocket, data, last);
                 }
 
                 @Override
-                public void onClosing(WebSocket ws, int code, String reason) {
-                    log.info("WebSocket 连接正在关闭: code={}, reason={}", code, reason);
-                }
-
-                @Override
-                public void onClosed(WebSocket ws, int code, String reason) {
-                    log.info("WebSocket 连接已关闭: code={}, reason={}", code, reason);
+                public CompletionStage<?> onClose(WebSocket webSocket, int statusCode, String reason) {
+                    log.info("WebSocket 连接已关闭: code={}, reason={}", statusCode, reason);
                     // 只有在非程序主动关闭时才触发重连
                     if (!isShutdown.get()) {
                         transitionToState(ConnectionState.RECONNECTING, "WebSocket 主动关闭");
                     }
+                    return WebSocket.Listener.super.onClose(webSocket, statusCode, reason);
                 }
 
                 @Override
-                public void onFailure(WebSocket ws, Throwable t, Response response) {
+                public void onError(WebSocket webSocket, Throwable error) {
                     // **关键修改**：使用 log.error(msg, t) 来打印完整的异常堆栈，这对于诊断SSL问题至关重要
-                    log.error("WebSocket 连接失败", t);
+                    log.error("WebSocket 连接失败", error);
                     if (!isShutdown.get()) {
                         transitionToState(ConnectionState.RECONNECTING, "WebSocket 连接失败");
                     }
+                    WebSocket.Listener.super.onError(webSocket, error);
                 }
-            });
+            };
+
+            // 创建新的WebSocket连接
+            webSocket = client.newWebSocketBuilder()
+                    .header("Authorization", "Basic " + auth)
+                    .buildAsync(uri, listener)
+                    .join(); // 等待连接建立完成
+
         } catch (Exception e) {
             log.error("启动WebSocket连接时发生同步异常", e);
             if (!isShutdown.get()) {
@@ -415,14 +417,10 @@ public class ClientMonitor {
             webSocket = null; // 立即置空，避免重复关闭
             try {
                 // 1000是正常关闭代码
-                oldSocket.close(1000, "Client shutdown or reconnection");
+                oldSocket.sendClose(WebSocket.NORMAL_CLOSURE, "Client shutdown or reconnection")
+                        .join(); // 等待关闭完成
             } catch (Exception e) {
                 log.warn("关闭WebSocket时发生错误，将强制取消: {}", e.getMessage());
-                try {
-                    oldSocket.cancel(); // 作为最后的手段
-                } catch (Exception cancelEx) {
-                    log.warn("强制关闭WebSocket也失败了", cancelEx);
-                }
             }
         }
     }
